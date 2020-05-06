@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Дефокус";
+$arDirProperties = Array(
+
+);
+?>

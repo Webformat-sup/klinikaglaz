@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Аметропия ";
+$arDirProperties = Array(
+
+);
+?>

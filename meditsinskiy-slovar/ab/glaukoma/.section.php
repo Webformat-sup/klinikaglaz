@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Глаукома";
+$arDirProperties = Array(
+
+);
+?>

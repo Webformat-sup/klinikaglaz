@@ -1,0 +1,25 @@
+/*popup*/
+.popup.show{border-radius:0px;}
+.popup .popup-intro{background:#fff !important;border-bottom:2px solid #ddd;border-bottom-width:2px !important;}
+.popup .popup-intro .pop-up-title{font-size:26px;font-weight:bold;line-height:24px;text-shadow:none;padding:35px 35px 36px;}
+.popup .close, .popup .close  i, .popup-window-close-icon.popup-window-titlebar-close-icon{display:inline-block;width:19px;height:19px;border-radius:19px;-moz-border-radius:19px;-webkit-border-radius:19px;}
+.popup .close{margin:0;position:absolute;right:33px;top:37px;cursor:pointer;z-index:2;}
+.popup.show .close:hover, .popup-window-close-icon.popup-window-titlebar-close-icon:hover{box-shadow:none;}
+.popup-window-close-icon.popup-window-titlebar-close-icon:after{background-position:1px 2px !important;top:0px;left:0px;transform:none;}
+.popup .close i{background-position:-1px -46px !important;}
+.popup .close:hover i, .popup-window-close-icon.popup-window-titlebar-close-icon:hover:after{background-position:-15px 2px !important;}
+.popup .close, .popup .close i{display:block;border-radius:0px;width:14px;height:14px;opacity:1;}
+.popup .close:hover i{background-position:-30px -46px !important;}
+.form-control label .star{margin:0;top:0px;}
+.form-block-wr label .star{margin-left:4px;}
+.popup .form-wr{padding:29px 35px 35px;min-height:108px;}
+.popup .form-control{margin:0px 0px 19px;}
+.popup .but-r{padding:2px 0px 0px;}
+.popup .form_txt{padding:32px 30px 20px;}
+.popup .but-r .buttons{margin-top:17px;}
+div[id^=wait_comp]{display:none;}
+.popup .label_block_capcha{width:48%;}
+.popup .img_block_capcha{width:52%;}
+
+.popup div.form-control, .form_body div.form-control, .middle_info .sku_props .form-control{background-color:#fff;border:0px solid #d5dadc;box-shadow:none;border-radius:0px;height:auto;padding:0px;}
+.popup div.form-control label, .form_body div.form-control label{font-weight:400;}

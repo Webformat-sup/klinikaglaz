@@ -1,0 +1,9 @@
+.webformat-generate-coupon-default{
+	margin: 10px 0;
+}
+.webformat-generate-coupon-default .btn{
+	margin:0;
+}
+.webformat-generate-coupon-default .coupon-value.display-none{
+	display:none;
+}

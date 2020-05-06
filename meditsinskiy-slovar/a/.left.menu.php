@@ -1,0 +1,53 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Аберрация", 
+		"/meditsinskiy-slovar/a/aaa/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Аметропия ", 
+		"/meditsinskiy-slovar/a/ametropiya-/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Амблиопия", 
+		"/meditsinskiy-slovar/a/ambliopiya/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Анизометропия", 
+		"/meditsinskiy-slovar/a/anizometropiya/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Антиметропия", 
+		"/meditsinskiy-slovar/a/antimetropiya/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Астигматизм", 
+		"/meditsinskiy-slovar/a/astigmatizm/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Афакия", 
+		"/meditsinskiy-slovar/a/afakiya/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

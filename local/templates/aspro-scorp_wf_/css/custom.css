@@ -1,0 +1,38 @@
+/* CSS kod pishite v etom faile, chotobi pri ustanovke obnovlenii ne bilo problem  */
+/* --------------------------------------- */
+/* Here you can put custom css rules for your site */
+
+.detail .chars .props_table {
+    width: 78%;
+}
+
+.item-views.sections .item .title {
+    text-align: center;
+  
+}
+
+.item-views.sections .item .image {
+   height: 114px;
+    text-align: center;
+   width: auto;
+}
+
+.item-views.list .item .image {
+   padding: 0px 0 0px 0px;
+   
+    width: 90%;
+    
+}
+
+.item-views .item {
+    border: 1px solid #ffffff;
+   
+}
+
+.prevorder {
+    padding-top: 10px;
+}
+
+.item-views .item:hover, .catalog.item-views .flexslider .item:hover {
+    border-color: #ffffff;
+}

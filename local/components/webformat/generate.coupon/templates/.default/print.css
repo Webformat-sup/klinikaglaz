@@ -1,0 +1,9 @@
+.body header,
+footer[id="footer"],
+.container .left-menu-md,
+.container .link-on-print-template{
+	display:none;
+}
+.container .content-md{
+	width:100%;
+}

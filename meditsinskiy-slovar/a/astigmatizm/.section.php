@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Астигматизм";
+$arDirProperties = Array(
+
+);
+?>

@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Гиперкоррекция";
+$arDirProperties = Array(
+
+);
+?>

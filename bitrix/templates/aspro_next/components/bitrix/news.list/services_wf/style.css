@@ -1,0 +1,18 @@
+.items.row, .items.row .row{
+	margin: 0!important;
+}
+
+.item-views.list .item{
+	margin-bottom: 20px !important;
+}
+
+.prevorder{
+	padding-top: 10px;
+}
+
+.item-views .item{
+	box-shadow: inherit !important;
+}
+.item-views{
+	margin-top: 20px;
+}

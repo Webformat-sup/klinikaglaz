@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Косоглазие";
+$arDirProperties = Array(
+
+);
+?>

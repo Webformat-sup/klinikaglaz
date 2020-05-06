@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Амблиопия";
+$arDirProperties = Array(
+
+);
+?>

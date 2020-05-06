@@ -1,0 +1,131 @@
+/*NOTE: This file is intended for programmers. Aspro technical support is not advised to work with him.*/
+
+/* Examples (uncomment to use):*/
+
+/* Expand site width */
+/* body .wrapper { max-width: 1400px !important;  } */
+
+/* Set site background image */
+/* body {  background: url(image_source) top no-repeat; }
+
+/* Hide compare button */
+/* a.compare_item { display: none !important;  }*/
+
+.item_slider:not(.flex) .slides li {
+
+    height: 100%;
+  
+}
+
+
+@media (max-width: 600px) {
+.item_slider.flex .slides>li>a {
+    height: auto;
+   
+	}}
+
+
+.ajax_load.block .footer_button {
+    display: block;
+}
+
+.footer_button {
+    opacity: 1;
+    visibility: visible;
+    height: auto; 
+
+}
+
+.image_wrapper_block, .image_wrapper_block a {
+
+    height: 307px;
+
+}
+
+.container .catalog_detail .item_slider {
+    padding-top: 0px;
+}
+
+.catalog_detail .item_slider .like_icons {
+    top: 28px;
+    right: -16px;
+}
+
+.item_slider .slides {
+  height: 310px;
+}
+
+a .zoom {
+
+    top: 40%;
+
+}
+
+.catalog_detail .item_main_info .item_slider {
+
+       padding: 29px 56px 0px 56px;
+ 
+}
+
+footer{
+	font:15px/20px "Ubuntu", Arial, sans-serif;
+	color: #000;
+}
+footer .copy{
+	color: #000;
+}
+
+
+
+
+
+footer .payment .img{display: flex; text-align: center;}
+footer .payment .img img{padding: 16px 16px 16px 0px; height:45px; width:auto;}
+footer .social {padding-top: 0px !important;}
+footer .payment .title{color: #000000;font-size: 15px;text-transform: uppercase;line-height: 30px;}
+footer .help{padding-top: 16px;}
+footer .copy.info{padding-left: 16px;}
+.social-icons{
+	margin-top:10px;
+}
+.social-icons li a{
+margin: 5px 10px 5px 0px;
+background-color: transparent;
+background:transparent;
+width: auto;
+height: auto;
+}
+
+.bottom-menu a{
+	color:#000;
+}
+
+.pc {
+display: block;
+}
+.mobi {
+display: none;
+}
+
+.phone-number{
+	font-size: 16px;
+	font-weight: bold;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.phone-number img{
+	height: 30px;
+	width: auto;
+}
+
+.bottomhelp .bottom-menu a{
+	text-transform: uppercase;
+}
+.help a{
+	color:#000;
+}
+@media(max-width: 767px){
+ footer .payment .img{
+	display: contents;
+}
+}

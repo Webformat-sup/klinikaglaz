@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Кератоконус";
+$arDirProperties = Array(
+
+);
+?>

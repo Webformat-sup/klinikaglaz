@@ -1,0 +1,39 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Катаракта", 
+		"/meditsinskiy-slovar/k/katarakta/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Кератит", 
+		"/meditsinskiy-slovar/k/keratit/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Кератоконус", 
+		"/meditsinskiy-slovar/k/keratokonus/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Конъюнктивит", 
+		"/meditsinskiy-slovar/k/konyunktivit/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Косоглазие", 
+		"/meditsinskiy-slovar/k/kosoglazie/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>

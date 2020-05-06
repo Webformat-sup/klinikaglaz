@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Иногородним";
+$arDirProperties = Array(
+
+);
+?>

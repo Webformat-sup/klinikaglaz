@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Офтальмогипертензия";
+$arDirProperties = Array(
+
+);
+?>

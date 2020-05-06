@@ -1,0 +1,39 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Акции", 
+		"/info/stock/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Вопрос-ответ", 
+		"/info/articles/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Полезно знать", 
+		"/projects/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"ОМС", 
+		"/info/oms/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"ДМС", 
+		"/info/dms/", 
+		Array("/info/dms.php"), 
+		Array(), 
+		"" 
+	)
+);
+?>

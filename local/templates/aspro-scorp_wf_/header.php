@@ -1,0 +1,326 @@
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
+<!DOCTYPE html>
+<html class="<?=($_SESSION['SESS_INCLUDE_AREAS'] ? 'bx_editmode ' : '')?><?=strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 7.0' ) ? 'ie ie7' : ''?> <?=strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 8.0' ) ? 'ie ie8' : ''?> <?=strpos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 7.0' ) ? 'ie ie9' : ''?>">
+	<head>
+		<?global $APPLICATION;?>
+		<?IncludeTemplateLangFile(__FILE__);?>
+		<title><?$APPLICATION->ShowTitle()?></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700italic,700,500italic,500,400italic,300,300italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/bootstrap.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/fonts/font-awesome/css/font-awesome.min.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/vendor/flexslider/flexslider.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/jquery.fancybox.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/theme-elements.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/jqModal.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/theme-responsive.css');?>
+		<?$APPLICATION->ShowHead()?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/webformat.css');?>
+		<?CJSCore::Init(array('jquery', 'fx', 'popup'));?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.actual.min.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.fancybox.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/blink.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/vendor/jquery.easing.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/vendor/jquery.appear.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/vendor/jquery.cookie.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/vendor/bootstrap.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/vendor/flexslider/jquery.flexslider-min.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/vendor/jquery.validate.min.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.uniform.min.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jqModal.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.inputmask.bundle.min.js', true)?>
+		<?$APPLICATION->AddHeadString('<script>BX.message('.CUtil::PhpToJSObject( $MESS, false ).')</script>', true);?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/detectmobilebrowser.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/general.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/custom.js');?>
+	</head>
+	<body>
+		<?CAjax::Init();?>
+		<div id="panel"><?$APPLICATION->ShowPanel();?></div>
+		<?if(!CModule::IncludeModule("aspro.scorp")):?>
+			<?$APPLICATION->SetTitle(GetMessage("ERROR_INCLUDE_MODULE_SCORP_TITLE"));?>
+			<div class="include_module_error">
+				<img src="<?=SITE_TEMPLATE_PATH?>/images/error.jpg" title=":-(">
+				<p><?=GetMessage("ERROR_INCLUDE_MODULE_SCORP_TEXT")?></p>
+			</div>
+			<?die();?>
+		<?endif;?>
+		<?CScorp::SetJSOptions();?>
+		<?global $arSite, $arTheme, $isMenu, $isIndex, $is404;?>
+		<?$is404 = defined("ERROR_404") && ERROR_404 === "Y"?>
+		<?$arSite = CSite::GetByID(SITE_ID)->Fetch();?>
+		<?$isMenu = ($APPLICATION->GetProperty('MENU') !== "N" ? true : false);?>
+		<?$arTheme = $APPLICATION->IncludeComponent("aspro:theme.scorp", "", array(), false);?>
+		<?$isForm = CSite::inDir(SITE_DIR.'form/');?>
+		<?$isContacts = CSite::inDir(SITE_DIR.'contacts/index.php');?>
+		<?if($isIndex = CSite::inDir(SITE_DIR."index.php")):?>
+			<?$sTeasersIndexTemplate = ($arTheme["TEASERS_INDEX"]["VALUE"] == 'PICTURES' ? 'front-teasers-pictures' : ($arTheme["TEASERS_INDEX"]["VALUE"] == 'ICONS' ? 'front-teasers-icons' : false));?>
+			<?$bCatalogIndex = $arTheme["CATALOG_INDEX"]["VALUE"] == 'Y';?>
+			<?$bCatalogFavoritesIndex = $arTheme["CATALOG_FAVORITES_INDEX"]["VALUE"] == 'Y';?>
+		<?endif;?>
+		<div class="body <?=($isIndex ? 'index' : '')?>">
+			<div class="body_media"></div>
+			<header class="topmenu-<?=($arTheme["TOP_MENU"]["VALUE"])?><?=($arTheme["TOP_MENU_FIXED"]["VALUE"] == "Y" ? ' canfixed' : '')?>">
+				<div class="logo_and_menu-row">
+					<div class="logo-row row">
+						<div class="maxwidth-theme">
+							<div class="col-md-3 col-sm-4">
+								<div class="logo<?=($arTheme["COLORED_LOGO"]["VALUE"] !== "Y" ? '' : ' colored')?>">
+									<?$APPLICATION->IncludeFile(SITE_DIR."include/logo.php", array(), array(
+											"MODE" => "php",
+											"NAME" => "Logo",
+										)
+									);?>
+								</div>
+							</div>
+							<div class="col-md-9 col-sm-8 col-xs-12">
+								<div class="top-description col-md-4 hidden-sm hidden-xs">
+									<?$APPLICATION->IncludeFile(SITE_DIR."include/header-text.php", array(), array(
+											"MODE" => "html",
+											"NAME" => "Text in title",
+										)
+									);?>
+								</div>
+								<div class="top-callback col-md-8">
+									<div class="callback pull-right hidden-xs" data-event="jqm" data-param-id="<?=CCache::$arIBlocks[SITE_ID]["aspro_scorp_form"]["aspro_scorp_callback"][0]?>" data-name="callback">
+										<span href="javascript:;" class="btn btn-default white btn-xs"><?=GetMessage("S_CALLBACK")?></span>
+									</div>
+									<div class="phone pull-right hidden-xs">
+										<div class="phone-number">
+											<i class="fa fa-phone"></i>
+											<div><?$APPLICATION->IncludeFile(SITE_DIR."include/site-phone.php", array(), array(
+													"MODE" => "html",
+													"NAME" => "Phone",
+												)
+											);?></div>
+										</div>
+										<div class="phone-desc pull-right">
+											<?$APPLICATION->IncludeFile(SITE_DIR."include/site-phone-desc.php", array(), array(
+													"MODE" => "html",
+													"NAME" => "Phone description",
+												)
+											);?>
+										</div>
+									</div>
+									<div class="email pull-right">
+										<i class="fa fa-envelope"></i>
+										<div><?$APPLICATION->IncludeFile(SITE_DIR."include/site-email.php", array(), array(
+												"MODE" => "html",
+												"NAME" => "E-mail",
+											)
+										);?></div>
+									</div>
+									<button class="btn btn-responsive-nav visible-xs" data-toggle="collapse" data-target=".nav-main-collapse">
+										<i class="fa fa-bars"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div><?// class=logo-row?>
+					<div class="menu-row row">
+						<div class="maxwidth-theme">
+							<div class="col-md-12">
+								<div class="nav-main-collapse collapse">
+									<div class="menu-only">
+										<nav class="mega-menu">
+											<?$APPLICATION->IncludeComponent(
+	"bitrix:menu", 
+	"top", 
+	array(
+		"ROOT_MENU_TYPE" => "top",
+		"MENU_CACHE_TYPE" => "A",
+		"MENU_CACHE_TIME" => "3600000",
+		"MENU_CACHE_USE_GROUPS" => "N",
+		"MENU_CACHE_GET_VARS" => array(
+		),
+		"MAX_LEVEL" => "1",
+		"CHILD_MENU_TYPE" => "left",
+		"USE_EXT" => "Y",
+		"DELAY" => "N",
+		"ALLOW_MULTI_SELECT" => "N",
+		"COUNT_ITEM" => "6",
+		"COMPONENT_TEMPLATE" => "top",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
+	),
+	false
+);?>
+										</nav>
+									</div>
+								</div>
+							</div><?// class=col-md-9 col-sm-8 col-xs-2 / class=col-md-12?>
+						</div>
+						<?$APPLICATION->IncludeComponent("bitrix:search.title", "corp", array(
+							"NUM_CATEGORIES" => "2",
+							"TOP_COUNT" => "3",
+							"ORDER" => "date",
+							"USE_LANGUAGE_GUESS" => "Y",
+							"CHECK_DATES" => "Y",
+							"SHOW_OTHERS" => "Y",
+							"PAGE" => SITE_DIR."search/",
+							"CATEGORY_OTHERS_TITLE" => GetMessage("S_OTHER"),
+							"CATEGORY_0_TITLE" => GetMessage("S_CONTENT"),
+							"CATEGORY_0" => array(
+								0 => "iblock_aspro_scorp_content",
+							),
+							"CATEGORY_1_TITLE" => GetMessage("S_CATALOG"),
+							"CATEGORY_1" => array(
+								0 => "iblock_aspro_scorp_catalog",
+							),
+							"SHOW_INPUT" => "Y",
+							"INPUT_ID" => "title-search-input",
+							"CONTAINER_ID" => "title-search",
+							"PRICE_CODE" => array(
+							),
+							"PRICE_VAT_INCLUDE" => "Y",
+							"PREVIEW_TRUNCATE_LEN" => "",
+							"SHOW_PREVIEW" => "Y",
+							"PREVIEW_WIDTH" => "25",
+							"PREVIEW_HEIGHT" => "25"
+							),
+							false
+						);?>
+					</div><?// class=logo-row row / class=menu-row row?>
+				</div>
+				<div class="line-row visible-xs"></div>
+			</header>
+			<div role="main" class="main">
+				<?if($isIndex):?>
+					<?@include(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'].'/'.SITE_DIR.'/indexblocks.php'));?>
+					<?=$indexProlog; // buffered from indexblocks.php?>
+				<?endif;?>
+				<?if(!$isIndex && !$is404 && !$isForm):?>
+					<section class="page-top">
+						<div class="row">
+							<div class="maxwidth-theme">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-12">
+											<h1><?$APPLICATION->ShowTitle(false)?></h1>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "corp", array(
+												"START_FROM" => "0",
+												"PATH" => "",
+												"SITE_ID" => SITE_ID
+												),
+												false
+											);?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				<?endif; // if !$isIndex && !$is404 && !$isForm?>
+				<div class="container">
+					<?if(!$isIndex):?>
+						<div class="row">
+							<div class="maxwidth-theme">
+								<?if(!$isMenu):?>
+									<div class="col-md-12 col-sm-12 col-xs-12 content-md">
+								<?elseif($isMenu && $arTheme["SIDE_MENU"]["VALUE"] == "RIGHT"):?>
+									<div class="col-md-9 col-sm-9 col-xs-8 content-md">
+								<?elseif($isMenu && $arTheme["SIDE_MENU"]["VALUE"] == "LEFT"):?>
+									<div class="col-md-3 col-sm-3 col-xs-4 left-menu-md">
+										<?$APPLICATION->IncludeComponent("bitrix:menu", "left", array(
+											"ROOT_MENU_TYPE" => "left",
+											"MENU_CACHE_TYPE" => "A",
+											"MENU_CACHE_TIME" => "3600000",
+											"MENU_CACHE_USE_GROUPS" => "N",
+											"MENU_CACHE_GET_VARS" => array(
+											),
+											"MAX_LEVEL" => "4",
+											"CHILD_MENU_TYPE" => "left",
+											"USE_EXT" => "Y",
+											"DELAY" => "N",
+											"ALLOW_MULTI_SELECT" => "Y"
+											),
+											false
+										);?>
+										<div class="sidearea">
+											<?$APPLICATION->ShowViewContent('under_sidebar_content');?>
+											<?$APPLICATION->IncludeComponent("bitrix:main.include", "", array("AREA_FILE_SHOW" => "file", "PATH" => SITE_DIR."include/under_sidebar.php"), false);?>
+										</div>
+										<?
+										$APPLICATION->IncludeComponent(
+										"bitrix:news.list", 
+										"preim", 
+										array(
+											"IBLOCK_TYPE" => "aspro_scorp_content",
+											"IBLOCK_ID" => "28",
+											"NEWS_COUNT" => "30",
+											"SORT_BY1" => "SORT",
+											"SORT_ORDER1" => "ASC",
+											"SORT_BY2" => "ID",
+											"SORT_ORDER2" => "ASC",
+											"FILTER_NAME" => "",
+											"ORDER_VIEW" => "",
+											"FIELD_CODE" => array(
+												0 => "",
+												1 => "",
+											),
+											"PROPERTY_CODE" => array(
+												0 => "LINK",
+												1 => "",
+											),
+											"CHECK_DATES" => "N",
+											"DETAIL_URL" => "",
+											"AJAX_MODE" => "N",
+											"AJAX_OPTION_JUMP" => "N",
+											"AJAX_OPTION_STYLE" => "Y",
+											"AJAX_OPTION_HISTORY" => "N",
+											"CACHE_TYPE" => "A",
+											"CACHE_TIME" => "3600000",
+											"CACHE_FILTER" => "Y",
+											"CACHE_GROUPS" => "N",
+											"PREVIEW_TRUNCATE_LEN" => "",
+											"ACTIVE_DATE_FORMAT" => "d.m.Y",
+											"SET_TITLE" => "N",
+											"SET_STATUS_404" => "N",
+											"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+											"ADD_SECTIONS_CHAIN" => "N",
+											"HIDE_LINK_WHEN_NO_DETAIL" => "N",
+											"PARENT_SECTION" => "",
+											"PARENT_SECTION_CODE" => "",
+											"INCLUDE_SUBSECTIONS" => "Y",
+											"PAGER_TEMPLATE" => ".default",
+											"DISPLAY_TOP_PAGER" => "N",
+											"DISPLAY_BOTTOM_PAGER" => "N",
+											"PAGER_TITLE" => "",
+											"PAGER_SHOW_ALWAYS" => "N",
+											"PAGER_DESC_NUMBERING" => "N",
+											"PAGER_DESC_NUMBERING_CACHE_TIME" => "3600000",
+											"PAGER_SHOW_ALL" => "N",
+											"AJAX_OPTION_ADDITIONAL" => "",
+											"SET_BROWSER_TITLE" => "N",
+											"SET_META_KEYWORDS" => "N",
+											"SET_META_DESCRIPTION" => "N",
+											"SHOW_DETAIL_LINK" => "Y",
+											"COMPONENT_TEMPLATE" => "preim",
+											"SET_LAST_MODIFIED" => "N",
+											"SHOW_SECTIONS" => "N",
+											"SHOW_GOODS" => "N",
+											"COMPOSITE_FRAME_MODE" => "A",
+											"COMPOSITE_FRAME_TYPE" => "AUTO",
+											"PAGER_BASE_LINK_ENABLE" => "N",
+											"SHOW_404" => "N",
+											"MESSAGE_404" => "",
+											"VIEW_TYPE" => "list",
+											"SHOW_TABS" => "Y",
+											"SHOW_SECTION_PREVIEW_DESCRIPTION" => "Y",
+											"DISPLAY_DATE" => "Y",
+											"DISPLAY_NAME" => "Y",
+											"DISPLAY_PICTURE" => "Y",
+											"DISPLAY_PREVIEW_TEXT" => "Y"
+										),
+										false
+									); ?>
+									</div>
+									<div class="col-md-9 col-sm-9 col-xs-8 content-md">
+								<?endif;?>
+					<?endif;?>
+					<?CScorp::checkRestartBuffer();?>

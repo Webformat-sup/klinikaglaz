@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Изометропия";
+$arDirProperties = Array(
+
+);
+?>

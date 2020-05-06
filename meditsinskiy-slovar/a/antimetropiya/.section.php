@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Антиметропия";
+$arDirProperties = Array(
+
+);
+?>

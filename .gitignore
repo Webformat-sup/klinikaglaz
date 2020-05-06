@@ -1,0 +1,79 @@
+#Исключаем ядро
+/bitrix/*
+/upload/
+
+#Добавляем некоторые части из подпапки bitrix
+!/bitrix/templates/
+!/bitrix/php_interface/
+
+#Но исключаем то, что касается подключения базы
+/bitrix/php_interface/dbconn.php
+/bitrix/php_interface/after_connect*
+
+#Убираем вспомогательные данные из корня
+/*dump*.*
+/*test*
+/*log*.*
+/*.log
+/sitemap*
+/bitrix_server_test.php
+/restore.php
+/.bash_history
+/bx_1c_import.php
+/cgi-bin/
+/webstat/
+/mailsync/
+*1)/
+*2)/
+*3)/
+*4)/
+*5)/
+
+
+#Исключаем все файлы и папки, начинающиеся с симв. "_" (кроме иконок редактора)
+_*
+#!/**/_global_iconkit*
+#и всякие прочие мусорные файлы:
+BackUp*
+*BackUp*
+*1).*
+*2).*
+*3).*
+*4).*
+*5).*
+
+#убираем мусорные файлы из корня (как правило большие)
+/*.xml
+/*.yml
+/*.csv
+/*.sql
+
+#исключаем кириллицу
+*[а-яА-Я]
+[а-яА-Я]*
+
+#убираем вообще архивы
+*.7z
+*.jar
+*.rar
+*.zip
+*.gz
+*.tgz
+*.bzip
+*.bz2
+*.xz
+*.lzma
+*.cab
+
+#убираем прочие файлы по расширениям
+*.old
+*.orig
+*.save
+*.svn
+*.hg
+*.restore
+*.mab
+*.exe
+
+#custom
+/bitrix/templates/aspro_next_/

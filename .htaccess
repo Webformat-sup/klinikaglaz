@@ -1,0 +1,489 @@
+Options -Indexes 
+ErrorDocument 404 /404.php
+
+<IfModule mod_rewrite.c>
+	RewriteCond %{HTTP:X-Forwarded-Proto} ^https$ [NC,OR]
+	RewriteCond %{HTTPS} =on [NC,OR]
+	RewriteCond %{ENV:HTTPS} on [NC,OR]
+	RewriteCond %{SERVER_PORT} ^443$
+	RewriteRule ^(.*)$ - [env=proto:https,E=HTTPS:on]
+
+	RewriteCond %{ENV:proto} !^https$ [NC]
+	RewriteRule ^(.*)$ - [env=proto:http]
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+
+	#убираем "www" в начале URL
+	RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+	RewriteRule (.*) %{ENV:proto}://%1/$0 [R=301,E=HTTP_REFERER:%{HTTP_REFERER},L]
+
+	#редирект с http на https (при необходимости отредактировать на обратное направление)
+	RewriteCond %{ENV:proto} !^https$ [NC]
+	RewriteCond %{REQUEST_URI} !ajax [NC]
+	RewriteCond %{REQUEST_URI} !^\/bitrix\/(admin|tools|components|modules)\/ [NC]
+	RewriteCond %{REQUEST_FILENAME} !/robots\.txt$
+	RewriteCond %{REQUEST_METHOD} !post [NC]
+	#RewriteCond %{REQUEST_FILENAME} !/bitrix/admin/update_system_partner[^\/]*$
+	RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+
+<IfModule mod_alias.c>
+	# RedirectMatch 301 ^zdorovyie-glaza-eto-privyichka/$ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+	
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^zdorovyie-glaza-eto-privyichka/$ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^zabota-o-zrenii-rebenka-s-pervyih-dney-zhizni/$ /projects/design/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^yatrogennoe-zabolevanie$ /meditsinskiy-slovar/ya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrachi/$ /company/staff/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrach-oftalmolog/$ /company/staff/korobeynikova-anastasiya-andreevna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrach-oftalmolog-4/$ /company/staff/sadreeva-anna-anatolevna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrach-oftalmolog-3/$ /company/staff/ponomaryeva-irina-vladimirovna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrach-oftalmolog-2/$ /company/staff/petrova-elena-vladimirovna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrach-nevrolog/$ /company/staff/pollyak-evgeniya-semenovna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vrach_anesteziolog$ /company/staff/elokov-roman-sergeevich/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/vospaleniya-rogovitsyi/$ /services/vospalitelnye-zabolevaniya-glaza/keratit/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/uveit/$ /services/vospalitelnye-zabolevaniya-glaza/lechenie-uveita/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/udalenie-inorodnogo-tela/$ /services/vospalitelnye-zabolevaniya-glaza/udalenie-inorodnogo-tela/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/konyunktivityi/$ /services/vospalitelnye-zabolevaniya-glaza/lechenie-konyuktivita/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/inyie-vospaleniya/$ /services/priem-oftalmologa/priem-oftalmologa-po-vospalitelnym-zabolevaniyam/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/holyazion/$ /services/khalyazion/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnyie-zabolevaniya-glaza/blefarit/$ /services/vospalitelnye-zabolevaniya-glaza/lechenie-blefarita/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vospalitelnye-zabolevaniya-glaza$ /services/vospalitelnye-zabolevaniya-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^voprosy-i-otvety-po-lazernoj-korrekczii-zreniya/$ /projects/lazernaya-korrektsiya-zreniya/voprosy-i-otvety-po-lazernoy-korrektsii-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vopros-otvet/$ /info/articles/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vliyanie-solntsa-na-glaza/$ /projects/zabota-o-zrenii/vitaminy-dlya-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^vitaminyi-dlya-zreniya/$ /projects/zabota-o-zrenii/vitaminy-dlya-zreniya/ [L,R=301]
+	#RewriteCond %{QUERY_STRING} ^$
+	#RewriteRule ^video-tur/$ /video-tur/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^uslugi/$ /services/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^uhudshenie-zreniya-v-zrelom-vozraste/$ /projects/zabota-o-zrenii/osnovnye-priznaki-vozrastnogo-ukhudsheniya-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^trihiaz/$ /services/vospalitelnye-zabolevaniya-glaza/lechenie-trikhiaza-veka/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^toric/$ /glaznye-zabolevaniya/iskusstvennye-khrustaliki-iol/multifokalnye-toricheskie-asfericheskie-iol/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^technolas-teneo-317-revolyucziya-v-lazernoj-korrekczii-zreniya/$ /projects/oborudovanie-v-klinike/technolas-teneo-317-revolyutsiya-v-lazernoy-korrektsii-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^svetoboyazn/$ /projects/zabota-o-zrenii/svetoboyazn-glaz-zabolevanie-ili-estestvennaya-reaktsiya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^super-lasik/$ /services/lazernaya-korrektsiya-zreniya/lazernaya-korrektsiya-zreniya-superlasik/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^subepitelialniy-fler-rogovitsy$ /meditsinskiy-slovar/s/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^subepitelialnaya-fibroplaziya/$ /meditsinskiy-slovar/s/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^stati/$ /projects/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sport$ /projects/zabota-o-zrenii/kak-vliyaet-sport-na-vashe-zrenie\%3F/ [NE,L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^spazm-akkomodatsii$ /meditsinskiy-slovar/s/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sotsialnyiy-nalogovyiy-vyichet/$ /info/sotsialnyy-nalogovyy-vychet/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sindrom-sukhogo-glaza$ /meditsinskiy-slovar/s/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sindrom-suhogo-glaza/diagnostika-i-lechenie-sindroma-suhogo-glaza/obturatsiya-sleznyih-kanalov/$ /services/sindrom-sukhogo-glaza/obturatsiya-sleznykh-kanalov/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sindrom-suhogo-glaza/diagnostika-i-lechenie-sindroma-suhogo-glaza/$ /services/sindrom-sukhogo-glaza/diagnostika-i-lechenie-sindroma-sukhogo-glaza-/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sindrom-suhogo-glaza/$ /services/sindrom-sukhogo-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^shkolyi-dlya-lyudey-s-endokrinnyimi-zabolevaniyami/$ /info/stock/shkola-dlya-lyudey-s-zabolevaniem-diabet/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^shkola-kataraktyi/$ /info/stock/shkola-katarakty-v-kliniki-mikrokhirurgii-glaz-im-svyatoslava-fedorova/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^shkola-glaukomyi-v-klinike/$ /info/stock/shkola-glaukomy-v-klinike/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^shkola-blizorukosti$ /info/stock/shkola-blizorukosti-v-klinike-mikrokhirurgii-glaz-im-akademika-s-n-fedorova/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/vozrastnaya-makulodistrofiya/$ /services/bolezni-setchatki/distrofii-i-degeneratsii-setchatki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/vitrektomiya/$ /services/bolezni-setchatki/vitrektomiya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/retinopatiya-setchatki/diabeticheskaya-retinopatiya/$ /services/bolezni-setchatki/retinopatiya-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/retinopatiya-setchatki/$ /services/bolezni-setchatki/retinopatiya-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/otsloenie-setchatki-glaza/lechenie-otsloyki-setchatki/$ /services/bolezni-setchatki/otsloenie-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/makulyarnyiy-razryiv/$ /services/bolezni-setchatki/makulyarnyy-razryv-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/makulyarnyiy-otyok/$ /services/bolezni-setchatki/makulyarnyy-razryv-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/lazernoe-lechenie-sosudov-i-sosudistoy-obolochki-setchatki/$ /services/bolezni-setchatki/lazernoe-lechenie-sosudov-i-sosudistoy-obolochki-setchatki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/lazernaya-koagulyatsiya-setchatki/$ /services/bolezni-setchatki/lazernaya-koagulyatsiya-setchatki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/distrofiya-setchatki/$ /services/bolezni-setchatki/distrofii-setchatki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/angiopatiya-setchatki/$ /services/bolezni-setchatki/angiopatiya-setchatki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^setchatka/$ /services/bolezni-setchatki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/vtorichnaya-katarakta/lazernaya-distsiziya-vtorichnoy-kataraktyi/$ /services/katarakta/lazernaya-distsiziya-vtorichnoy-katarakty-/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/vtorichnaya-katarakta/$ /services/katarakta/vtorichnaya-katarakta/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/stadii-kataraktyi-lechenie/$ /services/katarakta/stadii-katarakty-i-lechenie/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/pochemu-stoit-vyibrat-zhyoltyiy-iskusstvennyiy-hrustalik/$ /projects/vseo-katarakte/pochemu-stoit-vybrat-zhyeltyy-iskusstvennyy-khrustalik/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/ogranicheniya-v-period-posle-operatsii-po-udaleniyu-kataraktyi/$ /services/katarakta/pamyatka-patsientu- [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/kak-ogradit-sebya-ot-kataraktyi/$ /projects/vseo-katarakte/kak-ogradit-sebya-ot-katarakty/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/iskusstvennyie-hrustaliki-iol/multifokalnyie-asfericheskie-intraokulyarnyie-linzyi/$ /glaznye-zabolevaniya/iskusstvennye-khrustaliki-iol/multifokalnye-toricheskie-asfericheskie-iol/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/iskusstvennyie-hrustaliki-iol/multifokalno-toricheskiy-asfericheskiy-iskusstvennyiy-hrustalik/$ /glaznye-zabolevaniya/iskusstvennye-khrustaliki-iol/multifokalnye-toricheskie-asfericheskie-iol/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/iskusstvennyie-hrustaliki-iol/asfericheskie-intraokulyarnyie-linzyi/$ /glaznye-zabolevaniya/iskusstvennye-khrustaliki-iol/multifokalnye-toricheskie-asfericheskie-iol/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/iskusstvennyie-hrustaliki-iol/$ /glaznye-zabolevaniya/iskusstvennye-khrustaliki-iol/multifokalnye-toricheskie-asfericheskie-iol/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/fakoemulsifikatsiya/$ /services/katarakta/ultrazvukovaya-fakoemulsifikatsiya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/ekstraktsiya-kataraktyi/$ /services/katarakta/ekstraktsiya-katarakty/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^sample-page/diagnostika-kataraktyi/$ /services/katarakta/diagnostika-katarakty/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^rogovichnye-distrofii$ /meditsinskiy-slovar/r/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^razvivaem-zrenie-v-igrah/$ /projects/design/razvivaem-zrenie-v-igrah/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^rasporyazhenie-pravitelstva-rf-ot-26-12-2015-2724-r/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^rabotaet-li-u-vas-beznalichnyiy-raschet/$ /info/articles/rabotaet-li-u-vas-beznalichnyy-raschet/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^pterigium$ /meditsinskiy-slovar/p/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^provoditsya-li-fiziolechenie-dlya-detey-na-apparatah-spekl-m-asir-i-chrezkozhnaya-elektrostimulyatsiya/$ /info/articles/provoditsya-li-fiziolechenie-dlya-detey-na-apparatakh-spekl-m-asir-i-chrezkozhnaya-elektrostimulyats/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^proverka-zreniya/on-line-testyi-dlya-proverki-zreniya/$ /projects/zabota-o-zrenii/onlayn-testy-dlya-proverki-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^proverka-zreniya/$ /services/issledovaniya-i-diagnostika/proverka-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^prinimaete-li-vyi-po-polisam-dms/$ /info/articles/prinimaete-li-vy-po-polisam-dms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^primite-li-vyi-bez-zapisi-na-priem/$ /info/articles/primete-li-vy-bez-zapisi-na-priem/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^prikaz-pravitelstva-sverdlovskoy-oblasti/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^prikaz-minzdravsotsrazvitiya-rossii-ot-26-04-2012-n-407n/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^prikaz-minzdrava-sverdlovskoy-oblasti-ot-08-02-2013-n-116-p/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^presbiopia$ /meditsinskiy-slovar/p/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^pravovyie-dokumentyi/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstvo-rf-ot-19-12-15-1382/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-sverdlovskoy-oblasti-ot-24-12-2015-1195-pp/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-sverdlovskoy-oblasti-ot-24-12-2015-1195-pp/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-sverdlovskoy-oblasti-ot-16-11-2010-n-1658-pp/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-rf-ot-24-12-2015g-1195-pp/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-rf-ot-24-12-2015-prilozhenie-1/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-rf-ot-19-12-2015-1382/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-rf-ot-19-12-2015-1382-2/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-rf-ot-13-02-2015-n-123/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^postanovlenie-pravitelstva-rf-ot-04-10-2012-1006/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^posle-lazernoj-korrekczii/$ /services/lazernaya-korrektsiya-zreniya/posle-operatsii-po-lazernoy-korrektsii-pamyatka-dlya-patsinentov/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^polnaya-diagnostika/$ /projects/zabota-o-zrenii/pochemu-neobkhodimo-regulyarno-prokhodit-polnuyu-diagnostiku-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^podgotovka-k-operatsiyam/sdacha-analizov/$ /services/podgotovka-k-operatsiyam/sdacha-analizov/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^podgotovka-k-operatsiyam/priem-terapevta/$ /services/podgotovka-k-operatsiyam/priem-terapevta/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^podgotovka-k-operatsiyam/priem-nevrologa/$ /services/podgotovka-k-operatsiyam/priem-nevrologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^podgotovka-k-operatsiyam/priem-anesteziologa/$ /services/podgotovka-k-operatsiyam/priem-anesteziologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^podgotovka-k-operaciyam$ /services/podgotovka-k-operatsiyam/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^podgotovka-k-lazernoj-korrekczii-zreniya/$ /services/lazernaya-korrektsiya-zreniya/podgotovka-k-operatsii-lazernoy-korrektsii-zreniya-/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^pitanie-dlya-zrenie/$ /projects/zabota-o-zrenii/pitanie-dlya-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^otzyivy/$ /company/reviews/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^otsloenie-setchatki$ /services/bolezni-setchatki/otsloenie-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^optika/ortokeratologiya/$ /services/kabinet-okhrany-detskogo-zreniya/ortokeratologiya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^optika/kontaktnyie-linzyi/$ /services/salon-optiki/kontaktnye-linzy/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^optika/kak-podobrat-solntsezashhitnyie-ochki/$ /services/salon-optiki/kak-podobrat-solntsezashchitnye-ochki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^optika/$ /services/salon-optiki/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^okt$ /services/diagnostika-detskogo-zreniya/opticheskaya-kogerentnaya-tomografiya-detyam/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^oftalmogipertensia$ /meditsinskiy-slovar/o/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^oct$ /services/issledovaniya-i-diagnostika/opticheskaya-kogerentnaya-tomografiya-okt-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^obshhie-voprosyi/$ /info/articles/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^Oakley/$ /services/salon-optiki/opravy-oakley-eksklyuziv-v-ekaterinburge/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^o-klinike/litsenzii/$ /company/licenses/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^novoobrazovaniy/$ /services/vospalitelnye-zabolevaniya-glaza/lazernoe-udalenie-novoobrazovaniy-na-vekakh-glaz/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^normalnoe_zrenie/$ /projects/zabota-o-zrenii/kakoe-zrenie-schitaetsya-normalnym/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^nekrasova/$ /company/staff/nekrasova-alina-yurevna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^nashi-vrachi-2/vrach-oftalmolog-pervoy-kategorii/$ /company/staff/romanenko-artem-borisovich/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^nashi-vrachi-2/refrakczionnyj-hirurg$ /company/staff/starunov-eduard-vadimovich/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^nashi-vrachi-2/detskiy-vrach-oftalmolog/$ /company/staff/mikhryakova-natalya-vladimirovna-/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^nashi-preimushhestva/$ /info/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^mogu-li-ya-vernut-sotsialnyiy-nalogovyiy-vyichet-za-lechenie-v-vashey-klinike/$ /info/articles/mogu-li-ya-vernut-sotsialnyy-nalogovyy-vychet-za-lechenie-v-vashey-klinike/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^mir-glazami-rebenka/$ /projects/design/mir-glazami-rebenka/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^miopia$ /meditsinskiy-slovar/m/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^mif_o_zrenii/$ /projects/zabota-o-zrenii/mify-o-zrenii/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^midriaz$ /meditsinskiy-slovar/m/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^meditsinskiy-slovar$ /meditsinskiy-slovar/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^luchshaya-oftalmologicheskaya-klinika-goda/$ /info/news/luchshaya-oftalmologicheskaya-klinika-goda-2019/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^lechenie-v-rassrochku/$ /company/partners/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^lazernyi_hirurg/$ /company/staff/kislitsyn-vasiliy-vladimirovich/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^lazernoe-lechenie-beremennyh/$ /services/priem-oftalmologa/konsultatsiyalazernogo-khirurga-s-obsledovaniem-setchatki-glaza-dlya-beremennykh-zhenshchin/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^lazernaya-korrekcziya-zreniya/$ /services/lazernaya-korrektsiya-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^lasik-lazernyj-keratomilez-lejzik-lasik/$ /services/lazernaya-korrektsiya-zreniya/lazernaya-korrektsiya-leyzik-s-femtoseknudnym-soprovozhdeniem-femtoleyzik/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kravchenko/$ /company/staff/kravchenko-elena-sergeevna/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kosoglazie/diagnostika-i-lechenie-kosoglaziya/$ /services/kosoglazie/diagnostika-kosoglaziya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kosoglazie/$ /services/kosoglazie/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kosoglazie-u-novorozhdennyh$ /services/detskie-zabolevaniya/kosoglazie-u-detey/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kosoglasie$ /meditsinskiy-slovar/k/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^konyuktivit$ /meditsinskiy-slovar/k/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kontaktyi/$ /company/contacts/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kompyuter-i-televizor-zrenie-rebenka/$ /projects/design/vliyanie-kompyutera-i-televizora-na-zrenie-rebenka/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^klinika/$ /company/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^keratokonus/krosslinking/$ /services/keratokonus/krosslinking/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^keratokonus/$ /services/keratokonus/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^keratit$ /meditsinskiy-slovar/k/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^katarakta-i-glaukoma/lechenie-kataraktyi-i-glaukomyi/$ /services/katarakta-i-glaukoma/odnovremennoe-lechenie-katarakty-i-glaukomy/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^katarakta-i-glaukoma$ /services/katarakta-i-glaukoma/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^katarakta$ /services/katarakta/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kakova-stoimosti-izgotovleniya-ochkov-dlya-rabotyi-za-kompyuterom/$ /info/articles/kakova-stoimost-izgotovleniya-ochkov-dlya-raboty-za-kompyuterom/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kak-vyibrat-ochki-na-chto-stoit-obratit-vnimanie/$ /projects/optika/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kak-sohranit-zrenie-pri-rabote-za-kompyuterom/$ /projects/zabota-o-zrenii/kak-sokhranit-zrenie-pri-rabote-za-kompyuterom/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kak-sohranit-zdorovoe-zrenie/$ /projects/zabota-o-zrenii/kak-sokhranit-zdorovoe-zrenie/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kak-prohodit-hirurgicheskoe-lechenie-kataraktyi-raspishite-pozhaluysta-ves-protsess-s-momenta-obrashheniya-v-kliniku-i-do-zaversheniya-operatsii/$ /info/articles/kak-prokhodit-khirurgicheskoe-lechenie-katarakty/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^kak-podgotovit-rebenka--k--oftalmologu/$ /services/diagnostika-detskogo-zreniya/kak-podgotovit-rebyenka-k-vizitu-k-oftalmologu/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^izometropia$ /meditsinskiy-slovar/i./ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^intravetrial/$ /services/bolezni-setchatki/intravitrealnye-inektsii/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^inogorodnim/$ /company/inogorodnim/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^indutsirovannye-aberratsii$ /meditsinskiy-slovar/i./ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^horoshee-zrenie-zalog-krasotyi/$ /projects/zabota-o-zrenii/khoroshee-zrenie-zalog-krasoty/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^hitrosti-chteniya/$ /projects/design/khitrosti-chteniya-kak-sokhranit-zdorovoe-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glavvrach$ /company/staff/romanenko-boris-vitalevich/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/pamyatka-dlya-patsientov-s-glaukomoy/$ /services/glaukoma/pamyatka-dlya-patsientov-s-glaukomoy/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/lazernoe-lechenie-glaukomyi/$ /services/glaukoma/lazernoe-lechenie-glaukomy/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/lazernaya-perifericheskaya-iridotomiya/$ /services/glaukoma/lazernoe-lechenie-glaukomy/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/hirurgicheskoe-lechenie-glaukomyi-metodom-ngse/$ /services/glaukoma/khirurgicheskoe-lechenie-glaukomy-metodom-ngse/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/godovaya-programma-nablyudeniya-po-glaukome/$ /services/glaukoma/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/diagnostika-i-lechenie-glaukomyi/$ /services/glaukoma/diagnostika-glaukomy/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaukoma/$ /services/glaukoma/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^glaucoma$ /meditsinskiy-slovar/ab/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^giperplasia-epitelia$ /meditsinskiy-slovar/ab/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^gipermetropia$ /meditsinskiy-slovar/ab/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^giperkorrektsia$ /meditsinskiy-slovar/ab/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^gerpeticheskiy-keratit$ /meditsinskiy-slovar/ab/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^federalnyiy-zakon-rf/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^federalnyiy-zakon-rf-ob-osnovah-ohranyi-zdorovya-grazhdan-v-rf/$ /info/oms/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^dni-otkryityih-dverey-v-klinike-mikrohirurgii-glaz/$ /info/stock/dni-otkrytykh-dverey-v-klinike-mikrokhirurgii-glaz-imeni-svyatoslava-fedorova/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^diagnostika/priem-oftalmologa/$ /services/priem-oftalmologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^diagnostika/mikrohirurgiya-glaza/$ /services/lazernaya-korrektsiya-zreniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^diagnostika/diagnosticheskoe-oborudovanie/$ /projects/oborudovanie-v-klinike/oborudovanie-poslednego-pokoleniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^diagnostika/chem-kompleksnaya-diagnostika-otlichaetsya-ot-konsultatsii-okulista-v-poliklinike-ili-proverki-zreniya-v-optike/$ /projects/zabota-o-zrenii/chem-kompleksnaya-diagnostika-otlichaetsya-ot-konsultatsii-okulista-v-poliklinike-ili-proverki-zreni/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^diagnostika/$ /services/issledovaniya-i-diagnostika/polnaya-dianostika-zreniya-/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^diagnostika-i-lechenie-zabolevaniy-setchatki-glaza$ /services/bolezni-setchatki/diagnostika-zabolevaniy-setchatki-glaza/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^detskiy-oftalmolog/zabolevaniya-zritelnoy-sistemyi-detey/$ /services/detskie-zabolevaniya/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^detskiy-oftalmolog/sovetyi-detskogo-oftalmologa/priyom-detey-ot-rozhdeniya-do-3-let/$ /projects/design/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^detskiy-oftalmolog/sovetyi-detskogo-oftalmologa/$ /projects/design/6-sovetov-detskogo-oftalmologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^detskiy-oftalmolog/kabinet-pleopto-ortopticheskogo-lecheniya/$ /services/kabinet-okhrany-detskogo-zreniya/apparatnoe-lechenie/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^detskiy-oftalmolog/$ /services/priem-detskogo-oftalmologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^destruktsiya-steklovidnogo-tela$ /meditsinskiy-slovar/d/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^delaete-li-vyi-spravki-dlya-transportnoy-komissii-i-detskogo-sada/$ /info/articles/delaete-li-vy-spravki-dlya-transportnoy-komissii-i-detskogo-sada/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^defocus$ /meditsinskiy-slovar/d/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^dalnozorkost/$ /services/dalnozorkost/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^cataract$ /meditsinskiy-slovar/i./ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^blizorukost/$ /services/blizorukost/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^astigmatizm/diagnostika-i-lechenie-astigmatizma/$ /services/astigmatizm/lechenie-astigmatizma/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^astigmatizm/astigmatizm-u-detey/$ /services/detskie-zabolevaniya/astigmatizm-u-detey/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^astigmatizm/$ /services/astigmatizm/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^astigmatism$ /meditsinskiy-slovar/a/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^antimetropia$ /meditsinskiy-slovar/a/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^antikrizisnaya-tsena-operatsiya-po-povodu-kataraktyi-ot-29-750rub/$ /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-500-rub-na-operatsiyu-po-katarakte/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^anizometropia$ /meditsinskiy-slovar/a/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^ametropia$ /meditsinskiy-slovar/a/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^ambliopia$ /meditsinskiy-slovar/a/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^aktsii/vtoroe-mnenie-besplatno/$ /info/stock/vtoroe-mnenie-besplatno/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^aktsii/$ /info/stock/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^akademik-fedorov/$ /company/akademik-s-n-fedorov/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^afakia$ /meditsinskiy-slovar/a/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^aberratsia$ /meditsinskiy-slovar/a/ [L,R=301]
+</IfModule>
+
+
+<IfModule mod_php5.c>
+	php_flag allow_call_time_pass_reference 1
+	php_flag session.use_trans_sid off
+
+	#php_value display_errors 1
+
+	#php_value mbstring.internal_encoding UTF-8
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	Options +FollowSymLinks
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !/bitrix/urlrewrite.php$
+	RewriteRule ^(.*)$ /bitrix/urlrewrite.php [L]
+	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+</IfModule>
+
+<IfModule mod_dir.c>
+	DirectoryIndex index.php index.html
+</IfModule>
+
+<IfModule mod_expires.c>
+	ExpiresActive on
+	ExpiresByType image/jpeg "access plus 3 day"
+	ExpiresByType image/gif "access plus 3 day"
+</IfModule>

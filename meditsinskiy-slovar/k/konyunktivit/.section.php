@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Конъюнктивит";
+$arDirProperties = Array(
+
+);
+?>

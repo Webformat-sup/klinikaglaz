@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Пресбиопия";
+$arDirProperties = Array(
+
+);
+?>
