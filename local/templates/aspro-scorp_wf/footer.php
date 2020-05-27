@@ -333,7 +333,10 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<img src="/local/templates/aspro-scorp_wf/images/banner_bg.png" class="img-responsive">
+						<picture>
+							<source media="(max-width: 768px)" srcset="/local/templates/aspro-scorp_wf/images/ticket_show_file.png">
+							<img src="/local/templates/aspro-scorp_wf/images/banner_bg.png" class="img-responsive">
+						</picture>
 						<div class="row">				       	
 							<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 								<img class="imgchat" src="/local/templates/aspro-scorp_wf/images/banner-img/chat.png">

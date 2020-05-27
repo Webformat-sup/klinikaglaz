@@ -94,6 +94,7 @@
 
 /* XS */
 @media (max-width:767px){
+
 	.body_media{top:0px;} /* do not remove this hack! )) */
 	.mega-menu ul.nav{padding-bottom:0px;}
 	.main {padding-top: 70px;}
@@ -194,6 +195,15 @@
 	.subscribe-edit-main .form .form-group .input{padding:0px 0px 10px;}
 	.subscribe-edit-main table.data-table{margin:0px 0px 10px;}
 	.subscribe-block-wrapper > .row{margin:0px;}
+
+	/*banner*/
+	#dialog.banner .modal-dialog {width: 100% !important;}
+	#dialog.banner .close {top: 40px;}
+	#dialog.banner .row {margin-left: 30% !important;margin-right: 30% !important;top: 15% !important;}
+	#dialog.banner .row a.link {display: none !important;}
+	#dialog.banner .row img {width: 100% !important;}
+	#dialog.banner .img-responsive {width: 100%;}
+	#dialog.banner .modal-body {padding: 0;}
 }
 
 /* WHEN HIDE SIDE MENU */

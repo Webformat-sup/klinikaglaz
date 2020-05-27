@@ -1,6 +1,7 @@
 <?
 @set_time_limit(0);
 if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
+if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
 if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
 if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
 if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}
@@ -15,7 +16,7 @@ $moduleRunnerClass = 'CKDAImportExcelRunner';
 \Bitrix\Main\Loader::includeModule('catalog');
 \Bitrix\Main\Loader::includeModule("currency");
 \Bitrix\Main\Loader::includeModule($moduleId);
-$PROFILE_ID = $argv[1];
+$PROFILE_ID = htmlspecialcharsbx($argv[1]);
 
 $oProfile = CKDAImportProfile::getInstance('highload');
 CKDAImportUtils::RemoveTmpFiles(0); //Remove old dirs
@@ -23,6 +24,25 @@ CKDAImportUtils::RemoveTmpFiles(0); //Remove old dirs
 if(strlen($PROFILE_ID)==0)
 {
 	echo date('Y-m-d H:i:s').": profile id is not set\r\n";
+	die();
+}
+
+$arProfileFields = $oProfile->GetFieldsByID($PROFILE_ID);
+if(!$arProfileFields)
+{
+	echo date('Y-m-d H:i:s').": profile not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+	die();
+}
+elseif($arProfileFields['ACTIVE']=='N')
+{
+	echo date('Y-m-d H:i:s').": profile is not active\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+	die();
+}
+
+$arOldParams = $oProfile->GetProccessParamsFromPidFile($PROFILE_ID);
+if($arOldParams===false)
+{
+	echo date('Y-m-d H:i:s').": import in process\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 	die();
 }
 
@@ -36,7 +56,6 @@ $needCheckSize = (bool)(COption::GetOptionString($moduleId, 'CRON_NEED_CHECKSIZE
 $needImport = true;
 if($needCheckSize)
 {
-	$arProfileFields = $oProfile->GetFieldsByID($PROFILE_ID);
 	$checkSum = $arProfileFields['FILE_HASH'];
 }
 
@@ -48,7 +67,7 @@ if($params['EXT_DATA_FILE'] || $params['EMAIL_DATA_FILE'])
 	$fileLink = '';
 	if($params['EMAIL_DATA_FILE'])
 	{
-		if($newFileId = \Bitrix\KdaImportexcel\SMail::GetNewFile($params['EMAIL_DATA_FILE']))
+		if($newFileId = \Bitrix\KdaImportexcel\SMail::GetNewFile($params['EMAIL_DATA_FILE'], 86400, 'kda_import_hl'.$PROFILE_ID))
 		{
 			$arFile = CFile::GetFileArray($newFileId);
 			$fileLink = $_SERVER["DOCUMENT_ROOT"].$arFile['SRC'];
@@ -74,6 +93,9 @@ if($params['EXT_DATA_FILE'] || $params['EMAIL_DATA_FILE'])
 	{
 		if(!$newFileId && $arFile)
 		{
+			if($arFile['name'] && strpos($arFile['name'], '.')===false) $arFile['name'] .= '.csv';
+			$arFile['external_id'] = 'kda_import_hl'.$PROFILE_ID;
+			$arFile['del_old'] = 'Y';
 			$newFileId = CKDAImportUtils::SaveFile($arFile);
 		}
 	}
@@ -108,7 +130,6 @@ $pid = $PROFILE_ID;
 if(COption::GetOptionString($moduleId, 'CRON_CONTINUE_LOADING', 'N')=='Y')
 {
 	//$pid = $PROFILE_ID;
-	$oProfile = CKDAImportProfile::getInstance('highload');
 	$arParams = $oProfile->GetProccessParamsFromPidFile($PROFILE_ID);
 	if($arParams===false)
 	{

@@ -1,6 +1,7 @@
 <?
 @set_time_limit(0);
 if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
+if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
 if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
 if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
 if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}

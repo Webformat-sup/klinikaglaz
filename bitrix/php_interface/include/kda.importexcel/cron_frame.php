@@ -1,6 +1,7 @@
 <?
 @set_time_limit(0);
 if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
+if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
 if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
 if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
 if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}
@@ -14,7 +15,7 @@ $moduleRunnerClass = 'CKDAImportExcelRunner';
 \Bitrix\Main\Loader::includeModule('catalog');
 \Bitrix\Main\Loader::includeModule("currency");
 \Bitrix\Main\Loader::includeModule($moduleId);
-$PROFILE_ID = $argv[1];
+$PROFILE_ID = htmlspecialcharsbx($argv[1]);
 
 $oProfile = CKDAImportProfile::getInstance();
 CKDAImportUtils::RemoveTmpFiles(0); //Remove old dirs
@@ -29,11 +30,22 @@ foreach($arProfiles as $PROFILE_ID)
 		continue;
 	}
 	
-	$oProfile = CKDAImportProfile::getInstance();
 	$arProfileFields = $oProfile->GetFieldsByID($PROFILE_ID);
-	if($arProfileFields['ACTIVE']=='N')
+	if(!$arProfileFields)
+	{
+		echo date('Y-m-d H:i:s').": profile not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+		continue;
+	}
+	elseif($arProfileFields['ACTIVE']=='N')
 	{
 		echo date('Y-m-d H:i:s').": profile is not active\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+		continue;
+	}
+	
+	$arOldParams = $oProfile->GetProccessParamsFromPidFile($PROFILE_ID);
+	if($arOldParams===false)
+	{
+		echo date('Y-m-d H:i:s').": import in process\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 		continue;
 	}
 
@@ -58,7 +70,7 @@ foreach($arProfiles as $PROFILE_ID)
 		$fileLink = '';
 		if($params['EMAIL_DATA_FILE'])
 		{
-			if($newFileId = \Bitrix\KdaImportexcel\SMail::GetNewFile($params['EMAIL_DATA_FILE']))
+			if($newFileId = \Bitrix\KdaImportexcel\SMail::GetNewFile($params['EMAIL_DATA_FILE'], 86400, 'kda_import_'.$PROFILE_ID))
 			{
 				$arFile = CFile::GetFileArray($newFileId);
 				$fileLink = $_SERVER["DOCUMENT_ROOT"].$arFile['SRC'];
@@ -71,7 +83,13 @@ foreach($arProfiles as $PROFILE_ID)
 		}
 		else
 		{
-			$arFile = CKDAImportUtils::MakeFileArray($params['EXT_DATA_FILE'], 86400);
+			$arFile = array();
+			$i = $iFirst = 5;
+			while($i > 0 && (empty($arFile) || $arFile['size']==0) && ($i==$iFirst || sleep(120) || 1))
+			{
+				$arFile = CKDAImportUtils::MakeFileArray($params['EXT_DATA_FILE'], 86400);
+				$i--;
+			}
 			if($arFile['tmp_name'] && file_exists($arFile['tmp_name'])) $fileSum = md5_file($arFile['tmp_name']);
 			elseif($checkSum) $fileSum = $checkSum;
 		}
@@ -84,6 +102,9 @@ foreach($arProfiles as $PROFILE_ID)
 		{
 			if(!$newFileId && $arFile)
 			{
+				if($arFile['name'] && strpos($arFile['name'], '.')===false) $arFile['name'] .= '.csv';
+				$arFile['external_id'] = 'kda_import_'.$PROFILE_ID;
+				$arFile['del_old'] = 'Y';
 				$newFileId = CKDAImportUtils::SaveFile($arFile);
 			}
 		}
@@ -113,7 +134,7 @@ foreach($arProfiles as $PROFILE_ID)
 		else
 		{
 			$arParams['IMPORT_MODE'] = 'CRON';
-			$ie = new CKDAImportExcel($DATA_FILE_NAME, $params, $EXTRASETTINGS, $arParams, $pid);
+			$ie = new CKDAImportExcel($DATA_FILE_NAME, $params, $EXTRASETTINGS, array_merge($arParams, array('NOT_CHANGE_PROFILE'=>'Y')), $pid);
 			$ie->GetBreakParams('finish');
 			echo date('Y-m-d H:i:s').": file not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 		}
@@ -122,7 +143,6 @@ foreach($arProfiles as $PROFILE_ID)
 
 	if(COption::GetOptionString($moduleId, 'CRON_CONTINUE_LOADING', 'N')=='Y')
 	{
-		$oProfile = CKDAImportProfile::getInstance();
 		$arParams = $oProfile->GetProccessParamsFromPidFile($PROFILE_ID);
 		if($arParams===false)
 		{
@@ -141,14 +161,20 @@ foreach($arProfiles as $PROFILE_ID)
 		elseif($newFileId===0)
 		{
 			$arParams['IMPORT_MODE'] = 'CRON';
-			$ie = new CKDAImportExcel($DATA_FILE_NAME, $params, $EXTRASETTINGS, $arParams, $pid);
+			$ie = new CKDAImportExcel($DATA_FILE_NAME, $params, $EXTRASETTINGS, array_merge($arParams, array('NOT_CHANGE_PROFILE'=>'Y')), $pid);
 			$ie->GetBreakParams('finish');
 			echo date('Y-m-d H:i:s').": file not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 			continue;
 		}
 	}
 
-	$oProfile->UpdateFileSettings($params, $EXTRASETTINGS, $DATA_FILE_NAME, $PROFILE_ID);
+	if(!$oProfile->UpdateFileSettings($params, $EXTRASETTINGS, $DATA_FILE_NAME, $PROFILE_ID, true))
+	{
+		$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
+		$oProfile->OnBreakImport('HEADERS_CHANGED');
+		echo date('Y-m-d H:i:s').": file headers changed\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+		continue;
+	}
 	
 	$arParams['IMPORT_MODE'] = 'CRON';
 	$arResult = $moduleRunnerClass::ImportIblock($DATA_FILE_NAME, $params, $EXTRASETTINGS, $arParams, $pid);
