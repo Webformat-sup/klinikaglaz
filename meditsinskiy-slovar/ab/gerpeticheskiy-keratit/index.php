@@ -8,6 +8,6 @@ $APPLICATION->SetTitle("Герпетический кератит");?><article>
  <b>Услуги Клиники микрохирургии «Глаз» (г. Екатеринбург)</b><br>
 </p>
 <p>
-	 Приглашаем на<a href="http:///services/diagnostika/diagnostika-glaza-zreniya-sostoyaniya-zritelnoy-sistemy/">&nbsp;</a><a href="http:///services/diagnostika/diagnostika-glaza-zreniya-sostoyaniya-zritelnoy-sistemy/">полное обследование и диагностику зрения</a>.&nbsp; Обследование проводится без очередей и долгих ожиданий, на самом современном оборудовании, высококвалифицированными офтальмологами. В случае, если вам поставлен диагноз того или иного заболевания зрения, офтальмолог назначит всё необходимое лечение, операции (по показаниям), а также регулярный контроль.
+	 Приглашаем на<a href="http:///services/diagnostika/diagnostika-glaza-zreniya-sostoyaniya-zritelnoy-sistemy/">&nbsp;</a><a href="/services/issledovaniya-i-diagnostika/polnaya-dianostika-zreniya-/">полное обследование и диагностику зрения</a>.&nbsp; Обследование проводится без очередей и долгих ожиданий, на самом современном оборудовании, высококвалифицированными офтальмологами. В случае, если вам поставлен диагноз того или иного заболевания зрения, офтальмолог назначит всё необходимое лечение, операции (по показаниям), а также регулярный контроль.
 </p>
  </article><br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
