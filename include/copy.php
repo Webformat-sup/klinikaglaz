@@ -7,5 +7,4 @@
 обязательная консультация врача<br>
 о наличии противопоказаний.
 <br /><br />
-
 <a href="https://webmaster.yandex.ru/sqi?host=klinikaglaz.ru"><img width="88" height="31" alt="" border="0" src="https://yandex.ru/cycounter?klinikaglaz.ru&theme=light&lang=ru"/></a>
