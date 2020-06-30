@@ -36,15 +36,15 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Видео-тур", 
-		"/video-tur/", 
+		"Вопрос-ответ", 
+		"/info/articles/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Вопрос-ответ", 
-		"/info/articles/", 
+		"Онлайн-оплата", 
+		"/onlinepay/", 
 		Array(), 
 		Array(), 
 		"" 

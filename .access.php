@@ -1,5 +1,16 @@
 <?
-$PERM["paykeeper"]["*"]="D";
+$PERM["onlinepay"]["2"]="R";
+$PERM["onlinepay"]["7"]="R";
+$PERM["onlinepay"]["8"]="R";
+$PERM["paykeeper"]["2"]="R";
+$PERM["paykeeper"]["5"]="R";
+$PERM["paykeeper"]["3"]="R";
+$PERM["paykeeper"]["4"]="R";
+$PERM["paykeeper"]["9"]="R";
+$PERM["paykeeper"]["6"]="R";
+$PERM["paykeeper"]["7"]="R";
+$PERM["paykeeper"]["8"]="R";
+$PERM["paykeeper"]["*"]="R";
 $PERM["/"]["7"]="W";
 $PERM["/"]["8"]="D";
 $PERM["/"]["*"]="R";

@@ -428,6 +428,13 @@
 						<div class="row">
 							<div class="maxwidth-theme">
 								<div class="col-md-12">
+								
+									<?php if(CSite::InDir('/price/')) { ?>
+									<div class="onlinepay-page-top-block">
+										<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_card_1.svg" /></a>
+									</div>
+									<?php } ?>
+									
 									<div class="row">
 										<div class="col-md-12">
 											<h1><?$APPLICATION->ShowTitle(false)?></h1>
@@ -481,6 +488,7 @@
 											false
 										);?>
 										<div class="sidearea">
+											<?$APPLICATION->ShowViewContent('under_sidebar_pay_btn');?>
 											<?$APPLICATION->ShowViewContent('under_sidebar_content');?>
 											<?$APPLICATION->IncludeComponent("bitrix:main.include", "", array("AREA_FILE_SHOW" => "file", "PATH" => SITE_DIR."include/under_sidebar.php"), false);?>
 										</div>

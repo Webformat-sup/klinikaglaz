@@ -284,6 +284,11 @@
 												);?>
 											</div>
 									</div>
+									
+									<div class="footer-onlinepay-btn">
+										<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_online_1.svg" /></a>
+									</div>
+									
 								</div>
 							</div>
 						</div>

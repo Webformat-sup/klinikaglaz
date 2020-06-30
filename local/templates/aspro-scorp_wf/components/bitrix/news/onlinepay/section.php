@@ -14,20 +14,6 @@ CScorp::AddMeta(
 );
 $arSubSectionFilter = CScorp::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
 $arSubSections = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
-
-
-$this->SetViewTarget('under_sidebar_pay_btn');
-$APPLICATION->IncludeComponent(
-	"bitrix:main.include",
-	"",
-	Array(
-		"AREA_FILE_SHOW" => "file",
-		"PATH" => SITE_DIR."include/under_sidebar_pay_btn.php",
-		"EDIT_TEMPLATE" => ""
-	)
-);
-$this->EndViewTarget();
-
 ?>
 <?if(!$arSection && $arParams['SET_STATUS_404'] !== 'Y'):?>
 	<div class="alert alert-warning"><?=GetMessage("SECTION_NOTFOUND")?></div>
@@ -38,9 +24,9 @@ $this->EndViewTarget();
 	if($arParams['USE_RSS'] !== 'N'){
 		CScorp::ShowRSSIcon(CComponentEngine::makePathFromTemplate($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss_section'], array_map('urlencode', $arResult['VARIABLES'])));
 	}?>
-<?/*if(!$arSubSections && !$itemsCnt):?>
+	<?if(!$arSubSections && !$itemsCnt):?>
 		<div class="alert alert-warning"><?=GetMessage("SECTION_EMPTY")?></div>
-<?endif;*/?>
+	<?endif;?>
 	<?if($arSubSections):?>
 		<?// sections list?>
 		<?$APPLICATION->IncludeComponent(
@@ -96,17 +82,14 @@ $this->EndViewTarget();
 	<?// section elements?>
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
-		"services",
+		"projects",
 		Array(
 			"S_ASK_QUESTION" => $arParams["S_ASK_QUESTION"],
-			"S_ORDER_SERVICE" => $arParams["S_ORDER_SERVICE"],
+			"S_ORDER_PROJECT" => $arParams["S_ORDER_PROJECT"],
 			"T_GALLERY" => $arParams["T_GALLERY"],
 			"T_DOCS" => $arParams["T_DOCS"],
-			"T_GOODS" => $arParams["T_GOODS"],
-			"T_SERVICES" => $arParams["T_SERVICES"],
 			"T_PROJECTS" => $arParams["T_PROJECTS"],
-			"T_REVIEWS" => $arParams["T_REVIEWS"],
-			"T_STAFF" => $arParams["T_STAFF"],
+			"T_CHARACTERISTICS" => $arParams["T_CHARACTERISTICS"],
 			"COUNT_IN_LINE" => $arParams["COUNT_IN_LINE"],
 			"SHOW_SECTION_PREVIEW_DESCRIPTION" => $arParams["SHOW_SECTION_PREVIEW_DESCRIPTION"],
 			"VIEW_TYPE" => $arParams["VIEW_TYPE"],

@@ -23,6 +23,19 @@ $arSubSections = CCache::CIBlockSection_GetList(array("CACHE" => array("TAG" => 
 if($arParams['USE_RSS'] !== 'N'){
 	CScorp::ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 }
+
+$this->SetViewTarget('under_sidebar_pay_btn');
+$APPLICATION->IncludeComponent(
+	"bitrix:main.include",
+	"",
+	Array(
+		"AREA_FILE_SHOW" => "file",
+		"PATH" => SITE_DIR."include/under_sidebar_pay_btn.php",
+		"EDIT_TEMPLATE" => ""
+	)
+);
+$this->EndViewTarget();
+
 ?>
 <?if(!$itemsCnt && !$arSubSections):?>
 	<div class="alert alert-warning"><?=GetMessage("SECTION_EMPTY")?></div>

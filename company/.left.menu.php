@@ -69,6 +69,13 @@ $aMenuLinks = Array(
 		Array(), 
 		Array(), 
 		"" 
+	),
+	Array(
+		"Видео-тур", 
+		"/video-tur/", 
+		Array(), 
+		Array(), 
+		"" 
 	)
 );
 ?>

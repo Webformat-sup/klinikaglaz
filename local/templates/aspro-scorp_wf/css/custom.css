@@ -113,6 +113,19 @@ a.scroll-to-top.ROUND_COLOR, a.scroll-to-top.RECT_COLOR {
     border-bottom: 2px solid #0060aa !important;
 }
 
+.onlinepay-page-top-block {
+	position: absolute;
+	right: 0px;
+	width: 28%;
+	margin-right: -8px;
+}
+
+.onlinepay-page-top-block a {
+	position: relative;
+	display: block;
+	z-index: 10;
+}
+
 /* footer   */
 @media(max-width: 415px){
 
@@ -524,6 +537,12 @@ footer .social {padding-top: 25px !important;}
 footer .social .title, footer .help .title, footer .payment .title{color: #000000;font-size: 15px;font-weight: 500;line-height: 30px;}
 footer .help{padding-top: 16px;}
 footer .copy.info{padding-left: 16px;}
+footer .footer-onlinepay-btn {
+	padding-top: 20px;
+}
+footer .footer-onlinepay-btn img {
+	max-width: 186px;
+}
 @media(max-width: 994px){
   .logo_and_menu-row.custom .logo-row .logo img {
     margin: 35px 0 0px 29px;
@@ -783,6 +802,15 @@ footer {
 	}
 	.logo_and_menu-row.custom .callbackTitle span {
 	    font-size: 7px;
+	}
+	
+	footer .footer-onlinepay-btn img {
+		max-width: 70%;
+	}
+	
+	.onlinepay-page-top-block {
+		width: 46%;
+		margin-right: 0;
 	}
 }
 

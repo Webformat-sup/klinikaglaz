@@ -1,0 +1,1 @@
+<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_online_1.svg" /></a>

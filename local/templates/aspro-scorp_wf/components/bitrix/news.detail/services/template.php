@@ -186,19 +186,32 @@
 	</div>
 <?endif;?>
 <?// docs files?>
-<?if($arResult['DISPLAY_PROPERTIES']['LINK_PRICE']['VALUE']):?>
+
 	<div class="wraps">
 		<hr />
-		<h4 class="underline">Ссылка на прайс</h4>
-		<div class="row docs">
-				<div class="col-md-6 xls">
-					<a href="<?=$arResult['DISPLAY_PROPERTIES']['LINK_PRICE']['VALUE']?>" target="_blank" title="Price">Price</a>
-					<?//=GetMessage('CT_NAME_SIZE')?>
-					<?//=CScorp::filesize_format($arItem['FILE_SIZE']);?>
+		<div class="row">
+			<div class="col-md-4">
+			<h4 class="underline">Ссылка на прайс</h4>
+				<div class="row docs">
+					<div class="col-md-12 xls">
+						<?if($arResult['DISPLAY_PROPERTIES']['LINK_PRICE']['VALUE']):?>
+						<a href="<?=$arResult['DISPLAY_PROPERTIES']['LINK_PRICE']['VALUE']?>" target="_blank" title="Price">Price</a>
+						<?endif;?>
+						<?//=GetMessage('CT_NAME_SIZE')?>
+						<?//=CScorp::filesize_format($arItem['FILE_SIZE']);?>
+					</div>
 				</div>
+			</div>
+			
+			<div class="col-md-5">
+				<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_card_1.svg" /></a>
+			</div>
+			
 		</div>
+		
+		
 	</div>
-<?endif;?>
+
 
 <?// date active from or dates period active?>
 <?if(strlen($arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arResult['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', $arParams['FIELD_CODE']))):?>
