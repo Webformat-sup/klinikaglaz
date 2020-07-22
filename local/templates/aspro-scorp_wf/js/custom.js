@@ -19,12 +19,21 @@ $(document).ready(function() {
 	/*------цели яндекс------*/
 	    //     “Задать вопрос” в шапке основного сайта
         $('header .questionTitle').on('click', function(){
-            ym(30339732, 'reachGoal', 'ask-question');
+            
+			try {
+				ym(30339732, 'reachGoal', 'ask-question');
+			} catch(e) {
+				console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack); 
+			}
         });
 
         // “Заказать обратный звонок”  шапке основного сайта
         $('header .callbackTitle').on('click', function(){
-            ym(30339732, 'reachGoal', 'request-call-back');
+			try {
+				ym(30339732, 'reachGoal', 'request-call-back');
+			} catch(e) {
+				console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack); 
+			}
         });
     /*------цели яндекс------*/
 

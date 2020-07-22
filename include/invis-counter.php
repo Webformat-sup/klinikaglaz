@@ -9,7 +9,8 @@
         trackLinks:true,
         accurateTrackBounce:true,
         webvisor:true,
-        trackHash:true
+        trackHash:true,
+        ecommerce:"dataLayer"
    });
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/30339732" style="position:absolute; left:-9999px;" alt="" /></div></noscript>

@@ -82,7 +82,7 @@ $frame->setAnimation(true);
 										</div>
 									<?endif;?>
 									<div class="prevorder">
-										<span class="btn btn-default btn-sm btn-custom" data-event="jqm" data-param-id="<?=CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_services'][0]?>" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
+										<span class="btn btn-default btn-sm btn-custom" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
 									</div>
 									<?// element status?>
 									<?if(strlen($arItem['DISPLAY_PROPERTIES']['STATUS']['VALUE'])):?>

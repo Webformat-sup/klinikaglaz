@@ -163,29 +163,5 @@ $APPLICATION->SetTitle("Контакты");?><div class="row contacts" itemtype=
 	<?// class="maxwidth-theme?>
 <?// class=row?>
 <?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("contacts-form-block");?>
-<?$APPLICATION->IncludeComponent(
-	"aspro:form.scorp",
-	"contacts",
-	Array(
-		"AJAX_MODE" => "Y",
-		"AJAX_OPTION_ADDITIONAL" => "",
-		"AJAX_OPTION_HISTORY" => "N",
-		"AJAX_OPTION_JUMP" => "Y",
-		"AJAX_OPTION_STYLE" => "Y",
-		"CACHE_TIME" => "100000",
-		"CACHE_TYPE" => "A",
-		"CLOSE_BUTTON_CLASS" => "btn btn-default refresh-page",
-		"CLOSE_BUTTON_NAME" => "Обновить страницу",
-		"COMPONENT_TEMPLATE" => "contacts",
-		"DISPLAY_CLOSE_BUTTON" => "Y",
-		"IBLOCK_ID" => "59",
-		"IBLOCK_TYPE" => "aspro_scorp_form",
-		"IS_PLACEHOLDER" => "N",
-		"SEND_BUTTON_CLASS" => "btn btn-default",
-		"SEND_BUTTON_NAME" => "Отправить",
-		"SUCCESS_MESSAGE" => "<p>Ваше сообщение отправлено. Руководство клиники просит: если<br />1) Вам не ответили в течение суток либо ответили не полно,
-<br />2) вы обнаружили ошибку,<br />3) произошел cбой в работе сайта, <br />пожалуйста, сообщите письмом на spravka@klinikaglaz.ru</p>",
-		"USE_CAPTCHA" => "Y"
-	)
-);?>
+
 <?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID("contacts-form-block", "");?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
