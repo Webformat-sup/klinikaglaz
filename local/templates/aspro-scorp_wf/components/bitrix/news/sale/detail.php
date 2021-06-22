@@ -20,7 +20,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
 		)
 	);?>
-	<div class="detail <?=($templateName = $component->{'__template'}->{'__name'})?>">
+
 		<?$APPLICATION->IncludeComponent(
 			"bitrix:news.detail",
 			"sale",
@@ -78,3 +78,4 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 			$component
 		);?>
 <?endif;?>
+

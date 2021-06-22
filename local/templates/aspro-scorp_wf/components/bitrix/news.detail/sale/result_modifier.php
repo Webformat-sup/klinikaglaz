@@ -40,7 +40,27 @@ $arResult['DETAIL_TEXT'] = str_replace("[loyalitycode]", $link, $arResult['DETAI
 $arResult['FIELDS']['DETAIL_TEXT'] = str_replace("[loyalitycode]", $link, $arResult['DETAIL_TEXT']);
 
 
+if(is_array($arResult['PROPERTIES']['LINK_SERVICES']['VALUE']))
+{
+$arSelect = Array("ID", "NAME");
+$arFilter = Array("IBLOCK_ID"=>13, "ID"=>$arResult['PROPERTIES']['LINK_SERVICES']['VALUE']);
+	$res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
+	while($arFields = $res->GetNext()) {
+		
+		$arResult['SERVICES'][$arFields['ID']] =$arFields['NAME'];
 
+	}
+}
 
+$arResult["DATA_FINISH"] = $arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE'];
+$arResult["PHONE"] = $arResult['PROPERTIES']['PHONE']['VALUE'];
+$arResult["TITLE"] = $arResult['PROPERTIES']['FORM_TITLE']['VALUE']; 
+//P($arResult["PHONE"]);
+$cp = $this->__component; // объект компонента
 
+if (is_object($cp))
+{
+	
+   	$cp->SetResultCacheKeys(array('DATA_FINISH', 'PHONE', 'TITLE', 'SERVICES'));
+}
 ?>

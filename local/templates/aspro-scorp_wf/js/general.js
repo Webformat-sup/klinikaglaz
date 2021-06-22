@@ -559,7 +559,7 @@ function onLoadjqm(hash){
 	$.each($(hash.t).get(0).attributes, function(index, attr){
 		if(/^data\-autoload\-(.+)$/.test(attr.nodeName)){
 			var key = attr.nodeName.match(/^data\-autoload\-(.+)$/)[1];
-			var el = $('input[name="'+key.toUpperCase()+'"]');
+			var el = $('input[id="'+key.toUpperCase()+'"]');
 			el.val( $(hash.t).data('autoload-'+key) ).attr('readonly', 'readonly');
 			el.attr('title', el.val());
 		}

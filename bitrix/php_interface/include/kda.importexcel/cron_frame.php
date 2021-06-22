@@ -1,13 +1,16 @@
 <?
-@set_time_limit(0);
-if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
-if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
-if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
-if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
-if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}
-$_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../../..');
-if(!array_key_exists('REQUEST_URI', $_SERVER)) $_SERVER["REQUEST_URI"] = substr(__FILE__, strlen($_SERVER["DOCUMENT_ROOT"]));
-require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+if(!defined("B_PROLOG_INCLUDED"))
+{
+	@set_time_limit(0);
+	if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
+	if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
+	if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
+	if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
+	if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}
+	$_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../../..');
+	if(!array_key_exists('REQUEST_URI', $_SERVER)) $_SERVER["REQUEST_URI"] = substr(__FILE__, strlen($_SERVER["DOCUMENT_ROOT"]));
+	require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+}
 @set_time_limit(0);
 $moduleId = 'kda.importexcel';
 $moduleRunnerClass = 'CKDAImportExcelRunner';
@@ -16,6 +19,12 @@ $moduleRunnerClass = 'CKDAImportExcelRunner';
 \Bitrix\Main\Loader::includeModule("currency");
 \Bitrix\Main\Loader::includeModule($moduleId);
 $PROFILE_ID = htmlspecialcharsbx($argv[1]);
+
+/*Close session*/
+$sess = $_SESSION;
+session_write_close();
+$_SESSION = $sess;
+/*/Close session*/
 
 $oProfile = CKDAImportProfile::getInstance();
 CKDAImportUtils::RemoveTmpFiles(0); //Remove old dirs
@@ -105,7 +114,10 @@ foreach($arProfiles as $PROFILE_ID)
 				if($arFile['name'] && strpos($arFile['name'], '.')===false) $arFile['name'] .= '.csv';
 				$arFile['external_id'] = 'kda_import_'.$PROFILE_ID;
 				$arFile['del_old'] = 'Y';
-				$newFileId = CKDAImportUtils::SaveFile($arFile);
+				if($newFileId = CKDAImportUtils::SaveFile($arFile))
+				{
+					CKDAImportUtils::SetLastCookie($SETTINGS_DEFAULT["LAST_COOKIES"]);
+				}
 			}
 		}
 		
@@ -130,12 +142,19 @@ foreach($arProfiles as $PROFILE_ID)
 	}
 	if(!file_exists($_SERVER["DOCUMENT_ROOT"].$DATA_FILE_NAME))
 	{
-		if(!$needImport) echo date('Y-m-d H:i:s').": file is loaded\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+		if(!$needImport)
+		{
+			$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
+			$oProfile->OnBreakImport('FILE_IS_LOADED');
+			echo date('Y-m-d H:i:s').": file is loaded\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+		}
 		else
 		{
 			$arParams['IMPORT_MODE'] = 'CRON';
 			$ie = new CKDAImportExcel($DATA_FILE_NAME, $params, $EXTRASETTINGS, array_merge($arParams, array('NOT_CHANGE_PROFILE'=>'Y')), $pid);
 			$ie->GetBreakParams('finish');
+			$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
+			$oProfile->OnBreakImport('FILE_NOT_EXISTS');
 			echo date('Y-m-d H:i:s').": file not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 		}
 		continue;
@@ -155,6 +174,8 @@ foreach($arProfiles as $PROFILE_ID)
 	{
 		if(!$needImport)
 		{
+			$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
+			$oProfile->OnBreakImport('FILE_IS_LOADED');
 			echo date('Y-m-d H:i:s').": file is loaded\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 			continue;
 		}
@@ -163,6 +184,8 @@ foreach($arProfiles as $PROFILE_ID)
 			$arParams['IMPORT_MODE'] = 'CRON';
 			$ie = new CKDAImportExcel($DATA_FILE_NAME, $params, $EXTRASETTINGS, array_merge($arParams, array('NOT_CHANGE_PROFILE'=>'Y')), $pid);
 			$ie->GetBreakParams('finish');
+			$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
+			$oProfile->OnBreakImport('FILE_NOT_EXISTS');
 			echo date('Y-m-d H:i:s').": file not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 			continue;
 		}
@@ -171,7 +194,7 @@ foreach($arProfiles as $PROFILE_ID)
 	if(!$oProfile->UpdateFileSettings($params, $EXTRASETTINGS, $DATA_FILE_NAME, $PROFILE_ID, true))
 	{
 		$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
-		$oProfile->OnBreakImport('HEADERS_CHANGED');
+		$oProfile->OnBreakImport('HEADERS_CHANGED', $oProfile->GetChangedColsTbl());
 		echo date('Y-m-d H:i:s').": file headers changed\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 		continue;
 	}

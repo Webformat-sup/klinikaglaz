@@ -943,3 +943,179 @@ footer {
   font-size: 1.6vw;
 
 }
+
+.uf-divs > div {
+  margin: 40px 0;
+}
+
+.item-views.list .item .text {
+    padding: 18px 20px 22px 0;
+}
+.review .text{
+  max-height: 207px;
+  overflow: hidden;
+}
+
+
+/*countdown*/
+.view_sale_block {
+ margin: 10px 0px 0px; white-space: nowrap;font-size:0px; 
+ float:right;
+ margin-top: -10px;
+}
+.view_sale_block > div { display: inline-block; vertical-align: top; font-size: 0px; }
+.view_sale_block .title{ font-size: 11px; line-height: 15px; color: #666; margin: 0px 0px 5px; }
+.view_sale_block .values { margin: 0px 0px 5px; line-height: 15px; font-size: 0px; }
+.view_sale_block .values .item{ 
+  background: #0074b6; 
+  border-radius: 0px; 
+  display: inline-block; 
+  vertical-align: top; font-weight: bold; 
+  font-size: 20px; 
+  width: 40px; 
+  height: 43px; 
+  padding: 12px 0px 10px; 
+  text-align: center; 
+  position: relative; 
+  margin: 0px 0px 0px 0px; 
+  color:#fff;
+}
+.view_sale_block .values.countdown .item{width:46px;}
+.view_sale_block .values .item:last-child { margin: 0px; }
+.view_sale_block .values .item:before, .view_sale_block .values .item:after 
+{ content: "";  background: #fff; width: 3px; height: 3px; display: block; position: absolute; right: -1px; border-radius: 6px; z-index: 10; }
+.view_sale_block .values .item:last-child:before, .view_sale_block .values .item:last-child:after { display: none; }
+.view_sale_block .values .item:before { top: 15px; }
+.view_sale_block .values .item:after { bottom: 15px; }
+.view_sale_block .values .item .text{ opacity: 0.6; font-weight: 400; font-size: 12px;display:block;width:auto; background: #eee; margin-top: 15px; color:#666; }
+.view_sale_block .count_d_block { margin: 0px 0px 0px 0px; }
+.view_sale_block .quantity_block{width:40px;}
+.view_sale_block .quantity_block .values .item { background: #4f4f4f; color: #fff; }
+.view_sale_block .countdown { width: 185px; height: 63px; display: block; overflow: hidden;border-radius:2px 0px 0px 2px;}
+.view_sale_block .countdown.wq{border-radius:2px;}
+.view_sale_block .quantity_block .values{border-radius:0px 2px 2px 0px;overflow: hidden;}
+.view_sale_block .values .item:nth-child(4):before, .view_sale_block .values .item:nth-child(4):after { display: none; } 
+ /**/
+
+ /*для скрытых страниц*/
+ .detail.sale .period span{
+  background-color: transparent;
+  border-radius: inherit;
+  color:#0074b6 !important;
+  font-weight: bold;
+  font-size:20px;
+  padding:0;  
+ }
+
+ .styled-block.no-bg{
+  background: transparent;
+  background-color: #eee;
+ }
+ .sale_image{
+  margin-bottom:20px; 
+ }
+ .detail.sale .text_remark{
+  color:#8C8C8C;
+  margin-top: 20px;
+ }
+
+/* форма на скрытых страницах*/
+ .form.contacts.akciya{
+  background-color: #0060aa;
+  border-radius: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 25px;
+  padding-bottom: 15px;
+ }
+
+ .btn.red100{
+  background-color: red;
+  width: 100%;
+  text-align: center;
+ }
+ .form.contacts.akciya label[for="licenses_inline"]{
+   font-size:11px;
+   color:#fff;
+   line-height: 12px;
+   text-align: center;
+ }
+
+.form.contacts.akciya div.phone{
+  color:#fff;
+  font-size: 24px;
+  margin-top: 23px;
+  text-align: center; 
+}
+ .form.contacts.akciya .fa-phone{
+    background-color: #fff;
+    color:#0060aa;
+    font-size: 17px;
+    padding:4px 6px 4px 6px;
+    border-radius: 50%;
+    margin-right: 5px;
+    position: relative;
+    top: -3px;
+ }
+
+
+
+.form.contacts.akciya .view_sale_block{
+  float: none;
+  margin-top: 0px;
+  padding: 15px 15px 5px 15px;
+  background: #eee;
+  margin-bottom: 18px;  
+}
+.form.contacts.akciya .view_sale_block .countdown{
+  width: 100%;
+  
+}
+.form.contacts.akciya .view_sale_block > div{
+ display: block;
+}
+
+.form.contacts.akciya .view_sale_block .values.countdown .item{
+  width: 25%;
+}
+.form.contacts.akciya h4{
+  color:#fff;
+}
+
+.form.contacts.akciya .form_result{
+  background:transparent;
+  color:#fff;
+
+}
+
+.form.contacts.akciya .form-group.col-md-6{
+    float:left;
+ }
+
+.form.contacts.akciya .timefinish{
+  color:#fff;
+  text-align: center;
+}
+
+
+.form.contacts.akciya input::placeholder {color: #666;}
+
+/* WebKit, Edge
+   ----------------------------  */
+.form.contacts.akciya input::-webkit-input-placeholder {color: #666;}
+
+/* Edge
+   ----------------------------  */
+.form.contacts.akciya input::-ms-input-placeholder {color: #666;}
+
+/* Firefox 4-18
+   ----------------------------  */
+.form.contacts.akciya input:-moz-placeholder {color: #666;opacity: 1;}
+
+/* Firefox 19+
+   ----------------------------  */
+.form.contacts.akciya input::-moz-placeholder {color: #666;opacity: 1;}
+
+/* IE 10-11
+   ----------------------------  */
+.form.contacts.akciya input:-ms-input-placeholder {color: #666;}

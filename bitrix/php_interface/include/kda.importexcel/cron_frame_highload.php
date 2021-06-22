@@ -1,13 +1,16 @@
 <?
-@set_time_limit(0);
-if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
-if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
-if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
-if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
-if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}
-$_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../../..');
-if(!array_key_exists('REQUEST_URI', $_SERVER)) $_SERVER["REQUEST_URI"] = substr(__FILE__, strlen($_SERVER["DOCUMENT_ROOT"]));
-require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+if(!defined("B_PROLOG_INCLUDED"))
+{
+	@set_time_limit(0);
+	if(!defined('NOT_CHECK_PERMISSIONS')) define('NOT_CHECK_PERMISSIONS', true);
+	if(!defined('NO_AGENT_CHECK')) define('NO_AGENT_CHECK', true);
+	if(!defined('BX_CRONTAB')) define("BX_CRONTAB", true);
+	if(!defined('ADMIN_SECTION')) define("ADMIN_SECTION", true);
+	if(!ini_get('date.timezone') && function_exists('date_default_timezone_set')){@date_default_timezone_set("Europe/Moscow");}
+	$_SERVER["DOCUMENT_ROOT"] = realpath(dirname(__FILE__).'/../../../..');
+	if(!array_key_exists('REQUEST_URI', $_SERVER)) $_SERVER["REQUEST_URI"] = substr(__FILE__, strlen($_SERVER["DOCUMENT_ROOT"]));
+	require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+}
 @set_time_limit(0);
 $moduleId = 'kda.importexcel';
 $moduleRunnerClass = 'CKDAImportExcelRunner';
@@ -17,6 +20,12 @@ $moduleRunnerClass = 'CKDAImportExcelRunner';
 \Bitrix\Main\Loader::includeModule("currency");
 \Bitrix\Main\Loader::includeModule($moduleId);
 $PROFILE_ID = htmlspecialcharsbx($argv[1]);
+
+/*Close session*/
+$sess = $_SESSION;
+session_write_close();
+$_SESSION = $sess;
+/*/Close session*/
 
 $oProfile = CKDAImportProfile::getInstance('highload');
 CKDAImportUtils::RemoveTmpFiles(0); //Remove old dirs
@@ -30,19 +39,19 @@ if(strlen($PROFILE_ID)==0)
 $arProfileFields = $oProfile->GetFieldsByID($PROFILE_ID);
 if(!$arProfileFields)
 {
-	echo date('Y-m-d H:i:s').": profile not exists\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+	echo date('Y-m-d H:i:s').": profile not exists\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n\r\n";
 	die();
 }
 elseif($arProfileFields['ACTIVE']=='N')
 {
-	echo date('Y-m-d H:i:s').": profile is not active\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+	echo date('Y-m-d H:i:s').": profile is not active\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n\r\n";
 	die();
 }
 
 $arOldParams = $oProfile->GetProccessParamsFromPidFile($PROFILE_ID);
 if($arOldParams===false)
 {
-	echo date('Y-m-d H:i:s').": import in process\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
+	echo date('Y-m-d H:i:s').": import in process\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n\r\n";
 	die();
 }
 
@@ -120,7 +129,7 @@ if(!file_exists($_SERVER["DOCUMENT_ROOT"].$DATA_FILE_NAME))
 }
 if(!file_exists($_SERVER["DOCUMENT_ROOT"].$DATA_FILE_NAME))
 {
-	echo date('Y-m-d H:i:s').": file not exists\r\n";
+	echo date('Y-m-d H:i:s').": file not exists\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n\r\n";
 	die();
 }
 
@@ -133,14 +142,14 @@ if(COption::GetOptionString($moduleId, 'CRON_CONTINUE_LOADING', 'N')=='Y')
 	$arParams = $oProfile->GetProccessParamsFromPidFile($PROFILE_ID);
 	if($arParams===false)
 	{
-		echo date('Y-m-d H:i:s').": import in process\r\n";
+		echo date('Y-m-d H:i:s').": import in process\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n\r\n";
 		die();
 	}
 }
 if(!is_array($arParams)) $arParams = array();
 if(empty($arParams) && !$needImport)
 {
-	echo date('Y-m-d H:i:s').": file is loaded\r\n";
+	echo date('Y-m-d H:i:s').": file is loaded\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n\r\n";
 	die();
 }
 
@@ -161,5 +170,5 @@ if(COption::GetOptionString($moduleId, 'CRON_REMOVE_LOADED_FILE', 'N')=='Y')
 		elseif(is_file($_SERVER["DOCUMENT_ROOT"].$fn)) unlink($_SERVER["DOCUMENT_ROOT"].$fn);
 	}
 }
-echo date('Y-m-d H:i:s').": import complete\r\n".CUtil::PhpToJSObject($arResult)."\r\n";
+echo date('Y-m-d H:i:s').": import complete\r\n"."Profile id = ".$PROFILE_ID." - highload\r\n".CUtil::PhpToJSObject($arResult)."\r\n\r\n";
 ?>

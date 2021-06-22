@@ -1,63 +1,87 @@
 <?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
 <?$this->setFrameMode(true);?>
 <?// element name?>
+<?if(strlen($arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE'])){?>
+   
+  <? $now = date("d.m.Y H:i:s");     
+     if($now<$arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE']){
+     	$showtimer = 'Y';
+     } 
+     else
+     {
+     	$showtimer = 'N';
+     }
+  ?>
+
+
+<?}?>
+
+
+<div class="detail sale">
 <?if($arParams['DISPLAY_NAME'] != 'N' && strlen($arResult['NAME'])):?>
 	<h2 class="underline"><?=$arResult['NAME']?></h2>
 <?endif;?>
 
+
+<div class="row">
+	<div class="col-md-5">	
+		<?// date active from or dates period active?>
+		<?if(strlen($arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE'])):?>
+			<div class="period">
+				<?if(strlen($arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE'])):?>
+					<span><?=$arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE']?></span>		
+				<?endif;?>
+			</div>
+		<?endif;?>
+	</div>
+	<div class="col-md-7">
+		<?if(strlen($arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE']) && $showtimer=='Y'):?>	
+			До окончания акции осталось:
+			<div class="view_sale_block">
+				<div class="count_d_block">
+					<span class="active_to hidden"><?=$arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE']?></span>				
+					<span class="countdown values">					
+					</span>
+				</div>	
+			</div>
+		<?endif;?>
+	</div>	
+</div>
+
+
+
 <?// single detail image?>
 <?if($arResult['FIELDS']['DETAIL_PICTURE']):?>
-	<?
-	$atrTitle = (strlen($arResult['DETAIL_PICTURE']['DESCRIPTION']) ? $arResult['DETAIL_PICTURE']['DESCRIPTION'] : (strlen($arResult['DETAIL_PICTURE']['TITLE']) ? $arResult['DETAIL_PICTURE']['TITLE'] : $arResult['NAME']));
-	$atrAlt = (strlen($arResult['DETAIL_PICTURE']['DESCRIPTION']) ? $arResult['DETAIL_PICTURE']['DESCRIPTION'] : (strlen($arResult['DETAIL_PICTURE']['ALT']) ? $arResult['DETAIL_PICTURE']['ALT'] : $arResult['NAME']));
-	?>
-	<?if($arResult['PROPERTIES']['PHOTOPOS']['VALUE_XML_ID'] == 'LEFT'):?>
-		<div class="detailimage image-left col-md-4 col-sm-4 col-xs-12"><a href="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="fancybox" title="<?=$atrTitle?>"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>" /></a></div>
-	<?elseif($arResult['PROPERTIES']['PHOTOPOS']['VALUE_XML_ID'] == 'RIGHT'):?>
-		<div class="detailimage image-right col-md-4 col-sm-4 col-xs-12"><a href="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="fancybox" title="<?=$atrTitle?>"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>" /></a></div>
-	<?elseif($arResult['PROPERTIES']['PHOTOPOS']['VALUE_XML_ID'] == 'TOP'):?>
-		<script type="text/javascript">
-		$(document).ready(function() {
-			$('section.page-top').remove();
-			$('<div class="row"><div class="col-md-12"><div class="detailimage image-head"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>"/></div></div></div>').insertBefore('.body > .main > .container > .row');
-		});
-		</script>
-	<?else:?>
-		<div class="detailimage image-wide"><a href="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="fancybox" title="<?=$atrTitle?>"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>" /></a></div>
-	<?endif;?>
+	<div class="sale_image"> 
+		<?
+		$atrTitle = (strlen($arResult['DETAIL_PICTURE']['DESCRIPTION']) ? $arResult['DETAIL_PICTURE']['DESCRIPTION'] : (strlen($arResult['DETAIL_PICTURE']['TITLE']) ? $arResult['DETAIL_PICTURE']['TITLE'] : $arResult['NAME']));
+		$atrAlt = (strlen($arResult['DETAIL_PICTURE']['DESCRIPTION']) ? $arResult['DETAIL_PICTURE']['DESCRIPTION'] : (strlen($arResult['DETAIL_PICTURE']['ALT']) ? $arResult['DETAIL_PICTURE']['ALT'] : $arResult['NAME']));
+		?>
+		<?if($arResult['PROPERTIES']['PHOTOPOS']['VALUE_XML_ID'] == 'LEFT'):?>
+			<div class="detailimage image-left col-md-4 col-sm-4 col-xs-12"><a href="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="fancybox" title="<?=$atrTitle?>"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>" /></a></div>
+		<?elseif($arResult['PROPERTIES']['PHOTOPOS']['VALUE_XML_ID'] == 'RIGHT'):?>
+			<div class="detailimage image-right col-md-4 col-sm-4 col-xs-12"><a href="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="fancybox" title="<?=$atrTitle?>"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>" /></a></div>
+		<?elseif($arResult['PROPERTIES']['PHOTOPOS']['VALUE_XML_ID'] == 'TOP'):?>
+			<script type="text/javascript">
+			$(document).ready(function() {
+				$('section.page-top').remove();
+				$('<div class="row"><div class="col-md-12"><div class="detailimage image-head"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>"/></div></div></div>').insertBefore('.body > .main > .container > .row');
+			});
+			</script>
+		<?else:?>
+			<div class="image-wide"><img src="<?=$arResult['DETAIL_PICTURE']['SRC']?>" class="img-responsive" title="<?=$atrTitle?>" alt="<?=$atrAlt?>" /></div>
+		<?endif;?>
+	</div>
 <?endif;?>
 
 <?// ask question?>
 <?if($arResult['DISPLAY_PROPERTIES']['FORM_QUESTION']['VALUE_XML_ID'] == 'YES'):?>
 	<div class="ask_a_question">
 		<div class="inner">
-			<span class="btn btn-default wc vert" data-event="jqm" data-param-id="<?=CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_question'][0]?>" data-autoload-need_product="<?=$arResult['NAME']?>" data-name="question"><i class="fa fa-comment "></i><span><?=(strlen($arParams['S_ASK_QUESTION']) ? $arParams['S_ASK_QUESTION'] : GetMessage('S_ASK_QUESTION'))?></span></span>
-			<div class="margin-bottom-20">
-				<?$APPLICATION->IncludeComponent(
-					 'bitrix:main.include',
-					 '',
-					 Array(
-						  'AREA_FILE_SHOW' => 'file',
-						  'PATH' => SITE_DIR.'include/ask_question.php',
-						  'EDIT_TEMPLATE' => ''
-					 )
-				);?>
-			</div>
+			<span class="btn btn-default wc vert" data-event="jqm" data-param-id="3" data-name="question"><i class="fa fa-comment "></i><span><?=(strlen($arParams['S_ASK_QUESTION']) ? $arParams['S_ASK_QUESTION'] : GetMessage('S_ASK_QUESTION'))?></span></span>		
 		</div>
 	</div>
 <?endif;?>
-
-<?// date active from or dates period active?>
-<?if(strlen($arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arResult['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', $arParams['FIELD_CODE']))):?>
-	<div class="period">
-		<?if(strlen($arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE'])):?>
-			<span class="label label-default"><?=$arResult['DISPLAY_PROPERTIES']['PERIOD']['VALUE']?></span>
-		<?else:?>
-			<span class="label"><?=$arResult['DISPLAY_ACTIVE_FROM']?></span>
-		<?endif;?>
-	</div>
-<?endif;?>
-
 <?if(strlen($arResult['FIELDS']['DETAIL_TEXT']) || strlen($arResult['FIELDS']['PREVIEW_TEXT'])):?>
 	<div class="content">
 		<?// element preview text?>
@@ -79,99 +103,107 @@
 		<?endif;?>
 	</div>
 <?endif;?>
+<div style="clear: both;"></div>
 
-<?// display properties?>
-<?$arDisplayPropertiesCodes = array_diff(array_keys($arResult['DISPLAY_PROPERTIES']), array('PERIOD', 'PHOTOS', 'DOCUMENTS', 'LINK_GOODS', 'LINK_STAFF', 'LINK_REVIEWS', 'LINK_PROJECTS', 'LINK_STUDY', 'LINK_SERVICES', 'FORM_ORDER', 'FORM_QUESTION', 'PHOTOPOS'));?>
-<?if($arResult['DISPLAY_PROPERTIES'] && $arDisplayPropertiesCodes):?>
-	<div class="properties">
-		<?foreach($arResult['DISPLAY_PROPERTIES'] as $PCODE => $arProperty):?>
-			<?if(in_array($PCODE, $arDisplayPropertiesCodes)):?>
-				<div class="property">
-					<?if($arProperty['XML_ID']):?>
-						<i class="fa <?=$arProperty['XML_ID']?>"></i>&nbsp;
-					<?else:?>
-						<?=$arProperty['NAME']?>:&nbsp;
-					<?endif;?>
-					<?if(is_array($arProperty['DISPLAY_VALUE'])):?>
-						<?$val = implode('&nbsp;/ ', $arProperty['DISPLAY_VALUE']);?>
-					<?else:?>
-						<?$val = $arProperty['DISPLAY_VALUE'];?>
-					<?endif;?>
-					<?if($PCODE == 'SITE'):?>
-						<!--noindex-->
-						<?=str_replace("href=", "rel='nofollow' target='_blank' href=", $val);?>
-						<!--/noindex-->
-					<?elseif($PCODE == 'EMAIL'):?>
-						<a href="mailto:<?=$val?>"><?=$val?></a>
-					<?else:?>
-						<?=$val?>
-					<?endif;?>
-				</div>
-			<?endif;?>
-		<?endforeach;?>
-	</div>
-<?endif;?>
-
-<?// gallery?>
-<?if($arResult['GALLERY']):?>
-	<div class="wraps">
-		<hr />
-		<h4 class="underline"><?=(strlen($arParams['T_GALLERY']) ? $arParams['T_GALLERY'] : GetMessage('T_GALLERY'))?></h4>
-		<div class="row galery">
-			<div class="inner">
-				<div class="flexslider unstyled row" id="slider" data-plugin-options='{"animation": "slide", "directionNav": true, "controlNav" :false, "animationLoop": true, "sync": ".detail .galery #carousel", "slideshow": false, "counts": [1, 1, 1]}'>
-					<ul class="slides items">
-						<?$countAll = count($arResult['GALLERY']);?>
-						<?foreach($arResult['GALLERY'] as $i => $arPhoto):?>
-							<li class="col-md-1 col-sm-1 item">
-								<a href="<?=$arPhoto['DETAIL']['SRC']?>" class="fancybox" rel="gallery" target="_blank" title="<?=$arPhoto['TITLE']?>">
-									<img src="<?=$arPhoto['PREVIEW']['src']?>" class="img-responsive inline" title="<?=$arPhoto['TITLE']?>" alt="<?=$arPhoto['ALT']?>" />
-									<span class="zoom">
-										<i class="fa fa-16 fa-white-shadowed fa-search-plus"></i>
-									</span>
-								</a>
-							</li>
-						<?endforeach;?>
-					</ul>
-				</div>
-				<?if(count($arResult["GALLERY"]) > 1):?>
-					<div class="thmb flexslider unstyled" id="carousel" style="max-width:<?=ceil(((count($arResult['GALLERY']) <= 4 ? count($arResult['GALLERY']) : 4) * 84.5) - 7.5 + 60)?>px;">
-						<ul class="slides">	
-							<?foreach($arResult["GALLERY"] as $arPhoto):?>
-								<li class="blink">
-									<img class="img-responsive inline" border="0" src="<?=$arPhoto["THUMB"]["src"]?>" title="<?=$arPhoto['TITLE']?>" alt="<?=$arPhoto['ALT']?>" />
-								</li>
-							<?endforeach;?>
-						</ul>
+<?
+if(is_array($arResult['PROPERTIES']['SORT']['VALUE'])){
+	foreach($arResult['PROPERTIES']['SORT']['VALUE'] as $Code){
+		switch ($Code) {
+			case 'FORM_PRIEM':
+				if($arResult['PROPERTIES']['FORM_PRIEM']['VALUE_XML_ID'] == 'YES' && $showtimer=='Y'){	
+					$APPLICATION->IncludeComponent("bitrix:form.result.new", "wf_page_akciya", array(
+				    "DATA_FINISH"=>$arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE'],
+					"PHONE" => $arResult['PROPERTIES']['PHONE']['VALUE'],
+					"TITLE" => $arResult['PROPERTIES']['FORM_TITLE']['VALUE'],
+					"SERVICES" =>$arResult['SERVICES'],
+				    "SEF_MODE" => "",
+				    "WEB_FORM_ID" => 20,
+				    "LIST_URL" => "",
+				    "EDIT_URL" => "",
+				    "SUCCESS_URL" => "",
+				    "AJAX_MODE" => "Y", // режим AJAX
+				    "AJAX_OPTION_SHADOW" => "N", // затемнять область
+				    "AJAX_OPTION_JUMP" => "N", // скроллить страницу до компонента
+				    "AJAX_OPTION_STYLE" => "Y", // подключать стили
+				    "AJAX_OPTION_HISTORY" => "N",
+				    "CHAIN_ITEM_TEXT" => "",
+				    "CHAIN_ITEM_LINK" => "",
+				    "IGNORE_CUSTOM_TEMPLATE" => "Y",
+				    "USE_EXTENDED_ERRORS" => "Y",
+				    "CACHE_TYPE" => "N",
+				    "CACHE_TIME" => "",
+				    "SEF_FOLDER" => "",
+				    "VARIABLE_ALIASES" => array()
+				    )
+				);
+				}
+				break;
+			
+			default:
+				if($arResult['PROPERTIES']['TEXT']['VALUE']){?>
+					<div class="styled-block no-bg">					
+						<?=$arResult['PROPERTIES']['TEXT']['~VALUE']['TEXT']?>
 					</div>
-				<?endif;?>
-			</div>
-			<script type="text/javascript">
-			$(document).ready(function(){
-				$('.detail .galery .item').sliceHeight({slice: <?=$countAll?>, lineheight: -3});
-				$('.detail .galery #carousel').flexslider({
-					animation: 'slide',
-					controlNav: false,
-					animationLoop: true,
-					slideshow: false,
-					itemWidth: 77,
-					itemMargin: 7.5,
-					minItems: 2,
-					maxItems: 4,
-					asNavFor: '.detail .galery #slider'
-				});
-			});
-			</script>
+				<?}
+				break;
+		}
+	}
+} else {
+	if($arResult['PROPERTIES']['TEXT']['VALUE']){?>
+		<div class="styled-block no-bg">
+			<?//P($arResult['PROPERTIES']['TEXT']);?>
+			<?=$arResult['PROPERTIES']['TEXT']['~VALUE']['TEXT']?>
 		</div>
+	<?}?>
+
+
+	<?if($arResult['PROPERTIES']['FORM_PRIEM']['VALUE_XML_ID'] == 'YES' && $showtimer=='Y'){?>
+		<?
+		$APPLICATION->IncludeComponent("bitrix:form.result.new", "wf_page_akciya", array(
+	    "DATA_FINISH"=>$arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE'],
+		"PHONE" => $arResult['PROPERTIES']['PHONE']['VALUE'],
+		"TITLE" => $arResult['PROPERTIES']['FORM_TITLE']['VALUE'],
+		"SERVICES" =>$arResult['SERVICES'],
+	    "SEF_MODE" => "",
+	    "WEB_FORM_ID" => 20,
+	    "LIST_URL" => "",
+	    "EDIT_URL" => "",
+	    "SUCCESS_URL" => "",
+	    "AJAX_MODE" => "Y", // режим AJAX
+	    "AJAX_OPTION_SHADOW" => "N", // затемнять область
+	    "AJAX_OPTION_JUMP" => "N", // скроллить страницу до компонента
+	    "AJAX_OPTION_STYLE" => "Y", // подключать стили
+	    "AJAX_OPTION_HISTORY" => "N",
+	    "CHAIN_ITEM_TEXT" => "",
+	    "CHAIN_ITEM_LINK" => "",
+	    "IGNORE_CUSTOM_TEMPLATE" => "Y",
+	    "USE_EXTENDED_ERRORS" => "Y",
+	    "CACHE_TYPE" => "N",
+	    "CACHE_TIME" => "",
+	    "SEF_FOLDER" => "",
+	    "VARIABLE_ALIASES" => array()
+	    )
+	);
+	}
+}
+?>
+
+
+<?if($arResult['PROPERTIES']['TEXT_BOTTOM']['VALUE']){?>
+	<div class="text_remark">
+		<?//P($arResult['PROPERTIES']['TEXT']);?>
+		<?=$arResult['PROPERTIES']['TEXT_BOTTOM']['~VALUE']['TEXT']?>
 	</div>
-<?endif;?>
+<?}?>
+
+
 
 <?// order?>
 <?if($arResult['DISPLAY_PROPERTIES']['FORM_ORDER']['VALUE_XML_ID'] == 'YES'):?>
 	<div class="order-block">
 		<div class="row">
 			<div class="col-md-4 col-sm-4 col-xs-5 valign">
-				<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="<?=CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_services'][0]?>" data-name="order_services" data-autoload-service="<?=$arResult['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVISE']) ? $arParams['S_ORDER_SERVISE'] : GetMessage('S_ORDER_SERVISE'))?></span></span>
+				<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="2<?//=CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_services'][0]?>" data-name="order_services" data-autoload-service="<?=$arResult['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVISE']) ? $arParams['S_ORDER_SERVISE'] : GetMessage('S_ORDER_SERVISE'))?></span></span>
 			</div>
 			<div class="col-md-8 col-sm-8 col-xs-7 valign">
 				<div class="text">
@@ -211,31 +243,10 @@
 		</div>
 	</div>
 <?endif;?>
+</div>
 
-<?
-$frame = $this->createFrame('video')->begin('');
-$frame->setAnimation(true);
-?>
-<?// video?>
-<?if($arResult['VIDEO']):?>
-	<div class="wraps">
-		<hr />
-		<h4 class="underline"><?=(strlen($arParams['T_VIDEO']) ? $arParams['T_VIDEO'] : GetMessage('T_VIDEO'))?></h4>
-		<div class="row video">
-			<?foreach($arResult['VIDEO'] as $i => $arVideo):?>
-				<div class="col-md-6 item">
-					<div class="video_body">
-						<video id="js-video_<?=$i?>" width="350" height="217"  class="video-js" controls="controls" preload="metadata" data-setup="{}">
-							<source src="<?=$arVideo["path"]?>" type='video/mp4' />
-							<p class="vjs-no-js">
-								To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video
-							</p>
-						</video>
-					</div>
-					<div class="title"><?=(strlen($arVideo["title"]) ? $arVideo["title"] : $i)?></div>
-				</div>
-			<?endforeach;?>
-		</div>
-	</div>
-<?endif;?>
-<?$frame->end();?>
+<script>
+	$(document).ready(function() {
+		initCountdownSecond();
+	})
+</script>

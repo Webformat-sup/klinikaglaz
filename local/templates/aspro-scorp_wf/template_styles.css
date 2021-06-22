@@ -119,7 +119,7 @@ img.captcha_img{height:40px;}
 .form.inline img.captcha_img, .form.contacts img.captcha_img{margin-right:20px;max-width:100%;}
 
 /* HEADER */
-header{clear:both;color:#222222;background-color:#ffffff;position:relative;}
+header{clear:both;color:#222222;background-color:;position:relative;}
 header > .container{position:relative;}
 header .line-row{height:2px;margin:0;}
 

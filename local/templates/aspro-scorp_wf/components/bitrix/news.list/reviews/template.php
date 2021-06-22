@@ -42,7 +42,7 @@
 							<div class="item review" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
 								<div class="it">
 									<?// element preview text?>
-									<div class="text"><?=$arItem['FIELDS']['PREVIEW_TEXT']?></div>
+									<div class="text" id="text_<?=$arItem['ID']?>"><?=$arItem['FIELDS']['PREVIEW_TEXT']?></div>
 									<?// docs files?>
 									<?if($arItem['DISPLAY_PROPERTIES']['DOCUMENTS']['VALUE']):?>
 										<div class="row docs">

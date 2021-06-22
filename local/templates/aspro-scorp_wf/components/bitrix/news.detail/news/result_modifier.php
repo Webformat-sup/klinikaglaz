@@ -42,5 +42,7 @@ if($arResult['DISPLAY_PROPERTIES']){
 			}
 		}
 	}
+
+	
 }
 ?>

@@ -143,7 +143,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 			<?$arRevies = CCache::CIBlockElement_GetList(array('CACHE' => array('TAG' => CCache::GetIBlockCacheTag(CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_reviews'][0]), 'MULTI' => 'Y')), array('ID' => $arElement['PROPERTY_LINK_REVIEWS_VALUE'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'PROPERTY_POST', 'PROPERTY_DOCUMENTS', 'PREVIEW_TEXT'));?>
 			<div class="wraps nomargin">
 				<hr />
-				<h4 class="underline"><?=(strlen($arParams['T_REVIEWS']) ? $arParams['T_REVIEWS'] : GetMessage('T_REVIEWS'))?></h4>
+				<h4 class="underline"><a href="/company/reviews/"><?=(strlen($arParams['T_REVIEWS']) ? $arParams['T_REVIEWS'] : GetMessage('T_REVIEWS'))?></a></h4>
 				<div class="item-views image_left reviews">
 					<div class="row items">
 						<?$count = count($arRevies);?>
@@ -157,7 +157,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 							<div class="col-md-12 col-sm-12">
 								<div class="item review" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
 									<div class="it">
-										<div class="text"><?=$arItem['PREVIEW_TEXT']?></div>
+										<div class="text" id="text_<?=$arItem['ID']?>"><?=$arItem['PREVIEW_TEXT']?></div>
 										<?if($arItem['PROPERTY_DOCUMENTS_VALUE']):?>
 											<div class="row docs">
 												<?foreach((array)$arItem['PROPERTY_DOCUMENTS_VALUE'] as $docID):?>
@@ -186,13 +186,13 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 							</div>
 						<?endforeach;?>
 					</div>
-					<?if($count > 1):?>
+					<?/*if($count > 1):?>
 						<script type="text/javascript">
 						$(document).ready(function(){
 							$('.reviews.item-views .item .it').sliceHeight();
 						});
 						</script>
-					<?endif;?>
+					<?endif;*/?>
 				</div>
 			</div>
 		<?endif;?>

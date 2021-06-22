@@ -15,7 +15,7 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Федеральный закон РФ", 
+		"Федеральный закон РФ от  29 ноября 2010 года N 326-ФЗ", 
 		"/info/oms/federalnyy-zakon-rf/", 
 		Array(), 
 		Array(), 
@@ -24,13 +24,6 @@ $aMenuLinks = Array(
 	Array(
 		"Постановление правительства РФ от 19.12.2015 №1382", 
 		"/info/oms/postanovlenie-pravitelstva-rf-ot-19-12-2015-1382/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
-	Array(
-		"Федеральный закон РФ", 
-		"/info/oms/federalnyy-zakon-rf./", 
 		Array(), 
 		Array(), 
 		"" 
@@ -94,13 +87,6 @@ $aMenuLinks = Array(
 	Array(
 		"Распоряжение правительства РФ от 26.12.2015 №2724-р", 
 		"/info/oms/rasporyazhenie-pravitelstva-rf-ot-26-12-2015-2724-r/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
-	Array(
-		"Постановление Правительства Свердловской области от 24.12.2015 №1195-ПП", 
-		"/info/oms/postanovlenie-pravitelstva-sverdlovskoy-oblasti-ot-24-12-2015-1195-pp./", 
 		Array(), 
 		Array(), 
 		"" 

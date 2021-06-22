@@ -6,6 +6,7 @@
 		<?IncludeTemplateLangFile(__FILE__);?>
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="facebook-domain-verification" content="ipjnk5aqwfeobiv2wv5x9al1hy9lv9" />
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700italic,700,500italic,500,400italic,300,300italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
@@ -35,6 +36,9 @@
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/detectmobilebrowser.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/readmore.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/general.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.plugin.min.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.countdown.min.js');?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.countdown-ru.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/custom.js');?>
 		<?/*<!-- Global site tag (gtag.js) - Google Ads: 941121995 -->
 		  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-941121995"></script>
@@ -100,9 +104,9 @@
 			<?$bCatalogIndex = $arTheme["CATALOG_INDEX"]["VALUE"] == 'Y';?>
 			<?$bCatalogFavoritesIndex = $arTheme["CATALOG_FAVORITES_INDEX"]["VALUE"] == 'Y';?>
 		<?endif;?>
-		<!--- фон -->
-		<?/*span class="bg_image_site opacity1 opacity" style="background-image:url(<?=SITE_TEMPLATE_PATH?>/images/bg.jpg);"></span*/?>
-		<!--  -->
+		<?/*<!--- фон -->
+		<span class="bg_image_site opacity1 opacity" style="background-image:url(<?=SITE_TEMPLATE_PATH?>/images/bg.jpg);"></span>
+		<!--  -->*/?>
 		
 		<?/*-------верхнее меню для мобилки-------*/?>
 			<div id="drop-menu-mobile" class=" ">

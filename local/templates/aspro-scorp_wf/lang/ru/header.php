@@ -34,4 +34,21 @@ $MESS['T_JS_NAME'] = 'Наименование: ';
 $MESS['T_JS_PRICE'] = 'Цена: ';
 $MESS['T_JS_QUANTITY'] = 'Количество: ';
 $MESS['T_JS_SUMM'] = 'Сумма: ';
+
+
+$MESS["COUNTDOWN_SEC"] = 'сек.';
+$MESS["COUNTDOWN_MIN"] = 'мин.';
+$MESS["COUNTDOWN_HOUR"] = 'час.';
+$MESS["COUNTDOWN_DAY0"] = 'дней';
+$MESS["COUNTDOWN_DAY1"] = 'день';
+$MESS["COUNTDOWN_DAY2"] = 'дня';
+$MESS["COUNTDOWN_WEAK0"] = 'Недель';
+$MESS["COUNTDOWN_WEAK1"] = 'Неделя';
+$MESS["COUNTDOWN_WEAK2"] = 'Недели';
+$MESS["COUNTDOWN_MONTH0"] = 'Месяцев';
+$MESS["COUNTDOWN_MONTH1"] = 'Месяц';
+$MESS["COUNTDOWN_MONTH2"] = 'Месяца';
+$MESS["COUNTDOWN_YEAR0"] = 'Лет';
+$MESS["COUNTDOWN_YEAR1"] = 'Год';
+$MESS["COUNTDOWN_YEAR2"] = 'Года';
 ?>

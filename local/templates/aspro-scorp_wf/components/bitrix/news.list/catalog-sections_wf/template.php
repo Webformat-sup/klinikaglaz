@@ -11,11 +11,13 @@ echo '</pre>';*/
 
 ?>
 <?if($arResult['SECTIONS']):?>
-<ul>
-<?foreach($arResult['SECTIONS'] as $arItem):?>
-<li><a class="section" href="#section<?=$arItem['ID']?>"><?=$arItem['NAME']?></a></li>
-<?endforeach; ?>
-</ul>
+<noindex>
+	<ul>
+		<?foreach($arResult['SECTIONS'] as $arItem):?>
+			<li><a class="section" href="#section<?=$arItem['ID']?>" rel="nofollow"><?=$arItem['NAME']?></a></li>
+		<?endforeach; ?>
+	</ul>
+</noindex>
 
 
 <table class="table table-striped price">
