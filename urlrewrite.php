@@ -160,12 +160,12 @@ $arUrlRewrite=array (
     'PATH' => '/shop_catalog/catalog/index.php',
     'SORT' => 100,
   ),
-  43 => 
+  77 => 
   array (
-    'CONDITION' => '#^/shop_catalog/blog/#',
+    'CONDITION' => '#^/online/(/?)([^/]*)#',
     'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/shop_catalog/blog/index.php',
+    'ID' => NULL,
+    'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
   53 => 
@@ -184,12 +184,12 @@ $arUrlRewrite=array (
     'PATH' => '/shop_catalog/auth/index.php',
     'SORT' => 100,
   ),
-  77 => 
+  43 => 
   array (
-    'CONDITION' => '#^/online/(/?)([^/]*)#',
+    'CONDITION' => '#^/shop_catalog/blog/#',
     'RULE' => '',
-    'ID' => NULL,
-    'PATH' => '/desktop_app/router.php',
+    'ID' => 'bitrix:news',
+    'PATH' => '/shop_catalog/blog/index.php',
     'SORT' => 100,
   ),
   1 => 
