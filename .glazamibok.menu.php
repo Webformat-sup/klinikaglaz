@@ -1,15 +1,57 @@
 <?
 $aMenuLinks = Array(        
-        Array(
-		"Обратная связь", 
-		"/feedback/new.php", 
+    Array(
+		"О клинике", 
+		"/company/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Карта сайта", 
-		"/search/map.php", 
+		"Услуги", 
+		"/services/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Врачи", 
+		"/company/staff/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Прайс-лист", 
+		"/price/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Отзывы", 
+		"/company/reviews/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Вопрос-ответ", 
+		"/info/articles/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Онлайн-оплата", 
+		"/onlinepay/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Информация", 
+		"/info/", 
 		Array(), 
 		Array(), 
 		"" 
@@ -23,7 +65,7 @@ $aMenuLinks = Array(
 	),
 	Array(
 		"Авторизоваться", 
-		"/auth/", 
+		"https://shop.klinikaglaz.ru/auth/", 
 		Array(), 
 		Array(), 
 		"" 
