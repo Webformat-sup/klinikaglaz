@@ -1,0 +1,37 @@
+.form-control col col-mb-12 col-7{
+    display: flex;
+}
+.element_column_flex{
+    display: flex!important;
+    justify-content: space-between!important;
+}
+.form-control {
+    height: auto!important;
+    display: flex!important;
+    flex-direction: column!important;
+    justify-content: space-between!important;
+}
+.input_position_flex{
+    display: flex!important;
+    height: auto!important;
+}
+input.custom_input{
+    width: 100%!important;
+}
+.custom_block_position{
+    width: 49%!important;
+}
+@media (max-width:628px){
+    .element_column_flex{
+        display: flex!important;
+        flex-direction: column!important;
+    }
+
+    .custom_block_position{
+        width: 100%!important;
+        margin-bottom: 10px!important;
+    }
+}
+.custom_search_button_position{
+    position: unset!important;
+}

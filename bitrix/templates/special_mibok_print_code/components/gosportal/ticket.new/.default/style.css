@@ -1,0 +1,85 @@
+.form-control{
+    display: flex !important;
+}
+
+.col-mb-12 col-7{
+    padding-left: 20% !important;
+}
+.custom_position_textarea{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 172px !important;
+    width: 100% !important;
+    display: flex;
+    padding-top: 1.1%;
+    padding-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+.custom_string_style{
+    padding-right: 50px !important;
+    padding-top: 39px !important;
+    /*padding-bottom: 39px !important;*/
+}
+.custom_style_head_line_form{
+    position: relative;
+    top: -30px;
+}
+.custom_style_input_head_line_form{
+    position: relative;
+    top: -30px;
+}
+.custom_position_button{
+    position: relative;
+    /*top: -8px;*/
+}
+.custom_position_checkbox{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 60px !important;
+    width: 100% !important;
+    display: flex;
+    padding-top: 1.1%;
+    padding-left: 1%;
+    /*margin-top: 1%;*/
+    margin-bottom: 2%;
+}
+.custom_field_position_mail{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 60px !important;
+    width: 104.6% !important;
+    display: flex;
+    padding-top: 1.1%;
+    padding-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+.added-author {
+    display: none;
+}
+
+.custom_field_position{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 60px !important;
+    width: 100% !important;
+    display: flex;
+    /*padding-top: 1.1%;*/
+    padding-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.custom_position_form_menu{
+    margin-right: 2%;
+    text-decoration: none;
+    padding: 3px 15px 13px 20px;
+    margin: 0px 29px 1px 1px;
+    display: flex;
+    align-items: flex-end;
+}
+
+#where{
+    display: none;
+}
