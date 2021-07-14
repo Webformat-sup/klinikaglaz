@@ -31,6 +31,21 @@ footer .copy {
     font-size: 14px !important;
 }
 
+footer .special-version {
+    /* font-weight: 600; */
+    font-size: 15px;
+    line-height: 13px;
+    color: #212529;
+    display: inline-flex;
+    width: 117px;
+}
+footer .special-version:before {
+    width: 28px;
+    height: 28px;
+    content: url(/bitrix/templates/.default/images/visually_impaired.svg);
+    margin-right: 5px;
+}
+
 
 .pc {
 display: block;
