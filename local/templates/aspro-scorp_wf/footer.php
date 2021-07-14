@@ -270,7 +270,7 @@
 	false
 );?>
 									</div>
-									<div><a class="special-version" href="/?special_version=Y">Версия для слабовидящих</a></div>
+									<div><a class="special-version" href="/services/?special_version=Y">Версия для слабовидящих</a></div>
 									<div class="help">
 										<img src="/local/templates/aspro-scorp_wf/images/help.png" data-event="jqm" data-param-id="3" data-name="question">
 										<span class="title"><?=GetMessage("HELP")?></span>
