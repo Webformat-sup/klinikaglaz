@@ -1,4 +1,5 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Прайс-лист");
 $APPLICATION->SetTitle("Прайс-лист");?><a id="start" ></a> <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list",
 	"catalog-sections_wf",

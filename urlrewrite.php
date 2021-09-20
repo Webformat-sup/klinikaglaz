@@ -248,6 +248,14 @@ $arUrlRewrite=array (
     'PATH' => '/company/staff/index.php',
     'SORT' => 100,
   ),
+  80 => 
+  array (
+    'CONDITION' => '#^/company/news/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/company/news/index.php',
+    'SORT' => 100,
+  ),
   70 => 
   array (
     'CONDITION' => '#^/info/stock/#',
@@ -256,20 +264,20 @@ $arUrlRewrite=array (
     'PATH' => '/info/stock/index.php',
     'SORT' => 100,
   ),
-  75 => 
-  array (
-    'CONDITION' => '#^/onlinepay/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/onlinepay/index.php',
-    'SORT' => 100,
-  ),
   8 => 
   array (
     'CONDITION' => '#^/info/news/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/info/news/index.php',
+    'SORT' => 100,
+  ),
+  75 => 
+  array (
+    'CONDITION' => '#^/onlinepay/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/onlinepay/index.php',
     'SORT' => 100,
   ),
   30 => 
@@ -296,7 +304,7 @@ $arUrlRewrite=array (
     'PATH' => '/projects/index.php',
     'SORT' => 100,
   ),
-  71 => 
+  81 => 
   array (
     'CONDITION' => '#^/services/#',
     'RULE' => '',

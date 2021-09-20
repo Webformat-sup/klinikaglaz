@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Контакты");?><div class="row contacts" itemtype="http://schema.org/Organization" itemscope="">
+$APPLICATION->SetPageProperty("title", "Контакты компании");
+$APPLICATION->SetTitle("Контакты компании");?><div class="row contacts" itemtype="http://schema.org/Organization" itemscope="">
 	<div class="col-md-12">
 		<h4 itemprop="name"><?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-name.php", Array(), Array("MODE" => "html", "NAME" => "Name"));?></h4>
 	</div>

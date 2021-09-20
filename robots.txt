@@ -53,5 +53,6 @@ Disallow: *.doc
 Disallow: *.docx
 Disallow: *.xls
 Disallow: *.xlsx
+Disallow: *.php
 Host: https://klinikaglaz.ru
 Sitemap: https://klinikaglaz.ru/sitemap.xml

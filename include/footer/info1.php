@@ -2,6 +2,7 @@
 <button type="button" class="btn opt"><a href="http://shop.klinikaglaz.ru/" target="_blank" rel="nofollow" title="Оптика"><img src="/upload/iblock/642/64246876e0027bd513a40b6bcbd3d97f.png"><div class="title" style="color: white;">Оптика</div></a></button>
 <button type="button" class="btn lins"><a href="http://shop.klinikaglaz.ru/catalog/mkl/" target="_blank" rel="nofollow" title="Линзы"><img src="/upload/iblock/26c/26c02559ddd9fc61971b02328a1bdbab.png"><div class="title" style="color: white;">Линзы</div></a></button>
 <button type="button" class="btn shipping"><a href="/help/delivery/" target="_blank" rel="nofollow" title="Доставка"><img src="/upload/iblock/f34/f34a696475669c06baea958be5af3e67.png"><div class="title" style="color: white;">Доставка</div></a></button>
-<button type="button" class="btn viber"><a href="viber://chat?number=+79221588731" target="_blank" rel="nofollow" title="Viber"><img src="/local/templates/aspro-scorp_wf/images/viberfooter.png"></a></button>
+<?/*button type="button" class="btn viber"><a href="viber://chat?number=+79221588731" target="_blank" rel="nofollow" title="Viber"><img src="/local/templates/aspro-scorp_wf/images/viberfooter.png"></a></button*/?>
 <button type="button" class="btn what"><a href="https://api.whatsapp.com/send?phone=+79221588731" target="_blank" rel="nofollow" title="Whatsup"><img src="/local/templates/aspro-scorp_wf/images/whatsappfutter.png"></a></button>
+<button type="button" class="btn glaz"><a href="?special_version=Y" target="_blank" rel="nofollow" title="Версия для слабовидящих"><img src="/local/templates/aspro-scorp_wf/images/glaz_w.png"></a></button>
   </div>

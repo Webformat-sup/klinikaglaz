@@ -1,6 +1,0 @@
-<?
-$sSectionName = "Анизометропия";
-$arDirProperties = Array(
-
-);
-?>

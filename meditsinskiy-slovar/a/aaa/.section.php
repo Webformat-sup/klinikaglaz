@@ -1,6 +1,6 @@
 <?
-$sSectionName = "ААА";
-$arDirProperties = Array(
+$sSectionName = "Аберрация";
+$arDirProperties = array(
 
 );
 ?>

@@ -23,7 +23,7 @@ $aMenuLinks = Array(
 	),
 	Array(
 		"И", 
-		"/meditsinskiy-slovar/i./", 
+		"/meditsinskiy-slovar/i/", 
 		Array(), 
 		Array(), 
 		"" 

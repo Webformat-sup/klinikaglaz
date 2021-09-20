@@ -1,15 +1,15 @@
 <?
 $aMenuLinks = Array(
 	Array(
-		"Мидриаз", 
-		"/meditsinskiy-slovar/i/midriaz/", 
+		"Изометропия", 
+		"/meditsinskiy-slovar/i/izometropiya/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Миопия (близорукость)", 
-		"/meditsinskiy-slovar/i/miopiya-blizorukost/", 
+		"Индуцированные аберрации", 
+		"/meditsinskiy-slovar/i/indutsirovannye-aberratsii/", 
 		Array(), 
 		Array(), 
 		"" 

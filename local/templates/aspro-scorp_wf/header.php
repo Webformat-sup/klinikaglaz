@@ -344,6 +344,9 @@
 								<div class="viber">
 									<a href="viber://chat?number=+79221588731"><img src="/local/templates/aspro-scorp_wf/images/viber.png"></a>
 								</div>
+								<div class="glaz">
+									<a href="?special_version=Y"><img src="/local/templates/aspro-scorp_wf/images/glaz.png"></a>
+								</div>
 								<div class="questionTitle" data-event="jqm" data-param-id="3" data-name="question">
 									<img src="/local/templates/aspro-scorp_wf/images/question.png">
 									<span href="javascript:;"><?=GetMessage("S_QUESTION")?></span>

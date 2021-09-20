@@ -1,7 +1,7 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("М");?><p>
- <a href="http:///meditsinskiy-slovar/m/midriaz/">Мидриаз</a>
+ <a href="/meditsinskiy-slovar/m/midriaz/">Мидриаз</a>
 </p>
 <p>
- <a href="http:///meditsinskiy-slovar/m/miopiya-blizorukost/?clear_cache=Y">Миопия (близорукость)</a>
+ <a href="/meditsinskiy-slovar/m/miopiya-blizorukost/">Миопия (близорукость)</a>
 </p><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

@@ -55,10 +55,10 @@ $APPLICATION->SetTitle("Медицинский словарь");?><h2>Глосс
  <b>И</b>
 </p>
 <p>
- <a href="/meditsinskiy-slovar/i./izometropiya/">Изометропия</a>
+ <a href="/meditsinskiy-slovar/i/izometropiya/">Изометропия</a>
 </p>
 <p>
- <a href="/meditsinskiy-slovar/i./indutsirovannye-aberratsii/">Индуцированные аберрации</a>
+ <a href="/meditsinskiy-slovar/i/indutsirovannye-aberratsii/">Индуцированные аберрации</a>
 </p>
 <p>
  <b>К</b>
