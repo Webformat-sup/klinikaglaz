@@ -31,6 +31,23 @@ function getWindowClose(){
  setTimeout (getWindowClose, 1000);
 })	
 $(document).ready(function() {
+
+	/*------открыть формы------*/
+	var hash = window.location.hash;
+	if(hash != ''){
+		switch(hash){
+			case '#callback':
+				$('div[data-param-id=6] span').trigger('click');
+				break;
+			case '#question':
+				$('div[data-param-id=3] span').trigger('click');
+				break;
+			case '#appointment':
+				$('div[data-param-id=17] span').trigger('click');
+				break;
+		}
+	}
+	/*------открыть формы------*/
 	/*------цели яндекс------*/
 	    //     “Задать вопрос” в шапке основного сайта
         $('header .questionTitle').on('click', function(){
