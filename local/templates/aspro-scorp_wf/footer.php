@@ -208,24 +208,24 @@
 									</div>
 									<div class="col-md-6 col-sm-6">
 										<?$APPLICATION->IncludeComponent(
-	"bitrix:menu", 
-	"bottom_custom", 
-	array(
-		"ROOT_MENU_TYPE" => "bottom-right",
-		"MENU_CACHE_TYPE" => "A",
-		"MENU_CACHE_TIME" => "3600000",
-		"MENU_CACHE_USE_GROUPS" => "N",
-		"MENU_CACHE_GET_VARS" => array(
-		),
-		"MAX_LEVEL" => "1",
-		"CHILD_MENU_TYPE" => "",
-		"USE_EXT" => "Y",
-		"DELAY" => "N",
-		"ALLOW_MULTI_SELECT" => "Y",
-		"COMPONENT_TEMPLATE" => "bottom_custom"
-	),
-	false
-);?>
+											"bitrix:menu", 
+											"bottom_custom", 
+											array(
+												"ROOT_MENU_TYPE" => "bottom-right",
+												"MENU_CACHE_TYPE" => "A",
+												"MENU_CACHE_TIME" => "3600000",
+												"MENU_CACHE_USE_GROUPS" => "N",
+												"MENU_CACHE_GET_VARS" => array(
+												),
+												"MAX_LEVEL" => "1",
+												"CHILD_MENU_TYPE" => "",
+												"USE_EXT" => "Y",
+												"DELAY" => "N",
+												"ALLOW_MULTI_SELECT" => "Y",
+												"COMPONENT_TEMPLATE" => "bottom_custom"
+											),
+											false
+										);?>
 										<div class="pc"> 
 										<div class="payment">
 											<div class="title">
@@ -262,13 +262,13 @@
 									<div class="social">
 										<div class="title"><?=GetMessage("SOCIAL")?></div>
 										<?$APPLICATION->IncludeComponent("aspro:social.info.scorp", ".default", Array(
-	"CACHE_TYPE" => "A",	// Тип кеширования
-		"CACHE_TIME" => "3600000",	// Время кеширования (сек.)
-		"CACHE_GROUPS" => "N",	// Учитывать права доступа
-		"COMPONENT_TEMPLATE" => ".default"
-	),
-	false
-);?>
+											"CACHE_TYPE" => "A",	// Тип кеширования
+												"CACHE_TIME" => "3600000",	// Время кеширования (сек.)
+												"CACHE_GROUPS" => "N",	// Учитывать права доступа
+												"COMPONENT_TEMPLATE" => ".default"
+											),
+											false
+										);?>
 									</div>
 									<div><a class="special-version" href="?special_version=Y">Версия для слабовидящих</a></div>
 									<div class="help">
@@ -330,6 +330,8 @@
 		</div>
 		<?CScorp::SetMeta();?>
 		<?//всплывающий баннер ?>
+		<?	$curDir = $APPLICATION->GetCurDir();
+			if(strpos($curDir,'/special/') === false){?>
 		<div class="banner modal fade in" id="dialog">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -359,7 +361,7 @@
 				</div>
 			</div>
 		</div>	
-
+			<?}?>
 		<script>
 		        (function(w,d,u){
 		                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);

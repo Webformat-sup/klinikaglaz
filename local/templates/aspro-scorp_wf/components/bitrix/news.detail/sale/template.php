@@ -18,8 +18,8 @@
 
 
 <div class="detail sale">
-<?if($arParams['DISPLAY_NAME'] != 'N' && strlen($arResult['NAME'])):?>
-	<h2 class="underline"><?=$arResult['NAME']?></h2>
+<?if($arResult['DISPLAY_PROPERTIES']['SUBTITLE']['VALUE']):?>
+	<h2 class="sale__subtitle"><?=$arResult['DISPLAY_PROPERTIES']['SUBTITLE']['VALUE']?></h2>
 <?endif;?>
 
 

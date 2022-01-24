@@ -35,6 +35,7 @@ ErrorDocument 404 /404.php
 	# RedirectMatch 301 ^zdorovyie-glaza-eto-privyichka/$ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/
 </IfModule>
 
+
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
@@ -456,6 +457,7 @@ ErrorDocument 404 /404.php
 	RewriteCond %{QUERY_STRING} ^$
 	RewriteRule ^aberratsia$ /meditsinskiy-slovar/a/ [L,R=301]
 </IfModule>
+
 
 
 <IfModule mod_php5.c>

@@ -2,7 +2,7 @@
 $APPLICATION->SetPageProperty("title", "Контакты компании");
 $APPLICATION->SetTitle("Контакты компании");?><div class="row contacts" itemtype="http://schema.org/Organization" itemscope="">
 	<div class="col-md-12">
-		<h4 itemprop="name"><?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-name.php", Array(), Array("MODE" => "html", "NAME" => "Name"));?></h4>
+		<h4><?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-name.php", Array(), Array("MODE" => "html", "NAME" => "Name"));?></h4>
 	</div>
  <br>
 	<div class="col-md-4">
@@ -19,7 +19,7 @@ $APPLICATION->SetTitle("Контакты компании");?><div class="row co
 			</td>
 			<td align="left" valign="top">
  <span class="dark_table">Адрес</span> <br>
- <span itemprop="address"><?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-address.php", Array(), Array("MODE" => "html", "NAME" => "Address"));?></span>
+ <span itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress"><?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-address.php", Array(), Array("MODE" => "html", "NAME" => "Address"));?></span>
 			</td>
 		</tr>
 		<tr>
@@ -73,6 +73,14 @@ $APPLICATION->SetTitle("Контакты компании");?><div class="row co
 		<p>
 			 Ниже приведены реквизиты компании, в случае необходимости получения дополнительных документов: свидетельства о государственной регистрации, идентификационного номера налогоплательщика вы можете обратиться в бухгалтерию предприятия.&nbsp;
 		</p>
+		 <?/*	<tr>
+			<td>
+ <b>Юридический адрес:</b>
+			</td>
+			<td>
+				 620137, Свердловская обл., г. Екатеринбург, ул. Июльская, д. 25, кв. 111
+			</td>
+		</tr>*/?>
 		<table class="table table-striped">
 		<tbody>
 		<tr>
@@ -107,14 +115,6 @@ $APPLICATION->SetTitle("Контакты компании");?><div class="row co
 				 1146670009540
 			</td>
 		</tr>
-	<?/*	<tr>
-			<td>
- <b>Юридический адрес:</b>
-			</td>
-			<td>
-				 620137, Свердловская обл., г. Екатеринбург, ул. Июльская, д. 25, кв. 111
-			</td>
-		</tr>*/?>
 		<tr>
 			<td>
  <b>Фактический адрес:</b>
@@ -164,5 +164,4 @@ $APPLICATION->SetTitle("Контакты компании");?><div class="row co
 	<?// class="maxwidth-theme?>
 <?// class=row?>
 <?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("contacts-form-block");?>
-
 <?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID("contacts-form-block", "");?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

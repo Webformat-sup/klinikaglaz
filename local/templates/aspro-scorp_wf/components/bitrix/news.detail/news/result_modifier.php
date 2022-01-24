@@ -1,5 +1,4 @@
-<??><pre style="display: none;"><?print_r($arResult['META_TAGS'])?></pre><?
-CScorp::getFieldImageData($arResult, array('DETAIL_PICTURE'));
+<?CScorp::getFieldImageData($arResult, array('DETAIL_PICTURE'));
 
 if($arResult['DISPLAY_ACTIVE_FROM'] && strpos($arResult['META_TAGS']['BROWSER_TITLE'],'#DATE#')!==false){
 	$arResult['META_TAGS']['BROWSER_TITLE'] = str_replace('#DATE#',' - '.$arResult['DISPLAY_ACTIVE_FROM'], $arResult['META_TAGS']['BROWSER_TITLE']);

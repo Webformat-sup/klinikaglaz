@@ -4,6 +4,8 @@ Allow: /bitrix/cache/
 Allow: /bitrix/js/
 Allow: /bitrix/templates/
 Allow: /bitrix/panel/
+Host: https://klinikaglaz.ru
+Sitemap: https://klinikaglaz.ru/sitemap.xml
 Disallow: */index.php
 Disallow: /bitrix/
 Disallow: /*show_include_exec_time=
@@ -54,5 +56,4 @@ Disallow: *.docx
 Disallow: *.xls
 Disallow: *.xlsx
 Disallow: *.php
-Host: https://klinikaglaz.ru
-Sitemap: https://klinikaglaz.ru/sitemap.xml
+Disallow: /special/

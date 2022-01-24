@@ -37,17 +37,18 @@ $(document).ready(function() {
 	if(hash != ''){
 		switch(hash){
 			case '#callback':
-				$('div[data-param-id=6] span').trigger('click');
+				setTimeout(() =>$('callbackTitle span').trigger('click'), 3000);
 				break;
 			case '#question':
-				$('div[data-param-id=3] span').trigger('click');
+				setTimeout(() =>$('questionTitle span').trigger('click'), 3000);
 				break;
 			case '#appointment':
-				$('div[data-param-id=17] span').trigger('click');
+				setTimeout(() => $('div.questiondockTitle span').trigger('click'), 3000);
 				break;
 		}
 	}
 	/*------открыть формы------*/
+
 	/*------цели яндекс------*/
 	    //     “Задать вопрос” в шапке основного сайта
         $('header .questionTitle').on('click', function(){
@@ -92,16 +93,19 @@ $(document).ready(function() {
 
 	$('a.section').click(function(e){
 		var id = $(this).attr("href");
-		console.log(id);
+		console.log('id',id);
 		destination = $('a'+id+'').offset().top-100;
 		$('body').animate({
 		scrollTop: destination}, 200);
 	})
 
 	var anchor = window.location.hash;
-	destination = $('a'+anchor+'').offset().top-100;
-	$('body').animate({
-	scrollTop: destination}, 200);
+	if($('a'+anchor+'').length > 0){
+		destination = $('a'+anchor+'').offset().top-100;
+		$('body').animate({
+		scrollTop: destination}, 200);
+	}
+	
 	
 	/*$(".item.review .text").each(function() {
 		  console.log($(this).height());

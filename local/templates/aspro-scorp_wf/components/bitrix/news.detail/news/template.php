@@ -1,9 +1,11 @@
 <?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
 <?$this->setFrameMode(true);?>
 <?// element name?>
+<div itemscope itemtype="http://schema.org/Question"> 
 <?if($arParams['DISPLAY_NAME'] != 'N' && strlen($arResult['NAME'])):?>
 	<h2 class="underline"><?=$arResult['NAME']?></h2>
 <?endif;?>
+<meta itemprop="name" content="<?=$arResult['NAME']?>">
 	
 <?// single detail image?>
 <?if($arResult['FIELDS']['DETAIL_PICTURE']):?>
@@ -59,24 +61,26 @@
 <?endif;?>
 
 <?if(strlen($arResult['FIELDS']['DETAIL_TEXT']) || strlen($arResult['FIELDS']['PREVIEW_TEXT'])):?>
-	<div class="content">
-		<?// element preview text?>
-		<?if(strlen($arResult['FIELDS']['PREVIEW_TEXT'])):?>
-			<?if($arResult['PREVIEW_TEXT_TYPE'] == 'text'):?>
-				<p><?=$arResult['FIELDS']['PREVIEW_TEXT'];?></p>
-			<?else:?>
-				<?=$arResult['FIELDS']['PREVIEW_TEXT'];?>
+	<div itemprop="suggestedAnswer" itemscope itemtype="http://schema.org/Answer">
+		<div class="content" itemprop="text">
+			<?// element preview text?>
+			<?if(strlen($arResult['FIELDS']['PREVIEW_TEXT'])):?>
+				<?if($arResult['PREVIEW_TEXT_TYPE'] == 'text'):?>
+					<p><?=$arResult['FIELDS']['PREVIEW_TEXT'];?></p>
+				<?else:?>
+					<?=$arResult['FIELDS']['PREVIEW_TEXT'];?>
+				<?endif;?>
 			<?endif;?>
-		<?endif;?>
 
-		<?// element detail text?>
-		<?if(strlen($arResult['FIELDS']['DETAIL_TEXT'])):?>
-			<?if($arResult['DETAIL_TEXT_TYPE'] == 'text'):?>
-				<p><?=$arResult['FIELDS']['DETAIL_TEXT'];?></p>
-			<?else:?>
-				<?=$arResult['FIELDS']['DETAIL_TEXT'];?>
+			<?// element detail text?>
+			<?if(strlen($arResult['FIELDS']['DETAIL_TEXT'])):?>
+				<?if($arResult['DETAIL_TEXT_TYPE'] == 'text'):?>
+					<p><?=$arResult['FIELDS']['DETAIL_TEXT'];?></p>
+				<?else:?>
+					<?=$arResult['FIELDS']['DETAIL_TEXT'];?>
+				<?endif;?>
 			<?endif;?>
-		<?endif;?>
+		</div>
 	</div>
 <?endif;?>
 
@@ -238,4 +242,5 @@ $frame->setAnimation(true);
 		</div>
 	</div>
 <?endif;?>
+</div>
 <?$frame->end();?>

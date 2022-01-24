@@ -1,0 +1,10 @@
+.b24-form-header.b24-form-padding-side {
+    min-height: 115px;
+    padding: 30px 30px 45px 36px;
+    background: #eaf0f2;
+    border-top: 2px solid;
+    border-top-color: #0088cc !important;
+}
+.b24-form-wrapper.b24-form-border-bottom{
+    border-bottom: none;   
+}

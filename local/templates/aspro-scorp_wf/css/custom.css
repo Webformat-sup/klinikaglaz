@@ -11,6 +11,11 @@
     color: #ffffff;
 }
 
+/* .body{
+  background: url(/local/templates/aspro-scorp_wf/images/background-new-year.jpg) no-repeat top center;
+  background-size: 1920px auto;
+} */
+/* */
 
 /*  footer btn */
 .mobile .image {
@@ -632,7 +637,7 @@ footer .footer-onlinepay-btn img {
 @media(max-width: 767px){
   .logo_and_menu-row.custom .logo-row .logo img {
     margin: 0px;
-    max-height: 31px;
+    max-height: 33px;
   }
   .logo_and_menu-row.custom .headerTitle,.logo_and_menu-row.custom .socialNetwork, .logo_and_menu-row.custom .phone-number img {
     display: none;
@@ -650,6 +655,9 @@ footer .footer-onlinepay-btn img {
   .logo_and_menu-row.custom .callbackTitle span {
     color: #495965;
     border-bottom: none;
+  }
+  .logo_and_menu-row.custom{
+    background-color: white;
   }
   .logo_and_menu-row.custom .callback{
     text-align: right;
@@ -702,6 +710,7 @@ footer .footer-onlinepay-btn img {
   display: none;
 }
 @media (max-width: 426px){
+ 
   .maxwidth-theme--custom .copy.info{
     padding-right: 16px;
   }
@@ -1144,4 +1153,10 @@ button.btn.glaz {
   color: white;
   background-color: #000;
   border-color: #000;
+}
+
+.sale__subtitle{
+  font-size: 14pt;
+  margin-top: -20px;
+  margin-bottom: 44px;
 }
