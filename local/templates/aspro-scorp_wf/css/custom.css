@@ -1160,3 +1160,22 @@ button.btn.glaz {
   margin-top: -20px;
   margin-bottom: 44px;
 }
+/* .doptext{
+  display: none;
+}
+.doptext td{
+  border-top: none!important;
+} */
+.props_table .tooltip-inner {
+  max-width: auto;
+  padding: 3px 8px;
+  color: #000;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  background-color: #e6f8fe;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  word-break: normal;
+  text-align: left;
+}

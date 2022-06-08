@@ -167,7 +167,11 @@
 								<?foreach($arResult["SECTION_USER_FIELDS"]['UF_COST'] as $id){?>
 									<tr class="char">
 										<td class="char_name">
-											<span><?=$arUFProps[$id]['NAME']?></span>
+											<span><?=$arUFProps[$id]['NAME']?>
+											<?if($arUFProps[$id]['PREVIEW_TEXT']){?>
+												<i class="fa fa-question question" data-trigger="click" data-toggle="tooltip" data-placement="right" title="" data-original-title="<?=$arUFProps[$id]['PREVIEW_TEXT']?>"></i>
+											<?}?>
+										</span>
 										</td>
 										<td class="char_value">
 											<?if(!empty($arUFProps[$id]['PROPS']['PRICE']['VALUE'])){?>
@@ -521,6 +525,7 @@
 <script type="text/javascript">
 		$(document).ready(function(){
 					$('.item-views.services .item .htext .title').sliceHeight();
+					$("[data-toggle='tooltip']").tooltip(); 
 						
 		});
 		</script>

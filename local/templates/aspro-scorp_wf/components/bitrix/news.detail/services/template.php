@@ -135,7 +135,10 @@
 				<?foreach($arResult['DISPLAY_PROPERTIES']['PRICE']['VALUE'] as $arValue){?>
 					<tr class="char">
 						<td class="char_name">
-							<span><?=$arResult['PRICES'][$arValue]['NAME']?></span>
+							<span><?=$arResult['PRICES'][$arValue]['NAME']?>
+							<?if($arResult['PRICES'][$arValue]['PREVIEW_TEXT']){?>
+								<i class="fa fa-question question" data-trigger="click" data-toggle="tooltip" data-placement="right" title="" data-original-title="<?=$arResult['PRICES'][$arValue]['PREVIEW_TEXT']?>"></i>
+								<?}?></span>
 						</td>
 						<td class="char_value">
 							<?if(!empty($arResult['PRICES'][$arValue]['PROPERTY_PRICE_VALUE'])){?>
@@ -152,8 +155,7 @@
 								</span>								
 							<?}?>													
 						</td>
-					</tr>					
-
+					</tr>
 				<?}?>
 			</table>
 			</div>
@@ -162,7 +164,11 @@
 </div>
 
 <?}?>
-
+<script>
+  $(function () { 
+    $("[data-toggle='tooltip']").tooltip(); 
+  });
+</script>
 
 <?// docs files?>
 <?if($arResult['DISPLAY_PROPERTIES']['DOCUMENTS']['VALUE']):?>

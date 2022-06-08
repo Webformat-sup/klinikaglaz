@@ -14,6 +14,7 @@ if(\Bitrix\Main\Loader::includeModule("aspro.next"))
 		$arRegion = CNextRegionality::getCurrentRegion();
 	CNext::GetValidFormIDForSite($form_id);
 }
+$url = (in_array($form_id, ['17','5'])) ? "/thanks/" : "";
 ?>
 <span class="jqmClose top-close fa fa-close"></span>
 <?if($form_id != 7){?>
@@ -45,7 +46,7 @@ if(\Bitrix\Main\Loader::includeModule("aspro.next"))
 			"SHOW_STATUS" => "N",
 			"SHOW_VIEW_PAGE" => "N",
 			"START_PAGE" => "new",
-			"SUCCESS_URL" => "",
+			"SUCCESS_URL" => $url,
 			"USE_EXTENDED_ERRORS" => "Y",
 			"VARIABLE_ALIASES" => Array("action"=>"action"),
 			"WEB_FORM_ID" => $form_id

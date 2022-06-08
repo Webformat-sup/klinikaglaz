@@ -36,7 +36,7 @@ if($arResult['DISPLAY_PROPERTIES']){
 }
 //P($arResult['DISPLAY_PROPERTIES']['PRICE']);
 if($arResult['DISPLAY_PROPERTIES']['PRICE']['VALUE'] && is_array($arResult['DISPLAY_PROPERTIES']['PRICE']['VALUE'])){
-	$arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM", "PROPERTY_PRICE", "PROPERTY_PRICE_KIDS");
+	$arSelect = Array("ID", "NAME", "DATE_ACTIVE_FROM", "PROPERTY_PRICE", "PROPERTY_PRICE_KIDS", "PREVIEW_TEXT");
 	$arFilter = Array("IBLOCK_ID"=>IntVal($arResult['DISPLAY_PROPERTIES']['PRICE']['LINK_IBLOCK_ID']), "ID"=>$arResult['DISPLAY_PROPERTIES']['PRICE']['VALUE'], "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y");
 	$res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
 	while($arFields = $res->GetNext()) {

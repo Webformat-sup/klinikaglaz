@@ -3,8 +3,9 @@
 <?// element name?>
 <?if(strlen($arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE'])){?>
    
-  <? $now = date("d.m.Y H:i:s");     
-     if($now<$arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE']){
+  <?$showtimer = 'N';
+  $now = date("d.m.Y H:i:s");     
+     if(MakeTimeStamp($now)<MakeTimeStamp($arResult['DISPLAY_PROPERTIES']['DATA_FINISH']['VALUE'])){
      	$showtimer = 'Y';
      } 
      else
@@ -12,8 +13,6 @@
      	$showtimer = 'N';
      }
   ?>
-
-
 <?}?>
 
 

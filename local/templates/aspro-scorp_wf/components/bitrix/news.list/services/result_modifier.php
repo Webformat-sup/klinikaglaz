@@ -60,7 +60,7 @@ if($arSection = $rsResult -> GetNext())
 
 		}
 		if($arUFIds){
-			$arSelect = ["ID", "IBLOCK_ID", "NAME","PROPERTY_*"];
+			$arSelect = ["ID", "IBLOCK_ID", "NAME","PROPERTY_*",'PREVIEW_TEXT'];
 			$arFilter = ["ID"=>$arUFIds, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y"];
 			$res = CIBlockElement::GetList(Array(), $arFilter, false, false, $arSelect);
 			while($ob = $res->GetNextElement()){ 

@@ -331,7 +331,7 @@
 		<?CScorp::SetMeta();?>
 		<?//всплывающий баннер ?>
 		<?	$curDir = $APPLICATION->GetCurDir();
-			if(strpos($curDir,'/special/') === false){?>
+			if(strpos($curDir,'/special/','/sale/') === false){?>
 		<div class="banner modal fade in" id="dialog">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -369,6 +369,11 @@
 		        })(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/site_button/loader_1_8v7204.js');
 		</script>
 
-
+<script>
+    window.addEventListener('onBitrixLiveChat', function(event){
+        var widget = event.detail.widget;
+        widget.setOption('checkSameDomain', false);
+    });
+</script>
 	</body>
 </html>
