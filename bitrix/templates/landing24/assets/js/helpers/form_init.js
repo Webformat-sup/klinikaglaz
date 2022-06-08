@@ -213,7 +213,7 @@
 
 		unload: function()
 		{
-			if (!b24form || !b24form.App || !this.formObject)
+			if (typeof b24form === 'undefined' || !b24form.App || !this.formObject)
 			{
 				return;
 			}
@@ -261,7 +261,8 @@
 		{
 			var params = {
 				design: {
-					shadow: false
+					shadow: false,
+					font: 'var(--landing-font-family)'
 				}
 			};
 
@@ -280,6 +281,14 @@
 					design.color[property] = design.color[property].replace('--primary', primaryColor);
 				}
 			}
+			if (design.color.background !== undefined)
+			{
+				design.color.popupBackground =
+					(design.color.background.length === 9)
+						? design.color.background.slice(0,7) + 'FF'
+						: design.color.background;
+			}
+
 			params.design = Object.assign(params.design, design);
 			return params;
 		}
