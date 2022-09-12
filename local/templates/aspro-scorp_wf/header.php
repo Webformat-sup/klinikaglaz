@@ -7,6 +7,7 @@
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="facebook-domain-verification" content="ipjnk5aqwfeobiv2wv5x9al1hy9lv9" />
+		<meta name="yandex-verification" content="35e7310e1899d525" />
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700italic,700,500italic,500,400italic,300,300italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
@@ -365,10 +366,10 @@
 							</div>
 							<div class="col-md-2 col-sm-2 socialNetwork">
 								<div class="whatsApp">
-									<a href="https://api.whatsapp.com/send?phone=+79221588731"><img src="/local/templates/aspro-scorp_wf/images/whatsapp.png"></a>
+									<a href="https://api.whatsapp.com/send?phone=79221588731"><img src="/local/templates/aspro-scorp_wf/images/whatsapp.png"></a>
 								</div>
 								<div class="viber">
-									<a href="viber://chat?number=+79221588731"><img src="/local/templates/aspro-scorp_wf/images/viber.png"></a>
+									<a href="viber://chat?number=79221588731"><img src="/local/templates/aspro-scorp_wf/images/viber.png"></a>
 								</div>
 								<div class="glaz">
 									<a href="?special_version=Y"><img src="/local/templates/aspro-scorp_wf/images/glaz.png"></a>

@@ -1,5 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords", "Условия доставки");
+$APPLICATION->SetPageProperty("description", "Условия доставки");
 $APPLICATION->SetTitle("Условия доставки");
 ?><h4> <b><span style="font-size: 10pt;"></span>&nbsp; </b><b>Салон оптики клиники «ГЛАЗ» им. Святослава Федорова предлагает: </b></h4>
 <ul type="disc">

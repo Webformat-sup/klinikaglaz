@@ -2,6 +2,10 @@
 \Bitrix\Main\Loader::includeModule('webformat.utils');
 CModule::IncludeModule('webformat.debug1');
 
+  //обработчик, который перезаписывает бренд при выгрузке из 1с
+  AddEventHandler( "iblock", "OnAfterIBlockElementAdd", array( "aspro_import", "FillTheBrands" ) );
+  AddEventHandler( "iblock", "OnAfterIBlockElementUpdate", array( "aspro_import", "FillTheBrands" ) );
+
 AddEventHandler("main", "OnFileDelete", "MyOnFileDelete");
 
 function MyOnFileDelete($arFile)
@@ -59,4 +63,37 @@ function newFileHandler($fileId){
     } 
 
 
+}
+
+class aspro_import {
+    function FillTheBrands($arFields){
+        $arCatalogID=array(46);
+        if( in_array($arFields['IBLOCK_ID'], $arCatalogID) ){
+         // \Bitrix\Main\Loader::includeModule('catalog');
+            $arItem = CIBlockElement::GetList(false, array( 'IBLOCK_ID' => $arFields['IBLOCK_ID'], 'ID' => $arFields['ID']), false, false, array( 'ID', 'PROPERTY_CML2_MANUFACTURER') )->fetch();
+            //проставлем нужный бренд из инфоблока бренда
+            if($arItem['PROPERTY_CML2_MANUFACTURER_VALUE']){
+                $arBrand = CIBlockElement::GetList( false, array( 'IBLOCK_ID' => 41, 'NAME' => $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'] ) )->fetch();
+                if( $arBrand ){
+                    CIBlockElement::SetPropertyValuesEx( $arFields['ID'], false, array('BRAND' => $arBrand['ID'] ) );
+                }else{
+                    $el = new CIBlockElement;
+                    $arParams = array( "replace_space" => "-", "replace_other" => "-" );
+                    $id = $el->Add( array(
+                        'ACTIVE' => 'Y',
+                        'NAME' => $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'],
+                        'IBLOCK_ID' => 41,
+                        'CODE' => Cutil::translit( $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'], "ru", $arParams )
+                    ) ); 			    
+                    if( $id ){
+                        CIBlockElement::SetPropertyValuesEx( $arFields['ID'], false, array( 'BRAND' => $id ) );
+                    }else{
+                        $error = $el->LAST_ERROR;
+                    }
+                }
+            }
+            
+
+        }
+    }
 }

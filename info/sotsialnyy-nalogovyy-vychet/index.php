@@ -1,4 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Социальный налоговый вычет");
+$APPLICATION->SetPageProperty("title", "Социальный налоговый вычет");
+$APPLICATION->SetPageProperty("keywords", "Социальный налоговый вычет");
+$APPLICATION->SetPageProperty("description", "Социальный налоговый вычет");
 $APPLICATION->SetTitle("Социальный налоговый вычет");?>«Клиника микрохирургии «Глаз» имени академика С.Н. Федорова» не только заботится о качестве вашего зрения, но и о вашей выгоде. Мы стараемся сделать качественные услуги нашей клиники еще и доступными для наших пациентов. Также чтобы значительно сэкономить на услугах клиники вы можете оформить возврат социального вычета, который составляет 13% от суммы расходов на медицинские услуги.<br>
  <br>
  <img width="240" height="200" title="nalogovyj-vychet2016-240x200.jpg" alt="nalogovyj-vychet2016-240x200.jpg" src="/upload/medialibrary/4ef/4efca99216f803a365b68ef4023bd350.jpg"><br>

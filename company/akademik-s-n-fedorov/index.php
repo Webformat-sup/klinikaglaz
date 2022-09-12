@@ -1,4 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Академик С.Н.Федоров");
+$APPLICATION->SetPageProperty("title", "Академик С.Н.Федоров");
+$APPLICATION->SetPageProperty("keywords", "Академик С.Н.Федоров");
+$APPLICATION->SetPageProperty("description", "Академик С.Н.Федоров");
 $APPLICATION->SetTitle("Академик С.Н.Федоров");?><h3>Академик С.Н.Федоров</h3>
  <br>
  <img width="300" height="404" title="fedorov.jpg" align="right" alt="fedorov.jpg" src="/upload/medialibrary/ed0/ed038dca912cade27e996ec01164e5f1.jpg">&nbsp;<b>Святосла́в Никола́евич Фёдоров</b>— советский и российский &nbsp; &nbsp;офтальмолог, глазной микрохирург, профессор. Академик &nbsp;РАМН и РАЕН, герой Социалистического Труда СССР. &nbsp;Талантливый хирург, автор многих изобретений и открытий в &nbsp;офтальмологии.Создатель целого спектра эффективных &nbsp;методик лечения глазных болезней. На его счету новые &nbsp;технологии лечения многих глазных недугов, которые раньше &nbsp;считались неизлечимыми. Силами его коллектива разработано &nbsp;и внедрено огромное количество методов лечения и операций, &nbsp;которые ранее не применялись нигде в мире.<br>

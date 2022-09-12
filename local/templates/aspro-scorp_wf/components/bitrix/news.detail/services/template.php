@@ -229,6 +229,26 @@
 		<?endif;?>
 	</div>
 <?endif;?>
+<div class="order-block">
+	<div class="row">
+		<div class="col-md-6 col-sm-6 col-xs-12 valign">
+			<span class="btn-custom-sign" data-event="jqm" data-param-id="5"  data-name="order_services" data-autoload-service="<?=$arResult["NAME"]?>"><img src="<?=SITE_TEMPLATE_PATH?>/images/sign.svg" height="54"/></span>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12 valign">
+			<div class="text">
+				<?$APPLICATION->IncludeComponent(
+					'bitrix:main.include',
+					'',
+					Array(
+						'AREA_FILE_SHOW' => 'file',
+						'PATH' => SITE_DIR.'include/ask_services.php',
+						'EDIT_TEMPLATE' => ''
+					)
+				);?>
+			</div>
+		</div>
+	</div>
+</div>
 
 <?if(strlen($arResult['FIELDS']['DETAIL_TEXT']) || strlen($arResult['FIELDS']['PREVIEW_TEXT'])):?>
 	<div class="content">
@@ -310,10 +330,10 @@
 <?if($arResult['DISPLAY_PROPERTIES']['FORM_ORDER']['VALUE_XML_ID'] == 'YES'):?>
 	<div class="order-block">
 		<div class="row">
-			<div class="col-md-4 col-sm-4 col-xs-5 valign">
-				<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arResult['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
+				<span class="btn-custom-sign" data-event="jqm" data-param-id="5"  data-name="order_services" data-autoload-service="<?=$arResult["NAME"]?>"><img src="<?=SITE_TEMPLATE_PATH?>/images/sign.svg" height="54"/></span>
 			</div>
-			<div class="col-md-8 col-sm-8 col-xs-7 valign">
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
 				<div class="text">
 					<?$APPLICATION->IncludeComponent(
 						'bitrix:main.include',

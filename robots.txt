@@ -57,3 +57,4 @@ Disallow: *.xls
 Disallow: *.xlsx
 Disallow: *.php
 Disallow: /special/
+Disallow: /study/*

@@ -1,4 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "ДМС");
+$APPLICATION->SetPageProperty("title", "ДМС");
+$APPLICATION->SetPageProperty("keywords", "ДМС");
+$APPLICATION->SetPageProperty("description", "ДМС");
 $APPLICATION->SetTitle("ДМС");?><p>
 	 Клиника "ГЛАЗ" принимает пациентов&nbsp;по полисам ДМС. В настоящее время у нас&nbsp;сложились надежные партнерские отношения&nbsp;со&nbsp;страховыми компаниями: СОГАЗ, ВЕРНА, ПАРИ.
 </p>

@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Условия оплаты");
+$APPLICATION->SetPageProperty("keywords", "Условия оплаты");
+$APPLICATION->SetPageProperty("description", "Условия оплаты");
 $APPLICATION->SetTitle("Условия оплаты");
 ?><p>
 </p>

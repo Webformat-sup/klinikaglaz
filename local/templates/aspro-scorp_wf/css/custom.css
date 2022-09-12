@@ -875,7 +875,7 @@ footer {
 
 .reviewsbutton {
     background: #99cc00;
-    //margin: 25px 0px 0 -30px;
+    /*margin: 25px 0px 0 -30px;*/
     margin: 0px 0px 0px 0px;
     padding: 10px 10px 10px 10px;
     text-align: center;
@@ -1178,4 +1178,15 @@ button.btn.glaz {
   border: 1px solid #ccc;
   word-break: normal;
   text-align: left;
+}
+
+span.btn-custom-sign{
+  cursor:pointer;
+  display: inline-block;
+  border:transparent;
+  border-radius:7px;
+}
+
+span.btn-custom-sign:hover{
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }

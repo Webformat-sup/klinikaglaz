@@ -134,7 +134,27 @@ ob_end_clean();
 				<?endif;?>
 			</div>
 		<?endif;?>
-		
+		<div class="order-block">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-xs-12 valign">
+					<span class="btn-custom-sign" data-event="jqm" data-param-id="17"  data-name="questiondock" data-autoload-need_product="<?=$arResult["NAME"]?>"><img src="<?=SITE_TEMPLATE_PATH?>/images/sign.svg" height="54"/></span>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-12 valign">
+					<div class="text">
+						<?$APPLICATION->IncludeComponent(
+							'bitrix:main.include',
+							'',
+							Array(
+								'AREA_FILE_SHOW' => 'file',
+								'PATH' => SITE_DIR.'include/ask_services.php',
+								'EDIT_TEMPLATE' => ''
+							)
+						);?>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="post-content">
 			<?if($arParams["DISPLAY_NAME"] != "N" && strlen($arResult["NAME"])):?>
 				<h2><?=$arResult["NAME"]?></h2>
@@ -189,10 +209,10 @@ ob_end_clean();
 	</article>
 	<div class="order-block">
 		<div class="row">
-			<div class="col-md-4 col-sm-4 col-xs-5 valign">
-				<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="17"  data-name="questiondock" data-autoload-need_product="<?=$arResult["NAME"]?>"><span>Записаться на прием</span></span>
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
+				<span class="btn-custom-sign" data-event="jqm" data-param-id="17"  data-name="questiondock" data-autoload-need_product="<?=$arResult["NAME"]?>"><img src="<?=SITE_TEMPLATE_PATH?>/images/sign.svg" height="54"/></span>
 			</div>
-			<div class="col-md-8 col-sm-8 col-xs-7 valign">
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
 				<div class="text">
 					<?$APPLICATION->IncludeComponent(
 						'bitrix:main.include',

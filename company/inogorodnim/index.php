@@ -1,4 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Иногородним");
+$APPLICATION->SetPageProperty("title", "Иногородним");
+$APPLICATION->SetPageProperty("keywords", "Иногородним");
+$APPLICATION->SetPageProperty("description", "Иногородним");
 $APPLICATION->SetTitle("Иногородним");?><p>
  <img width="600" height="400" title="2017-03-16 05-15-10.JPG" align="middle" alt="2017-03-16 05-15-10.JPG" src="/upload/medialibrary/24b/24b6a22e66bf510c4e840a5c17edb4b0.JPG">
 </p>

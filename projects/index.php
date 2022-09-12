@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Полезно знать");
+$APPLICATION->SetPageProperty("title", "Полезно знать");
+$APPLICATION->SetPageProperty("description", "Полезно знать");
 $APPLICATION->SetTitle("Полезно знать");
 ?>
 <?$APPLICATION->IncludeComponent(

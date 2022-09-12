@@ -456,6 +456,24 @@ ErrorDocument 404 /404.php
 	RewriteRule ^afakia$ /meditsinskiy-slovar/a/ [L,R=301]
 	RewriteCond %{QUERY_STRING} ^$
 	RewriteRule ^aberratsia$ /meditsinskiy-slovar/a/ [L,R=301]
+
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^services/priem-detskogo-oftalmologa/$ /services/konsultatsii-detskogo-oftalmologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^services/priem-detskogo-oftalmologa/priem-detskogo-oftalmologa/$ /services/konsultatsii-detskogo-oftalmologa/priem-detskogo-oftalmologa/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^services/priem-detskogo-oftalmologa/proverka-zreniya-u-detey/$ /services/konsultatsii-detskogo-oftalmologa/proverka-zreniya-u-detey/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^services/priem-detskogo-oftalmologa/priem-detskogo-oftalmologa-po-vospalitelnym-zabolevaniyam/$ /services/konsultatsii-detskogo-oftalmologa/priem-detskogo-oftalmologa-po-vospalitelnym-zabolevaniyam/ [L,R=301]
+	RewriteCond %{QUERY_STRING} ^$
+	RewriteRule ^/services/priem-detskogo-oftalmologa/$ /services/konsultatsii-detskogo-oftalmologa/ [L,R=301]
+	
+	Redirect 301 /company/staff/nikiforova-anastasiya-andreevna/ /company/staff/
+	Redirect 301 /info/articles/upravlenie-proektami/ /info/articles/
+	Redirect 301 /meditsinskiy-slovar/s/http-klinikaglaz-ru-subepitelialniy-fler-rogovitsy/ /meditsinskiy-slovar/s/subepitelialnyy-fler-rogovitsy-kheyz/
+	Redirect 301 /projects/optika/ /projects/optika-v-klinike/
+	Redirect 301 /projects/optika/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/ /projects/optika-v-klinike/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/
+
 </IfModule>
 
 

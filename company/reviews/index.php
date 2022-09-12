@@ -1,5 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Отзывы");
+$APPLICATION->SetPageProperty("title", "Отзывы");
+$APPLICATION->SetPageProperty("keywords", "Отзывы");
+$APPLICATION->SetPageProperty("description", "Отзывы");
 $APPLICATION->SetTitle("Отзывы");
 global $arrFilter;
 $arrFilter["!NAME"]='Сообщение формы%';

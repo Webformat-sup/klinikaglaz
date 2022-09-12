@@ -1,5 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Лицензии и сертификаты");
+$APPLICATION->SetPageProperty("title", "Лицензии и сертификаты");
+$APPLICATION->SetPageProperty("keywords", "Лицензии и сертификаты");
+$APPLICATION->SetPageProperty("description", "Лицензии и сертификаты");
 $APPLICATION->SetTitle("Лицензии и сертификаты");
 ?>
 <?$APPLICATION->IncludeComponent(

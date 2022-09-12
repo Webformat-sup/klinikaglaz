@@ -1,5 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Сотрудники");
+$APPLICATION->SetPageProperty("description", "Сотрудники");
 $APPLICATION->SetTitle("Сотрудники");
 ?>
 <?$APPLICATION->IncludeComponent("bitrix:news", "staff_custom", Array(

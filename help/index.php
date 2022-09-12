@@ -1,5 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "Помощь");
+$APPLICATION->SetPageProperty("keywords", "Помощь");
+$APPLICATION->SetPageProperty("description", "Помощь");
 $APPLICATION->SetTitle("Помощь");
 ?><h2 class="no-top-space">Как оформить заказ</h2>
 <p>

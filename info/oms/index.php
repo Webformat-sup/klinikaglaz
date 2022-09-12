@@ -1,4 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("keywords_inner", "ОМС");
+$APPLICATION->SetPageProperty("title", "ОМС");
+$APPLICATION->SetPageProperty("keywords", "ОМС");
+$APPLICATION->SetPageProperty("description", "ОМС");
 $APPLICATION->SetTitle("ОМС");?><h1>Правовые документы для ОМС</h1>
 <p>
  <br>
