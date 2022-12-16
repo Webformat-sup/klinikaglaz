@@ -88,7 +88,7 @@ i.question{
 }
 
 .reviews .flexslider{
-	box-shadow: none;!important;
+	box-shadow: none!important;
 	margin-bottom: 0px;
 }
 
@@ -309,6 +309,8 @@ body {
     margin: 0 auto;
     padding: 0;
     height: auto !important;
+
+		
 }
 
 header{
@@ -326,4 +328,34 @@ header{
 
 .styled-block{
 	position: relative;
+}
+
+
+body {
+		background: url(/upload/GLAZ2.jpg) no-repeat;
+		background-position: top center;
+		/*background-size: 100%;
+		background-attachment: fixed;*/
+	}
+/*
+@media screen and (min-width: 1040px) {
+	body {
+		background: url(/upload/GLAZ.jpg) no-repeat;
+		background-size: 100%;
+		background-attachment: fixed;
+	}
+}
+
+@media screen and (max-width: 1040px) {
+	body {
+		background: url(/upload/GLAZ2.jpg) no-repeat;
+		background-size: 100%;
+		background-attachment: fixed;
+	}
+}
+*/
+@media screen and (max-width: 1040px) {
+	body {
+		background: none;
+	}
 }

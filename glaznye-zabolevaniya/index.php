@@ -324,7 +324,7 @@
 		"MESS_BTN_SUBSCRIBE" => "Подписаться",
 		"MESS_COMMENTS_TAB" => "Комментарии",
 		"MESS_DESCRIPTION_TAB" => "Описание",
-		"MESS_NOT_AVAILABLE" => "Нет в наличии",
+		"MESS_NOT_AVAILABLE" => "Под заказ",
 		"MESS_PRICE_RANGES_TITLE" => "Цены",
 		"MESS_PROPERTIES_TAB" => "Характеристики",
 		"MIN_AMOUNT" => "10",
@@ -358,8 +358,7 @@
 		"PRICE_VAT_SHOW_VALUE" => "N",
 		"PRODUCT_DISPLAY_MODE" => "Y",
 		"PRODUCT_ID_VARIABLE" => "id",
-		"PRODUCT_PROPERTIES" => array(
-		),
+		"PRODUCT_PROPERTIES" => "",
 		"PRODUCT_PROPS_VARIABLE" => "prop",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"PRODUCT_SUBSCRIPTION" => "Y",
@@ -541,6 +540,7 @@
 		"DETAIL_SHOW_VIEWED" => "Y",
 		"SIDEBAR_SECTION_POSITION" => "right",
 		"SIDEBAR_DETAIL_POSITION" => "right",
+		"SHOW_SKU_DESCRIPTION" => "N",
 		"SEF_URL_TEMPLATES" => array(
 			"sections" => "",
 			"section" => "#SECTION_CODE_PATH#/",

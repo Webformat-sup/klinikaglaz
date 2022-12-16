@@ -9,7 +9,7 @@ $APPLICATION->SetTitle("Контакты компании");?><div class="row co
 	</div>
  <br>
 	<div class="col-md-4">
-		<div itemprop="description">
+		<div itemprop="name">
 			 <?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-about.php", Array(), Array("MODE" => "html", "NAME" => "Contacts about"));?>
 		</div>
  <br>

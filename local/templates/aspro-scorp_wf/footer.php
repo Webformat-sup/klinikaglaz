@@ -375,5 +375,12 @@
         widget.setOption('checkSameDomain', false);
     });
 </script>
+
+
+
+
+	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/dist/js/lightgallery.min.js"></script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/lib/jquery.mousewheel.min.js"></script>
+	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/modules/lg-thumbnail.min.js"></script>
 	</body>
 </html>

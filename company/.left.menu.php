@@ -8,7 +8,7 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Академик С.Н.Федоров", 
+		"Академик Святослав Николаевич Федоров", 
 		"/company/akademik-s-n-fedorov/", 
 		Array(), 
 		Array(), 
@@ -64,15 +64,15 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Контакты", 
-		"/company/contacts/", 
+		"Видео-тур", 
+		"/video-tur/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Видео-тур", 
-		"/video-tur/", 
+		"Контакты", 
+		"/company/contacts/", 
 		Array(), 
 		Array(), 
 		"" 

@@ -41,7 +41,7 @@
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.countdown.min.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.countdown-ru.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/custom.js');?>
-
+		<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/dist/css/lightgallery.min.css">
 		  
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161721051-1"></script>
@@ -400,27 +400,27 @@
 									<div class="menu-only">
 										<nav class="mega-menu">
 											<?$APPLICATION->IncludeComponent(
-												"bitrix:menu",
-												"top",
-												array(
-													"ROOT_MENU_TYPE" => "top",
-													"MENU_CACHE_TYPE" => "A",
-													"MENU_CACHE_TIME" => "3600000",
-													"MENU_CACHE_USE_GROUPS" => "N",
-													"MENU_CACHE_GET_VARS" => array(
-													),
-													"MAX_LEVEL" => "4",
-													"CHILD_MENU_TYPE" => "left",
-													"USE_EXT" => "Y",
-													"DELAY" => "N",
-													"ALLOW_MULTI_SELECT" => "N",
-													"COUNT_ITEM" => "6",
-													"COMPONENT_TEMPLATE" => "top",
-													"COMPOSITE_FRAME_MODE" => "A",
-													"COMPOSITE_FRAME_TYPE" => "AUTO"
-												),
-												false
-											);?>
+	"bitrix:menu", 
+	"top", 
+	array(
+		"ROOT_MENU_TYPE" => "top",
+		"MENU_CACHE_TYPE" => "A",
+		"MENU_CACHE_TIME" => "3600000",
+		"MENU_CACHE_USE_GROUPS" => "N",
+		"MENU_CACHE_GET_VARS" => array(
+		),
+		"MAX_LEVEL" => "4",
+		"CHILD_MENU_TYPE" => "left",
+		"USE_EXT" => "Y",
+		"DELAY" => "N",
+		"ALLOW_MULTI_SELECT" => "N",
+		"COUNT_ITEM" => "6",
+		"COMPONENT_TEMPLATE" => "top",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
+	),
+	false
+);?>
 										</nav>
 									</div>
 								</div>

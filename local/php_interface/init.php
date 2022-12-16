@@ -65,6 +65,26 @@ function newFileHandler($fileId){
 
 }
 
+AddEventHandler("main", "OnBeforeProlog", "registerJquery", 1);
+
+function registerJquery()
+{
+  //Hack: when init first extension - bitrix register standart extensions
+  $emptyHack = [
+	 'css' => "",
+	 'skip_core' => true,
+  ];
+  CJSCore::RegisterExt('emptyHack', $emptyHack);
+  CJSCore::Init('emptyHack');
+
+  $jquery = [
+	 'js' => "/bitrix/js/main/jquery/jquery-old.min.js",
+	 'skip_core' => true,
+  ];
+  CJSCore::RegisterExt('jquery', $jquery);
+}
+
+
 class aspro_import {
     function FillTheBrands($arFields){
         $arCatalogID=array(46);

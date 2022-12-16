@@ -2,7 +2,7 @@
 $aMenuLinks = Array(
 	Array(
 		"Аберрация", 
-		"/meditsinskiy-slovar/a/aaa/", 
+		"/meditsinskiy-slovar/a/aberratsiya/", 
 		Array(), 
 		Array(), 
 		"" 

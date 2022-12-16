@@ -16,6 +16,12 @@ ErrorDocument 404 /404.php
 	Options +FollowSymLinks
 	RewriteEngine On
 
+	#Добавляем слэш в конце адреса
+    	RewriteCond %{REQUEST_URI} ^(.*\/[^\/\.]+)($|\?)
+    	RewriteCond %{REQUEST_URI} !^\/bitrix [NC]
+    	RewriteCond %{REQUEST_METHOD} !POST [NC]
+    	RewriteRule .* %{ENV:proto}://%{SERVER_NAME}%1/ [R=301,L]
+
 	#убираем "www" в начале URL
 	RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
 	RewriteRule (.*) %{ENV:proto}://%1/$0 [R=301,E=HTTP_REFERER:%{HTTP_REFERER},L]
@@ -473,6 +479,9 @@ ErrorDocument 404 /404.php
 	Redirect 301 /meditsinskiy-slovar/s/http-klinikaglaz-ru-subepitelialniy-fler-rogovitsy/ /meditsinskiy-slovar/s/subepitelialnyy-fler-rogovitsy-kheyz/
 	Redirect 301 /projects/optika/ /projects/optika-v-klinike/
 	Redirect 301 /projects/optika/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/ /projects/optika-v-klinike/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/
+	
+	Redirect 301 /meditsinskiy-slovar/a/aaa/ /meditsinskiy-slovar/a/aberratsiya/
+	Redirect 301 /meditsinskiy-slovar/a/aba/ambliopiya/ /meditsinskiy-slovar/a/ambliopiya/
 
 </IfModule>
 

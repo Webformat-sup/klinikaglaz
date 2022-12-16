@@ -65,7 +65,7 @@ $aMenuLinks = Array(
 	),
 	Array(
 		"Постановление правительства РФ от 19.12.2015 №1382", 
-		"/info/oms/postanovlenie-pravitelstva-rf-ot-19-12-2015-1382./", 
+		"/info/oms/postanovlenie-pravitelstva-rf-ot-19-12-2015-1382/", 
 		Array(), 
 		Array(), 
 		"" 

@@ -1190,3 +1190,39 @@ span.btn-custom-sign{
 span.btn-custom-sign:hover{
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
+
+/*
+  lightgallery
+*/
+
+#lightgallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 25px 0;
+}
+
+#lightgallery .elem {
+  width: 23%;
+  margin: 1%;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  #lightgallery .elem {
+    width: 48%;
+  }
+}
+
+#lightgallery .elem:hover {
+  opacity: .8;
+}
+#lightgallery .elem img { width: 100%; }
+
+.lg-backdrop {
+  background-color: #00000059!important;
+} 
+
+.lg-outer .lg-thumb-outer {
+  background-color: #0D0A0A8C!important;
+}	
