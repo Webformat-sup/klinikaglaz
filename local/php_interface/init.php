@@ -2,6 +2,9 @@
 \Bitrix\Main\Loader::includeModule('webformat.utils');
 CModule::IncludeModule('webformat.debug1');
 
+include_once 'webformat/stringHeadCanonical.php';
+include_once 'webformat/stringMicromarkingJson.php';
+
   //обработчик, который перезаписывает бренд при выгрузке из 1с
   AddEventHandler( "iblock", "OnAfterIBlockElementAdd", array( "aspro_import", "FillTheBrands" ) );
   AddEventHandler( "iblock", "OnAfterIBlockElementUpdate", array( "aspro_import", "FillTheBrands" ) );

@@ -4,9 +4,13 @@
 	<head>
 		<?global $APPLICATION;?>
 		<?IncludeTemplateLangFile(__FILE__);?>
+
+		<?php $stringCanonical = stringHeadCanonical(); ?>
+		<?php $APPLICATION->AddHeadString($stringCanonical, true); ?>
+
 		<title><?$APPLICATION->ShowTitle()?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="facebook-domain-verification" content="ipjnk5aqwfeobiv2wv5x9al1hy9lv9" />
+		<!-- <meta name="facebook-domain-verification" content="ipjnk5aqwfeobiv2wv5x9al1hy9lv9" /> -->
 		<meta name="yandex-verification" content="35e7310e1899d525" />
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700italic,700,500italic,500,400italic,300,300italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
@@ -41,8 +45,6 @@
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.countdown.min.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.countdown-ru.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/custom.js');?>
-		<link rel="stylesheet" href="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/dist/css/lightgallery.min.css">
-		  
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-161721051-1"></script>
 		<script>
@@ -54,6 +56,7 @@
 			setTimeout(function(){gtag('event', location.pathname, {'event_category': 'Новый посетитель'});}, 15000);
 		</script>
 
+		<?php /* ?>
 		<!-- Facebook Pixel Code -->
 			<script>
 			!function(f,b,e,v,n,t,s)
@@ -71,6 +74,7 @@
 			src="https://www.facebook.com/tr?id=274236527023958&ev=PageView&noscript=1"
 			/></noscript>
 		<!-- End Facebook Pixel Code -->
+		<?php */ ?>
 	</head>
 
 
@@ -98,6 +102,17 @@
 			<?$sTeasersIndexTemplate = ($arTheme["TEASERS_INDEX"]["VALUE"] == 'PICTURES' ? 'front-teasers-pictures' : ($arTheme["TEASERS_INDEX"]["VALUE"] == 'ICONS' ? 'front-teasers-icons' : false));?>
 			<?$bCatalogIndex = $arTheme["CATALOG_INDEX"]["VALUE"] == 'Y';?>
 			<?$bCatalogFavoritesIndex = $arTheme["CATALOG_FAVORITES_INDEX"]["VALUE"] == 'Y';?>
+
+			<?php // размещаем микроразметку Json LD на главной странице 
+			$path = $_SERVER['DOCUMENT_ROOT'] . '/include/description_jsonld_main.php';
+			if(\Bitrix\Main\IO\File::isFileExists($path))
+			{
+				$stringValue = \Bitrix\Main\IO\File::getFileContents($path);
+				$mictoFormatJson = stringMicromarkingJson($_SERVER['SERVER_NAME'], $stringValue);
+				$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+			}
+			?>
+
 		<?endif;?>
 		<?/*<!--- фон -->
 		<span class="bg_image_site opacity1 opacity" style="background-image:url(<?=SITE_TEMPLATE_PATH?>/images/bg.jpg);"></span>
@@ -140,7 +155,8 @@
 			</div>
 		<?/*------верхнее меню для мобилки--------*/?>
 		<div class="body <?=($isIndex ? 'index' : '')?>">
-			<a href="https://shop.klinikaglaz.ru/auth/<?/*=($USER->IsAuthorized() ? '/presonal/' : '/auth/')*/?>">
+			
+			<a href="https://shop.klinikaglaz.ru/auth/<?/*=($USER->IsAuthorized() ? '/presonal/' : '/auth/')*/?>" rel="nofollow">
 				<div class="personal_cabinet">
 					<svg xmlns="https://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17">
 						<defs>
@@ -156,6 +172,7 @@
 				</div>
 			</a>
 			<div class="body_media"></div>
+
 			<header class="topmenu-<?=($arTheme["TOP_MENU"]["VALUE"])?><?=($arTheme["TOP_MENU_FIXED"]["VALUE"] == "Y" ? ' canfixed' : '')?>">
 				<div class="logo_and_menu-row custom">
 					<div class="logo-row row">
@@ -180,7 +197,7 @@
 											"MODE" => "php",
 											"NAME" => "license",
 										)
-									);?>
+									);?> 
 								</div>
 							</div>
 							<div class="col-md-7 col-sm-7 col-xs-12" itemscope itemtype="https://schema.org/Organization">
@@ -366,10 +383,10 @@
 							</div>
 							<div class="col-md-2 col-sm-2 socialNetwork">
 								<div class="whatsApp">
-									<a href="https://api.whatsapp.com/send?phone=79221588731"><img src="/local/templates/aspro-scorp_wf/images/whatsapp.png"></a>
+									<a href="https://api.whatsapp.com/send?phone=79221588731" rel="nofollow"><img src="/local/templates/aspro-scorp_wf/images/whatsapp.png"></a>
 								</div>
 								<div class="viber">
-									<a href="viber://chat?number=79221588731"><img src="/local/templates/aspro-scorp_wf/images/viber.png"></a>
+									<a href="viber://chat?number=79221588731" rel="nofollow"><img src="/local/templates/aspro-scorp_wf/images/viber.png"></a>
 								</div>
 								<div class="glaz">
 									<a href="?special_version=Y"><img src="/local/templates/aspro-scorp_wf/images/glaz.png"></a>
@@ -400,27 +417,27 @@
 									<div class="menu-only">
 										<nav class="mega-menu">
 											<?$APPLICATION->IncludeComponent(
-	"bitrix:menu", 
-	"top", 
-	array(
-		"ROOT_MENU_TYPE" => "top",
-		"MENU_CACHE_TYPE" => "A",
-		"MENU_CACHE_TIME" => "3600000",
-		"MENU_CACHE_USE_GROUPS" => "N",
-		"MENU_CACHE_GET_VARS" => array(
-		),
-		"MAX_LEVEL" => "4",
-		"CHILD_MENU_TYPE" => "left",
-		"USE_EXT" => "Y",
-		"DELAY" => "N",
-		"ALLOW_MULTI_SELECT" => "N",
-		"COUNT_ITEM" => "6",
-		"COMPONENT_TEMPLATE" => "top",
-		"COMPOSITE_FRAME_MODE" => "A",
-		"COMPOSITE_FRAME_TYPE" => "AUTO"
-	),
-	false
-);?>
+												"bitrix:menu", 
+												"top", 
+												array(
+													"ROOT_MENU_TYPE" => "top",
+													"MENU_CACHE_TYPE" => "A",
+													"MENU_CACHE_TIME" => "3600000",
+													"MENU_CACHE_USE_GROUPS" => "N",
+													"MENU_CACHE_GET_VARS" => array(
+													),
+													"MAX_LEVEL" => "4",
+													"CHILD_MENU_TYPE" => "left",
+													"USE_EXT" => "Y",
+													"DELAY" => "N",
+													"ALLOW_MULTI_SELECT" => "N",
+													"COUNT_ITEM" => "6",
+													"COMPONENT_TEMPLATE" => "top",
+													"COMPOSITE_FRAME_MODE" => "A",
+													"COMPOSITE_FRAME_TYPE" => "AUTO"
+												),
+												false
+											);?>
 										</nav>
 									</div>
 								</div>
@@ -460,6 +477,7 @@
 				</div>
 				<div class="line-row visible-xs"></div>
 			</header>
+
 			<div role="main" class="main">
 				<?if($isIndex):?>
 					<?@include(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'].'/'.SITE_DIR.'/indexblocks.php'));?>

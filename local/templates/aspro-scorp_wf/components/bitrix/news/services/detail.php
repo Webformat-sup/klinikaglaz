@@ -424,3 +424,32 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 		<a class="back-url" href="<?=$arResult['FOLDER'].$arResult['URL_TEMPLATES']['news']?>"><i class="fa fa-chevron-left"></i><?=GetMessage('BACK_LINK')?></a>
 	</div>
 </div>
+
+<?php // микроразметка Json LD
+$iblockId = $arParams['IBLOCK_ID'];
+$elementId = $arElement['ID'];
+
+$stringValue = '';
+if($iblockId && $elementId)
+{
+		$customPropValue = CIBlockElement::GetProperty(
+				$iblockId, $elementId, ['sort' => 'asc'], ['CODE'=>'MICRORAZMETKA']
+		)->Fetch()['VALUE'];
+
+		if($customPropValue && !empty($customPropValue))
+		{
+				$stringValue = $customPropValue;
+		} 
+		else 
+		{
+				$ipropElementValues = new \Bitrix\Iblock\InheritedProperty\ElementValues($iblockId,$elementId);
+				$seoPropValue = $ipropElementValues->getValues()['ELEMENT_META_DESCRIPTION'];
+
+				$stringValue = (!empty($seoPropValue)) ? $seoPropValue : '';
+		}
+}
+
+$url = $_SERVER['SERVER_NAME'] . $arElement['DETAIL_PAGE_URL'];
+$mictoFormatJson = stringMicromarkingJson($url, $stringValue);
+$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+?>

@@ -179,3 +179,28 @@ $this->EndViewTarget();
 		)
 	);?>
 </div>
+
+<?php // микроразметка Json LD
+if(CSite::InDir($arParams['SEF_FOLDER'].'index.php'))
+{
+		$url = $_SERVER['SERVER_NAME'] . $arParams['SEF_FOLDER'];
+		$stringValue = '';
+		$path = $_SERVER['DOCUMENT_ROOT'] . '/include/description_jsonld_services.php';
+		if(\Bitrix\Main\IO\File::isFileExists($path))
+		{
+			$stringValue = \Bitrix\Main\IO\File::getFileContents($path);
+		}
+
+		if(empty($stringValue))
+		{
+				$iblockId = $arParams['IBLOCK_ID'];
+				$ipropIblockValues = new \Bitrix\Iblock\InheritedProperty\IblockValues($iblockId);
+				$seoPropValue = $ipropIblockValues->getValues()['SECTION_META_DESCRIPTION'];
+
+				$stringValue = (!empty($seoPropValue)) ? $seoPropValue : '';
+		}
+
+		$mictoFormatJson = stringMicromarkingJson($url, $stringValue);
+		$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+}
+?>

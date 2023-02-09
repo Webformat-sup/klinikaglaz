@@ -237,3 +237,42 @@ $this->EndViewTarget();
   }
 //}?>
 
+<?php // микроразметка Json LD
+$iblockId = $arParams['IBLOCK_ID'];
+
+if($arResult['VARIABLES']['SECTION_CODE'])
+{
+		$iblockSectionId = CIBlockSection::GetList(
+			[], ['IBLOCK_ID' => $iblockId, 'CODE' => $arResult['VARIABLES']['SECTION_CODE']]
+		)->Fetch()['ID'];
+}
+
+$stringValue = '';
+if($iblockId && $iblockSectionId)
+{
+		$codeCustomProp = 'UF_MICRORAZMETKA';
+		$entity = \Bitrix\Iblock\Model\Section::compileEntityByIblock($iblockId);
+
+		$customPropValue = $entity::getList([
+			'select' => [$codeCustomProp], 
+			'filter' => ['ID' => $iblockSectionId], 
+			'cache' => ['ttl' => 36000],
+		])->fetch()[$codeCustomProp];
+
+		if($customPropValue && !empty($customPropValue))
+		{
+				$stringValue = $customPropValue;
+		} 
+		else 
+		{
+				$ipropSectionValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($iblockId, $iblockSectionId);
+				$seoPropValue = $ipropSectionValues->getValues()['SECTION_META_DESCRIPTION'];
+
+				$stringValue = (!empty($seoPropValue)) ? $seoPropValue : '';
+		}
+}
+
+$url = $_SERVER['SERVER_NAME'] . $_SERVER['REDIRECT_URL'];
+$mictoFormatJson = stringMicromarkingJson($url, $stringValue);
+$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+?>
