@@ -1226,3 +1226,6 @@ span.btn-custom-sign:hover{
 .lg-outer .lg-thumb-outer {
   background-color: #0D0A0A8C!important;
 }	
+.detail .chars .props_table .char_value{
+	white-space: nowrap;
+}

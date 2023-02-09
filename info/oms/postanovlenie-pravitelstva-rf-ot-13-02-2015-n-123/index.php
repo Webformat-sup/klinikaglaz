@@ -9,7 +9,7 @@ $APPLICATION->SetTitle("Постановление Правительства Р
 </tr>
 <tr>
 	<td>
-		 &nbsp;Документ предоставлен&nbsp;<a href="http://www.consultant.ru/">КонсультантПлюс www.consultant.ru</a>&nbsp;<br>
+		 &nbsp;Документ предоставлен&nbsp;<a href="http://www.consultant.ru/" rel="nofollow">КонсультантПлюс www.consultant.ru</a>&nbsp;<br>
 		 Дата сохранения:&nbsp;15.04.2016
 	</td>
 </tr>
