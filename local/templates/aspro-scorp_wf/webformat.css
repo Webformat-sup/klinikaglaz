@@ -331,31 +331,13 @@ header{
 }
 
 
-body {
-		background: url(/upload/GLAZ2.jpg) no-repeat;
-		background-position: top center;
-		/*background-size: 100%;
-		background-attachment: fixed;*/
-	}
-/*
-@media screen and (min-width: 1040px) {
-	body {
-		background: url(/upload/GLAZ.jpg) no-repeat;
-		background-size: 100%;
-		background-attachment: fixed;
-	}
-}
+/* body {
+	background: url(/upload/GLAZ2.jpg) no-repeat;
+	background-position: top center;
+} */
 
-@media screen and (max-width: 1040px) {
-	body {
-		background: url(/upload/GLAZ2.jpg) no-repeat;
-		background-size: 100%;
-		background-attachment: fixed;
-	}
-}
-*/
-@media screen and (max-width: 1040px) {
+/* @media screen and (max-width: 1040px) {
 	body {
 		background: none;
 	}
-}
+} */

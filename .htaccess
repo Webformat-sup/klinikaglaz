@@ -483,6 +483,46 @@ ErrorDocument 404 /404.php
 	Redirect 301 /meditsinskiy-slovar/a/aaa/ /meditsinskiy-slovar/a/aberratsiya/
 	Redirect 301 /meditsinskiy-slovar/a/aba/ambliopiya/ /meditsinskiy-slovar/a/ambliopiya/
 
+	Redirect 301 /polnaya-diagnostika-detskogo-zreniya-so-skidkoj-vsego-1750-rublej/ /
+	Redirect 301 /bardina2a/ /
+	Redirect 301 /kontaktyi/services/khalyazion/lechenie-khalyaziona/ /services/khalyazion/
+	Redirect 301 /vospalitelnye-zabolevaniya-glaza/ /services/vospalitelnye-zabolevaniya-glaza/
+	Redirect 301 /sale/diagnostika-detskogo-zreniya-za-2500-r-i-skidka-na-ochkovye-linzy-stellest/ /
+	Redirect 301 /sale/v_novyy_god_s_novymi_ochkami_skidka_20_23_43_na_opravu/ /
+	Redirect 301 /voprosy/hirurgicheskoe-lechenie-kataraktyi/ /info/articles/skazhite-pozhaluysta-vkhodit-li-v-stoimost-operatsii-po-zamene-khrustalika-stoimost-samogo-khrustali/
+	Redirect 301 /catalog/solntsezashchitnye_ochki/zolotoy/ /
+	Redirect 301 /kontaktyi/projects/zabota-o-zrenii/solntse-raduet-glaz-no-vredit-zreniyu/ /projects/zabota-o-zrenii/solntse-raduet-glaz-no-vredit-zreniyu/
+	Redirect 301 /sale/skidka-6000-rubley-na-lazernuyu-korrektsiyu-zreniya/lazernaya-korrektsiya-leyzik-s-femtoseknudnym-soprovozhdeniem-femtoleyzik/ /
+	Redirect 301 /catalog/ochki_gotovye_i_dr/metall-s-plastikom/ https://shop.klinikaglaz.ru/catalog/ochki_gotovye_i_dr/
+	Redirect 301 /services/diagnostika/mikrohirurgiya-glaza/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /catalog/aksessuary_dlya_kl/aksessuary_dlya_mkl/konteyner/43827/ https://shop.klinikaglaz.ru/catalog/aksessuary_dlya_kl/
+	Redirect 301 /tiffany/ https://shop.klinikaglaz.ru/catalog/meditsinskie_opravy/
+	Redirect 301 /kak-podgotovit-rebenka--k--oftalmologu/utm_source=yandex&utm_medium=cpc&utm_campaign=26364325&utm_content=3984204032&utm_term=podgotovkarebenka/ /services/diagnostika-detskogo-zreniya/kak-podgotovit-rebyenka-k-vizitu-k-oftalmologu/
+	Redirect 301 /services/bolezni-setchatki/selektivnaya-lazernaya-trabekuloplastika/ /services/glaukoma/selektivnaya-lazernaya-trabekuloplastika/
+	Redirect 301 /kontaktyi/info/oms/prikaz-minzdrava-sverdlovskoy-oblasti-ot-08-02-2013-n-116-p/ /info/oms/
+	Redirect 301 /sale/spetsialnye-tseny-na-na-uglublennuyu-diagnostiku-zreniya-ko-dnyu-rozhdeniya-kliniki/ /
+	Redirect 301 /sale/besplatnyy-osmotr-detskogo-okulista-v-optike/ /
+	Redirect 301 /kontaktyi/projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/
+	Redirect 301 /kontaktyi/services/katarakta-i-glaukoma/ /services/katarakta-i-glaukoma/
+	Redirect 301 /sale/skidka_30_na_linzy_dlya_vozhdeniya_zeiss_drivesafe/ /
+	Redirect 301 /services/podbor-detskikh-ochkov-i-kontaktnykh-linz/proverka-zreniya-i-podbor-mkl-detyam/%20%20/ /services/podbor-detskikh-ochkov-i-kontaktnykh-linz/proverka-zreniya-i-podbor-mkl-detyam/
+	Redirect 301 /info/news/chistota-zalog-zdorovya/ /projects/zabota-o-zrenii/
+	Redirect 301 /projects/zabota-o-zrenii/kak-vliyaet-sport-na-vashe-zrenie/ /projects/zabota-o-zrenii/kak-vliyaet-sport-na-vashe-zrenie/
+	Redirect 301 /sale/diagnostika-zreniya-so-skidkoy-bolee-50-tolko-do-kontsa-iyulya-2021g-/ /
+	Redirect 301 /kontaktyi/projects/lazernaya-korrektsiya-zreniya/ /projects/lazernaya-korrektsiya-zreniya/
+	Redirect 301 /glavvrach/ /company/staff/romanenko-boris-vitalevich/
+	Redirect 301 /info/news/rabota-kliniki-v-period-karantina-i-usilenie-mer-protivovirusnykh-mer-/ /info/news
+	Redirect 301 /services/detskie-zabolevaniya/miopiya-u-detey/services/podbor-detskikh-ochkov-i-kontaktnykh-linz/kogda-mozhno-detya-nosit-kontaktnye-linzy/ /services/detskie-zabolevaniya/miopiya-u-detey/
+	Redirect 301 /info/stock/antikrizisnaya-tsena-operatsiya-ot-30-500-rub-na-katarakty/ /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-200-rub-na-operatsiyu-po-katarakte/
+	Redirect 301 /giperplasia-epitelia/ /
+	Redirect 301 /services/engchild/ege/ /services/
+	Redirect 301 /sale/skidka_30_na_fotokhromnye_linzy_zeiss_s_premialnym_pokrytiem/ /
+	Redirect 301 /sale/50-na-lyubuyu-opravu-aktsiya-osen-20228785/ /
+	Redirect 301 /catalog/solntsezashchitnye_ochki/arizona/57758/ https://shop.klinikaglaz.ru/catalog/solntsezashchitnye_ochki/
+	Redirect 301 /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-500-rub-na-operatsiyu-po-katarakte/ /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-200-rub-na-operatsiyu-po-katarakte/
+	Redirect 301 /sale/den-otkrytykh-dverey-dlya-detey/ /
+	Redirect 301 /catalog/ /
+	Redirect 301 /catalog/katarakta/ /
 </IfModule>
 
 
