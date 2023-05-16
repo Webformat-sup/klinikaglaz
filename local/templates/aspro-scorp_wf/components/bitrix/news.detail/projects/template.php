@@ -84,7 +84,6 @@ $frame->setBrowserStorage(true);
 					</div>
 				</div>
 			<?endif;?>
-			
 			<?if($arResult['DISPLAY_PROPERTIES']['FORM_QUESTION']['VALUE_XML_ID'] == 'YES'):?>
 				<style type="text/css">
 				@media (min-width:992px){
@@ -102,6 +101,33 @@ $frame->setBrowserStorage(true);
 					</div>
 				</div>
 			<?endif;?>
+		</div>
+	</div>
+<?endif;?>
+
+<?if($arResult['DISPLAY_PROPERTIES']['FORM_PROJECT']['VALUE_XML_ID'] == 'YES'):?>
+	<!-- ask_project -->
+	<div class="order-block">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
+				<span class="btn-custom-sign" data-event="jqm" data-param-id="<?=WEBFORM?'18':CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_project'][0]?>" data-name="order_project" data-autoload-project="<?=$arResult['NAME']?>">
+					<?//=(strlen($arParams['S_ORDER_PROJECT']) ? $arParams['S_ORDER_PROJECT'] : GetMessage('S_ORDER_PROJECT'))?>
+					<img src="<?=SITE_TEMPLATE_PATH?>/images/sign.svg" height="54"/>
+				</span>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
+				<div class="text">
+					<?$APPLICATION->IncludeComponent(
+						'bitrix:main.include',
+						'',
+						Array(
+							'AREA_FILE_SHOW' => 'file',
+							'PATH' => SITE_DIR.'include/ask_project.php',
+							'EDIT_TEMPLATE' => ''
+						)
+					);?>
+				</div>
+			</div>
 		</div>
 	</div>
 <?endif;?>
@@ -128,12 +154,16 @@ $frame->setBrowserStorage(true);
 
 <?// order?>
 <?if($arResult['DISPLAY_PROPERTIES']['FORM_PROJECT']['VALUE_XML_ID'] == 'YES'):?>
+	<!-- ask_project -->
 	<div class="order-block">
 		<div class="row">
-			<div class="col-md-4 col-sm-4 col-xs-5 valign">
-				<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="<?=WEBFORM?'18':CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_project'][0]?>" data-name="order_project" data-autoload-project="<?=$arResult['NAME']?>"><?=(strlen($arParams['S_ORDER_PROJECT']) ? $arParams['S_ORDER_PROJECT'] : GetMessage('S_ORDER_PROJECT'))?></span>
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
+				<span class="btn-custom-sign" data-event="jqm" data-param-id="<?=WEBFORM?'18':CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_project'][0]?>" data-name="order_project" data-autoload-project="<?=$arResult['NAME']?>">
+					<?//=(strlen($arParams['S_ORDER_PROJECT']) ? $arParams['S_ORDER_PROJECT'] : GetMessage('S_ORDER_PROJECT'))?>
+					<img src="<?=SITE_TEMPLATE_PATH?>/images/sign.svg" height="54"/>
+				</span>
 			</div>
-			<div class="col-md-8 col-sm-8 col-xs-7 valign">
+			<div class="col-md-6 col-sm-6 col-xs-12 valign">
 				<div class="text">
 					<?$APPLICATION->IncludeComponent(
 						'bitrix:main.include',

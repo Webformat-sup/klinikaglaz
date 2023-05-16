@@ -15,6 +15,14 @@ if(\Bitrix\Main\Loader::includeModule("aspro.next"))
 	if(!$arRegion)
 		$arRegion = CNextRegionality::getCurrentRegion();
 	CNext::GetValidFormIDForSite($form_id);
+	
+	$successMessage = ($isCallBack ? "<p>Наш менеджер перезвонит вам в ближайшее время.</p><p>Спасибо за ваше обращение!</p>" : "Спасибо! Ваше сообщение отправлено!");
+$arDataTrigger = json_decode((isset($_REQUEST["data-trigger"]) ? $_REQUEST["data-trigger"] : '{}'), true); // allways UTF-8
+$url_sizes = (htmlspecialchars($_REQUEST['url']) ? htmlspecialchars($_REQUEST['url']) : '');
+
+$bAuth = isset($_REQUEST['type']) && $_REQUEST['type'] == 'auth';
+$backUrl = $bAuth ? false : (isset($_REQUEST['backurl']) ? $_REQUEST['backurl'] : ($_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : false));
+
 }
 ?>
 <?if(isset($_REQUEST['type']) && $_REQUEST['type'] == 'auth'):?>
@@ -83,6 +91,7 @@ if(\Bitrix\Main\Loader::includeModule("aspro.next"))
 	<?if($arDataTrigger && strlen($name)):?>
 		<script type="text/javascript">
 		var name = '<?=$name?>';
+		
 		var arTriggerAttrs = <?=json_encode($arDataTrigger)?>;
 		$(document).ready(function() {
 			$.each(arTriggerAttrs, function(index, val){
@@ -91,7 +100,7 @@ if(\Bitrix\Main\Loader::includeModule("aspro.next"))
 					var el = $('input[data-sid="'+key.toUpperCase()+'"]');
 					if(el.closest('.form-group').length)
 						el.closest('.form-group').addClass('input-filed');
-					el.val(val).attr('readonly', 'readonly').attr('title', val);
+					el.val(val).attr('value', val).attr('readonly', 'readonly').attr('title', val);
 				}
 			});
 			

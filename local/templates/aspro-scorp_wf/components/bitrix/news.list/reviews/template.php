@@ -38,11 +38,13 @@
 						$doctor = $arItem['DISPLAY_PROPERTIES']['DOCTOR']['DISPLAY_VALUE'];
 
 						?>
-						<div class="col-md-12">
+						<div class="col-md-12" itemscope itemtype="http://schema.org/Review">
+							<meta itemprop="name" content="Клиника микрохирургии Глаз" />
+							<meta itemprop="url" content="https://klinikaglaz.ru/company/reviews/#<?=$this->GetEditAreaId($arItem['ID'])?>" />
 							<div class="item review" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
 								<div class="it">
 									<?// element preview text?>
-									<div class="text" id="text_<?=$arItem['ID']?>"><?=$arItem['FIELDS']['PREVIEW_TEXT']?></div>
+									<div class="text" id="text_<?=$arItem['ID']?>" itemprop="reviewBody"><?=$arItem['FIELDS']['PREVIEW_TEXT']?></div>
 									<?// docs files?>
 									<?if($arItem['DISPLAY_PROPERTIES']['DOCUMENTS']['VALUE']):?>
 										<div class="row docs">
@@ -65,7 +67,12 @@
 								<div class="info">
 									<?// element name?>
 									<?if(strlen($arItem['FIELDS']['NAME'])):?>
-									<div class="title"><?=$arItem['NAME']?> <span><?=$arItem['ACTIVE_FROM']?></span></div>
+									<div class="title">
+										<span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+											<span itemprop="name"><?=$arItem['NAME']?> </span>
+										</span>
+										<span itemprop="datePublished" content="<?=$arItem['ACTIVE_FROM']?>"><?=$arItem['ACTIVE_FROM']?></span>
+									</div>
 									<?endif;?>
 									
 									<div class="post"><?=$post?> <?if($doctor){?>| Врач: <?=$doctor?><? } ?></div>
@@ -75,6 +82,15 @@
 									<? } ?>
 								</div>
 							</div>
+							<div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Thing">
+								<meta itemprop="name" content="Клиника микрохирургии Глаз" />
+								<link itemprop="url" href="https://klinikaglaz.ru" />
+							</div>
+							<div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+								<meta itemprop="worstRating" content="0" />
+								<meta itemprop="ratingValue" content="5" />
+								<meta itemprop="bestRating" content="5" />
+						</div>
 						</div>
 					<?endforeach;?>
 				</div>

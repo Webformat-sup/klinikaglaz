@@ -71,7 +71,7 @@ i.question{
 	float:left;
 }
 
-.reviews.item-views .item .title span{
+.reviews.item-views .item .title > span:not(.author){
 	 color: #9aa7af;
     font-size: 11px;
     margin-left: 7px;

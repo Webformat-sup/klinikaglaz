@@ -379,3 +379,21 @@ $frame->setAnimation(true);
 	</div>
 <?endif;?>
 <?$frame->end();?>
+
+<?php
+// $iblockId = $arResult['IBLOCK_ID'];
+// $elementId = $arResult['ID'];
+
+// if($iblockId && $elementId)
+// {
+// 		$ipropElementValues = new \Bitrix\Iblock\InheritedProperty\ElementValues($iblockId,$elementId);
+// 		$seoPropValue = $ipropElementValues->getValues();
+
+// 		$detailPathElement = $_SERVER['SERVER_NAME'] . $arResult['DETAIL_PAGE_URL'];
+// 		$nameElement = $arResult['NAME'];
+// 		$descElement = $seoPropValue['ELEMENT_META_DESCRIPTION'];
+
+// 		$mictoFormatJson = stringMicromarkingJson($detailPathElement, $descElement, $nameElement, 1);
+// 		$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+// }
+?>

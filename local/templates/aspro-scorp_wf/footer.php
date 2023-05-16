@@ -125,88 +125,82 @@
 			</div><?// class=main?>
 		</div><?// class=body?>
 
-		<footer id="footer">
-			<div class="container">
-				<div class="row">
-					<div class="corp">
-						<?$APPLICATION->IncludeComponent("bitrix:search.title", "corp", array(
-							"NUM_CATEGORIES" => "2",
-							"TOP_COUNT" => "3",
-							"ORDER" => "date",
-							"USE_LANGUAGE_GUESS" => "Y",
-							"CHECK_DATES" => "Y",
-							"SHOW_OTHERS" => "Y",
-							"PAGE" => SITE_DIR."search/",
-							"CATEGORY_OTHERS_TITLE" => GetMessage("S_OTHER"),
-							"CATEGORY_0_TITLE" => GetMessage("S_CONTENT"),
-							"CATEGORY_0" => array(
-								0 => "iblock_aspro_scorp_content",
-							),
-							"CATEGORY_1_TITLE" => GetMessage("S_CATALOG"),
-							"CATEGORY_1" => array(
-								0 => "iblock_aspro_scorp_catalog",
-							),
-							"SHOW_INPUT" => "Y",
-							"INPUT_ID" => "title-search-input",
-							"CONTAINER_ID" => "title-search",
-							"PRICE_CODE" => array(
-							),
-							"PRICE_VAT_INCLUDE" => "Y",
-							"PREVIEW_TRUNCATE_LEN" => "",
-							"SHOW_PREVIEW" => "Y",
-							"PREVIEW_WIDTH" => "25",
-							"PREVIEW_HEIGHT" => "25"
-							),
-							false
-						);?>
-					</div>
-					<div class="socials--mobile">
-						<?$APPLICATION->IncludeComponent(
-							"aspro:social.info.scorp",
-							".default",
-							array(
-								"CACHE_TYPE" => "A",
-								"CACHE_TIME" => "3600000",
-								"CACHE_GROUPS" => "N",
-								"COMPONENT_TEMPLATE" => ".default"
-							),
-							false
-						);?>
-					</div>
-				</div>
-				<div class="row"><hr>
-					<div class="maxwidth-theme">
-						<div class="col-md-3 col-sm-3 col-xs-12">
-							<div class="copy">
-								<?$APPLICATION->IncludeFile(SITE_DIR."include/copy.php", Array(), Array(
-										"MODE" => "php",
-										"NAME" => "Copyright",
-									)
-								);?>
+		<?php $isContactPage = ($APPLICATION->GetCurPage() == '/company/contacts/') ? true : false; ?>
+		<?php if(!$isContactPage){ ?>
+				<?$APPLICATION->IncludeFile(SITE_DIR.'include/footer-yandex-map.php', array(), array('MODE' => 'html', 'NAME' => 'Map'));?>
+		<?php } ?>
+
+		<footer style="color: #000; margin-top: -6px !important;">
+			<div class="container main-footer-container">
+					<div class="row">
+						<div class="maxwidth-theme">
+							<div class="col-md-4 col-sm-4 col-xs-12 footer-first">
+									<div class="logotip">
+										<img src="/upload/logotip_footer.svg" alt="logotip" />
+									</div>
+
+									<div class="text">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/footer-block-1.php'
+											]
+										);?>
+									</div>
+									<div class="text data">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/footer-block-2.php'
+											]
+										);?>
+									</div>
+									<div class="text links">
+										<div>
+											<a href="/terms-of-use.php">Пользовательское соглашение</a>
+										</div>
+										<div>
+											<a href="/privacy-policy.php">Политика конфиденциальности</a>			
+										</div>
+									</div>
+									<div class="webmaster-yandex">
+										<a href="https://webmaster.yandex.ru/sqi?host=klinikaglaz.ru">
+											<img alt="" src="https://yandex.ru/cycounter?klinikaglaz.ru&amp;theme=light&amp;lang=ru" width="88" height="31" border="0" />
+										</a>
+									</div>
+
 							</div>
-							<div id="bx-composite-banner"></div>
-						</div>
-						<div class="col-md-9 col-sm-9">
-							<div class="row">
-								<div class="col-md-8 col-sm-8">
-									<div class="col-md-6 col-sm-6">
-										<?$APPLICATION->IncludeComponent("bitrix:menu", "bottom_custom", array(
-											"ROOT_MENU_TYPE" => "bottom",
-											"MENU_CACHE_TYPE" => "A",
-											"MENU_CACHE_TIME" => "3600000",
-											"MENU_CACHE_USE_GROUPS" => "N",
-											"MENU_CACHE_GET_VARS" => array(
-											),
-											"MAX_LEVEL" => "1",
-											"CHILD_MENU_TYPE" => "",
-											"USE_EXT" => "Y",
-											"DELAY" => "N",
-											"ALLOW_MULTI_SELECT" => "Y"
+							<div class="col-md-5 col-sm-5 col-xs-12 footer-second">
+
+								<div class="row">
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<?$APPLICATION->IncludeComponent(
+											"bitrix:menu", 
+											"bottom_custom", 
+											array(
+												"ROOT_MENU_TYPE" => "bottom",
+												"MENU_CACHE_TYPE" => "A",
+												"MENU_CACHE_TIME" => "3600000",
+												"MENU_CACHE_USE_GROUPS" => "N",
+												"MENU_CACHE_GET_VARS" => array(),
+												"MAX_LEVEL" => "1",
+												"CHILD_MENU_TYPE" => "",
+												"USE_EXT" => "Y",
+												"DELAY" => "N",
+												"ALLOW_MULTI_SELECT" => "Y"
 											),
 											false
 										);?>
 									</div>
-									<div class="col-md-6 col-sm-6">
+									<div class="col-md-6 col-sm-6 col-xs-12">
 										<?$APPLICATION->IncludeComponent(
 											"bitrix:menu", 
 											"bottom_custom", 
@@ -226,101 +220,173 @@
 											),
 											false
 										);?>
-										<div class="pc"> 
-										<div class="payment">
-											<div class="title">
-												<?=GetMessage('PAYMENT');?>
-											</div>
-											<div class="img">
-												<img src="/local/templates/aspro-scorp_wf/images/visa.png" alt="visa" style="padding-top: 10px; padding-bottom: 0px">
-												<img src="/local/templates/aspro-scorp_wf/images/mastercard.png" alt="mastercard" style="padding-top: 0px; padding-bottom: 0px">
-											</div>
-											<div class="img">
-												<img src="/local/templates/aspro-scorp_wf/images/paykeeper.png" alt="paykeeper">
-												<img src="/local/templates/aspro-scorp_wf/images/mir.png" alt="mir" style="padding-top: 4px;">
-											</div>
-										</div></div>
-										<div class="mobi">
-										<div class="payment">
-											<div class="title">
-												<?=GetMessage('PAYMENT');?>
-											</div>
-											<div class="img">
-												<img src="/local/templates/aspro-scorp_wf/images/visa.png" alt="visa">
-												<img src="/local/templates/aspro-scorp_wf/images/paykeeper.png" alt="paykeeper">
-												
-											</div>
-											<div class="img">
-												<img src="/local/templates/aspro-scorp_wf/images/mastercard.png" alt="mastercard">
-												<img src="/local/templates/aspro-scorp_wf/images/mir.png" alt="mir">
-											</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="payment-container">
+											<?$APPLICATION->IncludeComponent(
+												'bitrix:main.include',
+												'',
+												[
+													'AREA_FILE_SHOW' => 'file',
+													'AREA_FILE_SUFFIX' => 'inc',
+													'EDIT_TEMPLATE' => '',
+													'PATH' => '/include/footer/payment-container.php'
+												]
+											);?>
 										</div>
+									</div>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<div class="reviews-container">
+											<?$APPLICATION->IncludeComponent(
+												'bitrix:main.include',
+												'',
+												[
+													'AREA_FILE_SHOW' => 'file',
+													'AREA_FILE_SUFFIX' => 'inc',
+													'EDIT_TEMPLATE' => '',
+													'PATH' => '/include/footer/reviews-container.php'
+												]
+											);?>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4 col-sm-4">
-									<div class="social">
-										<div class="title"><?=GetMessage("SOCIAL")?></div>
-										<?$APPLICATION->IncludeComponent("aspro:social.info.scorp", ".default", Array(
-											"CACHE_TYPE" => "A",	// Тип кеширования
-												"CACHE_TIME" => "3600000",	// Время кеширования (сек.)
-												"CACHE_GROUPS" => "N",	// Учитывать права доступа
-												"COMPONENT_TEMPLATE" => ".default"
-											),
-											false
+								<div class="row">
+									<div class="col-md-12 col-sm-12 col-xs-12 text">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/second-block-1.php'
+											]
+										);?>								
+									</div>
+								</div>
+								<div class="row awards">
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/awards-item-1.php'
+											]
 										);?>
 									</div>
-									<div><a class="special-version" href="?special_version=Y">Версия для слабовидящих</a></div>
-									<div class="help">
-										<img src="/local/templates/aspro-scorp_wf/images/help.png" data-event="jqm" data-param-id="3" data-name="question">
-										<span class="title"><?=GetMessage("HELP")?></span>
+
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/awards-item-2.php'
+											]
+										);?>
 									</div>
-									<div class="help mob">
-									<div class="phone-number">
-												<img src="/local/templates/aspro-scorp_wf/images/phone.png" alt="phone">
-												<?$APPLICATION->IncludeFile(SITE_DIR."include/site-phone.php", array(), array(
-														"MODE" => "html",
-														"NAME" => "Phone",
-													)
-												);?>
-											</div>
+								</div>
+								<div class="row awards" style="margin-top: 0;">
+									<div class="col-md-12 col-sm-12 col-xs-12">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/awards-item-3.php'
+											]
+										);?>
 									</div>
-									
-									<div class="footer-onlinepay-btn">
-										<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_online_1.svg" /></a>
+								</div>
+
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-12 footer-third">
+								<div class="version-impaired">
+									<a href="?special_version=Y">
+										<img src="/upload/version-impaired.svg" alt="версия для слабовидящих" />
+										<div class="text"><?= GetMessage('FOOTER_SPECIAL_VERSION') ?></div>
+									</a>
+								</div>
+								<div class="contact text">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/contact-block.php'
+										]
+									);?>
+									<div>
+										<?$APPLICATION->IncludeFile(SITE_DIR."include/site-phone.php", array(), array(
+												"MODE" => "html",
+												"NAME" => "Phone",
+											)
+										);?>
 									</div>
-									
+
+								</div>
+								<div class="social-container">
+									<div class="text"><?=GetMessage('SOCIAL')?></div>
+									<?$APPLICATION->IncludeComponent(
+										"aspro:social.info.scorp", 
+										".default", 
+										array(
+											"CACHE_TYPE" => "A",	// Тип кеширования
+											"CACHE_TIME" => "3600000",	// Время кеширования (сек.)
+											"CACHE_GROUPS" => "N",	// Учитывать права доступа
+											"COMPONENT_TEMPLATE" => ".default",
+											"SOCIAL_ZEN_LINK" => "https://dzen.ru/id/5c12201a264c6c00acf664c9"
+										),
+										false
+									);?>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				
-				<div class="row">
-					<div class="maxwidth-theme maxwidth-theme--custom">
-						<div class="col-md-12 copy info">
-							<?$APPLICATION->IncludeFile(SITE_DIR."include/footer/info.php", Array(), Array(
-								"MODE" => "php",
-								"NAME" => "Copyright",
-								)
-							);?>
+					<div class="row">
+						<div class="maxwidth-theme">
+							<div class="col-md-12 col-sm-12 col-xs-12 footer-last">
+								<div class="text">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/footer-last-block.php'
+										]
+									);?>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="mobi">
-				<div class="row">
-					<div class="maxwidth-theme maxwidth-theme--custom">
-						<div class="socialinf">
-							<?$APPLICATION->IncludeFile(SITE_DIR."include/footer/info1.php", Array(), Array(
-								"MODE" => "php",
-								"NAME" => "Copyright",
-								)
-							);?>
-						</div>
-					</div>
-				</div></div>
 			</div>
 		</footer>
+
+		<?php
+			if(!is_object($USER)) global $USER;
+			if($USER->IsAdmin()) {
+		?>
+				<div class="link-bottom-site">
+					<a href="shop.klinikaglaz.ru" target="_blank">
+						<span>Очки линзы доставка</span>
+						<span class="tlink">shop.klinikaglaz.ru</span>
+					</a>
+				</div>
+		<?php } ?>
+
 		<div class="bx_areas">
 			<?$APPLICATION->IncludeFile(SITE_DIR."include/invis-counter.php", Array(), Array(
 					"MODE" => "text",
@@ -363,21 +429,18 @@
 		</div>	
 			<?}?>
 		<script>
-		        (function(w,d,u){
-		                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-		                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-		        })(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/site_button/loader_1_8v7204.js');
+				(function(w,d,u){
+								var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+								var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+				})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/site_button/loader_1_8v7204.js');
 		</script>
 
-<script>
-    window.addEventListener('onBitrixLiveChat', function(event){
-        var widget = event.detail.widget;
-        widget.setOption('checkSameDomain', false);
-    });
-</script>
-
-
-
+		<script>
+				window.addEventListener('onBitrixLiveChat', function(event){
+						var widget = event.detail.widget;
+						widget.setOption('checkSameDomain', false);
+				});
+		</script>
 
 	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/dist/js/lightgallery.min.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/lib/jquery.mousewheel.min.js"></script>

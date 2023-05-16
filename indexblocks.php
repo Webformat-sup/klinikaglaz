@@ -229,6 +229,7 @@
 <div class="pc">
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.list", 
+	// "front-services_custom", 
 	"front-services", 
 	array(
 		"IBLOCK_TYPE" => "aspro_scorp_content",

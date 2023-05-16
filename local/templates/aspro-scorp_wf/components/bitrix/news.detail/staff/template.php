@@ -187,9 +187,9 @@ ob_end_clean();
 							$file = CFile::ResizeImageGet($id, ['width'=>300, 'height'=>200], BX_RESIZE_IMAGE_PROPORTIONAL );
 							$path = CFile::GetPath($id);
 							?>
-							<div class="elem" data-src="<?=$path?>">
+							<a class="fancybox elem" rel="cert_<?=$arResult["ID"]?>" href="<?=$path?>" data-src="<?=$path?>">
 								<img src="<?=$file["src"]?>" alt="Сертификат <?=$arResult["NAME"]?>" />
-							</div>
+							</a>
 						<?php } ?>
 					</div>
 

@@ -1,7 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetPageProperty("description", "Услуги клиники микрохирургии \"Глаз\" им. Фёдорова");
-$APPLICATION->SetPageProperty("title", "Услуги - Клиника микрохирургии \"Глаз\" им. Фёдорова");
+$APPLICATION->SetPageProperty("description", "Услуги клиники микрохирургии \"Глаз\" им. Фёдорова в Екатеринбурге. Клиника микрохирургии \"Глаз\" предоставляет полный спектр услуг по диагностике и лечению заболеваний глаз для взрослых и детей. Звоните: +73432700030, +7(343)328-88-45");
+$APPLICATION->SetPageProperty("title", "Услуги и цены клиники микрохирургии \"Глаз\" им. Фёдорова в Екатеринбурге");
 $APPLICATION->SetTitle("Услуги");
 ?><?$APPLICATION->IncludeComponent(
 	"bitrix:news", 

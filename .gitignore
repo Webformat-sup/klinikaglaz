@@ -74,8 +74,9 @@ BackUp*
 *.restore
 *.mab
 *.exe
+*.gif
 
 #custom
 /bitrix/templates/aspro_next_/
 
-
+/yandex*.txt

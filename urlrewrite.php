@@ -296,20 +296,20 @@ $arUrlRewrite=array (
     'PATH' => '/personal/index.php',
     'SORT' => 100,
   ),
-  102 => 
-  array (
-    'CONDITION' => '#^/services/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/services/index.php',
-    'SORT' => 100,
-  ),
   103 => 
   array (
     'CONDITION' => '#^/projects/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/projects/index.php',
+    'SORT' => 100,
+  ),
+  109 => 
+  array (
+    'CONDITION' => '#^/services/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/services/index.php',
     'SORT' => 100,
   ),
   59 => 

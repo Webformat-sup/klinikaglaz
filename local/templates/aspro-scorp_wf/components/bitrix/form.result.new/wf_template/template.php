@@ -69,7 +69,7 @@
 												<input
 												<?if(mb_strtolower($FIELD_SID)=='phone'){?>placeholder="+7 (999) 999-99-99"<?}?>
 												<?if(mb_strtolower($FIELD_SID)=='name' || mb_strtolower($FIELD_SID)=='fio'){?>placeholder="Иванов Иван Иванович"<?}?>
-												id="<?=$FIELD_SID?>" 
+												id="<?=$FIELD_SID?>"  data-sid="<?=$FIELD_SID?>"
 												name="form_<?=$arQuestion['STRUCTURE'][0]['FIELD_TYPE'].'_'.$arQuestion['STRUCTURE'][0]['ID']?>" 
 												class="form-control  <?if($arQuestion['REQUIRED']=='Y'){?>required<?}?> <?if(mb_strtolower($FIELD_SID)=='phone'){?>phone<?}?> " 
 												<?=$arQuestion['STRUCTURE'][0]['FIELD_PARAM']?>									

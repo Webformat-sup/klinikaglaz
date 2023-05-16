@@ -15,22 +15,15 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Отзывы", 
-		"/company/reviews/", 
+		"Записаться на прием", 
+		"/#appointment", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Вопрос-ответ", 
-		"/info/articles/", 
-		Array(), 
-		Array(), 
-		"" 
-	),
-	Array(
-		"Контакты", 
-		"/company/contacts/", 
+		"Оплата онлайн", 
+		"/onlinepay/", 
 		Array(), 
 		Array(), 
 		"" 

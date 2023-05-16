@@ -12,6 +12,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- <meta name="facebook-domain-verification" content="ipjnk5aqwfeobiv2wv5x9al1hy9lv9" /> -->
 		<meta name="yandex-verification" content="35e7310e1899d525" />
+		<meta name="google-site-verification" content="5HdL2zYKlGmJLBsT2oQTTx99svZtxQcpKflVtlapAEA" />
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700italic,700,500italic,500,400italic,300,300italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
 		<link href='<?=CMain::IsHTTPS() ? 'https' : 'http'?>://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
@@ -123,6 +124,7 @@
 				<div class="mobile-drop-wrap ">
 					<ul>
 						<li class="mobile-drop-close"><a href="#" class="jqmClose">×</a></li>
+						
 						<li>
 							<script data-b24-form="click/8/07efvh" data-skip-moving="true">
 									(function(w,d,u){
@@ -130,8 +132,10 @@
 											var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
 									})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_8_07efvh.js');
 							</script> 
-							<a href="" data-event="jqm" data-param-id="6" data-name="callback">Обратный звонок</a>
+							<a href="javascript:;">Обратный звонок</a>
+							<!-- <a href="" data-event="jqm" data-param-id="6" data-name="callback">Обратный звонок</a> -->
 						</li>
+						
 						<li>
 							<script data-b24-form="click/7/y2aq9g" data-skip-moving="true">
 									(function(w,d,u){
@@ -139,16 +143,17 @@
 											var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
 									})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_7_y2aq9g.js');
 							</script> 
-							<a href="">Записаться на прием</a>
+							<a href="javascript:;">Записаться на прием</a>
 						</li>
 						<li>
 							<script data-b24-form="click/9/cw20wf" data-skip-moving="true">
 									(function(w,d,u){
 											var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);
 											var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-									})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_8_07efvh.js');
+									})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_9_cw20wf.js');
+									// })(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_8_07efvh.js');
 							</script> 
-							<a href="">Задать вопрос</a>
+							<a href="javascript:;">Задать вопрос</a>
 						</li>
 					</ul>
 				</div>
@@ -200,8 +205,7 @@
 									);?> 
 								</div>
 							</div>
-							<div class="col-md-7 col-sm-7 col-xs-12" itemscope itemtype="https://schema.org/Organization">
-									<meta itemprop="name" content="Клиника микрохирургии «ГЛАЗ» им. академика Святослава Фёдорова." " >
+							<div class="col-md-7 col-sm-7 col-xs-12">
 								<div class="headerTitle">
 									<?$APPLICATION->IncludeFile(SITE_DIR."include/header-title.php", array(), array(
 											"MODE" => "html",
@@ -211,13 +215,12 @@
 								</div>
 								<div class="top-description  hidden-xs col-md-6" >
 									<img src="/local/templates/aspro-scorp_wf/images/location.png">
-									<div class="description" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+									<div class="description">
 										<?$APPLICATION->IncludeFile(SITE_DIR."include/header-text.php", array(), array(
 											"MODE" => "html",
 											"NAME" => "Text in title",
 											)
 										);?>
-										<meta itemprop="email" content="info@klinikaglaz.ru">
 									</div>
 								</div>
 								<div class="top-callback col-md-6 col-sm-6">
@@ -232,6 +235,7 @@
 												);?></div>
 											</div>
 										</div>
+										
 										<div class="phone pull-right callbackTitle">
 											<script data-b24-form="click/8/07efvh" data-skip-moving="true">
 													(function(w,d,u){
@@ -241,6 +245,7 @@
 											</script> 
 											<span href="javascript:;"><?=GetMessage("S_CALLBACK")?></span>
 										</div>
+										
 									</div>
 									<style type="text/css">
 										@media(min-width: 768px){
@@ -401,9 +406,13 @@
 									</script> 
 									<a href="javascript:;"><?=GetMessage("S_QUESTION")?></a>
 								</div>
-								<div class="questiondockTitle">
-									
-									<script data-b24-form="click/7/y2aq9g" data-skip-moving="true">(function(w,d,u){ var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0); var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h); })(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_7_y2aq9g.js'); </script>
+								<div class="questiondockTitle">									
+									<script data-b24-form="click/7/y2aq9g" data-skip-moving="true">
+											(function(w,d,u){ 
+													var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0); 
+													var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h); 
+											})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_7_y2aq9g.js');
+									</script>
 									<span href="javascript:;"><?=GetMessage("S_QUESTIONDOCK")?></span>
 								</div>
 							</div>

@@ -159,9 +159,9 @@ CheckMainBannerSliderVText = function(slider){
 CheckStickyFooter = function() {
 	$(window).resize(function() { //  BX.addCustomEvent('onWindowResize', function(eventdata) {
 		try{
-			var footerHeight = $('footer').outerHeight();
+			var footerHeight = $('footer#footer').outerHeight();
 			ignoreResize.push(true);
-			$('footer').css('margin-top', '-' + footerHeight + 'px');
+			$('footer#footer').css('margin-top', '-' + footerHeight + 'px');
 			$('.body').css('margin-bottom', '-' + footerHeight + 'px');
 			$('.main').css('padding-bottom', footerHeight + 25 + 'px');
 			ignoreResize.pop();

@@ -1229,3 +1229,224 @@ span.btn-custom-sign:hover{
 .detail .chars .props_table .char_value{
 	white-space: nowrap;
 }
+
+
+
+
+.footer-yandex-map .bx-yandex-view-layout {
+  margin-bottom: 0;
+}
+
+.main-footer-container {
+  padding: 50px 0;
+  background-color: #D9D9D9;
+}
+
+.main-footer-container .footer-first .logotip img {
+  width: 100%;
+}
+
+.main-footer-container .footer-first .logotip {
+  margin-bottom: 40px;
+}
+
+.main-footer-container .footer-first .text,
+.main-footer-container .footer-second .text,
+.main-footer-container .footer-third .text,
+.main-footer-container .footer-last .text {
+  /* font-family: Inter; */
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  text-align: left;
+}
+
+.main-footer-container .footer-first .data {
+  margin-top: 11px;
+}
+
+.main-footer-container .footer-first .data .last {
+  margin-top: 25px;
+}
+
+
+.main-footer-container .footer-second a.awards-item,
+.main-footer-container .footer-first .data .last a {
+  color: #000;
+}
+
+.main-footer-container .footer-second a.awards-item:hover,
+.main-footer-container .footer-third .contact a:hover,
+.main-footer-container .footer-first .data .last a:hover,
+.main-footer-container .footer-first .links a:hover {
+  color: #00a3f5;
+}
+
+
+.main-footer-container .footer-first .webmaster-yandex,
+.main-footer-container .footer-first .links {
+  margin-top: 30px;
+}
+
+.main-footer-container .footer-first .webmaster-yandex a {
+  display: block;
+  width: 88px;
+}
+
+.main-footer-container .footer-first .webmaster-yandex img {
+  border: 1px solid #7d7d7d;
+  border-radius: 4px;
+}
+
+.main-footer-container .footer-first .links > div {
+  margin-bottom: 10px;
+}
+
+.main-footer-container .footer-first .links a {
+  color: #8f8f8f;
+}
+
+
+.main-footer-container .footer-second > div,
+.main-footer-container .footer-last {
+  margin-top: 20px;
+}
+
+.main-footer-container .footer-second .awards .awards-item {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.main-footer-container .footer-second .awards img {
+  margin-right: 9px;
+  max-width: 60px;
+  max-height: 60px;
+}
+
+.main-footer-container .footer-second .awards .text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.main-footer-container .footer-second .payment-container img,
+.main-footer-container .footer-second .reviews-container img {
+  max-width: 60px;
+  margin: 0 15px 0 0;
+}
+
+
+
+.main-footer-container .footer-third > div{
+  margin-bottom: 30px;
+}
+
+.main-footer-container .footer-third .version-impaired {
+  margin-top: 35px;
+}
+
+.main-footer-container .footer-third .version-impaired a {
+  display: flex;
+  padding: 10px 20px;
+  background: #F0EAEA;
+  border-radius: 5px;
+  color: #000;
+}
+
+
+
+.main-footer-container .footer-third .version-impaired a:hover {
+  opacity: 0.8;
+}
+
+.main-footer-container .footer-third .version-impaired img {
+  margin-right: 20px;
+}
+
+
+.main-footer-container .footer-third .contact > div {
+  margin-bottom: 20px;
+}
+
+.main-footer-container .footer-third .contact a {
+  color: #000;
+}
+
+.main-footer-container .footer-third .social-icons li a {
+  background: none!important;
+}
+
+.main-footer-container .reviews-container a:hover,
+.main-footer-container .social-icons a:hover {
+  opacity: .8;
+}
+
+.main-footer-container .bottom-menu {
+  margin-top: 12px!important;
+}
+
+.main-footer-container .bottom-menu .item {
+  margin-bottom: 5px!important;
+}
+
+@media screen and (max-width: 765px) {
+  .main-footer-container .reviews-container {
+    margin-top: 15px;
+  }
+}
+
+@media screen and (min-width: 765px) and (max-width: 1080px) {
+  .main-footer-container .footer-first .text,
+  .main-footer-container .footer-second .text,
+  .main-footer-container .footer-third .text,
+  .main-footer-container .footer-last .text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+
+.link-bottom-site {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  background-color: #cccccc;
+}
+
+.link-bottom-site a {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #005ca9;
+}
+
+.link-bottom-site a:hover {
+  opacity: .8;
+}
+
+.link-bottom-site a span.tlink {
+  padding-top: 2px;
+  font-size: 12px;
+  text-transform: lowercase;
+}
+
+
+
+@media screen and (max-width: 415px) {
+  .link-bottom-site {
+    display: block;
+  }
+  .b24-widget-button-position-bottom-right {
+    right: 30px!important;
+    bottom: 70px!important;
+  }
+}

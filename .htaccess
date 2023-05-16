@@ -17,10 +17,10 @@ ErrorDocument 404 /404.php
 	RewriteEngine On
 
 	#Добавляем слэш в конце адреса
-    	RewriteCond %{REQUEST_URI} ^(.*\/[^\/\.]+)($|\?)
-    	RewriteCond %{REQUEST_URI} !^\/bitrix [NC]
-    	RewriteCond %{REQUEST_METHOD} !POST [NC]
-    	RewriteRule .* %{ENV:proto}://%{SERVER_NAME}%1/ [R=301,L]
+	RewriteCond %{REQUEST_URI} ^(.*\/[^\/\.]+)($|\?)
+	RewriteCond %{REQUEST_URI} !^\/bitrix [NC]
+	RewriteCond %{REQUEST_METHOD} !POST [NC]
+	RewriteRule .* %{ENV:proto}://%{SERVER_NAME}%1/ [R=301,L]
 
 	#убираем "www" в начале URL
 	RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
@@ -46,7 +46,10 @@ ErrorDocument 404 /404.php
 	Options +FollowSymLinks
 	RewriteEngine On
 	
-	RewriteCond %{QUERY_STRING} ^$
+	RewriteCond %{THE_REQUEST} \s/+(.+?)\+\d{10}(/\s|\?) [NC]
+	RewriteCond %{REQUEST_URI} !^/bitrix
+	RewriteRule ^ /%1 [R=301,L]
+
 	RewriteRule ^zdorovyie-glaza-eto-privyichka/$ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/ [L,R=301]
 	RewriteCond %{QUERY_STRING} ^$
 	RewriteRule ^zabota-o-zrenii-rebenka-s-pervyih-dney-zhizni/$ /projects/design/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/ [L,R=301]
@@ -487,7 +490,7 @@ ErrorDocument 404 /404.php
 	Redirect 301 /bardina2a/ /
 	Redirect 301 /kontaktyi/services/khalyazion/lechenie-khalyaziona/ /services/khalyazion/
 	Redirect 301 /vospalitelnye-zabolevaniya-glaza/ /services/vospalitelnye-zabolevaniya-glaza/
-	Redirect 301 /sale/diagnostika-detskogo-zreniya-za-2500-r-i-skidka-na-ochkovye-linzy-stellest/ /
+#	Redirect 301 /sale/diagnostika-detskogo-zreniya-za-2500-r-i-skidka-na-ochkovye-linzy-stellest/ /
 	Redirect 301 /sale/v_novyy_god_s_novymi_ochkami_skidka_20_23_43_na_opravu/ /
 	Redirect 301 /voprosy/hirurgicheskoe-lechenie-kataraktyi/ /info/articles/skazhite-pozhaluysta-vkhodit-li-v-stoimost-operatsii-po-zamene-khrustalika-stoimost-samogo-khrustali/
 	Redirect 301 /catalog/solntsezashchitnye_ochki/zolotoy/ /

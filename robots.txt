@@ -78,6 +78,7 @@ Disallow: */thankyou/
 Disallow: */_proverka-zreniya/
 Disallow: */404.php
 Disallow: */sale/*
+Disallow: */special/*
 Disallow: */skidka-1000-rubley-k-novomu-godu/
 Disallow: */pamyatka-patsientu-/
 Disallow: *https://klinikaglaz.ru/sale/
@@ -196,6 +197,7 @@ Disallow: */thankyou/
 Disallow: */_proverka-zreniya/
 Disallow: */404.php
 Disallow: */sale/*
+Disallow: */special/*
 Disallow: */skidka-1000-rubley-k-novomu-godu/
 Disallow: */pamyatka-patsientu-/
 Disallow: *https://klinikaglaz.ru/sale/
@@ -315,6 +317,7 @@ Disallow: */thankyou/
 Disallow: */_proverka-zreniya/
 Disallow: */404.php
 Disallow: */sale/*
+Disallow: */special/*
 Disallow: */skidka-1000-rubley-k-novomu-godu/
 Disallow: */pamyatka-patsientu-/
 Disallow: *https://klinikaglaz.ru/sale/

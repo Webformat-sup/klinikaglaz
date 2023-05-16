@@ -1,7 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "О компании");
-$APPLICATION->SetPageProperty("description", "О компании");
-$APPLICATION->SetPageProperty("title", "О компании");
+$APPLICATION->SetPageProperty("title", "О салоне оптики микрохирургии \"Глаз\" имени С.Федорова");
 $APPLICATION->SetPageProperty("keywords", "О компании");
 $APPLICATION->SetTitle("О компании");?><div>
  <br>
