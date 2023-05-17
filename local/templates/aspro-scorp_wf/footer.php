@@ -375,17 +375,18 @@
 			</div>
 		</footer>
 
-		<?php
-			if(!is_object($USER)) global $USER;
-			if($USER->IsAdmin()) {
-		?>
-				<div class="link-bottom-site">
-					<a href="shop.klinikaglaz.ru" target="_blank">
-						<span>Очки линзы доставка</span>
-						<span class="tlink">shop.klinikaglaz.ru</span>
-					</a>
-				</div>
-		<?php } ?>
+		<div id="footer-fixed-menu">
+			<?$APPLICATION->IncludeComponent(
+				'bitrix:main.include',
+				'',
+				[
+					'AREA_FILE_SHOW' => 'file',
+					'AREA_FILE_SUFFIX' => 'inc',
+					'EDIT_TEMPLATE' => '',
+					'PATH' => '/include/footer/fixed-bottom-menu.php'
+				]
+			);?>
+		</div>
 
 		<div class="bx_areas">
 			<?$APPLICATION->IncludeFile(SITE_DIR."include/invis-counter.php", Array(), Array(
