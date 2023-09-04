@@ -58,7 +58,7 @@
 );?>
 <?if($arParams['SHOW_ASK_QUESTION_BLOCK'] !== 'N'):?>
 	<table class="order-block">
-		<tr">
+		<tr>
 			<td class="col-md-9 col-sm-8 col-xs-7 valign">
 				<div class="text">
 					<?$APPLICATION->IncludeComponent(

@@ -3,4 +3,8 @@
 /** @var @global CMain $APPLICATION */
 global $APPLICATION;
 
+$arExtensions = ['line_block','owl_carousel'];
+Aspro\Next\Functions\Extensions::init($arExtensions);
+
+$APPLICATION->AddHeadString('<link href="'.SITE_TEMPLATE_PATH.'/css/owl-styles.css"'.' type="text/css" rel="stylesheet" />');
 ?>

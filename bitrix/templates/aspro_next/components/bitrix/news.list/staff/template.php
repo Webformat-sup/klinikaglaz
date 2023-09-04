@@ -20,7 +20,7 @@
 									<?
 									$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 									$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
-									if($bShowName = in_array('NAME', $arParams['FIELD_CODE'])){
+									if($bShowName = in_array('NAME', (array)$arParams['FIELD_CODE'])){
 										$arItem["NAME"] = trim($arItem["NAME"]);
 										$arName = explode(' ', $arItem["NAME"]);
 										$firstName = $arName[0];
@@ -32,15 +32,15 @@
 											$secondName = '';
 										}
 									}
-									$bShowImage = (in_array('PREVIEW_PICTURE', $arParams['FIELD_CODE']) || in_array('DETAIL_PICTURE', $arParams['FIELD_CODE']));
+									$bShowImage = (in_array('PREVIEW_PICTURE', $arParams['FIELD_CODE']) || in_array('DETAIL_PICTURE', (array)$arParams['FIELD_CODE']));
 									?>
 									<div class="item <?=($bShowImage ? '' : 'wi')?>" id="<?=$this->GetEditAreaId($arItem['ID']);?>">
 										<?if($bShowImage):?>
 											<div class="image">
-												<?if(!empty($arItem["PREVIEW_PICTURE"]) && in_array('PREVIEW_PICTURE', $arParams['FIELD_CODE'])):?>
+												<?if(!empty($arItem["PREVIEW_PICTURE"]) && in_array('PREVIEW_PICTURE', (array)$arParams['FIELD_CODE'])):?>
 													<?$arImage = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"]["ID"], array('width' => 170, 'height' => 170), BX_RESIZE_IMAGE_EXACT);?>
 													<img src="<?=$arImage['src']?>"  alt="<?=($arItem["PREVIEW_PICTURE"]["ALT"] ? $arItem["PREVIEW_PICTURE"]["ALT"] : ($arItem["DETAIL_PICTURE"]["ALT"] ? $arItem["DETAIL_PICTURE"]["ALT"] : $arItem["NAME"]))?>" title="<?=($arItem["PREVIEW_PICTURE"]["TITLE"] ? $arItem["PREVIEW_PICTURE"]["TITLE"] : $arItem["NAME"])?>" />
-												<?elseif(!empty($arItem["DETAIL_PICTURE"]) || in_array('DETAIL_PICTURE', $arParams['FIELD_CODE'])):?>
+												<?elseif(!empty($arItem["DETAIL_PICTURE"]) || in_array('DETAIL_PICTURE', (array)$arParams['FIELD_CODE'])):?>
 													<?$arImage = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"]["ID"], array('width' => 170, 'height' => 170), BX_RESIZE_IMAGE_EXACT);?>
 													<img src="<?=$arImage['src']?>" alt="<?=($arItem["DETAIL_PICTURE"]["ALT"] ? $arItem["DETAIL_PICTURE"]["ALT"] : $arItem["NAME"])?>" title="<?=($arItem["DETAIL_PICTURE"]["TITLE"] ? $arItem["DETAIL_PICTURE"]["TITLE"] : $arItem["NAME"])?>" />
 												<?else:?>

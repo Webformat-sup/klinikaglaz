@@ -1,4 +1,5 @@
 /* 14px PT Sans Caption (Default) */
+html {font-size: 14px;}
 body, body .bx-soa-section-title{font: 14px/22px "PT Sans Caption", Arial, sans-serif;}
 h1,h2,h3,h4,h5,h6{font-family: "PT Sans Caption", Arial, sans-serif;}
 .tooltip{font-family: "PT Sans Caption", Arial, sans-serif;}
@@ -93,3 +94,4 @@ body .buy_block .counter input, body .footer-button .buy_block .counter input{he
 .personal_wrapper .orders_wrapper .sale-order-list-container .sale-order-list-accomplished-title, .personal_wrapper .orders_wrapper .sale-order-list-container .sale-order-list-title, .personal_wrapper .orders_wrapper .sale-order-detail-general-item,
 .personal_wrapper .orders_wrapper .sale-order-list-inner-row > div > a, .personal_wrapper .sale-personal-account-wallet-container .sale-personal-account-wallet-title,
 .btn.sale-account-pay-button, .bx-sls .bx-ui-sls-fake, .bx-sls .bx-ui-sls-route{font-family: "PT Sans Caption", Arial, Helvetica, sans-serif;}
+.gm-style, .gm-style-iw-d {font: 14px/22px "PT Sans Caption", Arial, sans-serif;}

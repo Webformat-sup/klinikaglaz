@@ -62,4 +62,7 @@ $MESS["STORES"] = "Склады";
 
 $MESS["T_HIDE_NOT_AVAILABLE"] = "Не отображать товары, которых нет на складах";
 $MESS["SHOW_DISCOUNT_PERCENT_NUMBER_NAME"] = "Отображать процент экономии";
+
+$MESS["T_SHOW_QUESTION_FORM"] = "Отображать форму \"Задать вопрос\" в плавающем блоке";
+$MESS["SHOW_RATING"] = "Отображать рейтинг";
 ?>

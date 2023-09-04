@@ -37,7 +37,7 @@ list($bPhoneAuthSupported, $bPhoneAuthShow, $bPhoneAuthRequired, $bPhoneAuthUse)
 					</div>
 				</div>
 				<div class="but-r">
-					<button class="btn btn-default" type="submit" name="code_submit_button" value=""><span><?=GetMessage("main_profile_send")?></span></button>
+					<button class="btn btn-default" type="submit" name="code_submit_button" value="Y"><span><?=GetMessage("main_profile_send")?></span></button>
 				</div>
 				<div id="bx_profile_error" style="display:none"><?ShowError("error")?></div>
 				<div id="bx_profile_resend"></div>
@@ -187,8 +187,11 @@ list($bPhoneAuthSupported, $bPhoneAuthShow, $bPhoneAuthRequired, $bPhoneAuthUse)
 						</div>
 					</div>
 				<?endif;?>
+				<div class="form-control wrapper-required-text">
+					<?$APPLICATION->IncludeFile(SITE_DIR."include/required_message.php", Array(), Array("MODE" => "html"));?>
+				</div>
 				<div class="but-r">
-					<button class="btn btn-default" type="submit" name="save" value="<?=(($arResult["ID"]>0) ? GetMessage("MAIN_SAVE_TITLE") : GetMessage("MAIN_ADD_TITLE"))?>"><span><?=(($arResult["ID"]>0) ? GetMessage("MAIN_SAVE_TITLE") : GetMessage("MAIN_ADD_TITLE"))?></span></button>
+					<button class="btn btn-default" type="submit" name="save" value="Y"><span><?=(($arResult["ID"]>0) ? GetMessage("MAIN_SAVE_TITLE") : GetMessage("MAIN_ADD_TITLE"))?></span></button>
 				</div>
 			</form>
 			<?if($arResult["SOCSERV_ENABLED"]){ $APPLICATION->IncludeComponent("bitrix:socserv.auth.split", "main", array("SUFFIX"=>"form", "SHOW_PROFILES" => "Y","ALLOW_DELETE" => "Y"),false);}?>

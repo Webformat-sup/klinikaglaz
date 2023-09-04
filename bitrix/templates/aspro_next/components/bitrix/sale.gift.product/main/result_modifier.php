@@ -36,6 +36,57 @@ if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["DISPLAY_COMPARE"] = 'N';
 /**/
 
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
+// REGIONALITY_FILTER_ITEM == Y
+// $arParams['USE_REGION'] has current region ID, if USE_REGIONALITY == Y && REGIONALITY_FILTER_ITEM == Y
+if(!empty($arResult['ITEMS'])){
+	if(($regionId = intval($arParams['USE_REGION'])) > 0){
+		$arRegionElementIDs = $arElementIDsByIblock = array();
+		foreach($arResult['ITEMS'] as $arItem){
+			if(!isset($arElementIDsByIblock[$arItem['IBLOCK_ID']])){
+				$arElementIDsByIblock[$arItem['IBLOCK_ID']] = array();
+			}
+			$arElementIDsByIblock[$arItem['IBLOCK_ID']][] = $arItem['ID'];
+		}
+
+		foreach($arElementIDsByIblock as $iblockID => $arElementIDs){
+			$arElementFilter = array(
+				'ID' => $arElementIDs,
+				'IBLOCK_ID' => $iblockID,
+			);
+
+			CNext::makeElementFilterInRegion($arElementFilter, $regionId, true);
+
+			$arElementIDs = CNextCache::CIBLockElement_GetList(
+				array(
+					'CACHE' => array(
+						"TAG" => CNextCache::GetIBlockCacheTag($iblockID),
+						"MULTI" => "Y",
+						"RESULT" => array("ID"),
+					)
+				),
+				$arElementFilter,
+				false,
+				false,
+				array('ID')
+			);
+
+			if($arElementIDs){
+				$arRegionElementIDs = array_merge($arRegionElementIDs, $arElementIDs);
+			}
+		}
+		$arRegionElementIDs = array_unique($arRegionElementIDs);
+
+		foreach($arResult['ITEMS'] as $i => $arItem){
+			if(!in_array($arItem['ID'], $arRegionElementIDs)){
+				unset($arResult['ITEMS'][$i]);
+			}
+		}
+	}
+}
+
 if (!empty($arResult['ITEMS']))
 {
 	$arConvertParams = array();

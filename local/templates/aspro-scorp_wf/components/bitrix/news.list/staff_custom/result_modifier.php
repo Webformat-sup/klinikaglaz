@@ -1,19 +1,21 @@
-<?
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+$CScorp = new CScorp;
+$CCache = new CCache;
 if($arResult['ITEMS']){
 	foreach($arResult['ITEMS'] as $key => $arItem){
 		$IDs[] = $arItem['ID'];
-		CScorp::getFieldImageData($arResult['ITEMS'][$key], array('PREVIEW_PICTURE'));
+		$CScorp->getFieldImageData($arResult['ITEMS'][$key], array('PREVIEW_PICTURE'));
 	}
 
 	if($IDs){
-		$arItems = CCache::CIBLockElement_GetList(array('ID' => 'ASC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']))), array('ID' => $IDs), false, false, array('ID', 'IBLOCK_SECTION_ID'));
-		$arItemsBySectionID = CCache::GroupArrayBy($arItems, array('GROUP' => array('IBLOCK_SECTION_ID'), 'MULTI' => 'Y', 'RESULT' => array('ID')));
-		$arSectionIDByItemID = CCache::GroupArrayBy($arItems, array('GROUP' => array('ID'), 'MULTI' => 'N', 'RESULT' => array('IBLOCK_SECTION_ID')));
+		$arItems = $CCache->CIBLockElement_GetList(array('ID' => 'ASC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']))), array('ID' => $IDs), false, false, array('ID', 'IBLOCK_SECTION_ID'));
+		$arItemsBySectionID = $CCache->GroupArrayBy($arItems, array('GROUP' => array('IBLOCK_SECTION_ID'), 'MULTI' => 'Y', 'RESULT' => array('ID')));
+		$arSectionIDByItemID = $CCache->GroupArrayBy($arItems, array('GROUP' => array('ID'), 'MULTI' => 'N', 'RESULT' => array('IBLOCK_SECTION_ID')));
 		$arSectionsIDs = array_keys($arItemsBySectionID);
 	}
 
 	if($arSectionsIDs){
-		$arResult['SECTIONS'] = CCache::CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs));
+		$arResult['SECTIONS'] = $CCache->CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs));
 	}
 
 	// group elements by sections

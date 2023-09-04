@@ -38,30 +38,34 @@ $bPropsColumn  = false;
 
 		<tbody>
 			<?foreach ($arResult["GRID"]["ROWS"] as $k => $arItem):
-				if ($arItem["DELAY"] == "Y" && $arItem["CAN_BUY"] == "Y"):?>
+				if ($arItem["DELAY"] == "Y"/* && $arItem["CAN_BUY"] == "Y"*/):?>
 				<tr data-id="<?=$arItem["ID"]?>" data-iblockid="<?=$arItem["IBLOCK_ID"]?>" product-id="<?=$arItem["PRODUCT_ID"]?>">
 					<? foreach ($arResult["GRID"]["HEADERS"] as $id => $arHeader):
 						if (in_array($arHeader["id"], array("PROPS", "DELAY", "DELETE", "TYPE", "DISCOUNT"))) continue; // some values are not shown in columns in this template
-						if ($arHeader["id"] == "NAME"):?>
-							<td class="thumb-cell">			
-								<?if( strlen($arItem["PREVIEW_PICTURE"]["SRC"])>0 ){?>
-									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?><a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="thumb"><?endif;?>
-										<img src="<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>" alt="<?=(is_array($arItem["PREVIEW_PICTURE"]["ALT"])?$arItem["PREVIEW_PICTURE"]["ALT"]:$arItem["NAME"]);?>" title="<?=(is_array($arItem["PREVIEW_PICTURE"]["TITLE"])?$arItem["PREVIEW_PICTURE"]["TITLE"]:$arItem["NAME"]);?>" />
-									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?></a><?endif;?>
-								<?}elseif( strlen($arItem["DETAIL_PICTURE"]["SRC"])>0 ){?>
-									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?><a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="thumb"><?endif;?>
-										<img src="<?=$arItem["DETAIL_PICTURE"]["SRC"]?>" alt="<?=(is_array($arItem["DETAIL_PICTURE"]["ALT"])?$arItem["DETAIL_PICTURE"]["ALT"]:$arItem["NAME"]);?>" title="<?=(is_array($arItem["DETAIL_PICTURE"]["TITLE"])?$arItem["DETAIL_PICTURE"]["TITLE"]:$arItem["NAME"]);?>" />
-									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?></a><?endif;?>
-								<?}else{?>
-									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?><a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="thumb"><?endif;?>
-										<img src="<?=SITE_TEMPLATE_PATH?>/images/no_photo_medium.png" alt="<?=$arItem["NAME"]?>" title="<?=$arItem["NAME"]?>" width="80" height="80" />
-									<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?></a><?endif;?>
-								<?}?>	
-								<?if (!empty($arItem["BRAND"])):?><div class="ordercart_brand"><img src="<?=$arItem["BRAND"]?>" /></div><?endif;?>
+						if ($arHeader["id"] == "NAME"):
+							$bPreviewPicture = ($arItem["PREVIEW_PICTURE"]["SRC"] ?? '') !== '';
+							$bDetailPicture = ($arItem["DETAIL_PICTURE"]["SRC"] ?? '') !== '';
+							$bShowDetailURL = ($arItem["DETAIL_PAGE_URL"] ?? '') !== '';
+						?>
+							<td class="thumb-cell">
+								<?if ($bPreviewPicture):?>
+									<?if ($bShowDetailURL):?><a href="<?=$arItem["DETAIL_PAGE_URL"];?>" class="thumb"><?endif;?>
+										<img src="<?=$arItem["PREVIEW_PICTURE"]["SRC"];?>" alt="<?=(is_array($arItem["PREVIEW_PICTURE"]["ALT"])?$arItem["PREVIEW_PICTURE"]["ALT"]:$arItem["NAME"]);?>" title="<?=(is_array($arItem["PREVIEW_PICTURE"]["TITLE"])?$arItem["PREVIEW_PICTURE"]["TITLE"]:$arItem["NAME"]);?>" />
+									<?if ($bShowDetailURL):?></a><?endif;?>
+								<?elseif ($bDetailPicture):?>
+									<?if ($bShowDetailURL):?><a href="<?=$arItem["DETAIL_PAGE_URL"];?>" class="thumb"><?endif;?>
+										<img src="<?=$arItem["DETAIL_PICTURE"]["SRC"];?>" alt="<?=(is_array($arItem["DETAIL_PICTURE"]["ALT"])?$arItem["DETAIL_PICTURE"]["ALT"]:$arItem["NAME"]);?>" title="<?=(is_array($arItem["DETAIL_PICTURE"]["TITLE"])?$arItem["DETAIL_PICTURE"]["TITLE"]:$arItem["NAME"]);?>" />
+									<?if ($bShowDetailURL):?></a><?endif;?>
+								<?else:?>
+									<?if ($bShowDetailURL):?><a href="<?=$arItem["DETAIL_PAGE_URL"];?>" class="thumb"><?endif;?>
+										<img src="<?=SITE_TEMPLATE_PATH?>/images/no_photo_medium.png" alt="<?=$arItem["NAME"];?>" title="<?=$arItem["NAME"];?>" width="70" height="70" />
+									<?if ($bShowDetailURL):?></a><?endif;?>
+								<?endif;?>
+								<?if (!empty($arItem["BRAND"])):?><div class="ordercart_brand"><img src="<?=$arItem["BRAND"];?>" /></div><?endif;?>
 							</td>
 							
 							<td class="name-cell">	
-								<?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?><a href="<?=$arItem["DETAIL_PAGE_URL"]?>"><?endif;?><?=$arItem["NAME"]?><?if (strlen($arItem["DETAIL_PAGE_URL"]) > 0):?></a><?endif;?><br />
+								<?if ($bShowDetailURL):?><a href="<?=$arItem["DETAIL_PAGE_URL"]?>"><?endif;?><?=$arItem["NAME"]?><?if ($bShowDetailURL):?></a><?endif;?><br />
 								<?if ($bPropsColumn):?>	
 									<div class="item_props">
 										<? foreach ($arItem["PROPS"] as $val) {
@@ -182,7 +186,7 @@ $bPropsColumn  = false;
 							<td class="cell"><?=$arItem[$arHeader["id"]]?></td>
 						<?endif;?>
 					<?endforeach;?>
-					<?if ($bDelayColumn ):?>
+					<?if ($bDelayColumn && $arItem["CAN_BUY"] == "Y"):?>
 						<td class="add delay-cell">	
 							<a class="wish_item to_basket" href="<?=str_replace("#ID#", $arItem["ID"], $arUrls["add"])?>">
 								<span class="icon" title="<?=GetMessage("SALE_ADD_TO_BASKET");?>"><i></i></span>

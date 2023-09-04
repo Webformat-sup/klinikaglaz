@@ -41,11 +41,11 @@
 				$imageSrc = ($bImage ? $arItem['PREVIEW_PICTURE']['SRC'] : SITE_TEMPLATE_PATH.'/images/noimage.png');
 				$imageDetailSrc = ($bImage ? $arItem['DETAIL_PICTURE']['SRC'] : false);
 				// show active date period
-				$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', $arParams['FIELD_CODE']));
+				$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', (array)$arParams['FIELD_CODE']));
 				$line_element_count = ($arParams['LINE_ELEMENT_COUNT_LIST'] >= 6 ? 4 : $arParams['LINE_ELEMENT_COUNT_LIST']);
 				?>
 				<div class="col-md-<?=floor(12 / $line_element_count)?> col-sm-<?=floor(12 / round($line_element_count / 2))?>">
-					<div class="item shadow slice-item noborder<?=($bImage ? '' : ' wti')?><?=($bActiveDate ? ' wdate' : '')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
+					<div class="item shadow slice-item no-delay-slice noborder<?=($bImage ? '' : ' wti')?><?=($bActiveDate ? ' wdate' : '')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
 						<?if($bImage):?>
 							<div class="image shine">
 								<?if($bDetailLink):?>

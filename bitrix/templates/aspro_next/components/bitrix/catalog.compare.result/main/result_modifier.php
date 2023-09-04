@@ -1,25 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 use Bitrix\Main\Type\Collection;
 
-if($arResult["ITEMS"])
-{
-	$strBaseCurrency = $arParams['CURRENCY_ID'];
-	if(!$arParams['CURRENCY_ID'])
-		$strBaseCurrency = CCurrency::GetBaseCurrency();
-
-	foreach($arResult["ITEMS"] as $key => $arItem)
-	{
-		// print_r($arItem);
-		if($arItem['CATALOG_TYPE'] == 3 && !$arItem['OFFER_FIELDS'])
-		{
-			$arResult["ITEMS"][$key]['MIN_PRICE'] = array(
-				'DISCOUNT_VALUE' => $arItem['PROPERTIES']['MINIMUM_PRICE']['VALUE'],
-				'SUFFIX' => GetMessage('PRICE_FROM'),
-				'PRINT_DISCOUNT_VALUE' => CCurrencyLang::CurrencyFormat($arItem['PROPERTIES']['MINIMUM_PRICE']['VALUE'], $strBaseCurrency, true)
-			);
-		}
-	}
-}
+$arParams['TYPE_SKU'] = 'N';
 
 $arResult['ALL_FIELDS'] = array();
 $existShow = !empty($arResult['SHOW_FIELDS']);
@@ -61,6 +43,23 @@ if ($existShow || $existDelete)
 $arResult['ALL_PROPERTIES'] = array();
 $existShow = !empty($arResult['SHOW_PROPERTIES']);
 $existDelete = !empty($arResult['DELETED_PROPERTIES']);
+
+foreach ($arResult["ITEMS"] as $itemID => $item) {
+	if ($item["DISPLAY_PROPERTIES"]) {
+		foreach ($item["DISPLAY_PROPERTIES"] as $propCode => $arProp) {
+			if ($arProp["VALUE"]) {
+				$arResult["SHOW_PROPERTIES"][$propCode]["VALUE"] = $arProp["VALUE"];
+			}
+		}
+	}
+
+	if ($SID = $item['IBLOCK_SECTION_ID']) {
+		$arSectionsIDs[] = $SID;
+	}
+}
+
+$arResult["SHOW_PROPERTIES"] = CNext::PrepareItemProps($arResult["SHOW_PROPERTIES"]);
+
 if ($existShow || $existDelete)
 {
 	if ($existShow)
@@ -95,7 +94,7 @@ if ($existShow || $existDelete)
 	{
 		foreach ($arResult["SHOW_OFFER_FIELDS"] as $propCode)
 		{
-			if($propCode=="PREVIEW_PICTURE" || $propCode=="DETAIL_PICTURE" || $propCode=="NAME" || $propCode=="ID"){
+			if($propCode=="PREVIEW_PICTURE" || $propCode=="DETAIL_PICTURE" || $propCode=="NAME" || $propCode=="ID" || $propCode=="QUANTITY"){
 				unset($arResult["SHOW_OFFER_FIELDS"][$propCode]);
 			}else{
 				$arResult["SHOW_OFFER_FIELDS"][$propCode] = array(
@@ -152,4 +151,21 @@ if ($existShow || $existDelete)
 	}
 	Collection::sortByColumn($arResult['ALL_OFFER_PROPERTIES'], array('SORT' => SORT_ASC, 'ID' => SORT_ASC));
 }
-?>
+
+$arResult['SECTIONS'] = array();
+if ($arParams["USE_COMPARE_GROUP"] === "Y") {
+	if ($arSectionsIDs){
+		$arResult['SECTIONS'] = CNextCache::CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs, 'ACTIVE' => 'Y'), false, array("ID", "NAME", "IBLOCK_ID"));
+	}
+	//$arRootSectionItems = array();
+	foreach ($arResult['ITEMS'] as $arItem){
+		$SID = ($arItem['IBLOCK_SECTION_ID'] ? $arItem['IBLOCK_SECTION_ID'] : 0);
+		if ($SID){
+			$arResult['SECTIONS'][$SID]['ITEMS'][$arItem['ID']] = $arItem;
+		}	
+	}
+} 
+else {
+	$arResult['SECTIONS'][0]['ITEMS'] = $arResult['ITEMS'];
+	$arResult['SECTIONS'][0]['ID'] = '0';
+}

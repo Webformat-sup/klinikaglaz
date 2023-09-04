@@ -8,9 +8,11 @@ use Bitrix\Main\Loader,
 Loader::includeModule("iblock");
 Loader::includeModule("highloadblock");
 
-global $arTheme, $NextSectionID, $arRegion;
+global $arTheme, $NextSectionID, $arRegion, $noAddElementToChain;
 $arSection = $arElement = array();
 $bFastViewMode = (isset($_REQUEST['FAST_VIEW']) && $_REQUEST['FAST_VIEW'] == 'Y');
+$bReviewsSort = (isset($_REQUEST['reviews_sort']) && $_REQUEST['reviews_sort'] == 'Y');
+$noAddElementToChain = $arParams['ADD_ELEMENT_CHAIN'] !== 'Y';
 
 // get current section & element
 if($arResult["VARIABLES"]["SECTION_ID"] > 0){
@@ -35,7 +37,7 @@ if($GLOBALS[$arParams['FILTER_NAME']]){
 	$arElementFilter = array_merge($arElementFilter, $GLOBALS[$arParams['FILTER_NAME']]);
 }
 
-$arElement = CNextCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeElementFilterInRegion($arElementFilter), false, false, array("ID", "IBLOCK_ID", "IBLOCK_SECTION_ID", "NAME", "PREVIEW_TEXT", "PREVIEW_PICTURE", "DETAIL_PICTURE", "PROPERTY_ASSOCIATED_FILTER", "PROPERTY_EXPANDABLES_FILTER"));
+$arElement = CNextCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeElementFilterInRegion($arElementFilter), false, false, array("ID", "IBLOCK_ID", "IBLOCK_SECTION_ID", "NAME", "PREVIEW_TEXT", "PREVIEW_PICTURE", "DETAIL_PICTURE"));
 
 if(!$arElement){
 	\Bitrix\Iblock\Component\Tools::process404(
@@ -47,14 +49,6 @@ if(!$arElement){
 	);
 }
 
-if($arParams['STORES'])
-{
-	foreach($arParams['STORES'] as $key => $store)
-	{
-		if(!$store)
-			unset($arParams['STORES'][$key]);
-	}
-}
 if(!$arSection){
 	if($arElement["IBLOCK_SECTION_ID"]){
 		$sid = ((isset($arElement["IBLOCK_SECTION_ID_SELECTED"]) && $arElement["IBLOCK_SECTION_ID_SELECTED"]) ? $arElement["IBLOCK_SECTION_ID_SELECTED"] : $arElement["IBLOCK_SECTION_ID"]);
@@ -111,6 +105,15 @@ if($arRegion)
 	}
 }
 
+if($arParams['STORES'])
+{
+	foreach($arParams['STORES'] as $key => $store)
+	{
+		if(!$store)
+			unset($arParams['STORES'][$key]);
+	}
+}
+
 $NextSectionID = $arSection["ID"];
 $arParams["GRUPPER_PROPS"] = $arTheme["GRUPPER_PROPS"]["VALUE"];
 if($arTheme["GRUPPER_PROPS"]["VALUE"] != "NOT")
@@ -130,8 +133,18 @@ if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["USE_COMPARE"] = 'N';
 /**/
 
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
+$_SESSION['BLOG_MAX_IMAGE_SIZE'] = ($arParams['MAX_IMAGE_SIZE'] ? $arParams['MAX_IMAGE_SIZE'] : '0.5');
+
+if (!isset($arParams['REVIEW_COMMENT_REQUIRED']) || $arParams['USE_RATING'] === 'N')
+	$arParams['REVIEW_COMMENT_REQUIRED'] = "Y";
+
 if($bFastViewMode)
 	include_once('element_fast_view.php');
+else if($bReviewsSort)
+	include_once('element_reviews.php');
 else
 	include_once('element_normal.php');
 ?>

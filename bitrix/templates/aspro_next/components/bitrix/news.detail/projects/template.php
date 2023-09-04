@@ -14,7 +14,7 @@
 
 <?$bShowAskBlock = ($arResult['DISPLAY_PROPERTIES']['FORM_QUESTION']['VALUE_XML_ID'] == 'YES');?>
 <?$bShowOrderBlock = ($arResult['DISPLAY_PROPERTIES']['FORM_ORDER']['VALUE_XML_ID'] == 'YES');?>
-<?$bShowAllChar = (isset($arResult['DISPLAY_PROPERTIES_FORMATTED']) && count($arResult['DISPLAY_PROPERTIES_FORMATTED'])>3);?>
+<?$bShowAllChar = (isset($arResult['DISPLAY_PROPERTIES_FORMATTED']) && count((array)$arResult['DISPLAY_PROPERTIES_FORMATTED'])>3);?>
 <div class="item projects-blocks">
 	<?// element name?>
 	<?if($arParams['DISPLAY_NAME'] != 'N' && strlen($arResult['NAME'])):?>
@@ -25,9 +25,13 @@
 			<?if($arResult['GALLERY']):?>
 				<div class="col-md-7 col-sm-7">
 					<div class="inner">
-						<div class="flexslider color-controls dark show-nav-controls bigs top_slider" data-slice="Y" data-plugin-options='{"animation": "slide", "directionNav": true, "controlNav" :true, "animationLoop": true, "slideshow": false}'>
+						<div class="flexslider color-controls dark show-nav-controls bigs top_slider" data-slice="Y" 
+							<? if ($countAll): ?>
+								data-plugin-options='{"animation": "slide", "directionNav": true, "controlNav" :true, "animationLoop": true, "slideshow": false}'
+							<? endif; ?>
+						>
 							<ul class="slides items">
-								<?$countAll = count($arResult['GALLERY']);?>
+								<?$countAll = count((array)$arResult['GALLERY']);?>
 								<?foreach($arResult['GALLERY'] as $i => $arPhoto):?>
 									<li class="item" data-slice-block="Y" data-slice-params='{"lineheight": -3}'>
 										<a href="<?=$arPhoto['DETAIL']['SRC']?>" target="_blank" title="<?=$arPhoto['TITLE']?>" class="fancy" data-fancybox-group="gallery">
@@ -43,7 +47,7 @@
 			<?endif;?>
 			<div class="<?=($arResult['GALLERY'] ? 'col-md-5 col-sm-5' : 'col-md-12 col-sm-12');?>">
 				<div class="info" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-					<?if(isset($arResult['PROPERTIES']['TASK_PROJECT']) && $arResult['PROPERTIES']['TASK_PROJECT']['~VALUE']['TEXT']):?>
+					<?if(isset($arResult['PROPERTIES']['TASK_PROJECT']) && isset($arResult['PROPERTIES']['TASK_PROJECT']['~VALUE']['TEXT'])):?>
 						<div class="hh">
 							<div class="title_grey_small"><?=$arResult['PROPERTIES']['TASK_PROJECT']['NAME'];?></div>
 							<div class="text"><?=$arResult['PROPERTIES']['TASK_PROJECT']['~VALUE']['TEXT'];?></div>
@@ -193,7 +197,7 @@
 			<div class="gallery-block">
 				<div class="gallery-wrapper">
 					<div class="inner">
-						<?if(count($arResult["GALLERY_BIG"]) > 1):?>
+						<?if(count((array)$arResult["GALLERY_BIG"]) > 1):?>
 							<div class="small-gallery-wrapper">
 								<div class="thmb1 flexslider unstyled small-gallery center-nav" data-plugin-options='{"slideshow": false, "useCSS": true, "animation": "slide", "animationLoop": true, "itemWidth": 60, "itemMargin": 20, "minItems": 1, "maxItems": 9, "slide_counts": 1, "asNavFor": ".gallery-wrapper .bigs"}' id="carousel1">
 									<ul class="slides items">	

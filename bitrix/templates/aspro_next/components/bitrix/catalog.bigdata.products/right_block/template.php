@@ -73,11 +73,12 @@ if($arResult['ITEMS']){?>
 								$strMeasure=$arMeasure["SYMBOL_RUS"];
 							}
 						}
+						$arItem["DETAIL_PAGE_URL"] .= ($arResult["RID"] ? '?RID='.$arResult["RID"] : '');
 						?>
 
 						<div class="inner_wrap">
 							<div class="image_wrapper_block">
-								<a href="<?=$arItem["DETAIL_PAGE_URL"]?><?=($arResult["RID"] ? '?RID='.$arResult["RID"] : '')?>" class="thumb shine">
+								<?/*<a href="<?=$arItem["DETAIL_PAGE_URL"]?><?=($arResult["RID"] ? '?RID='.$arResult["RID"] : '')?>" class="thumb shine">
 									<?
 									$a_alt = ($arItem["PREVIEW_PICTURE"] && strlen($arItem["PREVIEW_PICTURE"]['DESCRIPTION']) ? $arItem["PREVIEW_PICTURE"]['DESCRIPTION'] : ($arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"] ? $arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"] : $arItem["NAME"] ));
 									$a_title = ($arItem["PREVIEW_PICTURE"] && strlen($arItem["PREVIEW_PICTURE"]['DESCRIPTION']) ? $arItem["PREVIEW_PICTURE"]['DESCRIPTION'] : ($arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"] ? $arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"] : $arItem["NAME"] ));
@@ -90,11 +91,13 @@ if($arResult['ITEMS']){?>
 									<?else:?>
 										<img border="0" src="<?=SITE_TEMPLATE_PATH?>/images/no_photo_medium.png" alt="<?=$a_alt;?>" title="<?=$a_title;?>" />
 									<?endif;?>
-								</a>
+								</a>*/?>
+								<?$arItem["BIG_DATA"] = "Y";?>
+								<?\Aspro\Functions\CAsproNext::showImg($arParams, $arItem, false);?>
 							</div>
 							<div class="item_info">
 								<div class="item-title">
-									<a href="<?=$arItem["DETAIL_PAGE_URL"]?><?=($arResult["RID"] ? '?RID='.$arResult["RID"] : '')?>" class="dark-color"><span><?=$elementName?></span></a>
+									<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark-color"><span><?=$elementName?></span></a>
 								</div>
 								<div class="cost prices clearfix">
 									<?if($arItem["OFFERS"]):?>

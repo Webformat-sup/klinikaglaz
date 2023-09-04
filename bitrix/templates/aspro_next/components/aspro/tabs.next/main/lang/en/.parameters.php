@@ -1,6 +1,7 @@
 <?
-$MESS ['T_IBLOCK_DESC_NEWS_DATE'] = "Display element date";
-$MESS ['T_IBLOCK_DESC_NEWS_NAME'] = "Display element title";
-$MESS ['T_IBLOCK_DESC_NEWS_PICTURE'] = "Display element preview picture";
-$MESS ['T_IBLOCK_DESC_NEWS_TEXT'] = "Display element preview text";
+$MESS["OFFERS_SETTINGS"] = "Свойства для отбора предложений";
+$MESS["CP_BC_TPL_ADD_PICT_PROP"] = "Дополнительная картинка основного товара";
+$MESS["CP_BC_TPL_LABEL_PROP"] = "Свойство меток товара";
+$MESS["CP_BC_TPL_PRODUCT_DISPLAY_MODE"] = "Схема отображения";
+$MESS["CP_BC_TPL_OFFER_ADD_PICT_PROP"] = "Дополнительные картинки предложения";
 ?>

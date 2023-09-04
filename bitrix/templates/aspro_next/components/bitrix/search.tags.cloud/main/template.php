@@ -13,7 +13,7 @@
 $this->setFrameMode(true);
 
 if(is_array($arResult["SEARCH"]) && !empty($arResult["SEARCH"])):?>
-	<noindex>
+	<!--noindex-->
 		<div class="search-tags-cloud">
 			<div class="title-block-middle"><?=\Bitrix\Main\Localization\Loc::getMessage('TAG_TITLE');?></div>
 			<div class="tags">
@@ -22,5 +22,5 @@ if(is_array($arResult["SEARCH"]) && !empty($arResult["SEARCH"])):?>
 				<?endforeach;?>
 			</div>
 		</div>
-	</noindex>
+	<!--/noindex-->
 <?endif;?>

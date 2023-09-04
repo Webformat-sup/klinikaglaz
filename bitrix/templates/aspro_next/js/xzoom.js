@@ -149,14 +149,14 @@ var timerMove = false;
         scale = event.xscale;
         xscale(x, y);
       } else {
-        var delta = -event.originalEvent.detail || event.originalEvent.wheelDelta || event.xdelta;
+        var delta = -event.originalEvent.detail || event.originalEvent.wheelDelta || event.xdelta || event.originalEvent.deltaY;
         var x = event.pageX || event.originalEvent.pageX;
         var y = event.pageY || event.originalEvent.pageY;
         if (ie) {
           x = iex;
           y = iey;
         }
-
+        
           if (delta > 0) delta = -0.05; else delta = 0.05;
 
           scale += delta;

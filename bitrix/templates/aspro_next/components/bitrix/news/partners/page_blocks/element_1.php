@@ -105,23 +105,31 @@
 			if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
 			{
 				if($arParams['STORES']){
-					if(count($arParams['STORES']) > 1){
-						$arStoresFilter = array('LOGIC' => 'OR');
-						foreach($arParams['STORES'] as $storeID)
-						{
-							$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-						}
+					if(CNext::checkVersionModule('18.6.200', 'iblock')){
+						$arStoresFilter = array(
+							'STORE_NUMBER' => $arParams['STORES'],
+							'>STORE_AMOUNT' => 0,
+						);
 					}
 					else{
-						foreach($arParams['STORES'] as $storeID)
-						{
-							$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+						if(count($arParams['STORES']) > 1){
+							$arStoresFilter = array('LOGIC' => 'OR');
+							foreach($arParams['STORES'] as $storeID)
+							{
+								$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							}
+						}
+						else{
+							foreach($arParams['STORES'] as $storeID)
+							{
+								$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							}
 						}
 					}
 
-					$arTmpFilter = array('!TYPE' => '2');
+					$arTmpFilter = array('!TYPE' => array('2', '3'));
 					if($arStoresFilter){
-						if(count($arStoresFilter) > 1){
+						if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
 							$arTmpFilter[] = $arStoresFilter;
 						}
 						else{
@@ -130,7 +138,7 @@
 
 						$GLOBALS['arrProductsFilter'][] = array(
 							'LOGIC' => 'OR',
-							array('TYPE' => '2'),
+							array('TYPE' => array('2', '3')),
 							$arTmpFilter,
 						);
 					}
@@ -160,7 +168,11 @@
 		"TITLE" => str_replace("#BRAND_NAME#",$arElement["NAME"],(strlen($arParams["T_GOODS"])?$arParams["T_GOODS"]:GetMessage("T_GOODS"))),
 		"SHOW_DISCOUNT_PERCENT_NUMBER" => $arParams["SHOW_DISCOUNT_PERCENT_NUMBER"],
 		"COMPOSITE_FRAME_MODE" => "A",
-		"COMPOSITE_FRAME_TYPE" => "AUTO"
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"LINKED_ELEMENT_TAB_SORT_FIELD" => $arParams["LINKED_ELEMENT_TAB_SORT_FIELD"],
+		"LINKED_ELEMENT_TAB_SORT_ORDER" => $arParams["LINKED_ELEMENT_TAB_SORT_ORDER"],
+		"LINKED_ELEMENT_TAB_SORT_FIELD2" => $arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"],
+		"LINKED_ELEMENT_TAB_SORT_ORDER2" => $arParams["LINKED_ELEMENT_TAB_SORT_ORDER2"],
 	),
 	false
 );?>

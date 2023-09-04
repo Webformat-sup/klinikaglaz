@@ -2,10 +2,6 @@
   <defs>
     <style>
       .bu_bw_cls-1 {
-        fill: #fff;
-        fill-rule: evenodd;
-      }
-      .mobileheader-v1 .bu_bw_cls-1 {
         fill: #222;
         fill-rule: evenodd;
       }

@@ -104,6 +104,7 @@ Disallow: */%20%20https://www.horosheezrenie.ru/uprazhneniya-dlya-glaz-za-kompyu
 Disallow: */administrator-v-meditsinskiy-tsentr-i-salon-optiki-s-funktsiyami-operator-koll-tsentra/
 Disallow: */hirurgicheskoe-lechenie-kataraktyi/
 Disallow: */ortokeratologiya/
+Disallow: /study/*
 Allow: /*/*.js
 Allow: /*/*.css
 Allow: /wp-*.png
@@ -116,6 +117,7 @@ Allow: /bitrix/cache/
 Allow: /bitrix/js/
 Allow: /bitrix/templates/
 Allow: /bitrix/panel/
+Sitemap: https://klinikaglaz.ru/sitemap.xml
 
 User-Agent: Yandex
 Disallow: */index.php
@@ -356,6 +358,6 @@ Allow: /bitrix/cache/
 Allow: /bitrix/js/
 Allow: /bitrix/templates/
 Allow: /bitrix/panel/
-
-Host:https://klinikaglaz.ru/
+Clean-param: oid&display
+Host: https://klinikaglaz.ru/
 Sitemap: https://klinikaglaz.ru/sitemap.xml

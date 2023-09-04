@@ -4,13 +4,17 @@
 use \Bitrix\Main\Localization\Loc;
 Loc::loadMessages(__FILE__);
 
-global $arRegion;
+global $arRegion, $dopClass;
+
+// correction of the standard option tag for ios, is not normally hidden
+$dopClass .= ' iks-on-ios';
 
 $arItemFilter = CNext::GetIBlockAllElementsFilter($arParams);
-$arItemSelect = array('ID', 'NAME', 'IBLOCK_ID', 'IBLOCK_SECTION_ID', 'PROPERTY_MAP');
+$arItemSelect = array('ID', 'NAME', 'IBLOCK_ID', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'IBLOCK_SECTION_ID', 'PROPERTY_MAP', 'PROPERTY_PHONE', 'PROPERTY_SCHEDULE', 'PROPERTY_METRO', 'PROPERTY_EMAIL', 'PROPERTY_ADDRESS');
 $arItems = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, false, false, $arItemSelect);
 
 $arAllSections = array();
+$arSchema = array();
 if($arItems)
 	$arAllSections = CNext::GetSections($arItems, $arParams);
 ?>
@@ -36,7 +40,7 @@ if($arItems)
 									<select class="city">
 										<option value="0" selected><?=Loc::getMessage('CHOISE_ITEM', array('#ITEM#' => Loc::getMessage('CITY')))?></option>
 										<?foreach($arAllSections['CHILD_SECTIONS'] as $arSection):?>
-											<option style="display:none;" disabled="disabled" value="<?=$arSection['ID'];?>" data-parent_section="<?=$arSection['IBLOCK_SECTION_ID'];?>"><?=$arSection['NAME'];?></option>
+												<option style="display:none;" disabled="disabled" value="<?=$arSection['ID'];?>" data-parent_section="<?=$arSection['IBLOCK_SECTION_ID'];?>"><?=$arSection['NAME'];?></option>
 										<?endforeach;?>
 									</select>
 								</div>
@@ -76,6 +80,12 @@ if($arItems)
 		$APPLICATION->RestartBuffer();?>
 	<?}?>
 	<?if($arItems):?>
+
+		<?$dbRes = CIBlock::GetProperties($arParams['IBLOCK_ID']);
+		while($arRes = $dbRes->Fetch()){
+			$arProperties[$arRes['CODE']] = $arRes;
+		}?>
+
 		<?$bPostSection = (isset($_POST['ID']) && $_POST['ID']);?>
 		<?
 		$bUseMap = CNext::GetFrontParametrValue('CONTACTS_USE_MAP', SITE_ID) != 'N';
@@ -87,8 +97,37 @@ if($arItems)
 			$GLOBALS[$arParams['FILTER_NAME']]['SECTION_ID'] = $_POST['ID'];
 		}
 
-		foreach($arItems as $arItem)
+		$fullAdress = [];
+		foreach($arItems as $i => $arItem)
 		{
+			if(!empty($arItem["PROPERTY_ADDRESS_VALUE"])){
+				$fullAdress[] = $arItem["PROPERTY_ADDRESS_VALUE"];
+			}
+
+			if(!empty($arItem["PROPERTY_METRO_VALUE"]) && is_array($arItem["PROPERTY_METRO_VALUE"])) {
+				$fullAdress[] = GetMessage('METRO').': '.implode(", ", $arItem["PROPERTY_METRO_VALUE"]);
+			} elseif(!empty($arItem["PROPERTY_METRO_VALUE"])) {
+				$fullAdress[] = GetMessage('METRO').': '.$arItem["PROPERTY_METRO_VALUE"];
+			}
+
+			$arSchema[] = array(
+				"@context" => "http://schema.org",
+				"@type" => "Store",
+				"name" => $arItem["NAME"],
+				"description" => $arItem['DESCRIPTION'],
+				"openingHours" => (isset($arItem['PROPERTY_SCHEDULE_VALUE']['TEXT']) && strlen($arItem['PROPERTY_SCHEDULE_VALUE']['TEXT']) 
+					? $arItem['PROPERTY_SCHEDULE_VALUE']['TEXT'] 
+					: ""),
+				"telephone" => is_array($arItem["PROPERTY_PHONE_VALUE"]) ? implode(", ", $arItem["PROPERTY_PHONE_VALUE"]) : $arItem["PROPERTY_PHONE_VALUE"],
+				"image" => array($_SERVER['SERVER_NAME'].CFile::GetPath($arItem['PREVIEW_PICTURE'])),
+				"address" => array(
+					"@type" => "PostalAddress",
+					"addressLocality" => $arItem["NAME"],
+					"streetAddress" => (empty($fullAdress) ? '' : implode(', ', $fullAdress)),
+				),
+			);
+			unset($fullAdress);
+
 			if($arItem['PROPERTY_MAP_VALUE']){
 				$arCoords = explode(',', $arItem['PROPERTY_MAP_VALUE']);
 				$mapLAT += $arCoords[0];
@@ -101,16 +140,77 @@ if($arItems)
 						$str_phones .= '<div class="phone"><a rel="nofollow" href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $phone).'">'.$phone.'</a></div>';
 					}
 				}
+
+				$html = '<div class="map_info_store">';
+
+				$html .= '<div class="title font_mlg"><a href="'.$arItem["DETAIL_PAGE_URL"].'" class="dark_link">'.$arItem['NAME'].($arItem['PROPERTY_ADDRESS_VALUE'] ? ', '.$arItem['PROPERTY_ADDRESS_VALUE'] : '').'</a></div>';
+				
+				$bSchedule = (isset($arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT']) && strlen($arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT']));
+				$bPhone = (isset($arItem['PROPERTY_PHONE_VALUE']) && !empty($arItem['PROPERTY_PHONE_VALUE']));
+				$bMetro = (isset($arItem['PROPERTY_METRO_VALUE']) && !empty($arItem['PROPERTY_METRO_VALUE']));
+				$bEmail = (isset($arItem['PROPERTY_EMAIL_VALUE']) && !empty($arItem['PROPERTY_EMAIL_VALUE']));
+
+				if ($bSchedule || $bPhone || $bMetro || $bEmail) {
+					$html .= '<div class="properties">';
+						if ($bMetroValue) {
+							$html .= '<div class="property schedule">'.
+										'<div class="title-prop font_upper">'.($arProperties['METRO']['NAME'] ?? '').'</div>'.
+										'<div class="value font_sm">'.(is_array($arItem['PROPERTY_METRO_VALUE']) ? implode(', ', $arItem['PROPERTY_METRO_VALUE']) : $arItem['PROPERTY_METRO_VALUE']).'</div>'.
+									'</div>';
+						}
+						
+						if ($bSchedule) {
+							$html .= '<div class="property schedule">'.
+										'<div class="title-prop font_upper">'.($arProperties['SCHEDULE']['NAME'] ?? '').'</div>'.
+										'<div class="value font_sm">'.$arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT'].'</div>'.
+									'</div>';
+						}
+						
+						if ($bPhone) {
+							$phone = '';
+							if (is_array($arItem['PROPERTY_PHONE_VALUE'])) {
+								foreach ($arItem['PROPERTY_PHONE_VALUE'] as $value) {
+									$phone .= '<div class="value"><a class="dark_link" rel= "nofollow" href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $value).'">'.$value.'</a></div>';
+								}
+							}
+							else{
+								$phone = '<div class="value font_sm"><a class="dark_link" rel= "nofollow" href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $arItem['PROPERTY_PHONE_VALUE']).'">'.$arItem['PROPERTY_PHONE_VALUE'].'</a></div>';
+							
+								
+							}
+							$html .= '<div class="property phone"><div class="title-prop font_upper">'.$arProperties['PHONE']['NAME'].'</div>'.$phone.'</div>';
+						}
+	
+						if ($bEmail) {
+							$sEmail = '';
+							if (is_array($arItem['PROPERTY_EMAIL_VALUE'])) {
+								foreach ($arItem['PROPERTY_EMAIL_VALUE'] as $email) {
+									$sEmail .= '<a class="dark_link" href="mailto:'.$email.'">'.$email.'</a>';
+								}
+							}
+							else {
+								$sEmail .= '<a class="dark_link" href="mailto:'.$arItem['PROPERTY_EMAIL_VALUE'].'">'.$arItem['PROPERTY_EMAIL_VALUE'].'</a>';
+							}
+	
+							$html .= '<div class="property email">'.
+										'<div class="title-prop font_upper">'.$arProperties['EMAIL']['NAME'].'</div>'.
+										'<div class="value font_sm">'.$sEmail.'</div>'.
+									'</div>';
+						}
+					$html .= '</div></div>';
+				}
 				$arPlacemarks[] = array(
 					"ID" => $arItem["ID"],
 					"LAT" => $arCoords[0],
 					"LON" => $arCoords[1],
-					"TEXT" => $arItem["NAME"],
+					"TEXT" => $html,
 					"HTML" => '<div class="title">'.(strlen($arShop["URL"]) ? '<a href="'.$arShop["URL"].'">' : '').$arShop["ADDRESS"].(strlen($arShop["URL"]) ? '</a>' : '').'</div><div class="info-content">'.($arShop['METRO'] ? $arShop['METRO_PLACEMARK_HTML'] : '').(strlen($arShop['SCHEDULE']) ? '<div class="schedule">'.$arShop['SCHEDULE'].'</div>' : '').$str_phones.(strlen($arShop['EMAIL']) ? '<div class="email"><a rel="nofollow" href="mailto:'.$arShop['EMAIL'].'">'.$arShop['EMAIL'].'</a></div>' : '').'</div>'.(strlen($arShop['URL']) ? '<a rel="nofollow" class="button" href="'.$arShop["URL"].'"><span>'.GetMessage('DETAIL').'</span></a>' : '')
 				);
 				++$iCountShops;
+				$arSchema[$i]["geo"] = array("@type" => "GeoCoordinates", "latitude" => floatval($mapLAT / $iCountShops), "longitude" => floatval($mapLON / $iCountShops));
 			}
 		}
+
 		if($iCountShops && $bUseMap)
 		{
 			$mapLAT = floatval($mapLAT / $iCountShops);
@@ -119,6 +219,7 @@ if($arItems)
 				<?$this->SetViewTarget('yandex_map');?>
 			<?endif;?>
 			<div class="contacts-page-map">
+				<?if(CNext::GetFrontParametrValue('CONTACTS_TYPE_MAP') == 'YANDEX') { ?>
 				<?$APPLICATION->IncludeComponent(
 					"bitrix:map.yandex.view",
 					"map",
@@ -140,7 +241,33 @@ if($arItems)
 						"COMPONENT_TEMPLATE" => "map"
 					),
 					false
-				);?>
+				);
+				}?>
+				<?if(CNext::GetFrontParametrValue('CONTACTS_TYPE_MAP') == 'GOOGLE') { ?>
+				<?$APPLICATION->IncludeComponent(
+					"bitrix:map.google.view",
+					"map",
+					array(
+						"INIT_MAP_TYPE" => "MAP",
+						"MAP_DATA" => serialize(array("google_lat" => $mapLAT, "google_lon" => $mapLON, "google_scale" => 19, "PLACEMARKS" => $arPlacemarks)),
+						"MAP_WIDTH" => "100%",
+						"MAP_HEIGHT" => "420",
+						"CONTROLS" => array(
+							0 => "SMALL_ZOOM_CONTROL",
+							1 => "TYPECONTROL",
+							2 => "SCALELINE",
+						),
+						"OPTIONS" => array(
+							0 => "ENABLE_DBLCLICK_ZOOM",
+							1 => "ENABLE_DRAGGING",
+						),
+						"MAP_ID" => "MAP_v33",
+						"COMPONENT_TEMPLATE" => "map"
+					),
+					false
+				);
+				}?>
+				
 			</div>
 			<?if($arParams['SHOW_TOP_MAP'] == 'Y'):?>
 				<?$this->EndViewTarget();?>
@@ -176,7 +303,7 @@ if($arItems)
 				"DISPLAY_TOP_PAGER"	=>	$arParams["DISPLAY_TOP_PAGER"],
 				"DISPLAY_BOTTOM_PAGER"	=>	$arParams["DISPLAY_BOTTOM_PAGER"],
 				"PAGER_TITLE"	=>	$arParams["PAGER_TITLE"],
-				"PAGER_TEMPLATE"	=>	$arParams["PAGER_TEMPLATE"],
+				"PAGER_TEMPLATE"	=>	($arParams["PAGER_TEMPLATE"] !== 'main' ? $arParams["PAGER_TEMPLATE"] : ".default" ), // template ajax 'main' temporarily not supported for contacts
 				"PAGER_SHOW_ALWAYS"	=>	$arParams["PAGER_SHOW_ALWAYS"],
 				"PAGER_DESC_NUMBERING"	=>	$arParams["PAGER_DESC_NUMBERING"],
 				"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	$arParams["PAGER_DESC_NUMBERING_CACHE_TIME"],
@@ -202,6 +329,7 @@ if($arItems)
 			),
 			$component
 		);?>
+		<script type="application/ld+json"><?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?></script>
 		<?CNext::checkRestartBuffer();?>
 	<?endif;?>
 </div>

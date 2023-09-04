@@ -58,7 +58,7 @@ $url = (in_array($form_id, ['17','5'])) ? "/thanks/" : "";
 		Array(
 			"IBLOCK_TYPE" => "aspro_corporation_form",
 			"IBLOCK_ID" => 10,
-			"USE_CAPTCHA" => N,
+			"USE_CAPTCHA" => "N",
 			"AJAX_MODE" => "Y",
 			"AJAX_OPTION_JUMP" => "N",
 			"AJAX_OPTION_STYLE" => "N",

@@ -9,7 +9,17 @@ foreach($arResult['ITEMS'] as $key => $arItem){
 $sectionResult = CIBlockSection::GetList(array('SORT' => 'ASC'), array('IBLOCK_ID' => 13, 'ID' => $arSectionsIDs), false, $arSelect = array('UF_*'));
 while ($sectionProp = $sectionResult -> GetNext())
 {
-print_r($sectionProp['UF_INFOTEXT']);
+	print_r($sectionProp['UF_INFOTEXT']);
+
+	#--- доработка для показа описания подраздела
+	if(is_array($arResult['SECTION']['PATH'])){
+		foreach($arResult['SECTION']['PATH'] as $key_pth=>$pth){
+			if($pth['ID'] == $sectionProp['ID']){
+				$arResult['SECTION']['PATH'][$key_pth]['DESCRIPTION'] = $sectionProp['DESCRIPTION'];
+			}
+		}
+	}
+
 }
 
 if(is_array($arResult['SECTION']['PATH'])){
@@ -17,12 +27,13 @@ if(is_array($arResult['SECTION']['PATH'])){
 }else{
 	$arCurSection = $arResult['SECTION'];
 }
+
 if(is_array($arCurSection)){
-$rsResult = CIBlockSection::GetList(array("SORT" => "ASC"), array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ID" =>$arCurSection["ID"]), false, $arSelect = array("UF_*")); // возвращаем список разделов с нужными нам пользовательскими полями. UF_* - в таком виде выведет все доступные для данного раздела поля.
-// $arParams["IBLOCK_ID"] - у вас может быть получением ID инфоблока другим способом
-// $arResult["SECTION"]["ID"] - и ID раздела тоже, проверяйте через print_r($arResult);
-if($arSection = $rsResult -> GetNext())
-    { 
+	$rsResult = CIBlockSection::GetList(array("SORT" => "ASC"), array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ID" =>$arCurSection["ID"]), false, $arSelect = array("UF_*")); // возвращаем список разделов с нужными нам пользовательскими полями. UF_* - в таком виде выведет все доступные для данного раздела поля.
+	// $arParams["IBLOCK_ID"] - у вас может быть получением ID инфоблока другим способом
+	// $arResult["SECTION"]["ID"] - и ID раздела тоже, проверяйте через print_r($arResult);
+
+	if($arSection = $rsResult->GetNext()){ 
 		$arUFIds=[];
 		$arUFProps=[];
 		foreach ($arSection as $key => $value) {
@@ -35,17 +46,11 @@ if($arSection = $rsResult -> GetNext())
 					}
 					$arResult["SECTION_USER_FIELDS"][$key] = $value;
 				break;
-	
+
 				case 'UF_SPECIALIST':
 				case 'UF_ITEMS':
 					$arResult["SECTION_USER_FIELDS"][$key] = $value;
 				break;
-				// case 'UF_ITEMS':
-				// 	$arr = explode ( '\n' , $value );
-				// 	array_push($arUFItems, $arr);
-				// 	$arResult["SECTION_USER_FIELDS"][$key] = $arr;
-				// break;
-	
 				case 'UF_PRICE_LINK':
 				case 'UF_FORM_ID':
 				case 'UF_VIDEO_DESCRIPTION':
@@ -53,7 +58,7 @@ if($arSection = $rsResult -> GetNext())
 				case 'UF_VIDEO_NAME':
 					$arResult["SECTION_USER_FIELDS"][$key] = $value;
 				break;
-	
+
 				default:
 					continue;
 			}
@@ -72,7 +77,8 @@ if($arSection = $rsResult -> GetNext())
 			if($arUFProps) $arResult['SECTION_USER_FIELDS_PROPS'] = $arUFProps;
 		}
 	}
-}?>
+}
+?>
 
 <?/*
 <pre>$arResult[SECTION_USER_FIELDS]:<br><?print_r($arUFProps)?></pre>*/?>

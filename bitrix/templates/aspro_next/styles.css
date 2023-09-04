@@ -139,7 +139,7 @@ a.icon-text:focus { color: #fff; }
 .icon-text.s25 .fa { margin-top: 0;  font-size: 14px; margin-right: 2px;     line-height: 13px;  }
 
 /* BUTTONS */
-.btn{font-size:13px;line-height:18px;font-weight:normal;text-transform:none;text-decoration:none;margin:0px;border:1px solid;border-radius:2px;padding:7px 18px 9px;overflow:hidden;transition:background-color 0.3s ease;-moz-transition:background-color 0.3s ease;-ms-transition:background-color 0.3s ease;-o-transition:background-color 0.3s ease;-webkit-transition:background-color 0.3s ease;}
+.btn{font-size:13px;line-height:18px;font-weight:normal;text-transform:none;text-decoration:none;margin:0px;border:1px solid;border-radius:2px;padding:7px 16px 9px;overflow:hidden;transition:background-color 0.3s ease;-moz-transition:background-color 0.3s ease;-ms-transition:background-color 0.3s ease;-o-transition:background-color 0.3s ease;-webkit-transition:background-color 0.3s ease;}
 .more_page_buttons_block .btn{margin:0 10px 10px 0;}
 .btn.bold{font-weight:bold;}
 .btn > *{-moz-transition:background-color 0.3s;-ms-transition:background-color 0.3s;-o-transition:background-color 0.3s;-webkit-transition:background-color 0.3s;transition:background-color 0.3s;}
@@ -175,3 +175,92 @@ a.icon-text:focus { color: #fff; }
 
 .btn:hover,.btn:active,.btn:focus{outline:none;}
 .btn.btn-default:active:hover{color:#fff;}
+
+.lineclamp-2 {
+    -moz-box-orient: vertical;
+    -moz-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -moz-box;
+    display: -webkit-box;
+    overflow: hidden;
+}
+.lineclamp-3 {
+    -moz-box-orient: vertical;
+    -moz-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -moz-box;
+    display: -webkit-box;
+    overflow: hidden;
+}
+.lineclamp-4 {
+    -moz-box-orient: vertical;
+    -moz-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    display: -moz-box;
+    display: -webkit-box;
+    overflow: hidden;
+}
+.lineclamp-5 {
+    -moz-box-orient: vertical;
+    -moz-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    display: -moz-box;
+    display: -webkit-box;
+    overflow: hidden;
+}
+.lineclamp-12 {
+    -moz-box-orient: vertical;
+    -moz-line-clamp: 12;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 12;
+    display: -moz-box;
+    display: -webkit-box;
+    overflow: hidden;
+}
+
+.font_sxs {
+    font-size: 13px;
+    line-height: 1.692em;
+}
+.font_xs {
+    font-size: .867em;
+    line-height: 1.692em;
+}
+
+.scrollblock {
+  overflow:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin
+}
+.scrollblock--ob-auto {
+  overscroll-behavior:auto
+}
+.scrollblock::-webkit-scrollbar {
+  width:8px;
+}
+.scrollblock::-webkit-scrollbar-track {
+  border-radius:8px;
+}
+.scrollblock::-webkit-scrollbar-thumb {
+  border-radius:8px;
+  background:#999;
+  border:2px solid #fff;
+  border-color:var(--card_bg_black)
+}
+.scrollblock::-webkit-scrollbar-thumb:window-inactive {
+  background:#999;
+  border:2px solid #fff;
+  border-color:var(--card_bg_black)
+}
+.scrollblock.scrollblock--thick::-webkit-scrollbar {
+  width:14px;
+}
+.scrollblock.scrollblock--thick::-webkit-scrollbar-thumb,
+.scrollblock.scrollblock--thick::-webkit-scrollbar-thumb:window-inactive {
+  border:5px solid var(--card_bg_black)
+}

@@ -109,4 +109,10 @@ $MESS["SECT_SORT_SHOWS"] = "По популярности";
 	$MESS['S_ASK_QUESTION'] = 'Задать вопрос';
 	$MESS['S_ORDER_SERVISE'] = 'Заказать услугу';
 	$MESS['POPULAR_CATEGORYS'] = 'Популярные категории';
+
+	$MESS["SECT_ORDER_desc"] = " (убывание)";
+	$MESS["SECT_ORDER_asc"] = " (возрастание)";
+	$MESS["SORT_TITLE_PROPETY"] = "#CODE#";
+	$MESS["SECT_SORT_CUSTOM"] = "По умолчанию";
+	$MESS["SECT_SORT_SORT"] = "По сортировке";
 ?>

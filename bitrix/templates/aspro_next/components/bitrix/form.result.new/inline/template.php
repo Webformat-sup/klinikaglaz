@@ -77,7 +77,7 @@ if(is_array($arResult["QUESTIONS"])){
 				<div class="form-control captcha-row clearfix">
 					<label><span><?=GetMessage("FORM_CAPRCHE_TITLE")?>&nbsp;<span class="star">*</span></span></label>
 					<div class="captcha_image">
-						<img src="/bitrix/tools/captcha.php?captcha_sid=<?=htmlspecialcharsbx($arResult["CAPTCHACode"])?>" border="0" />
+						<img alt="captcha" src="/bitrix/tools/captcha.php?captcha_sid=<?=htmlspecialcharsbx($arResult["CAPTCHACode"])?>" border="0" />
 						<input type="hidden" name="captcha_sid" value="<?=htmlspecialcharsbx($arResult["CAPTCHACode"])?>" />
 						<div class="captcha_reload"></div>
 					</div>
@@ -94,12 +94,16 @@ if(is_array($arResult["QUESTIONS"])){
 			<?$bShowLicenses = (isset($arParams["SHOW_LICENCE"]) ? $arParams["SHOW_LICENCE"] : COption::GetOptionString("aspro.next", "SHOW_LICENCE", "Y"));?>
 			<?if($bShowLicenses == "Y"):?>
 				<div class="licence_block filter label_block">
+					<input type='hidden' name='aspro_next_form_validate'/>
 					<input type="checkbox" id="licenses_inline" <?=(COption::GetOptionString("aspro.next", "LICENCE_CHECKED", "N") == "Y" ? "checked" : "");?> name="licenses_inline" required value="Y">
 					<label for="licenses_inline">
 						<?$APPLICATION->IncludeFile(SITE_DIR."include/licenses_text.php", Array(), Array("MODE" => "html", "NAME" => "LICENSES")); ?>
 					</label>
 				</div>
 			<?endif;?>
+			<div class="form-control">
+				<?$APPLICATION->IncludeFile(SITE_DIR."include/required_message.php", Array(), Array("MODE" => "html"));?>
+			</div>
 			<?/*<button type="submit" class="button medium" value="submit" name="web_form_submit" ><span><?=$arResult["arForm"]["BUTTON"]?></span></button>*/?>
 			<input type="submit" class="btn btn-default" value="<?=$arResult["arForm"]["BUTTON"]?>" name="web_form_submit">
 			<button type="reset" class="btn btn-default white" value="reset" name="web_form_reset" ><span><?=GetMessage('FORM_RESET')?></span></button>

@@ -6,6 +6,8 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 if (!window.GLOBAL_arMapObjects)
 	window.GLOBAL_arMapObjects = {};
 
+var map;
+
 function init_<?echo $arParams['MAP_ID']?>()
 {
 	if (!window.ymaps)
@@ -17,7 +19,7 @@ function init_<?echo $arParams['MAP_ID']?>()
 	var node = BX("BX_YMAP_<?echo $arParams['MAP_ID']?>");
 	node.innerHTML = '';
 
-	var map = window.GLOBAL_arMapObjects['<?echo $arParams['MAP_ID']?>'] = new ymaps.Map(node, {
+	map = window.GLOBAL_arMapObjects['<?echo $arParams['MAP_ID']?>'] = new ymaps.Map(node, {
 		center: [<?echo $arParams['INIT_MAP_LAT']?>, <?echo $arParams['INIT_MAP_LON']?>],
 		zoom: <?echo $arParams['INIT_MAP_SCALE']?>,
 		type: 'yandex#<?=$arResult['ALL_MAP_TYPES'][$arParams['INIT_MAP_TYPE']]?>',

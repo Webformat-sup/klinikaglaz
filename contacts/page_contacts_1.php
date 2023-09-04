@@ -4,7 +4,7 @@ $bUseFeedback = CNext::GetFrontParametrValue('CONTACTS_USE_FEEDBACK', SITE_ID) !
 ?>
 <?if($bUseMap):?>
 	<div class="contacts-page-map">
-		<?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-map.php", Array(), Array("MODE" => "html", "TEMPLATE" => "include_area.php", "NAME" => "Карта"));?>
+		<?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-map".(CNext::GetFrontParametrValue('CONTACTS_TYPE_MAP') == 'GOOGLE' ? '-google' : '').".php", Array(), Array("MODE" => "html", "TEMPLATE" => "include_area.php", "NAME" => "Карта"));?>
 	</div>
 <?endif;?>
 

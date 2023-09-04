@@ -25,8 +25,15 @@ $signedTemplate = $signer->sign($arResult['RCM_TEMPLATE'], 'bx.sale.gift.main.pr
 			if($arResult['MAIN_ELEMENT_IDS'])
 			{
 				$searchFilter = array(
-					"=ID" => $arResult['MAIN_ELEMENT_IDS'],
+					'=ID' => $arResult['MAIN_ELEMENT_IDS'],
+					'IBLOCK_ID' => $arParams['IBLOCK_ID'],
 				);
+			}
+
+			// REGIONALITY_FILTER_ITEM == Y
+			// $arParams['USE_REGION'] has current region ID, if USE_REGIONALITY == Y && REGIONALITY_FILTER_ITEM == Y
+			if(($regionId = intval($arParams['USE_REGION'])) > 0){
+				CNext::makeElementFilterInRegion($searchFilter, $regionId, true);
 			}
 			?>
 			<?if(empty($arParams['HIDE_BLOCK_TITLE']) || $arParams['HIDE_BLOCK_TITLE'] !== 'Y'){?>
@@ -107,6 +114,7 @@ $signedTemplate = $signer->sign($arResult['RCM_TEMPLATE'], 'bx.sale.gift.main.pr
 					"CACHE_FILTER" => $arParams["CACHE_FILTER"],
 					"PAGE_ELEMENT_COUNT" => $arParams["PAGE_ELEMENT_COUNT"],
 					"LINE_ELEMENT_COUNT" => $arParams["LINE_ELEMENT_COUNT"],
+					"REVIEWS_VIEW" => $arParams["REVIEWS_VIEW"],
 					"BY_LINK" => "N",
 					"DISPLAY_TOP_PAGER" => 'N',
 					"DISPLAY_BOTTOM_PAGER" => 'N',
@@ -120,6 +128,7 @@ $signedTemplate = $signer->sign($arResult['RCM_TEMPLATE'], 'bx.sale.gift.main.pr
 					"HIDE_SECTION_DESCRIPTION" => "Y",
 					"SHOW_ALL_WO_SECTION" => "Y",
 					"PAGER_BASE_LINK" => "/bitrix/components/bitrix/sale.gift.main.products/ajax.php",
+					"COMPATIBLE_MODE" => "Y",
 				),
 				$component,
 				array('HIDE_ICONS' => 'Y')

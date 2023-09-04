@@ -1,4 +1,7 @@
-<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
+<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();
+$CScorp = new CScorp;
+$CCache = new CCache;
+?>
 <?$this->setFrameMode(true);?>
 <?// intro text?>
 <div class="text_before_items">
@@ -44,8 +47,8 @@
 	false
 );?>
 <?
-$arItemFilter = CScorp::GetIBlockAllElementsFilter($arParams);
-$itemsCnt = CCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
+$arItemFilter = $CScorp->GetIBlockAllElementsFilter($arParams);
+$itemsCnt = $CCache->CIblockElement_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
 ?>
 <?if(!$itemsCnt):?>
 	<div class="alert alert-warning"><?=GetMessage("SECTION_EMPTY")?></div>

@@ -15,21 +15,94 @@
 			$arParams["FILTER_NAME"] = "arrFilter";
 		}
 
-		if(!in_array($arParams["LIST_OFFERS_FIELD_CODE"], "DETAIL_PAGE_URL")){
+		if(!in_array("DETAIL_PAGE_URL", (array)$arParams["LIST_OFFERS_FIELD_CODE"])){
 			$arParams["LIST_OFFERS_FIELD_CODE"][] = "DETAIL_PAGE_URL";
 		}
 
 		$catalogIBlockID = ($arParams["IBLOCK_CATALOG_ID"] ? $arParams["IBLOCK_CATALOG_ID"] : $arTheme["CATALOG_IBLOCK_ID"]["VALUE"]);
 
-		$arItemsFilter = array("IBLOCK_ID" => $catalogIBlockID, "ACTIVE"=>"Y", "PROPERTY_".$arParams["LINKED_PRODUCTS_PROPERTY"] => $arElement["ID"], 'SECTION_GLOBAL_ACTIVE' => 'Y');
-		CNext::makeElementFilterInRegion($arItemsFilter);
+		$arFilterStores = array();
+		if ($arRegion) {
+            if($arRegion['LIST_PRICES'])
+            {
+                if(reset($arRegion['LIST_PRICES']) != 'component')
+                    $arParams['PRICE_CODE'] = array_keys($arRegion['LIST_PRICES']);
+            }
+			if ($arRegion['LIST_STORES']) {
+				if (reset($arRegion['LIST_STORES']) != 'component') {
+					$arParams['STORES'] = $arRegion['LIST_STORES'];
+					$arParams['~STORES'] = $arRegion['LIST_STORES'];
+				}
+
+				if ($arParams["HIDE_NOT_AVAILABLE"] == "Y") {
+					if (CNext::checkVersionModule('18.6.200', 'iblock')) {
+						$arTmpFilter["LOGIC"] = "OR";
+						$arTmpFilter[] = array('TYPE' => array('2', '3'));// complects, offers
+						$arTmpFilter[] = array(
+							'STORE_NUMBER' => $arParams['STORES'],
+							'>STORE_AMOUNT' => 0,
+						);
+					} else {
+						$arTmpFilter["LOGIC"] = "OR";
+						foreach ($arParams['STORES'] as $storeID) {
+							$arTmpFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+						}
+					}
+					$arFilterStores[] = $arTmpFilter;
+				}
+			}
+		} else {
+			if ($arParams["HIDE_NOT_AVAILABLE"] == "Y") {
+				if (CNext::checkVersionModule('18.6.200', 'iblock')) {
+					$arFilterStores[] = [
+						"LOGIC" => "OR",
+						[
+							"=AVAILABLE" => "Y",
+							">QUANTITY" => 0
+						]
+					];
+				} else {
+					$arFilterStores[] = [
+						"LOGIC" => "OR",
+						[
+							"CATALOG_AVAILABLE" => "Y",
+							">CATALOG_QUANTITY" => 0
+						]
+					];
+				}
+			}
+		}
+        
+		if($arParams['LIST_PRICES'])
+		{
+			foreach($arParams['LIST_PRICES'] as $key => $price)
+			{
+				if(!$price)
+					unset($arParams['LIST_PRICES'][$key]);
+			}
+		}
+
+		if($arParams['STORES'])
+		{
+			foreach($arParams['STORES'] as $key => $store)
+			{
+				if(!$store)
+					unset($arParams['STORES'][$key]);
+			}
+		}
+
+		$arItemsFilter = array("IBLOCK_ID" => $catalogIBlockID, "ACTIVE"=>"Y", "PROPERTY_".$arParams["LINKED_PRODUCTS_PROPERTY"] => $arElement["ID"], 'SECTION_GLOBAL_ACTIVE' => 'Y')  + $arFilterStores;
+		CNext::makeElementFilterInRegion($arItemsFilter, false, true);
 		$arItems = CNextCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"Y", "TAG" => CNextCache::GetIBlockCacheTag($catalogIBlockID))), $arItemsFilter, false, false, array("ID", "IBLOCK_ID", "IBLOCK_SECTION_ID"));
+
 		$arAllSections = $arSectionsID = $arItemsID = array();
 
 		$arParams["AJAX_FILTER_CATALOG"] = "N";
 
 		if($arItems)
 		{
+			$setionIDRequest = (isset($_GET["section_id"]) && $_GET["section_id"] ? $_GET["section_id"] : 0);
+
 			foreach($arItems as $arItem)
 			{
 				$arItemsID[$arItem["ID"]] = $arItem["ID"];
@@ -51,26 +124,57 @@
 				}
 			}
 
-			if($arAllSections)
-			{
-				$arSectionsID = array_keys($arAllSections);
-				$arSections = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "GROUP" => "ID", "TAG" => CNextCache::GetIBlockCacheTag($catalogIBlockID))), array("ID" => $arSectionsID, "IBLOCK_ID" => $catalogIBlockID), false, array("ID", "IBLOCK_ID", "NAME"));
-			}
+			$arSectionsID = array_keys($arAllSections);
 			?>
-			<?$setionIDRequest = (isset($_GET["section_id"]) && $_GET["section_id"] ? $_GET["section_id"] : 0);?>
 			<?ob_start()?>
-				<?if(count($arAllSections) > 1):?>
-					<div class="top_block_filter_section">
-						<div class="title"><a class="dark_link" title="<?=GetMessage("FILTER_ALL_SECTON");?>" href="<?=$APPLICATION->GetCurPageParam('', array('section_id'))?>"><?=GetMessage("FILTER_SECTON");?></a></div>
+				<?if(count((array)$arAllSections) > 1):?>
+					<?
+					$arSections = CNextCache::CIBlockSection_GetList(array('NAME' => 'ASC', 'CACHE' => array("MULTI" => "N", "GROUP" => array("ID"), "TAG" => CNextCache::GetIBlockCacheTag($catalogIBlockID))), array("ID" => $arSectionsID, "IBLOCK_ID" => $catalogIBlockID), false, array("ID", "IBLOCK_ID", "NAME"));
+
+					$arDeleteParams = array('section_id');
+					if(preg_match_all('/PAGEN_\d+/i'.BX_UTF_PCRE_MODIFIER, $_SERVER['QUERY_STRING'], $arMatches)){
+						$arPagenParams = $arMatches[0];
+						$arDeleteParams = array_merge($arDeleteParams, $arPagenParams);
+					}
+					?>
+					<div class="top_block_filter_section toggle_menu">
+						<div class="title"><a class="dark_link" title="<?=GetMessage("FILTER_ALL_SECTON");?>" href="<?=$APPLICATION->GetCurPageParam('', $arDeleteParams)?>"><?=GetMessage("FILTER_SECTON");?></a></div>
 						<div class="items">
-							<?foreach($arAllSections as $key => $arTmpSection):?>
-								<div class="item <?=($setionIDRequest ? ($key == $setionIDRequest ? 'current' : '') : '');?>"><a href="<?=$APPLICATION->GetCurPageParam('section_id='.$key, array('section_id'))?>" class="dark_link"><span><?=$arSections[$key]["NAME"];?></span><span><?=$arTmpSection["COUNT"];?></span></a></div>
+							<?
+							$cntToShow = ($cntToShow = intval($arParams['SECTIONS_DETAIL_COUNT'])) > 0 ? $cntToShow : count((array)$arSections);
+							$cntShow = 0;
+							$bCurrentShowed = false;
+							$bNeedShowCurrent = in_array($setionIDRequest, $arSectionsID);
+							?>
+							<?foreach($arSections as $sId => $arSection):?>
+								<?
+								$bCurrent = $setionIDRequest && $sId == $setionIDRequest;
+								$bCurrentShowed |= $bCurrent;
+								$bLastToShow = $cntShow == ($cntToShow - 1);
+								$bCollapsed = ($bLastToShow && $bNeedShowCurrent && !$bCurrentShowed) ? true : !$bCurrent && $cntShow >= $cntToShow;
+								if(!$bCollapsed){
+									++$cntShow;
+								}
+								?>
+								<div class="item <?=($bCurrent ? ' current' : '')?><?=($bCollapsed ? ' collapsed' : '')?>"><!--noindex--><a href="<?=$APPLICATION->GetCurPageParam('section_id='.$sId, $arDeleteParams)?>" class="dark_link"><span class="item_title"><?=$arSection['NAME']?></span><span class="item_count"><?=$arAllSections[$sId]['COUNT']?></span></a><!-- /noindex --></div>
 							<?endforeach;?>
+							<?$cntMore = count((array)$arSections) - $cntShow;?>
+							<?if($cntMore > 0):?>
+								<div class="item"><span class="item_title colored more_items with_dropdown"><?=GetMessage('MORE_SECTIONS')?> <?=Aspro\Functions\CAsproNext::declOfNum($cntMore, array(GetMessage('MORE_SECTIONS0'), GetMessage('MORE_SECTIONS1'), GetMessage('MORE_SECTIONS2')))?></span></div>
+							<?endif;?>
 						</div>
 					</div>
 				<?endif;?>
 			<?$htmlSections=ob_get_clean();?>
 			<?$APPLICATION->AddViewContent('filter_section', $htmlSections);?>
+
+			<?
+			// sort
+			ob_start();
+			include_once(__DIR__."/../sort.php");
+			$htmlSort = ob_get_clean();
+			$listElementsTemplate = $template;
+			?>
 
 			<?ob_start()?>
 				<div class="visible_mobile_filter">
@@ -107,6 +211,9 @@
 							"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 							"SORT_BUTTONS" => $arParams["SORT_BUTTONS"],
 							"SORT_PRICES" => $arParams["SORT_PRICES"],
+							"AVAILABLE_SORT" => $arAvailableSort,
+							"SORT" => $sort,
+							"SORT_ORDER" => $sort_order,
 						),
 						$component);
 					?>
@@ -167,82 +274,14 @@
 				"SHARE_SHORTEN_URL_LOGIN"	=> $arParams["SHARE_SHORTEN_URL_LOGIN"],
 				"SHARE_SHORTEN_URL_KEY" => $arParams["SHARE_SHORTEN_URL_KEY"],
 				"SHOW_TOP_BANNER" => "Y",
+				
 			),
 			$component
 		);?>
 		<?if($arItems):?>
 			<div class="right_block1 clearfix catalog vertical with_filter" id="right_block_ajax">
 				<?
-				if($arRegion)
-				{
-					if($arRegion['LIST_PRICES'])
-					{
-						if(reset($arRegion['LIST_PRICES']) != 'component')
-							$arParams['PRICE_CODE'] = array_keys($arRegion['LIST_PRICES']);
-					}
-					if($arRegion['LIST_STORES'])
-					{
-						if(reset($arRegion['LIST_STORES']) != 'component')
-							$arParams['STORES'] = $arRegion['LIST_STORES'];
-					}
-				}
-
-				if($arParams['LIST_PRICES'])
-				{
-					foreach($arParams['LIST_PRICES'] as $key => $price)
-					{
-						if(!$price)
-							unset($arParams['LIST_PRICES'][$key]);
-					}
-				}
-
-				if($arParams['STORES'])
-				{
-					foreach($arParams['STORES'] as $key => $store)
-					{
-						if(!$store)
-							unset($arParams['STORES'][$key]);
-					}
-				}
-
-				if($arRegion)
-				{
-					if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
-					{
-						if($arParams['STORES']){
-							if(count($arParams['STORES']) > 1){
-								$arStoresFilter = array('LOGIC' => 'OR');
-								foreach($arParams['STORES'] as $storeID)
-								{
-									$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-								}
-							}
-							else{
-								foreach($arParams['STORES'] as $storeID)
-								{
-									$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-								}
-							}
-
-							$arTmpFilter = array('!TYPE' => '2');
-							if($arStoresFilter){
-								if(count($arStoresFilter) > 1){
-									$arTmpFilter[] = $arStoresFilter;
-								}
-								else{
-									$arTmpFilter = array_merge($arTmpFilter, $arStoresFilter);
-								}
-
-								$GLOBALS[$arParams["FILTER_NAME"]][] = array(
-									'LOGIC' => 'OR',
-									array('TYPE' => '2'),
-									$arTmpFilter,
-								);
-							}
-						}
-					}
-				}
-
+				
 				$GLOBALS[$arParams["FILTER_NAME"]]['ID'] = array_column($arItems, 'ID');
 				$GLOBALS[$arParams["FILTER_NAME"]]['SECTION_GLOBAL_ACTIVE'] = 'Y';
 
@@ -266,11 +305,24 @@
 						<a class="filter_opener<?=($_REQUEST["set_filter"] === 'y' ? ' active num' : '')?>"><i></i><span><?=GetMessage("CATALOG_SMART_FILTER_TITLE")?></span></a>
 					</div>
 
-					<?include_once(__DIR__."/../sort.php");?>
+					<?// sort?>
+					<?=$htmlSort?>
 
 					<?$show = ($arParams["LINKED_ELEMENST_PAGE_COUNT"] ? $arParams["LINKED_ELEMENST_PAGE_COUNT"] : 20);?>
 					<?if(isset($GLOBALS[$arParams["FILTER_NAME"]]["FACET_OPTIONS"]))
 						unset($GLOBALS[$arParams["FILTER_NAME"]]["FACET_OPTIONS"]);?>
+
+					<?
+					$arParams["ADD_PICT_PROP"] = ($arParams["ADD_PICT_PROP"] ? $arParams["ADD_PICT_PROP"] : 'MORE_PHOTO');
+					$arParams["OFFER_ADD_PICT_PROP"] = ($arParams["OFFER_ADD_PICT_PROP"] ? $arParams["OFFER_ADD_PICT_PROP"] : 'MORE_PHOTO');
+					$arParams["GALLERY_ITEM_SHOW"] = $arTheme["GALLERY_ITEM_SHOW"]["VALUE"];
+					$arParams["MAX_GALLERY_ITEMS"] = $arTheme["GALLERY_ITEM_SHOW"]["DEPENDENT_PARAMS"]["MAX_GALLERY_ITEMS"]["VALUE"];
+					$arParams["ADD_DETAIL_TO_GALLERY_IN_LIST"] = $arTheme["GALLERY_ITEM_SHOW"]["DEPENDENT_PARAMS"]["ADD_DETAIL_TO_GALLERY_IN_LIST"]["VALUE"];
+
+					if ($arParams["OFFER_ADD_PICT_PROP"] == '-') {
+						$arParams["OFFER_ADD_PICT_PROP"] = 'MORE_PHOTO';
+					}
+					?>
 
 					<?$arTransferParams = array(
 						"SHOW_ABSENT" => $arParams["SHOW_ABSENT"],
@@ -308,15 +360,22 @@
 						"OFFER_ADD_PICT_PROP" => $arParams["OFFER_ADD_PICT_PROP"],
 						"PRODUCT_QUANTITY_VARIABLE" => $arParams["PRODUCT_QUANTITY_VARIABLE"],
 						"OFFER_SHOW_PREVIEW_PICTURE_PROPS" => $arParams["OFFER_SHOW_PREVIEW_PICTURE_PROPS"],
+						"ADD_PICT_PROP" => $arParams["ADD_PICT_PROP"],
+						"OFFER_ADD_PICT_PROP" => $arParams["OFFER_ADD_PICT_PROP"],
+						"GALLERY_ITEM_SHOW" => $arParams["GALLERY_ITEM_SHOW"],
+						"MAX_GALLERY_ITEMS" => $arParams["MAX_GALLERY_ITEMS"],
+						"ADD_DETAIL_TO_GALLERY_IN_LIST" => $arParams["ADD_DETAIL_TO_GALLERY_IN_LIST"],
+						"MAIN_IBLOCK_ID" => $catalogIBlockID,
 					);?>
 
 					<div class="ajax_load <?=$display;?> js_wrapper_items" data-params='<?=str_replace('\'', '"', CUtil::PhpToJSObject($arTransferParams, false))?>'>
 					<?if($isAjax=="Y" && $isAjaxFilter != "Y"):?>
 						<?$APPLICATION->RestartBuffer();?>
 					<?endif;?>
+
 						<?$APPLICATION->IncludeComponent(
 							"bitrix:catalog.section",
-							$template,
+							$listElementsTemplate,
 							Array(
 								"USE_REGION" => ($arRegion ? "Y" : "N"),
 								"STORES" => $arParams['STORES'],
@@ -432,7 +491,13 @@
 								"SHOW_RATING" => ($arParams["SHOW_RATING"] ? $arParams["SHOW_RATING"] : "Y"),
 								"DISPLAY_COMPARE" => ($arParams["DISPLAY_COMPARE"] ? $arParams["DISPLAY_COMPARE"] : "Y"),
 								"ADD_PICT_PROP" => $arParams["ADD_PICT_PROP"],
+								"ADD_PICT_PROP" => $arParams["ADD_PICT_PROP"],
+								"OFFER_ADD_PICT_PROP" => $arParams["OFFER_ADD_PICT_PROP"],
+								"GALLERY_ITEM_SHOW" => $arParams["GALLERY_ITEM_SHOW"],
+								"MAX_GALLERY_ITEMS" => $arParams["MAX_GALLERY_ITEMS"],
+								"ADD_DETAIL_TO_GALLERY_IN_LIST" => $arParams["ADD_DETAIL_TO_GALLERY_IN_LIST"],
 								"OFFER_SHOW_PREVIEW_PICTURE_PROPS" => $arParams["OFFER_SHOW_PREVIEW_PICTURE_PROPS"],
+								"COMPATIBLE_MODE" => "Y",
 							), $component, array("HIDE_ICONS" => $isAjax)
 						);?>
 						<?if($isAjax=="Y" && $isAjaxFilter != "Y"):?>

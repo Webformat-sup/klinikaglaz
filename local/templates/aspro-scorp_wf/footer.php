@@ -1,4 +1,6 @@
-					<?CScorp::checkRestartBuffer();?>
+<? 
+					$CScorp = new CScorp;
+					$CScorp->checkRestartBuffer();?>
 					<?IncludeTemplateLangFile(__FILE__);?>
 					<?if(!$isIndex):?>
 								<?if(!$isMenu):?>
@@ -395,10 +397,10 @@
 				)
 			);?>
 		</div>
-		<?CScorp::SetMeta();?>
+		<?$CScorp->SetMeta();?>
 		<?//всплывающий баннер ?>
 		<?	$curDir = $APPLICATION->GetCurDir();
-			if(strpos($curDir,'/special/','/sale/') === false){?>
+			if(strpos($curDir,'/special/') === false && strpos($curDir,'/sale/') === false){?>
 		<div class="banner modal fade in" id="dialog">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -421,7 +423,7 @@
 							<div class="col-xs-6 col-sm-6 col-md-6 text-left">
 								<a href="/sale/proydite-ekspress-diagnostiku-i-uznayte-o-vozmozhnosti-lazernoy-korrektsii-zreniya/"><img src="/local/templates/aspro-scorp_wf/images/banner-img/order.png"></a>
 								<br />
-								<a class="link" href="/company/staff/starunov-eduard-vadimovich/">О враче</a>
+								<a class="link" href="/company/staff/eyzenshmidt-viktor-aleksandrovich/">О враче</a>
 							</div>
 						</div>
 					<div>

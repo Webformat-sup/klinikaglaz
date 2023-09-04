@@ -18,6 +18,7 @@
 		"PROPERTY_CODE" => array(
 			0 => "",
 			1 => "",
+			"REDIRECT",
 		),
 		"CHECK_DATES" => "Y",
 		"DETAIL_URL" => "",

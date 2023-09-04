@@ -34,6 +34,24 @@ if($arResult['ITEMS']){
 			}
 		}
 
+		if (is_array($arItem['PROPERTIES']['NO_SHOW_PAGE']['VALUE'])) {						
+			foreach ($arItem['PROPERTIES']['NO_SHOW_PAGE']['VALUE'] as $page) {
+				if ($page==$cur_page) {
+					$arResult['ITEMS'][$key]['DELETE']=true;
+					break;
+				}
+			}			
+		}
+
+		if (is_array($arItem['PROPERTIES']['NO_SHOW_SECTION']['VALUE'])) {						
+			foreach ($arItem['PROPERTIES']['NO_SHOW_SECTION']['VALUE'] as $section) {				
+				if(strpos($cur_page, $section) === 0) {
+					$arResult['ITEMS'][$key]['DELETE']=true;
+					break;
+				}
+			}
+		}
+
 		if ($arResult['ITEMS'][$key]['DELETE']==true) {
 			unset($arResult['ITEMS'][$key]);
 			continue;

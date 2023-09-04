@@ -56,30 +56,7 @@
 			gtag('config', 'UA-161721051-1');
 			setTimeout(function(){gtag('event', location.pathname, {'event_category': 'Новый посетитель'});}, 15000);
 		</script>
-
-		<?php /* ?>
-		<!-- Facebook Pixel Code -->
-			<script>
-			!function(f,b,e,v,n,t,s)
-			{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-			if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-			n.queue=[];t=b.createElement(e);t.async=!0;
-			t.src=v;s=b.getElementsByTagName(e)[0];
-			s.parentNode.insertBefore(t,s)}(window, document,'script',
-			'https://connect.facebook.net/en_US/fbevents.js');
-			fbq('init', '274236527023958');
-			fbq('track', 'PageView');
-			</script>
-			<noscript><img height="1" width="1" style="display:none"
-			src="https://www.facebook.com/tr?id=274236527023958&ev=PageView&noscript=1"
-			/></noscript>
-		<!-- End Facebook Pixel Code -->
-		<?php */ ?>
 	</head>
-
-
-
 	<body>
 		<?CAjax::Init();?>
 		<div id="panel"><?$APPLICATION->ShowPanel();?></div>
@@ -91,7 +68,8 @@
 			</div>
 			<?die();?>
 		<?endif;?>
-		<?CScorp::SetJSOptions();?>
+		<? $CScorp = new CScorp; ?>
+		<?$CScorp->SetJSOptions();?>
 		<?global $arSite, $arTheme, $isMenu, $isIndex, $is404;?>
 		<?$is404 = defined("ERROR_404") && ERROR_404 === "Y"?>
 		<?$arSite = CSite::GetByID(SITE_ID)->Fetch();?>
@@ -177,7 +155,6 @@
 				</div>
 			</a>
 			<div class="body_media"></div>
-
 			<header class="topmenu-<?=($arTheme["TOP_MENU"]["VALUE"])?><?=($arTheme["TOP_MENU_FIXED"]["VALUE"] == "Y" ? ' canfixed' : '')?>">
 				<div class="logo_and_menu-row custom">
 					<div class="logo-row row">
@@ -541,21 +518,29 @@
 									<div class="col-md-9 col-sm-9 col-xs-8 content-md">
 								<?elseif($isMenu && $arTheme["SIDE_MENU"]["VALUE"] == "LEFT"):?>
 									<div class="col-md-3 col-sm-3 col-xs-4 left-menu-md">
-										<?$APPLICATION->IncludeComponent("bitrix:menu", "left", array(
-											"ROOT_MENU_TYPE" => "left",
-											"MENU_CACHE_TYPE" => "A",
-											"MENU_CACHE_TIME" => "3600000",
-											"MENU_CACHE_USE_GROUPS" => "N",
-											"MENU_CACHE_GET_VARS" => array(
-											),
-											"MAX_LEVEL" => "4",
-											"CHILD_MENU_TYPE" => "left",
-											"USE_EXT" => "Y",
-											"DELAY" => "N",
-											"ALLOW_MULTI_SELECT" => "Y"
-											),
-											false
-										);?>
+										<?$APPLICATION->IncludeComponent(
+	"bitrix:menu", 
+	"left", 
+	array(
+		"ROOT_MENU_TYPE" => "left",
+		"MENU_CACHE_TYPE" => "Y",
+		"MENU_CACHE_TIME" => "10",
+		"MENU_CACHE_USE_GROUPS" => "N",
+		"MENU_CACHE_GET_VARS" => array(
+			0 => "SECTION_CODE",
+			1 => "SECTION_ID",
+		),
+		"MAX_LEVEL" => "4",
+		"CHILD_MENU_TYPE" => "left",
+		"USE_EXT" => "Y",
+		"DELAY" => "N",
+		"ALLOW_MULTI_SELECT" => "Y",
+		"COMPONENT_TEMPLATE" => "left",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
+	),
+	false
+);?>
 										<div class="sidearea">
 											<?$APPLICATION->ShowViewContent('under_sidebar_pay_btn');?>
 											<?$APPLICATION->ShowViewContent('under_sidebar_content');?>
@@ -639,4 +624,4 @@
 									<div class="col-md-9 col-sm-9 col-xs-8 content-md">
 								<?endif;?>
 					<?endif;?>
-					<?CScorp::checkRestartBuffer();?>
+					<?$CScorp->checkRestartBuffer();?>

@@ -8,23 +8,24 @@
  * @global CMain $APPLICATION
  */
 $request = \Bitrix\Main\Context::getCurrent()->getRequest();
-if ($arParams['AJAX_POST']=='Y' && ($_REQUEST["save_product_review"] == "Y"))
+if ($arParams['AJAX_POST']=='Y' && ($request["save_product_review"] == "Y"))
 {
 	$response = ob_get_clean();
+	$arError = $arResult["~ERROR_MESSAGE"];
 	$JSResult = array();
 	$FHParser = new CForumSimpleHTMLParser($response);
 
 	$statusMessage = $FHParser->getTagHTML('div[class=reviews-note-box]');
 	$JSResult['statusMessage'] = $statusMessage;
 
-	if ((empty($_REQUEST["preview_comment"]) || $_REQUEST["preview_comment"] == "N")) // message added
+	if ((empty($request["preview_comment"]) || $request["preview_comment"] == "N")) // message added
 	{
 		$result = intval($arResult['RESULT']);
 
 		if (
 			(
-				(isset($_REQUEST['pageNumber']) && intval($_REQUEST['pageNumber']) != $arResult['PAGE_NUMBER']) ||
-				(isset($_REQUEST['pageCount']) && intval($_REQUEST['pageCount']) != $arResult['PAGE_COUNT'])
+				(isset($request['pageNumber']) && intval($request['pageNumber']) != $arResult['PAGE_NUMBER']) ||
+				(isset($request['pageCount']) && intval($request['pageCount']) != $arResult['PAGE_COUNT'])
 			) && 
 			$result > 0)
 		{
@@ -50,15 +51,17 @@ if ($arParams['AJAX_POST']=='Y' && ($_REQUEST["save_product_review"] == "Y"))
 			$JSResult['allMessages'] = false;
 			if ($result == false)
 			{
-				$JSResult += array(
-					'status' => false,
-					'error' => $arError[0]['title']
-				);
+				$arErrorJSON = ['status' => false];
+				if (!strlen($statusMessage)) {
+					$arErrorJSON['error'] = $arError[0]['title'];
+				}
+				
+				$JSResult += $arErrorJSON;
 			}
 			else 
 			{
 				$messagePost = $FHParser->getTagHTML('table[id=message'.$result.']');
-				$JSResult += array(
+				$JSResult += array(		
 					'status' => true,
 					'messageID' => $result,
 					'message' => $messagePost
@@ -97,10 +100,12 @@ if ($arParams['AJAX_POST']=='Y' && ($_REQUEST["save_product_review"] == "Y"))
 		}
 		else
 		{
-			$JSResult += array(
-				'status' => false,
-				'error' => $arError[0]['title']
-			);
+			$arErrorJSON = ['status' => false];
+			if (!strlen($statusMessage)) {
+				$arErrorJSON['error'] = $arError[0]['title'];
+			}
+			
+			$JSResult += $arErrorJSON;
 		}
 	}
 

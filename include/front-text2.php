@@ -1,1 +1,1 @@
-<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="<?=WEBFORM?'3':CCache::$arIBlocks[SITE_ID]["aspro_scorp_form"]["aspro_scorp_question"][0]?>" data-name="question">Задать вопрос</span>
+<span class="btn btn-default btn-lg" data-event="jqm" data-param-id="3ы<?/*=WEBFORM?'3':CCache::$arIBlocks[SITE_ID]["aspro_scorp_form"]["aspro_scorp_question"][0]*/?>" data-name="question">Задать вопрос</span>

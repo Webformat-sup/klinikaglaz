@@ -1,9 +1,11 @@
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?$bCompactViewMobile = $arParams['COMPACT_VIEW_MOBILE'] === 'Y';?>
 <div class="list items">
 	<div class="row margin0 flexbox">
 		<?foreach($arResult['SECTIONS'] as $arSection):
 			$this->AddEditAction($arSection['ID'], $arSection['EDIT_LINK'], CIBlock::GetArrayByID($arSection["IBLOCK_ID"], "ELEMENT_EDIT"));
 			$this->AddDeleteAction($arSection['ID'], $arSection['DELETE_LINK'], CIBlock::GetArrayByID($arSection["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));?>
-			<div class="col-m-20 col-md-3 col-sm-4 col-xs-<?=(isset($arParams["COMPACT_VIEW_MOBILE"]) && $arParams["COMPACT_VIEW_MOBILE"]=="Y") ? "12" : "6"?>">
+			<div class="col-m-20 col-md-3 col-sm-4 col-xs-<?=($bCompactViewMobile ? 12 : 6)?>">
 				<div class="item" id="<?=$this->GetEditAreaId($arSection['ID']);?>">
 					<div class="img shine">
 						<?if($arSection["PICTURE"]["SRC"]):?>
@@ -22,9 +24,9 @@
 				</div>
 			</div>
 		<?endforeach;?>
-		<?if(isset($arParams["COMPACT_VIEW_MOBILE"]) && $arParams["COMPACT_VIEW_MOBILE"]=="Y" && ($arParams["TITLE_BLOCK"] || $arParams["TITLE_BLOCK_ALL"])):?>
-			<div class="visible-xs col-xs-<?=(isset($arParams["COMPACT_VIEW_MOBILE"]) && $arParams["COMPACT_VIEW_MOBILE"]=="Y") ? "12" : "6"?>">
-				<div class="item" id="<?=$this->GetEditAreaId($arSection['ID']);?>">
+		<?if($bCompactViewMobile && ($arParams["TITLE_BLOCK"] || $arParams["TITLE_BLOCK_ALL"])):?>
+			<div class="visible-xs col-xs-12">
+				<div class="item">
 					<div class="name no-img">
 						<a href="<?=SITE_DIR.$arParams["ALL_URL"];?>" class="dark_link"><?=$arParams["TITLE_BLOCK_ALL"] ;?></a>
 					</div>

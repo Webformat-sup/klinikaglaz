@@ -67,9 +67,9 @@ if($arItems)
 		CNext::ShowRSSIcon(CComponentEngine::makePathFromTemplate($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss_section'], array_map('urlencode', $arResult['VARIABLES'])));
 	?>
 
-	<?global $arTheme, $isMenu;?>
-
-	<?if(!$isMenu):?>
+	<?global $arTheme;?>
+	<?$bShowSideBlock = $arParams["SHOW_QUESTION_FORM"] != "N"?>
+	<?if($bShowSideBlock):?>
 		<div class="sub_container fixed_wrapper">
 		<div class="row">
 			<div class="col-md-9">
@@ -113,7 +113,7 @@ if($arItems)
 	<?$html = ob_get_contents();?>
 	<?ob_end_clean();?>
 
-	<?if(!$isMenu):?>
+	<?if($bShowSideBlock):?>
 			</div>
 			<div class="col-md-3 with-padding-left hidden-xs hidden-sm">
 				<div class="fixed_block_fix"></div>

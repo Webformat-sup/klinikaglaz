@@ -332,18 +332,26 @@ function JCTitleSearch2(arParams)
 	{
 		var pos, pos_input;
 		var fixedParent = BX.findParent(_this.CONTAINER, BX.is_fixed);
-		if(!!fixedParent)
-		{
+		const isBoundHeader = !!_this.INPUT.closest('.search-block--bound-header')
+		const $header = document.querySelector('#header .logo_and_menu-row');
+
+		if (!!fixedParent) {
 			_this.RESULT.style.position = 'fixed';
 			_this.RESULT.style.zIndex = BX.style(fixedParent, 'z-index') + 2;
 			pos = BX.pos(_this.CONTAINER, true);
+			pos_input = BX.pos(_this.INPUT);
 		}
-		else
-		{
+		else if(isBoundHeader) {
+			_this.RESULT.style.position = 'absolute';
+			_this.RESULT.style.zIndex = BX.style($header, 'z-index') + 2;
+			pos = BX.pos($header);
+			pos_input = BX.pos($header);
+		} 
+		else {
 			_this.RESULT.style.position = 'absolute';
 			pos = BX.pos(_this.CONTAINER);
+			pos_input = BX.pos(_this.INPUT);
 		}
-		pos_input = BX.pos(_this.INPUT);
 
 		pos.width = pos.right - pos.left;
 		_this.RESULT.style.top = (pos.bottom + 2) + 'px';
@@ -351,6 +359,8 @@ function JCTitleSearch2(arParams)
 
 		if($(_this.INPUT).closest('.inline-search-block.with-close').length)
 			_this.RESULT.style.width = pos_input.width + 'px';
+		else if (isBoundHeader)
+			_this.RESULT.style.width = 'calc(100% - 1px)';
 		else
 			_this.RESULT.style.width = pos.width + 'px';
 		return pos;

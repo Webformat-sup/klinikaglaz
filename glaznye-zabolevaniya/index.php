@@ -1,5 +1,5 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-	$APPLICATION->SetTitle("Каталог");?><?$APPLICATION->IncludeComponent(
+	$APPLICATION->SetTitle("Глазные заболевания");?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	".default_old", 
 	array(

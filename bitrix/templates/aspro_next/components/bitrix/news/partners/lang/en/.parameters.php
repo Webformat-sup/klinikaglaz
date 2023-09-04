@@ -38,6 +38,8 @@ $MESS["T_SECTION_ELEMENTS_TYPE_VIEW"] = "Шаблон списка элемен�
 $MESS["T_ELEMENT_TYPE_VIEW"] = "Шаблон детальной страницы";
 $MESS["FROM_MODULE_PARAMS"] = "Из настроек центра управления";
 $MESS["DEPTH_LEVEL_BRAND"] = "Уровень вложенности связанных разделов";
+$MESS["SECTIONS_DETAIL_COUNT_TITLE"] = "Количество видимых разделов";
+$MESS["SECTIONS_DETAIL_COUNT_TIP"] = "Для детальной страницы бренда вида \"вид каталога\" ";
 $MESS["LINKED_ELEMENST_PAGE_COUNT"] = "Количество связанных товаров на странице";
 $MESS["LINKED_ELEMENST_PAGINATION"] = "Отображать постраничную навигацию";
 
@@ -131,4 +133,12 @@ $MESS["CP_BC_CONVERT_CURRENCY"] = "Показывать цены в одной �
 $MESS["CP_BC_CURRENCY_ID"] = "Валюта, в которую будут сконвертированы цены";
 
 $MESS["SHOW_MEASURE"] = "Отображать единицы измерения";
+
+$MESS["IBLOCK_SORT_ASC"] = "ascending";
+$MESS["IBLOCK_SORT_DESC"] = "descending";
+$MESS["LINKED_ELEMENT_TAB_SORT_FIELD"] = "By what field do we sort related products";
+$MESS["LINKED_ELEMENT_TAB_SORT_ORDER"] = "Sorting order related products";
+$MESS["LINKED_ELEMENT_TAB_SORT_FIELD2"] = "Field for the second sort related products";
+$MESS["LINKED_ELEMENT_TAB_SORT_ORDER2"] = "Second sorting order related products";
+$MESS["SHOW_SORT_IN_FILTER"] = "Show sorting in block with filter at resolution <768px";
 ?>

@@ -36,9 +36,17 @@ if(\Bitrix\Main\Loader::includeModule('iblock'))
 }
 
 $arPrice = array();
+$arSort = CIBlockParameters::GetElementSortFields(
+	array('SHOWS', 'SORT', 'TIMESTAMP_X', 'NAME', 'ID', 'ACTIVE_FROM', 'ACTIVE_TO'),
+	array('KEY_LOWERCASE' => 'Y')
+);
 if (\Bitrix\Main\Loader::includeModule("catalog"))
 {
-	$arSort = array_merge($arSort, CCatalogIBlockParameters::GetCatalogSortFields());
+	$arSort = array_merge($arSort, CCatalogIBlockParameters::GetCatalogSortFields(), array("PROPERTY_MINIMUM_PRICE"=>GetMessage("SORT_PRICES_MINIMUM_PRICE"), "PROPERTY_MAXIMUM_PRICE"=>GetMessage("SORT_PRICES_MAXIMUM_PRICE"), "REGION_PRICE"=>GetMessage("SORT_PRICES_REGION_PRICE")));
+		if (isset($arSort['CATALOG_AVAILABLE'])) {
+			unset($arSort['CATALOG_AVAILABLE']);
+		}
+
 	$rsPrice=CCatalogGroup::GetList($v1="sort", $v2="asc");
 	while($arr=$rsPrice->Fetch())
 	{
@@ -54,6 +62,10 @@ else
 {
 	$arPrice = $arProperty_N;
 }
+$arAscDesc = array(
+	"asc" => GetMessage("IBLOCK_SORT_ASC"),
+	"desc" => GetMessage("IBLOCK_SORT_DESC"),
+);
 $arRegionPrice = $arPrice;
 $arPrice  = array_merge(array("MINIMUM_PRICE"=>GetMessage("SORT_PRICES_MINIMUM_PRICE"), "MAXIMUM_PRICE"=>GetMessage("SORT_PRICES_MAXIMUM_PRICE"), "REGION_PRICE"=>GetMessage("SORT_PRICES_REGION_PRICE")), $arPrice);
 
@@ -492,6 +504,13 @@ $arTemplateParameters['DEPTH_LEVEL_BRAND'] = array(
 	'PARENT' => 'DETAIL_SETTINGS',
 	'DEFAULT' => '2'
 );
+$arTemplateParameters['SECTIONS_DETAIL_COUNT'] = array(
+	'NAME' => GetMessage('SECTIONS_DETAIL_COUNT_TITLE'),
+	'SORT' => 7010,
+	'TYPE' => 'STRING',
+	'PARENT' => 'DETAIL_SETTINGS',
+	'DEFAULT' => '10'
+);
 
 $arTemplateParameters['IMAGE_POSITION'] = array(
 	'PARENT' => 'LIST_SETTINGS',
@@ -510,6 +529,42 @@ $arTemplateParameters['COUNT_IN_LINE'] = array(
 	'NAME' => GetMessage('COUNT_IN_LINE'),
 	'TYPE' => 'STRING',
 	'DEFAULT' => '3',
+);
+
+$arTemplateParameters['LINKED_ELEMENT_TAB_SORT_FIELD'] = array(
+	"PARENT" => "DETAIL_SETTINGS",
+	"NAME" => GetMessage("LINKED_ELEMENT_TAB_SORT_FIELD"),
+	"TYPE" => "LIST",
+	"VALUES" => $arSort,
+	"ADDITIONAL_VALUES" => "Y",
+	"DEFAULT" => "sort",
+);
+
+$arTemplateParameters['LINKED_ELEMENT_TAB_SORT_ORDER'] = array(
+	"PARENT" => "DETAIL_SETTINGS",
+	"NAME" => GetMessage("LINKED_ELEMENT_TAB_SORT_ORDER"),
+	"TYPE" => "LIST",
+	"VALUES" => $arAscDesc,
+	"DEFAULT" => "asc",
+	"ADDITIONAL_VALUES" => "Y",
+);
+
+$arTemplateParameters['LINKED_ELEMENT_TAB_SORT_FIELD2'] = array(
+	"PARENT" => "DETAIL_SETTINGS",
+	"NAME" => GetMessage("LINKED_ELEMENT_TAB_SORT_FIELD2"),
+	"TYPE" => "LIST",
+	"VALUES" => $arSort,
+	"ADDITIONAL_VALUES" => "Y",
+	"DEFAULT" => "id",
+);
+
+$arTemplateParameters['LINKED_ELEMENT_TAB_SORT_ORDER2'] = array(
+	"PARENT" => "DETAIL_SETTINGS",
+	"NAME" => GetMessage("LINKED_ELEMENT_TAB_SORT_ORDER2"),
+	"TYPE" => "LIST",
+	"VALUES" => $arAscDesc,
+	"DEFAULT" => "desc",
+	"ADDITIONAL_VALUES" => "Y",
 );
 
 $arPrice = array();

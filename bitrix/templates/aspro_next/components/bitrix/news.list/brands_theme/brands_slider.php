@@ -10,14 +10,24 @@ $bAnimation = (bool)$slideshowSpeed;
 			<?
 				$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 				$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
+			
+				$bShowLink = !($arParams['HIDE_LINK_WHEN_NO_DETAIL'] && !trim($arItem['DETAIL_TEXT']));
 			?>
-			<?if( is_array($arItem["PREVIEW_PICTURE"]) ){?>
-				<li class="visible" id="<?=$this->GetEditAreaId($arItem['ID']);?>">
-					<a href="<?=$arItem["DETAIL_PAGE_URL"]?>">
-						<img class="noborder" src="<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>" alt="<?=$arItem["NAME"]?>" title="<?=$arItem["NAME"]?>" />
-					</a>
-				</li>
-			<?}?>
+			<li class="visible" id="<?=$this->GetEditAreaId($arItem['ID']);?>">
+				<?if ($bShowLink):?>
+				<a href="<?=$arItem["DETAIL_PAGE_URL"]?>">
+				<?endif;?>
+					<?if (is_array($arItem["PREVIEW_PICTURE"])):?>
+						<img class="noborder" src="<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>" alt="<?=$arItem["PREVIEW_PICTURE"]["ALT"] ?? $arItem["NAME"];?>" title="<?=$arItem["PREVIEW_PICTURE"]["TITLE"] ?? $arItem["NAME"]?>" />
+					<?elseif (is_array($arItem["DETAIL_PICTURE"])):?>
+						<img class="noborder" src="<?=$arItem["DETAIL_PICTURE"]["SRC"]?>" alt="<?=$arItem["DETAIL_PICTURE"]["ALT"] ?? $arItem["NAME"];?>" title="<?=$arItem["DETAIL_PICTURE"]["TITLE"] ?? $arItem["NAME"]?>" />
+					<?else:?>
+						<span><?=$arItem["NAME"]?></span>
+					<?endif;?>
+				<?if ($bShowLink):?>
+				</a>
+				<?endif;?>
+			</li>
 		<?}?>
 	</ul>
 </div>

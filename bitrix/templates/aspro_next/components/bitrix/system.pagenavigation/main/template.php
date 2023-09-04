@@ -3,16 +3,19 @@
 	<?
 	if($arResult["NavQueryString"])
 	{
-		$arUrl = explode('&amp;', $arResult["NavQueryString"]);
+		$divider = ((strpos($arResult["NavQueryString"], '&amp;') !== false) ? '&amp;' : '&');
+
+		$arUrl = explode($divider, $arResult["NavQueryString"]);
 		if($arUrl)
 		{
 			foreach($arUrl as $key => $url)
 			{
-				if(strpos($url, 'ajax_get') !== false || strpos($url, 'AJAX_REQUEST') !== false)
+				if (strpos($url, 'ajax_get') !== false || strpos($url, 'AJAX_REQUEST') !== false) {
 					unset($arUrl[$key]);
+				}
 			}
 		}
-		$arResult["NavQueryString"] = implode('&amp;', $arUrl);
+		$arResult["NavQueryString"] = implode($divider, $arUrl);
 	}
 	$count_item_between_cur_page = 2; // count numbers left and right from cur page
 	$count_item_dotted = 2; // count numbers to end or start pages
@@ -46,17 +49,13 @@
 	$bHasPage = (isset($_GET['PAGEN_'.$arResult["NavNum"]]) && $_GET['PAGEN_'.$arResult["NavNum"]]);
 	if($bHasPage)
 	{
-		if($_GET['PAGEN_'.$arResult["NavNum"]] == 1 && !isset($_GET['q']))
+		if($_GET['PAGEN_'.$arResult["NavNum"]] == 1 && !isset($_REQUEST['q']))
 		{
 			LocalRedirect($arResult["sUrlPath"], false, "301 Moved permanently");
 		}
 		elseif($_GET['PAGEN_'.$arResult["NavNum"]] > $arResult["nEndPage"])
 		{
-			if (!defined("ERROR_404"))
-			{
-				define("ERROR_404", "Y");
-				\CHTTP::setStatus("404 Not Found");
-			}
+			$templateData["ERROR_404"] = true;
 		}
 
 	}?>
@@ -76,7 +75,7 @@
 				<?endif;?>
 			</ul>
 			<?if($arResult["nStartPage"] > 1):?>
-				<a href="<?=$arResult["sUrlPath"]?>?<?=$strNavQueryString?>PAGEN_<?=$arResult["NavNum"]?>=1" class="dark_link">1</a>
+				<a href="<?=$arResult["sUrlPath"]?><?=$strNavQueryStringFull?>" class="dark_link">1</a>
 				<?if(($arResult["nStartPage"] - $count_item_dotted) > 1):?>
 					<span class='point_sep'></span>
 				<?elseif(($firstPage = $arResult["nStartPage"]-1) > 1 && $arResult["nStartPage"] !=2):?>

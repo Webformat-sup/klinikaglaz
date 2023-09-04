@@ -1,4 +1,4 @@
-Options -Indexes 
+Options -Indexes
 ErrorDocument 404 /404.php
 
 <IfModule mod_rewrite.c>
@@ -15,6 +15,10 @@ ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
+
+	#Редирект на https
+	RewriteCond %{SERVER_PORT} !^443$
+	RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 
 	#Добавляем слэш в конце адреса
 	RewriteCond %{REQUEST_URI} ^(.*\/[^\/\.]+)($|\?)
@@ -45,7 +49,7 @@ ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
-	
+
 	RewriteCond %{THE_REQUEST} \s/+(.+?)\+\d{10}(/\s|\?) [NC]
 	RewriteCond %{REQUEST_URI} !^/bitrix
 	RewriteRule ^ /%1 [R=301,L]
@@ -476,13 +480,13 @@ ErrorDocument 404 /404.php
 	RewriteRule ^services/priem-detskogo-oftalmologa/priem-detskogo-oftalmologa-po-vospalitelnym-zabolevaniyam/$ /services/konsultatsii-detskogo-oftalmologa/priem-detskogo-oftalmologa-po-vospalitelnym-zabolevaniyam/ [L,R=301]
 	RewriteCond %{QUERY_STRING} ^$
 	RewriteRule ^/services/priem-detskogo-oftalmologa/$ /services/konsultatsii-detskogo-oftalmologa/ [L,R=301]
-	
+
 	Redirect 301 /company/staff/nikiforova-anastasiya-andreevna/ /company/staff/
 	Redirect 301 /info/articles/upravlenie-proektami/ /info/articles/
 	Redirect 301 /meditsinskiy-slovar/s/http-klinikaglaz-ru-subepitelialniy-fler-rogovitsy/ /meditsinskiy-slovar/s/subepitelialnyy-fler-rogovitsy-kheyz/
 	Redirect 301 /projects/optika/ /projects/optika-v-klinike/
 	Redirect 301 /projects/optika/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/ /projects/optika-v-klinike/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/
-	
+
 	Redirect 301 /meditsinskiy-slovar/a/aaa/ /meditsinskiy-slovar/a/aberratsiya/
 	Redirect 301 /meditsinskiy-slovar/a/aba/ambliopiya/ /meditsinskiy-slovar/a/ambliopiya/
 
@@ -510,7 +514,6 @@ ErrorDocument 404 /404.php
 	Redirect 301 /sale/skidka_30_na_linzy_dlya_vozhdeniya_zeiss_drivesafe/ /
 	Redirect 301 /services/podbor-detskikh-ochkov-i-kontaktnykh-linz/proverka-zreniya-i-podbor-mkl-detyam/%20%20/ /services/podbor-detskikh-ochkov-i-kontaktnykh-linz/proverka-zreniya-i-podbor-mkl-detyam/
 	Redirect 301 /info/news/chistota-zalog-zdorovya/ /projects/zabota-o-zrenii/
-	Redirect 301 /projects/zabota-o-zrenii/kak-vliyaet-sport-na-vashe-zrenie/ /projects/zabota-o-zrenii/kak-vliyaet-sport-na-vashe-zrenie/
 	Redirect 301 /sale/diagnostika-zreniya-so-skidkoy-bolee-50-tolko-do-kontsa-iyulya-2021g-/ /
 	Redirect 301 /kontaktyi/projects/lazernaya-korrektsiya-zreniya/ /projects/lazernaya-korrektsiya-zreniya/
 	Redirect 301 /glavvrach/ /company/staff/romanenko-boris-vitalevich/
@@ -526,6 +529,31 @@ ErrorDocument 404 /404.php
 	Redirect 301 /sale/den-otkrytykh-dverey-dlya-detey/ /
 	Redirect 301 /catalog/ /
 	Redirect 301 /catalog/katarakta/ /
+	Redirect 301 /services/index_test.php  /services/
+	Redirect 301 /meditsinskiy-slovar/a/aberratsiya.php  /meditsinskiy-slovar/a/aberratsiya/
+	Redirect 301 /meditsinskiy-slovar/aberratsiya/  /meditsinskiy-slovar/a/aberratsiya/
+	Redirect 301 /services/_salon-optiki/kontaktnye-linzy.php  /services/salon-optiki/kontaktnye-linzy/
+	Redirect 301 /projects/design/vliyanie-kompyutera-i-televizora-na-zrenie-rebenka/  /detskoe-zrenie/vliyanie-kompyutera-i-televizora-na-zrenie-rebenka/
+	Redirect 301 /include/licenses_detail.php  /info/processing/
+	Redirect 301 /services/_salon-optiki/kak-podobrat-solntsezashchitnye-ochki.php   /services/salon-optiki/kak-podobrat-solntsezashchitnye-ochki/
+	Redirect 301 /projects/design/khitrosti-chteniya-kak-sokhranit-zdorovoe-zreniya/  /projects/detskoe-zrenie/khitrosti-chteniya-kak-sokhranit-zdorovoe-zreniya/
+	Redirect 301 /projects/zabota-o-zrenii/yachmen-na-glazu-lechenie-prichiny-i-simptomy/u/services/khalyazion/operativnoe-lechenie-khalyaziona/ /projects/zabota-o-zrenii/yachmen-na-glazu-lechenie-prichiny-i-simptomy/
+	Redirect 301 /services/_salon-optiki/  /services/salon-optiki/
+	Redirect 301 /company/litsenzii/litsenzii.php   /company/nashi-preimushchestva/litsenzii/
+	Redirect 301 /services/_lazernoe-lechenie/ /services/bolezni-setchatki/
+
+	Redirect 301 /services/_detskaya-oftalmologiya/ /services/konsultatsii-detskogo-oftalmologa/
+	Redirect 301 /services/_diagnostika/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /services/diagnostika-glaza-zreniya-sostoyaniya-zritelnoy-sistemy/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /services/oborudovanie-poslednego-pokoleniya/ /projects/oborudovanie-v-klinike/oborudovanie-poslednego-pokoleniya/
+    Redirect 301 /services/issledovaniya-i-diagnostika/pochemu-neobkhodimo-regulyarno-prokhodit-polnuyu-diagnostiku-zreniya/ /projects/zabota-o-zrenii/pochemu-neobkhodimo-regulyarno-prokhodit-polnuyu-diagnostiku-zreniya
+	Redirect 301 /services/_muzhskaya-kollektsiya-oprav-oakley/ /services/salon-optiki/
+        Redirect 301 /services/_mikrokhirurgiya-glaza/mikrokhirurgiya-glaza/ /
+	Redirect 301 /lechenie-patsientov-iz-drugikh-regionov/ /company/inogorodnim/
+	Redirect 301 /services/_mikrokhirurgiya-glaza/ /
+	Redirect 301 /services/bolezni-setchatki/lazernaya-distsiziya-vtorichnoy-katarakty.php /
+	Redirect 301 /services/bolezni-setchatki/lazernoe-lechenie-glaukomy.php /
+	Redirect 301 /services/bolezni-setchatki/lazernoe-udalenie-novoobrazovaniy-na-vekakh.php /
 </IfModule>
 
 

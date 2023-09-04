@@ -1,12 +1,14 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <?
-global $arTheme, $arRegion;
+global $arTheme, $arRegion, $noMegaMenu;
 $arRegions = CNextRegionality::getRegions();
 if($arRegion)
 	$bPhone = ($arRegion['PHONES'] ? true : false);
 else
 	$bPhone = ((int)$arTheme['HEADER_PHONES'] ? true : false);
 $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
+
+$noMegaMenu = true;
 ?>
 
 <div class="header-v16 header-wrapper">
@@ -58,7 +60,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 								</div>
 							</div>
 						<?endif;?>
-						<div class="search-block inner-table-block">
+						<div class="search-block search-block--bound-header inner-table-block">
 							<?$APPLICATION->IncludeComponent(
 								"bitrix:main.include",
 								"",

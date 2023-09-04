@@ -1529,41 +1529,7 @@ BX.addCustomEvent('onSlideInit', function(eventdata) {
 		if(eventdata){
 			var slider = eventdata.slider;
 			if(slider && slider.hasClass('content_inner')){
-				if($('.all_wrapp .content_inner').attr('data-hover') ==undefined){
-					var itemsButtonsHeight = 0;
-					if($(document).find('.all_wrapp .content_inner .footer_button').length)
-					{
-						$(document).find('.all_wrapp .content_inner .footer_button').css('height', 'auto');
-						itemsButtonsHeight = $(document).find('.all_wrapp .content_inner .footer_button').height();
-						$(document).find('.all_wrapp .content_inner .footer_button').css('height', '');
-					}
-
-					var tabsContentUnhover = ($('.all_wrapp').height() * 1)+20;
-					var tabsContentHover = tabsContentUnhover + itemsButtonsHeight+5;
-
-					$('.all_wrapp .content_inner .slides').equalize({children: '.item-title'}); 
-					$('.all_wrapp .content_inner .slides').equalize({children: '.item_info'});
-					$('.all_wrapp .content_inner .slides').equalize({children: '.catalog_item'});
-
-					$('.all_wrapp .content_inner').attr('data-unhover', tabsContentUnhover);
-					$('.all_wrapp .content_inner').attr('data-hover', tabsContentHover);
-					$('.all_wrapp').height(tabsContentUnhover);
-					$('.all_wrapp .content_inner').addClass('absolute');
-
-					$('.content_inner .tabs_slider > li').hover(
-						function(){
-							var tabsContentHover = $(this).closest('.content_inner').attr('data-hover') * 1;
-							$(this).closest('.content_inner').fadeTo(100, 1);
-							$(this).closest('.content_inner').stop().css({'height': tabsContentHover});
-							$(this).closest('.flex-viewport').stop().css({'height': tabsContentHover});
-						},
-						function(){
-							var tabsContentUnhoverHover = $(this).closest('.content_inner').attr('data-unhover') * 1;
-							$(this).closest('.content_inner').stop().animate({'height': tabsContentUnhoverHover}, 100);
-							$(this).closest('.flex-viewport').stop().animate({'height': tabsContentUnhoverHover}, 100);
-						}
-					);
-				}
+				setHeightBlockSlider();
 			}
 		}
 	}

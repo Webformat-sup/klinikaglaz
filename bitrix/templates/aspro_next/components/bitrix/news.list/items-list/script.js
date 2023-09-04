@@ -5,6 +5,7 @@ $(document).ready(function(){
 			// $(this).find('.item:visible .image').sliceHeight({lineheight: -3});
 			$(this).find('.item:visible .properties').sliceHeight({fixWidth: 2});
 			$(this).find('.item:visible .text').sliceHeight({fixWidth: 2});
+			$(this).find('.item:visible').sliceHeight({fixWidth: 2});
 		})
 	}
 	if($('.table.item-views .tabs a').length)
@@ -14,7 +15,7 @@ $(document).ready(function(){
 			if(!$(this).hasClass('heightsliced')){
 				$('.table.item-views .tab-pane.active').find('.item .image').sliceHeight({lineheight: -3});
 				$('.table.item-views .tab-pane.active').find('.item .properties').sliceHeight();
-				$('.table.item-views .tab-pane.active').find('.item .text').sliceHeight();
+				$('.table.item-views .tab-pane.active').find('.item .text').sliceHeight();				
 				$(this).addClass('heightsliced');
 			}
 		});

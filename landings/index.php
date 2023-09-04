@@ -64,7 +64,7 @@ $APPLICATION->SetTitle("Обзоры");
 		"PRICE_VAT_SHOW_VALUE" => "N",
 		"CONVERT_CURRENCY" => "N",
 		"USE_RATIO_IN_RANGES" => "N",
-		"BASKET_URL" => "/personal/basket.php",
+		"BASKET_URL" => "/basket/",
 		"USE_PRODUCT_QUANTITY" => "N",
 		"PRODUCT_QUANTITY_VARIABLE" => "quantity",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",

@@ -40,8 +40,14 @@ if (isset($arResult['REQUEST_ITEMS']) || isset($arParams['REQUEST_ITEMS']))
 				BX.addCustomEvent('onHasNewPrediction', function(html, injectId){
 					//console.log('onHasNewPrediction', injectId, html);
 
-					$('#simple-prediction').remove();
-					predictionWindow = false;
+					// $('#simple-prediction').remove();
+					// predictionWindow = false;
+
+					if (predictionWindow) {
+									// console.log(predictionWindow, 'start')
+									predictionWindow.destroy();
+								}
+
 					if(predictionHideTimeout){
 						clearTimeout(predictionHideTimeout);
 						predictionHideTimeout = false;
@@ -66,8 +72,12 @@ if (isset($arResult['REQUEST_ITEMS']) || isset($arParams['REQUEST_ITEMS']))
 				});
 
 				$(document).on('mouseleave', '#simple-prediction', function(){
-					$(this).remove();
-					predictionWindow = false;
+					// $(this).remove();
+					// predictionWindow = false;
+					if (predictionWindow) {
+						// console.log(predictionWindow, 'start')
+						predictionWindow.destroy();
+					}
 					if(predictionHideTimeout){
 						clearTimeout(predictionHideTimeout);
 						predictionHideTimeout = false;
@@ -132,46 +142,52 @@ if (isset($arResult['REQUEST_ITEMS']) || isset($arParams['REQUEST_ITEMS']))
 					var $element = $inject.closest('.catalog_detail');
 					if($element.length){
 						//console.log('show prediction', i);
-
 						var bFastView = $element.closest('#fast_view_item').length > 0;
 						if(!bFastView){
 							$('#headerfixed .btn.has_prediction').removeClass('has_prediction');
 						}
 						$element.find('.has_prediction').removeClass('has_prediction');
 
-						var $buttons = bFastView ? $element.find('.counter_wrapp .button_block .btn.to-cart,.counter_wrapp .button_block .btn.in-cart') : ($element.find('.offers_table').length > 0 ? $element.find('.offers_table .buy .counter_wrapp .btn.to-cart,.offers_table .buy .counter_wrapp .btn.in-cart,.info_item .middle_info .buy_block .slide_offer,#headerfixed .btn.more') : $element.find('.info_item .middle_info .buy_block .button_block .btn.to-cart,.info_item .middle_info .buy_block .button_block .btn.in-cart,#headerfixed .btn.to-cart,#headerfixed .btn.in-cart'));
+						var $buttons = bFastView ? $element.find('.counter_wrapp .button_block .btn.to-cart,.counter_wrapp .button_block .btn.in-cart') : ($element.find('.list-offers').length > 0 ? $element.find('.list-offers .buy_block .counter_wrapp .btn.to-cart,.list-offers .buy_block .counter_wrapp .btn.in-cart,.info_item .middle_info .buy_block .slide_offer,#headerfixed .btn.more') : $element.find('.info_item .middle_info .buy_block .button_block .btn.to-cart,.info_item .middle_info .buy_block .button_block .btn.in-cart,#headerfixed .btn.to-cart,#headerfixed .btn.in-cart'));
 
 						if($buttons){
 							$buttons.addClass('has_prediction');
 
 							$buttons.unbind('mouseenter');
 							$buttons.unbind('mouseleave');
+							
 							$buttons.mouseenter(function(){
-								$('#simple-prediction').remove();
-								predictionWindow = false;
+								// $('#simple-prediction').remove();
+								if (predictionWindow) {
+									// console.log(predictionWindow, 'start')
+									predictionWindow.destroy();
+								}
 								if(predictionHideTimeout){
 									clearTimeout(predictionHideTimeout);
 									predictionHideTimeout = false;
 								}
+								// if (!predictionWindow) {
+									// predictionWindow.destroy();
+									predictionWindow = new BX.PopupWindow('simple-prediction', this, {
+										offsetLeft: 40,
+										offsetTop: -5,
+										bindOptions: {
+											position: 'top',
+										},
+										content:
+										'<div class="catalog-element-popup-inner">' +
+										_this.arData[i].html +
+										'</div>',
+										closeIcon: false,
+										closeByEsc: false,
+										angle: {
+											position: 'bottom'
+										}
+									});
+								// }
 
-								predictionWindow = new BX.PopupWindow('simple-prediction', this, {
-									offsetLeft: 40,
-									offsetTop: -5,
-									bindOptions: {
-										position: 'top',
-									},
-									content:
-									'<div class="catalog-element-popup-inner">' +
-									_this.arData[i].html +
-									'</div>',
-									closeIcon: false,
-									closeByEsc: false,
-									angle: {
-										position: 'bottom'
-									}
-								});
-
-								predictionWindow.show();
+									predictionWindow.show();
+								// }, 0)
 							}).mouseleave(function(){
 								if(predictionWindow){
 									if(predictionHideTimeout){
@@ -180,8 +196,10 @@ if (isset($arResult['REQUEST_ITEMS']) || isset($arParams['REQUEST_ITEMS']))
 									}
 
 									predictionHideTimeout = setTimeout(function(){
-										$('#simple-prediction').remove();
-										predictionWindow = false;
+										predictionWindow.destroy();
+										// predictionWindow.close();
+										// $('#simple-prediction').remove();
+										// predictionWindow = false;
 									}, 500);
 								}
 							});
@@ -261,7 +279,6 @@ if (isset($arResult['REQUEST_ITEMS']) || isset($arParams['REQUEST_ITEMS']))
 				}
 			}
 		}
-
 		var obNextPredictions = new CNextPredictions();
 		var predictionWindow = false;
 		var predictionHideTimeout = false;

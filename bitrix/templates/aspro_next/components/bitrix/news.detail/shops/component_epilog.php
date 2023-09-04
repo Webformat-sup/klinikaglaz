@@ -2,13 +2,15 @@
 $arResult['TITLE'] = (in_array('NAME', $arParams['FIELD_CODE']) ? $arResult['NAME'] : '');
 $arResult['ADDRESS'] = (in_array('ADDRESS', $arParams['PROPERTY_CODE']) ? $arResult['PROPERTIES']['ADDRESS']['VALUE'] : '');
 $arResult['ADDRESS'] = $arResult['TITLE'].((strlen($arResult['TITLE']) && strlen($arResult['ADDRESS'])) ? ', ' : '').$arResult['ADDRESS'];
-$_SESSION['SHOP_TITLE'] = $arResult['ADDRESS'];
+$_SESSION['SHOP_TITLE'] = isset($arResult["META_TAGS"]["TITLE"]) && strlen($arResult["META_TAGS"]["TITLE"]) ? $arResult["META_TAGS"]["TITLE"] : $arResult['ADDRESS'];
+
 ?>
-<?$arShop=CNext::prepareShopDetailArray($arResult, $arParams);?>
+<?$arShop=CNext::prepareShopDetailArray($arResult, $arParams);
+$arShop["PLACEMARKS"][0]["TEXT"] = '';?>
 <?ob_start()?>
 	<?if(abs($arShop["POINTS"]["LAT"]) > 0 && abs($arShop["POINTS"]["LON"]) > 0):?>
-		<div class="contacts_map">
-			<?if($arParams["MAP_TYPE"] != "0"):?>
+		<div class="contacts_map map_in_stores">
+			<?if(CNext::GetFrontParametrValue('CONTACTS_TYPE_MAP') == 'GOOGLE') :?>
 				<?$APPLICATION->IncludeComponent(
 					"bitrix:map.google.view",
 					"map",
@@ -18,6 +20,9 @@ $_SESSION['SHOP_TITLE'] = $arResult['ADDRESS'];
 						"MAP_WIDTH" => "100%",
 						"MAP_HEIGHT" => "400",
 						"CONTROLS" => array(
+							0 => "SMALL_ZOOM_CONTROL",
+							1 => "TYPECONTROL",
+							2 => "SCALELINE",
 						),
 						"OPTIONS" => array(
 							0 => "ENABLE_DBLCLICK_ZOOM",
@@ -37,7 +42,7 @@ $_SESSION['SHOP_TITLE'] = $arResult['ADDRESS'];
 			<?else:?>
 				<?$APPLICATION->IncludeComponent(
 					"bitrix:map.yandex.view",
-					"",
+					"map",
 					array(
 						"INIT_MAP_TYPE" => "ROADMAP",
 						"MAP_DATA" => serialize(array("yandex_lat" => $arShop["POINTS"]["LAT"], "yandex_lon" => $arShop["POINTS"]["LON"], "yandex_scale" => 17, "PLACEMARKS" => $arShop["PLACEMARKS"])),

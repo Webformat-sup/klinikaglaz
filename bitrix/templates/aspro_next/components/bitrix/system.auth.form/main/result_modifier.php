@@ -1,6 +1,9 @@
 <?
-if(isset($_POST['USER_LOGIN']) && $_POST['USER_LOGIN'])
-	$arResult["USER_LOGIN"] = htmlspecialcharsbx($_POST['USER_LOGIN']);
+if(isset($_REQUEST['USER_LOGIN']) && $_REQUEST['USER_LOGIN']){
+	$arResult["USER_LOGIN"] = htmlspecialcharsbx($_REQUEST['USER_LOGIN']);
+	//$arResult["USER_LOGIN"] = htmlspecialcharsbx($_POST['USER_LOGIN']);
+}
+
 if(isset($arParams["BACKURL"]) && $arParams["BACKURL"])
 {
 	$arResult["BACKURL"] = $arParams["BACKURL"];

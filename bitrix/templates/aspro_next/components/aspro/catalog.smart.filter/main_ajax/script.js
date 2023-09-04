@@ -310,7 +310,7 @@ JCSmartFilter.prototype.setUrlSortDisplay = function (url)
 	}
 }
 
-JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
+JCSmartFilter.prototype.filterCatalog = function (url, set_disabled, result)
 {
 	if( window.History.enabled || window.history.pushState != null ){
 		window.History.pushState( null, document.title, decodeURIComponent(url) );
@@ -332,11 +332,13 @@ JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
 			$('.catalog_block').ready(function()
 			{
 				touchItemBlock('.catalog_item a');
+				/*
 				$('.catalog_block').equalize({children: '.catalog_item .cost', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item .item-title', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item .counter_block', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item .item_info', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item_wrapp', reset: true});
+				*/
 			});
 
 			$('.sections_wrapper .items .item').sliceHeight({'fixWidth':1});
@@ -344,7 +346,8 @@ JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
 
 
 			setStatusButton();
-			BX.onCustomEvent('onAjaxSuccessFilter');
+			var eventdata = {action:'filterSuccess', result: result};
+			BX.onCustomEvent('onAjaxSuccessFilter', eventdata);
 
 			if(set_disabled=="Y"){
 				var set_filter = BX('set_filter'),
@@ -354,6 +357,7 @@ JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
 			}
 			// $('.countdown').countdown('destroy');
 			initCountdown();
+			showTotalSummItem();
 		}
 	})
 }
@@ -436,7 +440,7 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 					url = pair_tmp[0];
 				}
 
-				this.filterCatalog(url, "N");
+				this.filterCatalog(url, "N", result);
 
 				/*ajax update filter catalog items end*/
 
@@ -532,7 +536,7 @@ JCSmartFilter.prototype.bindUrlToButton = function (buttonId, url)
 						reset_filter.disabled = true;
 					}
 
-					this.filterCatalog(url_filter, "Y");
+					this.filterCatalog(url_filter, "Y", {});
 				}
 			}
 		}, this));
@@ -838,6 +842,10 @@ BX.Iblock.SmartFilter = (function()
 		}
 
 		this.setMaxFilteredValue(this.fltMaxPrice);
+		if(typeof(asproFilterHelper) == 'function') {
+            window.FilterHelper = new asproFilterHelper(this);
+            FilterHelper.show();
+        }
 	};
 
 	SmartFilter.prototype.setMinFilteredValue = function (fltMinPrice)

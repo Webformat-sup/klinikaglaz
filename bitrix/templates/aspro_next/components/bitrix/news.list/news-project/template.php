@@ -45,7 +45,7 @@
 				$imageSrc = ($bImage ? $arItem['PREVIEW_PICTURE']['SRC'] : SITE_TEMPLATE_PATH.'/images/noimage.png');
 				$imageDetailSrc = ($bImage ? $arItem['DETAIL_PICTURE']['SRC'] : false);
 				// show active date period
-				$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', $arParams['FIELD_CODE']));
+				$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', (array)$arParams['FIELD_CODE']));
 
 				$class = '';
 				if(isset($arItem['SECTIONS']) && $arItem['SECTIONS'])
@@ -67,7 +67,7 @@
 								<?if($bDetailLink):?>
 									</a>
 								<?endif;?>
-								<?if($arParams['SHOW_MORE'] != 'N'):?>
+								<?if($bDetailLink && $arParams['SHOW_MORE'] != 'N'):?>
 									<a href="<?=$arItem['DETAIL_PAGE_URL']?>" class="dark_block_animate">
 										<div class="text">
 											<div class="cont">

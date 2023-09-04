@@ -1,4 +1,8 @@
-<?
+<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();
+
+$CScorp = new CScorp;
+$CCache = new CCache;
+
 foreach($arResult['ITEMS'] as $arItem){
 	if($SID = $arItem['IBLOCK_SECTION_ID']){
 		$arSectionsIDs[] = $SID;
@@ -6,13 +10,13 @@ foreach($arResult['ITEMS'] as $arItem){
 }
 
 if($arSectionsIDs){
-	$arResult['SECTIONS'] = CCache::CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs));
+	$arResult['SECTIONS'] = $CCache->CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs));
 }
 
 // group elements by sections
 foreach($arResult['ITEMS'] as $key => $arItem){
 	$SID = ($arItem['IBLOCK_SECTION_ID'] ? $arItem['IBLOCK_SECTION_ID'] : 0);
-	CScorp::getFieldImageData($arItem, array('PREVIEW_PICTURE'));
+	$CScorp->getFieldImageData($arItem, array('PREVIEW_PICTURE'));
 	$arResult['SECTIONS'][$SID]['ITEMS'][$arItem['ID']] = $arItem;
 }
 

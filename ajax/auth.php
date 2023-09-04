@@ -12,7 +12,10 @@ if(!$USER->IsAuthorized()){?>
 		{
 			$_SERVER['QUERY_STRING'] = '';
 			$_SERVER['REQUEST_URI'] = $_REQUEST['backurl'];
-			$APPLICATION->reinitPath();
+
+			$APPLICATION->sDocPath2 = GetPagePath(false, true);
+			$APPLICATION->sDirPath = GetDirPath($APPLICATION->sDocPath2);
+			//$APPLICATION->reinitPath();
 		}
 	}?>
 	<a href="#" class="close jqmClose"><i></i></a>
@@ -28,6 +31,7 @@ if(!$USER->IsAuthorized()){?>
 				"REGISTER_URL" => SITE_DIR."auth/registration/?register=yes",
 				"PROFILE_URL" => SITE_DIR."auth/",
 				"FORGOT_PASSWORD_URL" => SITE_DIR."auth/forgot-password/?forgot-password=yes",
+				"CHANGE_PASSWORD_URL" => SITE_DIR."auth/change-password/?change-password=yes",
 				"AUTH_URL" => SITE_DIR."auth/",
 				"SHOW_ERRORS" => "Y",
 				"POPUP_AUTH" => "Y",

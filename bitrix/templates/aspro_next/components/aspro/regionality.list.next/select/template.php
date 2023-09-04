@@ -26,7 +26,8 @@ if($arResult['REGIONS']):?>
 			</div>
 		</div>
 		<?if($arResult['SHOW_REGION_CONFIRM']):?>
-			<div class="confirm_region">
+			<div class="confirm_region popup show">
+				<span class="close" data-id="<?=$arResult['CURRENT_REGION']['ID'];?>"><i></i></span>
 				<?
 				$href = 'data-href="'.$arResult['REGIONS'][$arResult['REAL_REGION']['ID']]['URL'].'"';
 				if($arTheme['USE_REGIONALITY']['DEPENDENT_PARAMS']['REGIONALITY_TYPE']['VALUE'] == 'SUBDOMAIN' && ($arResult['HOST'].$_SERVER['HTTP_HOST'].$arResult['URI'] == $arResult['REGIONS'][$arResult['REAL_REGION']['ID']]['URL']))

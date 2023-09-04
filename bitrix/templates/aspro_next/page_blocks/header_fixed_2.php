@@ -6,12 +6,14 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 	<div class="logo-row v2 row margin0 menu-row">
 		<div class="inner-table-block nopadding logo-block">
 			<div class="logo<?=$logoClass?>">
-				<?=CNext::ShowLogo();?>
+				<?=CNext::ShowLogoFixed();?>
 			</div>
 		</div>
 		<div class="inner-table-block menu-block">
 			<div class="navs table-menu js-nav">
+				<?if(CNext::nlo('menu-fixed')):?>
 				<nav class="mega-menu sliced">
+					<!-- noindex -->
 					<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
 						array(
 							"COMPONENT_TEMPLATE" => ".default",
@@ -23,7 +25,10 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 						),
 						false, array("HIDE_ICONS" => "Y")
 					);?>
+					<!-- /noindex -->
 				</nav>
+				<?endif;?>
+				<?CNext::nlo('menu-fixed');?>
 			</div>
 		</div>
 		<div class="inner-table-block nopadding small-block">

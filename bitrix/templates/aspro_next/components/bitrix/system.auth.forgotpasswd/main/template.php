@@ -1,5 +1,6 @@
 <?
 if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$this->setFrameMode(false);
 
 if(isset($APPLICATION->arAuthResult)){
 	$arResult['ERROR_MESSAGE'] = $APPLICATION->arAuthResult;

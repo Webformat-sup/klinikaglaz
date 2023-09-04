@@ -1,4 +1,4 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
+ <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <?
 global $arTheme, $arRegion;
 $arRegions = CNextRegionality::getRegions();
@@ -31,7 +31,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 						</div>
 					<?endif;?>
 					<div class="col-md-<?=($arRegions ? 3 : 4);?>">
-						<div class="search-block inner-table-block">
+						<div class="search-block search-block--bound-header inner-table-block">
 							<?$APPLICATION->IncludeComponent(
 								"bitrix:main.include",
 								"",

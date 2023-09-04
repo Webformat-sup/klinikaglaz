@@ -14,6 +14,10 @@ else{
 }
 // print_r($arItems);
 if($bMap && $itemsCnt){
+	$dbRes = CIBlock::GetProperties($arParams['IBLOCK_ID']);
+	while($arRes = $dbRes->Fetch()){
+		$arProperties[$arRes['CODE']] = $arRes;
+	}
 		foreach($arItems as $arItem){
 			// element coordinates
 			$arItem['GPS_S'] = $arItem['GPS_N'] = false;
@@ -25,78 +29,63 @@ if($bMap && $itemsCnt){
 			// use detail link?
 			$bDetailLink = $arParams['SHOW_DETAIL_LINK'] !== 'N' && (!strlen($arItem['DETAIL_TEXT']) ? ($arParams['HIDE_LINK_WHEN_NO_DETAIL'] !== 'Y' && $arParams['HIDE_LINK_WHEN_NO_DETAIL'] != 1) : true);
 
-			$html = '';
-			// element name
-			if(in_array('NAME', $arParams['LIST_FIELD_CODE']) && strlen($arItem['NAME'])){
-				$html .= '<div class="title">';
-					if($bDetailLink){
-						$html .= '<a class="dark_font" href="'.$arItem['DETAIL_PAGE_URL'].'">';
+			$html = '<div class="map_info_store">';
+	
+			$html .= '<div class="title"><a href="'.$arItem["DETAIL_PAGE_URL"].'" class="dark_link">'.$arItem['NAME'].($arItem['PROPERTY_ADDRESS_VALUE'] ? ', '.$arItem['PROPERTY_ADDRESS_VALUE'] : '').'</a></div>';
+			
+			$bSchedule = (isset($arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT']) && strlen($arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT']));
+			$bPhone = (isset($arItem['PROPERTY_PHONE_VALUE']) && !empty($arItem['PROPERTY_PHONE_VALUE']));
+			$bMetro = (isset($arItem['PROPERTY_METRO_VALUE']) && !empty($arItem['PROPERTY_METRO_VALUE']));
+			$bEmail = (isset($arItem['PROPERTY_EMAIL_VALUE']) && !empty($arItem['PROPERTY_EMAIL_VALUE']));
+			
+			if ($bSchedule || $bPhone || $bMetro || $bEmail) {
+				$html .= '<div class="properties">';
+					if ($bMetroValue) {
+						$html .= '<div class="property schedule">'.
+									'<div class="title-prop font_upper">'.($arProperties['METRO']['NAME'] ?? '').'</div>'.
+									'<div class="value font_sm">'.(is_array($arItem['PROPERTY_METRO_VALUE']) ? implode(', ', $arItem['PROPERTY_METRO_VALUE']) : $arItem['PROPERTY_METRO_VALUE']).'</div>'.
+								'</div>';
 					}
-					$html .= $arItem['NAME'];
 					
-					$bAddress = in_array('ADDRESS', $arParams['LIST_PROPERTY_CODE']) && ($arItem['PROPERTY_ADDRESS_VALUE'] || (!is_array($arItem['PROPERTY_ADDRESS_VALUE']) && strlen($arItem['PROPERTY_ADDRESS_VALUE'])));
-					if($bAddress){
-							$value = (is_array($arItem['PROPERTY_ADDRESS_VALUE']) ? implode('<br />', $arItem['PROPERTY_ADDRESS_VALUE']) : (strlen($arItem['PROPERTY_ADDRESS_VALUE']) ? $arItem['PROPERTY_ADDRESS_VALUE'] : ''));
-							if($value){
-								$html .= ((strlen($arItem['NAME']) && strlen($value)) ? ', ' : '').$value;
+					if ($bSchedule) {
+						$html .= '<div class="property schedule">'.
+									'<div class="title-prop font_upper">'.($arProperties['SCHEDULE']['NAME'] ?? '').'</div>'.
+									'<div class="value font_sm">'.$arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT'].'</div>'.
+								'</div>';
+					}
+					
+					if ($bPhone) {
+						$phone = '';
+						if (is_array($arItem['PROPERTY_PHONE_VALUE'])) {
+							foreach ($arItem['PROPERTY_PHONE_VALUE'] as $value) {
+								$phone .= '<div class="value"><a class="dark_link" rel= "nofollow" href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $value).'">'.$value.'</a></div>';
 							}
 						}
-
-					if($bDetailLink){
-						$html .= '</a>';
-					}
-				$html .= '</div>';
-			}
-
-			$html .= '<div class="info-content">';
-				// element metro				
-				$bMetro = in_array('METRO', $arParams['LIST_PROPERTY_CODE']) && ($arItem['PROPERTY_METRO_VALUE'] || (!is_array($arItem['PROPERTY_METRO_VALUE']) && strlen($arItem['PROPERTY_METRO_VALUE'])));
-				if($bMetro){
-					if($bMetro){
-						$value = (is_array($arItem['PROPERTY_METRO_VALUE']) ? implode(', ', $arItem['PROPERTY_METRO_VALUE']) : (strlen($arItem['PROPERTY_METRO_VALUE']) ? $arItem['PROPERTY_METRO_VALUE'] : ''));
-						if($value){
-							$html .= '<div class="metro"><i></i>'.$value.'</div>';
+						else{
+							$phone = '<div class="value font_sm"><a class="dark_link" rel= "nofollow" href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $arItem['PROPERTY_PHONE_VALUE']).'">'.$arItem['PROPERTY_PHONE_VALUE'].'</a></div>';
+						
+							
 						}
+						$html .= '<div class="property phone"><div class="title-prop font_upper">'.$arProperties['PHONE']['NAME'].'</div>'.$phone.'</div>';
 					}
-				}
 
-				// element schedule
-				if(in_array('SCHEDULE', $arParams['LIST_PROPERTY_CODE']) && ($arItem['PROPERTY_SCHEDULE_VALUE'] || strlen($arItem['PROPERTY_SCHEDULE_VALUE']))){
-					$html .= '<div class="schedule">'.$arItem['~PROPERTY_SCHEDULE_VALUE']['TEXT'].'</div>';
-				}
-
-				// element phone
-				if(in_array('PHONE', $arParams['LIST_PROPERTY_CODE']) && ($arItem['PROPERTY_PHONE_VALUE'] || (!is_array($arItem['PROPERTY_PHONE_VALUE']) && strlen($arItem['PROPERTY_PHONE_VALUE'])))){
-					if(is_array($arItem['PROPERTY_PHONE_VALUE'])){
-						$values = array();
-						foreach($arItem['PROPERTY_PHONE_VALUE'] as $value){
-							$values[] = '<a href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $value).'">'.$value.'</a>';
+					if ($bEmail) {
+						$sEmail = '';
+						if (is_array($arItem['PROPERTY_EMAIL_VALUE'])) {
+							foreach ($arItem['PROPERTY_EMAIL_VALUE'] as $email) {
+								$sEmail .= '<a class="dark_link" href="mailto:'.$email.'">'.$email.'</a>';
+							}
 						}
-						$html .= '<div class="phone">'.implode('<br>', $values).'</div>';
-					}
-					elseif(strlen($arItem['PROPERTY_PHONE_VALUE'])){
-						$html .= '<div class="phone"><a href="tel:'.str_replace(array(' ', ',', '-', '(', ')'), '', $arItem['PROPERTY_PHONE_VALUE']).'">'.$arItem['PROPERTY_PHONE_VALUE'].'</a></div>';
-					}
-				}
-
-				// element email
-				if(in_array('EMAIL', $arParams['LIST_PROPERTY_CODE']) && ($arItem['PROPERTY_EMAIL_VALUE'] || (!is_array($arItem['PROPERTY_EMAIL_VALUE']) && strlen($arItem['PROPERTY_EMAIL_VALUE'])))){
-					if(is_array($arItem['PROPERTY_EMAIL_VALUE'])){
-						$values = array();
-						foreach($arItem['PROPERTY_EMAIL_VALUE'] as $value){
-							$values[] = '<a href="mailto:'.$value.'">'.$value.'</a>';
+						else {
+							$sEmail .= '<a class="dark_link" href="mailto:'.$arItem['PROPERTY_EMAIL_VALUE'].'">'.$arItem['PROPERTY_EMAIL_VALUE'].'</a>';
 						}
-						$html .= '<div class="email">'.implode(', ', $values).'</div>';
-					}
-					elseif(strlen($arItem['PROPERTY_EMAIL_VALUE'])){
-						$html .= '<div class="email"><a href="mailto:'.$arItem['PROPERTY_EMAIL_VALUE'].'">'.$arItem['PROPERTY_EMAIL_VALUE'].'</a></div>';
-					}
-				}
-			$html .= '</div>';
 
-			// detail page link
-			if($bDetailLink){
-				$html .= '<a class="button" href="'.$arItem['DETAIL_PAGE_URL'].'"><span>'.GetMessage('T_SHOPS_DETAIL').'</span></a>';
+						$html .= '<div class="property email">'.
+									'<div class="title-prop font_upper">'.$arProperties['EMAIL']['NAME'].'</div>'.
+									'<div class="value font_sm">'.$sEmail.'</div>'.
+								'</div>';
+					}
+				$html .= '</div></div>';
 			}
 
 			// add placemark to map
@@ -107,7 +96,7 @@ if($bMap && $itemsCnt){
 					"ID" => $arItem["ID"],
 					"LAT" => $arItem['GPS_S'],
 					"LON" => $arItem['GPS_N'],
-					"TEXT" => $arItem['NAME'],
+					"TEXT" => $html,
 					"HTML" => $html,
 				);
 			}
@@ -116,7 +105,7 @@ if($bMap && $itemsCnt){
 		// map?>
 		<div class="contacts_map">
 			<?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID('shops-map-block');?>
-				<?if($arParams["MAP_TYPE"] != "0"):?>
+				<?if(CNext::GetFrontParametrValue('CONTACTS_TYPE_MAP') == 'GOOGLE'): ?>
 					<?$APPLICATION->IncludeComponent(
 						"bitrix:map.google.view",
 						"map",
@@ -126,6 +115,9 @@ if($bMap && $itemsCnt){
 							"MAP_WIDTH" => "100%",
 							"MAP_HEIGHT" => "400",
 							"CONTROLS" => array(
+								0 => "SMALL_ZOOM_CONTROL",
+								1 => "TYPECONTROL",
+								2 => "SCALELINE",
 							),
 							"OPTIONS" => array(
 								0 => "ENABLE_DBLCLICK_ZOOM",
@@ -152,7 +144,7 @@ if($bMap && $itemsCnt){
 					?>
 					<?$APPLICATION->IncludeComponent(
 						"bitrix:map.yandex.view",
-						"",
+						"map",
 						array(
 							"INIT_MAP_TYPE" => "ROADMAP",
 							"MAP_DATA" => serialize(array("yandex_lat" => $mapLAT, "yandex_lon" => $mapLON, "yandex_scale" => 4, "PLACEMARKS" => $arPlacemarks)),

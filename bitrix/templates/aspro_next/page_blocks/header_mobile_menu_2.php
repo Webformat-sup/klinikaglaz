@@ -1,5 +1,11 @@
 <div class="mobilemenu-v2 downdrop scroller">
 	<div class="wrap">
+		<?
+		// show regions
+		CNext::ShowMobileRegions();
+		?>
+		<?if(CNext::nlo('menu-mobile', 'class="loadings" style="height:47px;"')):?>
+		<!-- noindex -->
 		<?$APPLICATION->IncludeComponent(
 			"bitrix:menu",
 			"top_mobile",
@@ -20,9 +26,8 @@
 				"USE_EXT" => "Y"
 			)
 		);?>
-		<?
-		// show regions
-		CNext::ShowMobileRegions();
-		?>
+		<!-- /noindex -->
+		<?endif;?>
+		<?CNext::nlo('menu-mobile');?>
 	</div>
 </div>

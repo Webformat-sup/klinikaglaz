@@ -1,4 +1,4 @@
-<?require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/aspro.next/classes/general/mailing_functions.php");?>
+<?require($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/aspro.next/classes/general/mailing_functions.php");?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -67,14 +67,16 @@
 																				<tbody>
 																				<tr>
 																					<td valign="top" class="bxBlockPadding bxBlockContentText" style="font-size: 20px;text-align: right;vertical-align: middle;">
-																						<div class="phone_block" style="position: relative;text-align: right !important;padding-top: 0px !important;">
-																							<div class="phone_outer" style="border-radius: 100%;color: #000;background-color: <?=$theme_color;?>;font-size: 16px;margin: 2px 5px 0;width: 35px;height: auto;text-align: center;line-height: 26px;padding-top: 9px;padding-bottom: 0px;display: inline-block;vertical-align: top;">
-																								<div class="phone" style="background:url(<?=$bg_image;?>) <?=$bg_phone_position;?> no-repeat;margin-right:0px;display: inline-block;width: 13px;height:20px;vertical-align: top;"></div>
+																						<?if ($phone):?>
+																							<div class="phone_block" style="position: relative;text-align: right !important;padding-top: 0px !important;">
+																								<div class="phone_outer" style="border-radius: 100%;color: #000;background-color: <?=$theme_color;?>;font-size: 16px;margin: 2px 5px 0;width: 35px;height: auto;text-align: center;line-height: 26px;padding-top: 9px;padding-bottom: 0px;display: inline-block;vertical-align: top;">
+																									<div class="phone" style="background:url(<?=$bg_image;?>) <?=$bg_phone_position;?> no-repeat;margin-right:0px;display: inline-block;width: 13px;height:20px;vertical-align: top;"></div>
+																								</div>
+																								<div class="phone_text" style="display: inline-block;vertical-align: top;">
+																									<?=str_replace("<a", "<a style='text-decoration:none;color:#1d2029;font-size:18px;display: block;word-wrap: break-word;'", $phone);?>
+																								</div>
 																							</div>
-																							<div class="phone_text" style="display: inline-block;vertical-align: top;">
-																								<?=str_replace("<a", "<a style='text-decoration:none;color:#1d2029;font-size:18px;display: block;word-wrap: break-word;'", $phone);?>
-																							</div>
-																						</div>
+																						<?endif;?>
 																					</td>
 																				</tr>
 																				</tbody>

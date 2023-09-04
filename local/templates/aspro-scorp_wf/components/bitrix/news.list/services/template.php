@@ -1,4 +1,6 @@
-<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
+<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$CCache = new CCache;
+?>
 <?$this->setFrameMode(true);?>
 <div class="item-views list <?=($arParams['IMAGE_POSITION'] ? 'image_'.$arParams['IMAGE_POSITION'] : '')?> <?=($templateName = $component->{'__parent'}->{'__template'}->{'__name'})?>">
 
@@ -85,14 +87,9 @@
 							<?endforeach;?>
 						</div>
 					<?endif;?>
-			<?/*if($bDetailLink):?>
-						<a href="<?=$arItem['DETAIL_PAGE_URL']?>" class="btn btn-default btn-sm"><span><?=GetMessage('TO_ALL')?></span></a>
-					<?endif;*/?>
-					<?/*if($arResult['DISPLAY_PROPERTIES']['FORM_ORDER']['VALUE_XML_ID'] == 'YES'):*/?>
 					<div class="prevorder">
-								<span class="btn btn-default btn-sm" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
+						<span class="btn btn-default btn-sm" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
 					</div>
-				<?e/*ndif;*/?>
 				<?$textPart = ob_get_clean();?>
 
 				<?ob_start();?>
@@ -110,26 +107,21 @@
 					<?endif;?>
 				<?$imagePart = ob_get_clean();?>
 				<div class="col-md-3 col-sm-3">
-					<?/*if($i):?>
-						<hr />
-					<?endif;*/?>
-					<div class="item<?/*=($bImage ? '' : ' wti')*/?><?=($bActiveDate ? ' wdate' : '')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
-						
-							<?if(!$bImage):?>
-							<div class="pic">
-								<div class="image">			
-									<img src="<?=SITE_TEMPLATE_PATH?>/images/noimage_sections.png" alt="no image" title="" class="img-responsive" />	
-								</div>
+					<div class="item<?=($bActiveDate ? ' wdate' : '')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
+						<?if(!$bImage):?>
+						<div class="pic">
+							<div class="image">			
+								<img src="<?=SITE_TEMPLATE_PATH?>/images/noimage_sections.png" alt="no image" title="" class="img-responsive" />	
 							</div>
-								<div class="item"><div class="htext"><?=$textPart?></div></div>							
-							<?elseif($arParams['IMAGE_POSITION'] == 'right'):?>
-								<div class="pic"><div class="htext"><?=$textPart?></div></div>
-								<div class="item"><?=$imagePart?></div>
-							<?else:?>
-								<div class="pic"><?=$imagePart?></div>
-								<div class="item"><div class="htext"><?=$textPart?></div></div>
-							<?endif;?>
-						
+						</div>
+							<div class="item"><div class="htext"><?=$textPart?></div></div>							
+						<?elseif($arParams['IMAGE_POSITION'] == 'right'):?>
+							<div class="pic"><div class="htext"><?=$textPart?></div></div>
+							<div class="item"><?=$imagePart?></div>
+						<?else:?>
+							<div class="pic"><?=$imagePart?></div>
+							<div class="item"><div class="htext"><?=$textPart?></div></div>
+						<?endif;?>
 					</div>
 				</div>
 			<?endforeach;?>
@@ -148,7 +140,6 @@
 			<div class="cat-desc"><hr style="<?=(strlen($arResult['NAV_STRING']) && $arParams['DISPLAY_BOTTOM_PAGER'] ? 'margin-top:16px;' : '')?>" /><?=$arCurSectionPath['DESCRIPTION']?></div>
 		<?endif;?>
 	<?endif;?>
-
 
 <?if(is_array($arResult['SECTION_USER_FIELDS_PROPS'])){?>
 	<?/*----  ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ  ----*/?>
@@ -323,7 +314,7 @@
 
 		<?/*----  Отзывы  ----*/?>
 			<?if($arResult["SECTION_USER_FIELDS"]['UF_REVIEWS']):?>
-				<?$arRevies = CCache::CIBlockElement_GetList(array('CACHE' => array('TAG' => CCache::GetIBlockCacheTag(CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_reviews'][0]), 'MULTI' => 'Y')), array('ID' => $arResult["SECTION_USER_FIELDS"]['UF_REVIEWS'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'PROPERTY_POST', 'PROPERTY_DOCUMENTS', 'PREVIEW_TEXT'));?>
+				<?$arRevies = $CCache->CIBlockElement_GetList(array('CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_reviews'][0]), 'MULTI' => 'Y')), array('ID' => $arResult["SECTION_USER_FIELDS"]['UF_REVIEWS'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'PROPERTY_POST', 'PROPERTY_DOCUMENTS', 'PREVIEW_TEXT'));?>
 				<div class="wraps nomargin">
 					<hr />
 					<h4 class="underline"><a href="/company/reviews/">Отзывы</a></h4>
@@ -383,7 +374,7 @@
 					<?global $arrrFilter; $arrrFilter = array('ID' => $arResult["SECTION_USER_FIELDS"]['UF_SPECIALIST']);?>
 					<?$APPLICATION->IncludeComponent("bitrix:news.list", "staff-linked", array(
 						"IBLOCK_TYPE" => "aspro_scorp_content",
-						"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_staff"][0],
+						"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_staff"][0],
 						"NEWS_COUNT" => "30",
 						"SORT_BY1" => "SORT",
 						"SORT_ORDER1" => "DESC",
@@ -457,7 +448,7 @@
 						Array(
 							"S_ORDER_PRODUCT" => '',//$arParams["S_ORDER_PRODUCT"],
 							"IBLOCK_TYPE" => "aspro_scorp_catalog",
-							"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_catalog"][0],
+							"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_catalog"][0],
 							"NEWS_COUNT" => "20",
 							"SORT_BY1" => "ACTIVE_FROM",
 							"SORT_ORDER1" => "DESC",

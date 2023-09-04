@@ -111,7 +111,7 @@ $frame->setAnimation(true);
 								<div class="row foot">
 									<div class="<?=(!$bOrderButton ? 'col-md-12 col-sm-12 col-xs-12 slice_price' : 'col-md-6 col-sm-12 col-xs-12 slice_price pull-left')?>">
 										<?// element price?>
-										<?if(strlen($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])):?>
+										<?if(is_string($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])):?>
 											<div class="price clearfix<?=($bBuyButton ? '  inline' : '')?>" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 												<div class="price_new">
 													<span class="price_val"><?=CScorp::FormatPriceShema($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])?></span>

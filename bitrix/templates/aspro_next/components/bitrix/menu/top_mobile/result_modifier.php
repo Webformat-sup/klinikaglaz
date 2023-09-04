@@ -1,4 +1,5 @@
-<?$arResult = CNext::getChilds($arResult);
+<?
+$arResult = CNext::getChilds($arResult);
 global $arRegion, $arTheme;
 
 if(isset($arTheme['HEADER_MOBILE_MENU_CATALOG_EXPANDED']['VALUE']) && $arTheme['HEADER_MOBILE_MENU_CATALOG_EXPANDED']['VALUE'] === 'Y') {
@@ -6,6 +7,10 @@ if(isset($arTheme['HEADER_MOBILE_MENU_CATALOG_EXPANDED']['VALUE']) && $arTheme['
 }
 
 if($arResult){
+	if($bUseMegaMenu = $arTheme['USE_MEGA_MENU']['VALUE'] === 'Y'){
+		CNext::replaceMenuChilds($arResult, $arParams);
+	}
+
 	foreach($arResult as $key=>$arItem)
 	{
 		if(isset($arItem['CHILD']))

@@ -1,4 +1,4 @@
-<?if($arParams['SHOW_LANDINGS'] !== 'N' && $arSeoItems):?>
+<?if($arParams['SHOW_LANDINGS'] !== 'N' /*&& $arSeoItems*/):?>
 	<?
 	$arLandingFilter = array();
 	if($arSeoItem)
@@ -24,7 +24,24 @@
 			"!ID" => $arTmpRegionsLanding,
 		);
 	}
+	if($GLOBALS['arTheme']['USE_REGIONALITY']['VALUE'] === 'Y' && $GLOBALS['arTheme']['USE_REGIONALITY']['DEPENDENT_PARAMS']['REGIONALITY_FILTER_ITEM']['VALUE'] === 'Y') {
+		$iblockId = CNextCache::$arIBlocks[SITE_ID]['aspro_next_catalog']['aspro_next_landing'][0];
+		if($iblockId){
+			if(!$regionId && $GLOBALS['arRegion']){
+				$regionId = $GLOBALS['arRegion']['ID'];
+			}
+				if($bSetLinkRegionFilter){
+					if(self::isIblockHasPropertyLinkRegion($iblockId)){
+						$arFilter['PROPERTY_LINK_REGION'] = $regionId;
+					}
+	
+				}
+		}
+		$arLandingFilter['PROPERTY_LINK_REGION'] = $GLOBALS['arRegion']['ID'];
+	}
+		
 	?>
+	
 	<?$GLOBALS["arLandingSections"] = $arLandingFilter;?>
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.list",
@@ -86,7 +103,9 @@
 			"PAGER_BASE_LINK_ENABLE" => "N",
 			"TITLE_BLOCK" => (!isset($arParams['LANDING_POSITION']) || $arParams['LANDING_POSITION'] !=="BEFORE_PRODUCTS") ? $arParams["LANDING_TITLE"] : "",
 			"SHOW_404" => "N",
-			"MESSAGE_404" => ""
+			"MESSAGE_404" => "",
+			"USE_LANDINGS_GROUP" => $arParams['USE_LANDINGS_GROUP'] ?: 'N',
+			"LANDINGS_GROUP_FROM_SEO" => $arParams['LANDINGS_GROUP_FROM_SEO'] ?: 'N',
 		),
 		false, array("HIDE_ICONS" => "Y")
 	);?>

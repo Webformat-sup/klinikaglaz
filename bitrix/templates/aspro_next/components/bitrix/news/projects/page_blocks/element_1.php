@@ -88,7 +88,7 @@
 			</td>
 			<td class="col-md-3 col-sm-4 col-xs-5">
 				<div class="btns">
-					<span class="btn btn-default btn-lg animate-load" data-event="jqm" data-param-form_id="<?=($arParams["FORM_ID_ORDER_SERVISE"] ? $arParams["FORM_ID_ORDER_SERVISE"] : 'PROJECTS');?>" data-name="order_services" data-autoload-service="<?=$arElement['NAME']?>" data-autoload-project="<?=$arElement['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVISE']) ? $arParams['S_ORDER_SERVISE'] : \Bitrix\Main\Localization\Loc::getMessage('S_ORDER_SERVISE'))?></span></span>
+					<span class="btn btn-default btn-lg animate-load" data-event="jqm" data-param-form_id="<?=($arParams["FORM_ID_ORDER_SERVISE"] ? $arParams["FORM_ID_ORDER_SERVISE"] : 'PROJECTS');?>" data-name="order_services" data-autoload-service="<?=\CNext::formatJsName($arElement['NAME'])?>" data-autoload-project="<?=\CNext::formatJsName($arElement['NAME'])?>"><span><?=(strlen($arParams['S_ORDER_SERVISE']) ? $arParams['S_ORDER_SERVISE'] : \Bitrix\Main\Localization\Loc::getMessage('S_ORDER_SERVISE'))?></span></span>
 				</div>
 			</td>
 		</tr>
@@ -148,23 +148,31 @@
 			if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
 			{
 				if($arParams['STORES']){
-					if(count($arParams['STORES']) > 1){
-						$arStoresFilter = array('LOGIC' => 'OR');
-						foreach($arParams['STORES'] as $storeID)
-						{
-							$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-						}
+					if(CNext::checkVersionModule('18.6.200', 'iblock')){
+						$arStoresFilter = array(
+							'STORE_NUMBER' => $arParams['STORES'],
+							'>STORE_AMOUNT' => 0,
+						);
 					}
 					else{
-						foreach($arParams['STORES'] as $storeID)
-						{
-							$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+						if(count($arParams['STORES']) > 1){
+							$arStoresFilter = array('LOGIC' => 'OR');
+							foreach($arParams['STORES'] as $storeID)
+							{
+								$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							}
+						}
+						else{
+							foreach($arParams['STORES'] as $storeID)
+							{
+								$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							}
 						}
 					}
 
-					$arTmpFilter = array('!TYPE' => '2');
+					$arTmpFilter = array('!TYPE' => array('2', '3'));
 					if($arStoresFilter){
-						if(count($arStoresFilter) > 1){
+						if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
 							$arTmpFilter[] = $arStoresFilter;
 						}
 						else{
@@ -173,7 +181,7 @@
 
 						$GLOBALS['arrProductsFilter'][] = array(
 							'LOGIC' => 'OR',
-							array('TYPE' => '2'),
+							array('TYPE' => array('2', '3')),
 							$arTmpFilter,
 						);
 					}
@@ -269,7 +277,7 @@
 			"SHOW_NAME" => "Y",
 			"SHOW_DETAIL" => "Y",
 			"IMAGE_POSITION" => "top",
-			"COUNT_IN_LINE" => "3",
+			"COUNT_IN_LINE" => "1",
 			"GALLERY_TYPE" => $arParams["GALLERY_TYPE"],
 			"AJAX_OPTION_ADDITIONAL" => ""
 			),
@@ -278,5 +286,6 @@
 	</div>
 <?endif;?>
 <?if(in_array('FORM_QUESTION', $arParams['DETAIL_PROPERTY_CODE']) && $arElement['PROPERTY_FORM_QUESTION_VALUE']):?>
+		</div>
 	</div>
 <?endif;?>

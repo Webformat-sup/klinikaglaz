@@ -1,19 +1,20 @@
 <?
-	$MESS["COPY"] = "Копирайт";
-	$MESS["PAYMENT"] = "Оплата";
-	$MESS["PHONE"] = "Телефон";
-	$MESS["CREATE"] = "Создание сайтов";
-	$MESS["NAME"] = "Имя";
-	$MESS["OK_MSG"] = "Ваше сообщение успешно отправлено.";
-	$MESS["FOUND_CHEAPER"] = "Нашли дешевле?";
-	$MESS["ITEM_ADDED"] = "Товар успешно добавлен в корзину";
-	$MESS["ITEM_ADDED_ORDER"] = "Перейти к оформлению покупки";
-	$MESS["ITEM_ADDED_BACK"] = "Продолжить покупки";
-	$MESS["SEND_MSG"] = "Отправить сообщение";
-	$MESS["SEND_RESUME"] = "Отправить резюме";
-	$MESS["FIO"] = "Фамилияя, Имя, Отчество";
-	$MESS["ARBITRARY_1"] = "Произвольная область 1";
-	$MESS["ARBITRARY_2"] = "Произвольная область 2";
-	$MESS["ROUBLE"] = "руб.";
-	$MESS["CALLBACK"] = "Заказать звонок";
+	$MESS["COPY"] = "Copyright";
+	$MESS["PAYMENT"] = "Payment";
+	$MESS["PAY_SYSTEM"] = "Payment systems";
+	$MESS["PHONE"] = "Phone";
+	$MESS["CREATE"] = "Website development";
+	$MESS["NAME"] = "Name";
+	$MESS["OK_MSG"] = "Your message has been sent successfully.";
+	$MESS["FOUND_CHEAPER"] = "Found cheaper?";
+	$MESS["ITEM_ADDED"] = "Product successfully added to cart";
+	$MESS["ITEM_ADDED_ORDER"] = "Go to checkout";
+	$MESS["ITEM_ADDED_BACK"] = "Continue shopping";
+	$MESS["SEND_MSG"] = "Send a message";
+	$MESS["SEND_RESUME"] = "To send a resume";
+	$MESS["FIO"] = "Surname, Name, Patronymic";
+	$MESS["ARBITRARY_1"] = "Custom area 1";
+	$MESS["ARBITRARY_2"] = "Custom area 2";
+	$MESS["ROUBLE"] = "rub.";
+	$MESS["CALLBACK"] = "Request a call";
 ?>

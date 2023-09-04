@@ -24,45 +24,60 @@ $iVisibleItemsMenu = ($arTheme['MAX_VISIBLE_ITEMS_MENU']['VALUE'] ? $arTheme['MA
 							</a>
 							<?if($arItem["CHILD"] && $bShowChilds):?>
 								<span class="tail"></span>
-								<ul class="dropdown-menu">
-									<?foreach($arItem["CHILD"] as $arSubItem):?>
-										<?$bShowChilds = $arParams["MAX_LEVEL"] > 2;?>
-										<?$bHasPicture = (isset($arSubItem['PARAMS']['PICTURE']) && $arSubItem['PARAMS']['PICTURE'] && $arTheme['SHOW_CATALOG_SECTIONS_ICONS']['VALUE'] == 'Y');?>
-										<li class="<?=($arSubItem["CHILD"] && $bShowChilds ? "dropdown-submenu" : "")?> <?=($arSubItem["SELECTED"] ? "active" : "")?> <?=($bHasPicture ? "has_img" : "")?>">
-											<?if($bHasPicture && $bWideMenu):
-												$arImg = CFile::ResizeImageGet($arSubItem['PARAMS']['PICTURE'], array('width' => 60, 'height' => 60), BX_RESIZE_PROPORTIONAL_ALT);
-												if(is_array($arImg)):?>
-													<div class="menu_img"><img src="<?=$arImg["src"]?>" alt="<?=$arSubItem["TEXT"]?>" title="<?=$arSubItem["TEXT"]?>" /></div>
-												<?endif;?>
-											<?endif;?>
-											<a href="<?=$arSubItem["LINK"]?>" title="<?=$arSubItem["TEXT"]?>"><span class="name"><?=$arSubItem["TEXT"]?></span><?=($arSubItem["CHILD"] && $bShowChilds ? '<span class="arrow"><i></i></span>' : '')?></a>
-											<?if($arSubItem["CHILD"] && $bShowChilds):?>
-												<?$iCountChilds = count($arSubItem["CHILD"]);?>
-												<ul class="dropdown-menu toggle_menu">
-													<?foreach($arSubItem["CHILD"] as $key => $arSubSubItem):?>
-														<?$bShowChilds = $arParams["MAX_LEVEL"] > 3;?>
-														<li class="<?=(++$key > $iVisibleItemsMenu ? 'collapsed' : '');?> <?=($arSubSubItem["CHILD"] && $bShowChilds ? "dropdown-submenu" : "")?> <?=($arSubSubItem["SELECTED"] ? "active" : "")?>">
-															<a href="<?=$arSubSubItem["LINK"]?>" title="<?=$arSubSubItem["TEXT"]?>"><span class="name"><?=$arSubSubItem["TEXT"]?></span></a>
-															<?if($arSubSubItem["CHILD"] && $bShowChilds):?>
-																<ul class="dropdown-menu">
-																	<?foreach($arSubSubItem["CHILD"] as $arSubSubSubItem):?>
-																		<li class="<?=($arSubSubSubItem["SELECTED"] ? "active" : "")?>">
-																			<a href="<?=$arSubSubSubItem["LINK"]?>" title="<?=$arSubSubSubItem["TEXT"]?>"><span class="name"><?=$arSubSubSubItem["TEXT"]?></span></a>
-																		</li>
-																	<?endforeach;?>
-																</ul>
-
-															<?endif;?>
-														</li>
-													<?endforeach;?>
-													<?if($iCountChilds > $iVisibleItemsMenu && $bWideMenu):?>
-														<li><span class="colored more_items with_dropdown"><?=\Bitrix\Main\Localization\Loc::getMessage("S_MORE_ITEMS");?></span></li>
+								<div class="dropdown-menu">
+									<ul class="menu-wrapper">
+										<?foreach($arItem["CHILD"] as $arSubItem):?>
+											<?
+											$bShowChilds = $arParams["MAX_LEVEL"] > 2;
+											$bHasSvgIcon = (isset($arSubItem['PARAMS']['UF_CATALOG_ICON']) && $arSubItem['PARAMS']['UF_CATALOG_ICON']);
+											$bHasImg = (isset($arSubItem['PARAMS']['PICTURE']) && $arSubItem['PARAMS']['PICTURE']);
+											$bHasPicture = (($bHasSvgIcon || $bHasImg) && $arTheme['SHOW_CATALOG_SECTIONS_ICONS']['VALUE'] == 'Y');
+											?>
+											<li class="<?=($arSubItem["CHILD"] && $bShowChilds ? "dropdown-submenu" : "")?> <?=($arSubItem["SELECTED"] ? "active" : "")?> <?=($bHasPicture ? "has_img" : "")?>">
+												<?if($bHasPicture && $bWideMenu):
+													if($arSubItem['PARAMS']['UF_CATALOG_ICON'])
+													{
+														$arImg=CFile::ResizeImageGet($arSubItem['PARAMS']['UF_CATALOG_ICON'], Array('width'=>50, 'height'=>50), BX_RESIZE_IMAGE_PROPORTIONAL, true);													
+													}
+													elseif($arSubItem['PARAMS']['PICTURE']){
+														$arImg=CFile::ResizeImageGet($arSubItem['PARAMS']['PICTURE'], array('width' => 60, 'height' => 60), BX_RESIZE_IMAGE_PROPORTIONAL);													
+													}
+													
+													if(is_array($arImg)):?>
+														<a href="<?=$arParams['ITEM']["LINK"]?>" title="<?=$arParams['ITEM']["TEXT"]?>">
+															<div class="menu_img"><img src="<?=$arImg["src"]?>" alt="<?=$arParams['ITEM']["TEXT"]?>" title="<?=$arParams['ITEM']["TEXT"]?>" /></div>
+														</a>
 													<?endif;?>
-												</ul>
-											<?endif;?>
-										</li>
-									<?endforeach;?>
-								</ul>
+												<?endif;?>
+												<a href="<?=$arSubItem["LINK"]?>" title="<?=$arSubItem["TEXT"]?>"><span class="name"><?=$arSubItem["TEXT"]?></span><?=($arSubItem["CHILD"] && $bShowChilds ? '<span class="arrow"><i></i></span>' : '')?></a>
+												<?if($arSubItem["CHILD"] && $bShowChilds):?>
+													<?$iCountChilds = count($arSubItem["CHILD"]);?>
+													<ul class="dropdown-menu toggle_menu">
+														<?foreach($arSubItem["CHILD"] as $key => $arSubSubItem):?>
+															<?$bShowChilds = $arParams["MAX_LEVEL"] > 3;?>
+															<li class="<?=(++$key > $iVisibleItemsMenu ? 'collapsed' : '');?> <?=($arSubSubItem["CHILD"] && $bShowChilds ? "dropdown-submenu" : "")?> <?=($arSubSubItem["SELECTED"] ? "active" : "")?>">
+																<a href="<?=$arSubSubItem["LINK"]?>" title="<?=$arSubSubItem["TEXT"]?>"><span class="name"><?=$arSubSubItem["TEXT"]?></span></a>
+																<?if($arSubSubItem["CHILD"] && $bShowChilds):?>
+																	<ul class="dropdown-menu">
+																		<?foreach($arSubSubItem["CHILD"] as $arSubSubSubItem):?>
+																			<li class="<?=($arSubSubSubItem["SELECTED"] ? "active" : "")?>">
+																				<a href="<?=$arSubSubSubItem["LINK"]?>" title="<?=$arSubSubSubItem["TEXT"]?>"><span class="name"><?=$arSubSubSubItem["TEXT"]?></span></a>
+																			</li>
+																		<?endforeach;?>
+																	</ul>
+
+																<?endif;?>
+															</li>
+														<?endforeach;?>
+														<?if($iCountChilds > $iVisibleItemsMenu && $bWideMenu):?>
+															<li><span class="colored more_items with_dropdown"><?=\Bitrix\Main\Localization\Loc::getMessage("S_MORE_ITEMS");?></span></li>
+														<?endif;?>
+													</ul>
+												<?endif;?>
+											</li>
+										<?endforeach;?>
+									</ul>
+								</div>
 							<?endif;?>
 						</div>
 					</td>

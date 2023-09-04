@@ -62,6 +62,7 @@
 );?>
 
 <?$list_view = ($arParams['LIST_VIEW'] ? $arParams['LIST_VIEW'] : 'slider');?>
+<?global $isHideLeftBlock;?>
 <?// goods links?>
 <?if(in_array('LINK_GOODS', $arParams['DETAIL_PROPERTY_CODE']) && $arElement['PROPERTY_LINK_GOODS_VALUE']):?>
 	<div class="wraps goods-block with-padding block ajax_load catalog">
@@ -77,17 +78,82 @@
 		<?$GLOBALS['arrProductsFilter'] = array('ID' => $arElement['PROPERTY_LINK_GOODS_VALUE']);?>
 		<?
 		global $arRegion;
-		if($arRegion && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
+		if($arRegion)
 		{
-			if(reset($arRegion['LIST_STORES']) != 'component')
-				$arParams['STORES'] = $arRegion['LIST_STORES'];
-			
-			$arTmpFilter["LOGIC"] = "OR";
-			foreach($arParams['STORES'] as $storeID)
+			if($arRegion['LIST_PRICES'])
 			{
-				$arTmpFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+				if(reset($arRegion['LIST_PRICES']) != 'component')
+					$arParams['PRICE_CODE'] = array_keys($arRegion['LIST_PRICES']);
 			}
-			$GLOBALS['arrProductsFilter'][] = $arTmpFilter;
+			if($arRegion['LIST_STORES'])
+			{
+				if(reset($arRegion['LIST_STORES']) != 'component')
+					$arParams['STORES'] = $arRegion['LIST_STORES'];
+			}
+		}
+
+		if($arParams['LIST_PRICES'])
+		{
+			foreach($arParams['LIST_PRICES'] as $key => $price)
+			{
+				if(!$price)
+					unset($arParams['LIST_PRICES'][$key]);
+			}
+		}
+
+		if($arParams['STORES'])
+		{
+			foreach($arParams['STORES'] as $key => $store)
+			{
+				if(!$store)
+					unset($arParams['STORES'][$key]);
+			}
+		}
+
+		if($arRegion)
+		{
+			if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
+			{
+				if($arParams['STORES']){
+					if(CNext::checkVersionModule('18.6.200', 'iblock')){
+						$arStoresFilter = array(
+							'STORE_NUMBER' => $arParams['STORES'],
+							'>STORE_AMOUNT' => 0,
+						);
+					}
+					else{
+						if(count($arParams['STORES']) > 1){
+							$arStoresFilter = array('LOGIC' => 'OR');
+							foreach($arParams['STORES'] as $storeID)
+							{
+								$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							}
+						}
+						else{
+							foreach($arParams['STORES'] as $storeID)
+							{
+								$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							}
+						}
+					}
+
+					$arTmpFilter = array('!TYPE' => array('2', '3'));
+					if($arStoresFilter){
+						if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
+							$arTmpFilter[] = $arStoresFilter;
+						}
+						else{
+							$arTmpFilter = array_merge($arTmpFilter, $arStoresFilter);
+						}
+
+						$GLOBALS['arrProductsFilter'][] = array(
+							'LOGIC' => 'OR',
+							array('TYPE' => array('2', '3')),
+							$arTmpFilter,
+						);
+					}
+				}
+			}
 		}
 		?>
 		<?$APPLICATION->IncludeComponent(
@@ -178,7 +244,7 @@
 			"SHOW_NAME" => "Y",
 			"SHOW_DETAIL" => "Y",
 			"IMAGE_POSITION" => "top",
-			"COUNT_IN_LINE" => "3",
+			"COUNT_IN_LINE" => 1,
 			"GALLERY_TYPE" => $arParams["GALLERY_TYPE"],
 			"AJAX_OPTION_ADDITIONAL" => ""
 			),

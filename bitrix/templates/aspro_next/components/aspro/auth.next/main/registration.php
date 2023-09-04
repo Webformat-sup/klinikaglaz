@@ -6,6 +6,7 @@ global $USER, $arTheme;
 $APPLICATION->AddChainItem(GetMessage("TITLE"));
 $APPLICATION->SetTitle(GetMessage("TITLE"));
 $APPLICATION->SetPageProperty("TITLE_CLASS", "center");
+use \Bitrix\Main\Config\Option;
 ?>
 <style type="text/css">
 	.left-menu-md, body .container.cabinte-page .maxwidth-theme .left-menu-md, .right-menu-md, body .container.cabinte-page .maxwidth-theme .right-menu-md{display:none !important;}
@@ -15,7 +16,16 @@ $APPLICATION->SetPageProperty("TITLE_CLASS", "center");
 	<?
 	// default fields, that you can change
 	$arShowFields = array("LOGIN", "LAST_NAME", "NAME", "SECOND_NAME", "EMAIL", "PERSONAL_PHONE");
-	$arRequiredFields = array("NAME", "EMAIL", "PERSONAL_PHONE");
+
+	$arRequiredFields = array("NAME");
+
+	if( Option::get('main', 'new_user_phone_required', 'N', SITE_ID) == 'Y' ) {
+		$arRequiredFields[] = "PERSONAL_PHONE";
+	}
+
+	if( Option::get('main', 'new_user_email_required', 'N', SITE_ID) == 'Y' ) {
+		$arRequiredFields[] = "EMAIL";
+	}
 
 	// get phone auth params
 	list($bPhoneAuthSupported, $bPhoneAuthShow, $bPhoneAuthRequired, $bPhoneAuthUse) = Aspro\Next\PhoneAuth::getOptions();

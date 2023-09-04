@@ -39,13 +39,54 @@ global $arRegion;
 	$arParams["LANDING_IBLOCK_ID"] = (!isset($arParams["LANDING_IBLOCK_ID"]) || !$arParams["LANDING_IBLOCK_ID"] ? CNextCache::$arIBlocks[SITE_ID]["aspro_next_catalog"]["aspro_next_catalog_info"][0] : $arParams["LANDING_IBLOCK_ID"]);
 	$arParams["TIZERS_IBLOCK_ID"] = (!isset($arParams["TIZERS_IBLOCK_ID"]) || !$arParams["TIZERS_IBLOCK_ID"] ? CNextCache::$arIBlocks[SITE_ID]["aspro_next_content"]["aspro_next_tizers"][0] : $arParams["TIZERS_IBLOCK_ID"]);
 
-	$arSeoItems = CNextCache::CIBLockElement_GetList(array('SORT' => 'ASC', 'CACHE' => array("MULTI" =>"Y", "TAG" => CNextCache::GetIBlockCacheTag($arParams["LANDING_IBLOCK_ID"]))), array("IBLOCK_ID" => $arParams["LANDING_IBLOCK_ID"], "ACTIVE"=>"Y"), false, false, array("ID", "IBLOCK_ID", "NAME", "PREVIEW_TEXT", "DETAIL_PICTURE", "PROPERTY_FILTER_URL", "PROPERTY_FORM_QUESTION", "PROPERTY_TIZERS", "PROPERTY_SECTION", "PROPERTY_LINK_REGION", "PROPERTY_SECTION_SERVICES", "DETAIL_TEXT", "PROPERTY_SEO_TEXT", "ElementValues"));
+	/*fix*/
+	$current_url =  $APPLICATION->GetCurDir();
+	$real_url = $current_url;
+	$current_url =  str_replace(array('%25', '&quot;', '&#039;'), array('%', '"', "'"), $current_url); // for utf-8 fix some problem
+	$encode_current_url = urlencode($current_url);
+	$gaps_encode_current_url = str_replace(' ', '%20', $current_url);
+	$encode_current_url_slash = str_replace(array('%2F', '+'), array('/', '%20'), $encode_current_url);
+	$urldecodedCP = iconv("windows-1251", "utf-8//IGNORE", $current_url);
+	$urldecodedCP_slash = str_replace(array('%2F'), array('/'), rawurlencode($urldecodedCP));
+	$replacements = array('"' ,'%27', '%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%3F', '%23', '%5B', '%5D');// for fix some problem  with spec chars in prop
+	$entities = array("&quot;", '&#039;', ' ', '!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "?", "#", "[", "]");
+	$replacedSpecChar = str_replace($entities, $replacements, $current_url);
+	/**/
+
+	$arSeoItems = CNextCache::CIBLockElement_GetList(array('SORT' => 'ASC', 'CACHE' => array("MULTI" => "Y", "TAG" => CNextCache::GetIBlockCacheTag($arParams["LANDING_IBLOCK_ID"]))), array("IBLOCK_ID" => $arParams["LANDING_IBLOCK_ID"], "ACTIVE" => "Y", "PROPERTY_FILTER_URL" => array($real_url, $current_url, $gaps_encode_current_url, $urldecodedCP_slash, $encode_current_url_slash, $replacedSpecChar)), false, false, array("ID", "NAME", "IBLOCK_ID", "PROPERTY_FILTER_URL", "PROPERTY_LINK_REGION", "PREVIEW_TEXT"));
 	$arSeoItem = $arTmpRegionsLanding = array();
+	
+	global $NavNum; 
+	$context = \Bitrix\Main\Application::getInstance()->getContext();
+	if($NavNum){
+		$pagen = $NavNum;
+	}else{
+		$pagen = 2;
+	}
+	$numPage = $context->getRequest()->get("PAGEN_".$pagen) ?? 1;
+	$arGroup =  array("iNumPage" => $numPage, "nPageSize" => $arParams['NEWS_COUNT']);
+	$arSelect = array('ID', 'NAME','PREVIEW_TEXT', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'DATE_CREATE');
+	$arItemFilter = array('INCLUDE_SUBSECTIONS' => 'Y', 'SECTION_ID' => $arSection['ID']);
+
+	$arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y"), $arParams['SORT_BY1'] => $arParams['SORT_ORDER1'], $arParams['SORT_BY2'] => $arParams['SORT_ORDER2']), $arItemFilter, false, $arGroup, $arSelect);
+
+	if($pagen != $NavNum){
+		$NavNum = $pagen - 1;
+	}
+
+	foreach ($arElement as $element):
+		$arSchema[] = array(
+			"@context" => "https://schema.org",
+			"@type" => "Service",
+			"name" => $element["NAME"],
+			"description" => $element["PREVIEW_TEXT"]
+		);
+	endforeach;?>
+	<script type="application/ld+json"><?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?></script>
+	<?
 	if($arSeoItems)
 	{
 		$iLandingItemID = 0;
-		$current_url =  $APPLICATION->GetCurDir();
-		$url = urldecode(str_replace(' ', '+', $current_url));
 		foreach($arSeoItems as $arItem)
 		{
 			if(!is_array($arItem['PROPERTY_LINK_REGION_VALUE']))
@@ -53,22 +94,29 @@ global $arRegion;
 
 			if(!$arSeoItem)
 			{
-				if(urldecode($arItem["PROPERTY_FILTER_URL_VALUE"]) == $url)
+				if($arItem['PROPERTY_LINK_REGION_VALUE'])
 				{
-					if($arItem['PROPERTY_LINK_REGION_VALUE'])
-					{
-						if($arRegion && in_array($arRegion['ID'], $arItem['PROPERTY_LINK_REGION_VALUE']))
-							$arSeoItem = $arItem;
-					}
-					else
-					{
+					if($arRegion && in_array($arRegion['ID'], $arItem['PROPERTY_LINK_REGION_VALUE']))
 						$arSeoItem = $arItem;
-					}
+				}
+				else
+				{
+					$arSeoItem = $arItem;
+				}
 
-					if($arSeoItem)
-					{
-						$iLandingItemID = $arSeoItem['ID'];
-					}
+				if($arSeoItem)
+				{
+					$iLandingItemID = $arSeoItem['ID'];
+					$arSeoItem = CNextCache::CIBLockElement_GetList(array('SORT' => 'ASC', 'CACHE' => array("MULTI" => "N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["LANDING_IBLOCK_ID"]))), array("IBLOCK_ID" => $arParams["LANDING_IBLOCK_ID"], "ID" => $iLandingItemID), false, false, array("ID", "IBLOCK_ID", "NAME", "PREVIEW_TEXT", "DETAIL_PICTURE", "PROPERTY_FILTER_URL", "PROPERTY_LINK_REGION", "PROPERTY_FORM_QUESTION", "PROPERTY_SECTION_SERVICES", "PROPERTY_TIZERS", "PROPERTY_SECTION", "DETAIL_TEXT", "PROPERTY_I_ELEMENT_PAGE_TITLE", "PROPERTY_I_ELEMENT_PREVIEW_PICTURE_FILE_ALT", "PROPERTY_I_ELEMENT_PREVIEW_PICTURE_FILE_TITLE", "PROPERTY_I_SKU_PAGE_TITLE", "PROPERTY_I_SKU_PREVIEW_PICTURE_FILE_ALT", "PROPERTY_I_SKU_PREVIEW_PICTURE_FILE_TITLE", "ElementValues"));
+
+					$arIBInheritTemplates = array(
+						"ELEMENT_PAGE_TITLE" => $arSeoItem["PROPERTY_I_ELEMENT_PAGE_TITLE_VALUE"],
+						"ELEMENT_PREVIEW_PICTURE_FILE_ALT" => $arSeoItem["PROPERTY_I_ELEMENT_PREVIEW_PICTURE_FILE_ALT_VALUE"],
+						"ELEMENT_PREVIEW_PICTURE_FILE_TITLE" => $arSeoItem["PROPERTY_I_ELEMENT_PREVIEW_PICTURE_FILE_TITLE_VALUE"],
+						"SKU_PAGE_TITLE" => $arSeoItem["PROPERTY_I_SKU_PAGE_TITLE_VALUE"],
+						"SKU_PREVIEW_PICTURE_FILE_ALT" => $arSeoItem["PROPERTY_I_SKU_PREVIEW_PICTURE_FILE_ALT_VALUE"],
+						"SKU_PREVIEW_PICTURE_FILE_TITLE" => $arSeoItem["PROPERTY_I_SKU_PREVIEW_PICTURE_FILE_TITLE_VALUE"],
+					);
 				}
 			}
 

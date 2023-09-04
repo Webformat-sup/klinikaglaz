@@ -5,6 +5,7 @@ use \Bitrix\Main\Localization\Loc;
 global $arBasketPrices;
 $sDelayPrice = '';
 $iDelayCount = $summ =  0;
+$currency = CSaleLang::GetLangCurrency(SITE_ID);
 if($arResult['CATEGORIES']['DELAY'])
 {
 	foreach($arResult['CATEGORIES']['DELAY'] as $arItem)
@@ -12,8 +13,12 @@ if($arResult['CATEGORIES']['DELAY'])
 		++$iDelayCount;
 		$summ += $arItem['PRICE'] * $arItem['QUANTITY'];
 	}
-	$sDelayPrice = CCurrencyLang::CurrencyFormat($summ, CSaleLang::GetLangCurrency(SITE_ID), true);
+	$sDelayPrice = CCurrencyLang::CurrencyFormat($summ, $currency, true);
 }
+if (class_exists('Bitrix\Sale\BasketComponentHelper') && method_exists('Bitrix\Sale\BasketComponentHelper', 'getFUserBasketPrice')) {
+	$arResult['TOTAL_PRICE'] = CCurrencyLang::CurrencyFormat(\Bitrix\Sale\BasketComponentHelper::getFUserBasketPrice(\Bitrix\Sale\Fuser::getId(true), SITE_ID), $currency, true);
+}
+
 $title_basket =  ($arResult['NUM_PRODUCTS'] ? Loc::getMessage("BASKET_COUNT", array("#PRICE#" => CNext::clearFormatPrice($arResult['TOTAL_PRICE']))) : Loc::getMessage("EMPTY_BLOCK_BASKET"));
 $title_delay = ($sDelayPrice ? Loc::getMessage("BASKET_DELAY_COUNT", array("#PRICE#" => CNext::clearFormatPrice($sDelayPrice))) : Loc::getMessage("EMPTY_BLOCK_DELAY"));
 

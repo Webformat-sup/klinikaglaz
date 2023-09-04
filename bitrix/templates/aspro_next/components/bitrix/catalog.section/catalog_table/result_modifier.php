@@ -12,6 +12,14 @@ $arDefaultParams = array(
 );
 $arParams = array_merge($arDefaultParams, $arParams);
 
+if(isset($arParams['STORES'])) {
+	foreach($arParams['STORES'] as $key => $store) {
+		if(!$store) {
+			unset($arParams['STORES'][$key]);
+		}
+	}
+}
+
 if ('TYPE_2' != $arParams['TYPE_SKU'] )
 	$arParams['TYPE_SKU'] = 'N';
 
@@ -42,6 +50,13 @@ if ('TYPE_2' == $arParams['TYPE_SKU'] && $arParams['DISPLAY_TYPE'] !='table' ){
 if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["DISPLAY_COMPARE"] = 'N';
 /**/
+
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
+/*stores product*/
+$arStores=CNextCache::CCatalogStore_GetList(array(), array("ACTIVE" => "Y"), false, false, array());
+$arResult["STORES_COUNT"] = (count($arStores) && (CNext::GetFrontParametrValue("USE_STORE_QUANTITY")== "Y"));
 
 if (!empty($arResult['ITEMS'])){
 	$arConvertParams = array();
@@ -106,6 +121,16 @@ if (!empty($arResult['ITEMS'])){
 	$arNewItemsList = array();
 	foreach ($arResult['ITEMS'] as $key => $arItem)
 	{
+		if(is_array($arItem['PROPERTIES']['CML2_ARTICLE']['VALUE']))
+		{
+			$arItem['PROPERTIES']['CML2_ARTICLE']['VALUE'] = reset($arItem['PROPERTIES']['CML2_ARTICLE']['VALUE']);
+			$arResult['ITEMS'][$key]['PROPERTIES']['CML2_ARTICLE']['VALUE'] = $arItem['PROPERTIES']['CML2_ARTICLE']['VALUE'];
+			if($arItem['DISPLAY_PROPERTIES']['CML2_ARTICLE'])
+			{
+				$arItem['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'] = reset($arItem['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE']);
+				$arResult['ITEMS'][$key]['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'] = $arItem['DISPLAY_PROPERTIES']['CML2_ARTICLE']['VALUE'];
+			}
+		}
 		$arItem['CHECK_QUANTITY'] = false;
 		if (!isset($arItem['CATALOG_MEASURE_RATIO']))
 			$arItem['CATALOG_MEASURE_RATIO'] = 1;
@@ -184,6 +209,23 @@ if (!empty($arResult['ITEMS'])){
 				}
 			}
 
+			$bNeedFindSkuPicture = empty($arItem["DETAIL_PICTURE"]) && empty($arItem["PREVIEW_PICTURE"]) && (\CNext::GetFrontParametrValue("SHOW_FIRST_SKU_PICTURE") == "Y") ;
+			$arFirstSkuPicture = array();
+
+			if($bNeedFindSkuPicture){
+				foreach ($arItem['OFFERS'] as $arOffer)
+				{
+					if(!empty($arOffer['PREVIEW_PICTURE'])){
+						$arItem["PICTURE_FROM_OFFER"] = $arOffer['PREVIEW_PICTURE'];						
+						break;					
+					} elseif (!empty($arOffer['DETAIL_PICTURE'])){
+						$arItem["PICTURE_FROM_OFFER"] = $arOffer['DETAIL_PICTURE'];							
+						break;					
+					}
+				}
+			}
+
+
 			$arItem['MIN_PRICE'] = CNext::getMinPriceFromOffersExt(
 				$arItem['OFFERS'],
 				$boolConvert ? $arResult['CONVERT_CURRENCY']['CURRENCY_ID'] : $strBaseCurrency
@@ -201,11 +243,16 @@ if (!empty($arResult['ITEMS'])){
 			$arItem['MIN_BASIS_PRICE'] = $arItem['MIN_PRICE'];
 		}
 
+		$arItem['ARTICLE']=false;
+
 		if (!empty($arItem['DISPLAY_PROPERTIES']))
 		{
 			foreach ($arItem['DISPLAY_PROPERTIES'] as $propKey => $arDispProp)
 			{
-				if ('F' == $arDispProp['PROPERTY_TYPE'])
+				if($propKey=="CML2_ARTICLE"){
+					$arItem['ARTICLE']=$arDispProp;
+				}
+				if ('F' == $arDispProp['PROPERTY_TYPE'] || $propKey=="CML2_ARTICLE")
 					unset($arItem['DISPLAY_PROPERTIES'][$propKey]);
 			}
 		}

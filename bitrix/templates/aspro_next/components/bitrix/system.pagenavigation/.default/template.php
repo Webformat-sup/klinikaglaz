@@ -28,17 +28,13 @@
 	$bHasPage = (isset($_GET['PAGEN_'.$arResult["NavNum"]]) && $_GET['PAGEN_'.$arResult["NavNum"]]);
 	if($bHasPage)
 	{
-		if($_GET['PAGEN_'.$arResult["NavNum"]] == 1 && !isset($_GET['q']))
+		if($_GET['PAGEN_'.$arResult["NavNum"]] == 1 && !isset($_REQUEST['q']))
 		{
 			LocalRedirect($arResult["sUrlPath"], false, "301 Moved permanently");
 		}
 		elseif($_GET['PAGEN_'.$arResult["NavNum"]] > $arResult["nEndPage"])
 		{
-			if (!defined("ERROR_404"))
-			{
-				define("ERROR_404", "Y");
-				\CHTTP::setStatus("404 Not Found");
-			}
+			$templateData["ERROR_404"] = true;
 		}
 
 	}?>
@@ -58,7 +54,7 @@
 				<?endif;?>
 			</ul>
 			<?if($arResult["nStartPage"] > 1):?>
-				<a href="<?=$arResult["sUrlPath"]?>?<?=$strNavQueryString?>PAGEN_<?=$arResult["NavNum"]?>=1" class="dark_link">1</a>
+				<a href="<?=$arResult["sUrlPath"]?><?=$strNavQueryStringFull?>" class="dark_link">1</a>
 				<?if(($arResult["nStartPage"] - $count_item_dotted) > 1):?>
 					<span class='point_sep'></span>
 				<?elseif(($firstPage = $arResult["nStartPage"]-1) > 1 && $arResult["nStartPage"] !=2):?>

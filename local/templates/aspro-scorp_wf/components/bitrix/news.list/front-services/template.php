@@ -1,7 +1,8 @@
 <?
 if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 $this->setFrameMode(true);
-
+$CScorp = new CScorp();
+$CCache = new CCache();
 global $arTheme;
 $bShowImage = in_array('PREVIEW_PICTURE', $arParams['FIELD_CODE']);
 $bShowBasket = $arTheme['ORDER_VIEW']['VALUE'] === 'Y';
@@ -54,7 +55,7 @@ $frame->setAnimation(true);
 					$bOrderButton = !$bShowBasket && ($arItem["DISPLAY_PROPERTIES"]["FORM_ORDER"]["VALUE_XML_ID"] == "YES");
 					// use buy button?
 					if($bBuyButton = $bShowBasket && ($arItem["DISPLAY_PROPERTIES"]["FORM_ORDER"]["VALUE_XML_ID"] == "YES")){
-						$dataItem = CScorp::getDataItem($arItem);
+						$dataItem = $CScorp->getDataItem($arItem);
 					}
 					?>
 					<li class="col-md-<?=$colmd?> col-sm-<?=$colsm?> col-xs-<?=$colxs?>">
@@ -82,7 +83,7 @@ $frame->setAnimation(true);
 										</div>
 									<?endif;?>
 									<div class="prevorder">
-										<span class="btn btn-default btn-sm btn-custom" data-event="jqm" data-param-id="<?=WEBFORM?'5':CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_services'][0]?>" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
+										<span class="btn btn-default btn-sm btn-custom" data-autoload-need_product="<?=$arItem["NAME"]?>" data-name="question"  data-event="jqm" data-param-id="17<?/*=WEBFORM?'5':$CCache::$arIBlocks[SITE_ID]['aspro_scorp_form']['aspro_scorp_order_services'][0]?>" data-name="order_services" data-autoload-service="<?=$arItem['NAME']*/?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
 									</div>
 									<?// element status?>
 									<?if(strlen($arItem['DISPLAY_PROPERTIES']['STATUS']['VALUE'])):?>
@@ -111,10 +112,10 @@ $frame->setAnimation(true);
 								<div class="row foot">
 									<div class="<?=(!$bOrderButton ? 'col-md-12 col-sm-12 col-xs-12 slice_price' : 'col-md-6 col-sm-12 col-xs-12 slice_price pull-left')?>">
 										<?// element price?>
-										<?if(strlen($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])):?>
+										<?if(is_string($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])):?>
 											<div class="price clearfix<?=($bBuyButton ? '  inline' : '')?>" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 												<div class="price_new">
-													<span class="price_val"><?=CScorp::FormatPriceShema($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])?></span>
+													<span class="price_val"><?=$CScorp->FormatPriceShema($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE'])?></span>
 												</div>
 												<?if($arItem['DISPLAY_PROPERTIES']['PRICEOLD']['VALUE']):?>
 													<div class="price_old">
@@ -129,7 +130,7 @@ $frame->setAnimation(true);
 										<div class="<?=($bOrderButton ? 'col-md-6 col-sm-5 col-xs-12 pull-right' : 'col-md-12 col-sm-12 col-xs-12')?>">
 											<?// element order button?>
 											<?if($bOrderButton):?>
-												<span class="btn btn-default btn-sm pull-right" <?=(strlen(($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE']) && strlen($arItem['DISPLAY_PROPERTIES']['PRICEOLD']['VALUE'])) ? 'style="margin-top:16px;"' : '')?> data-event="jqm" data-param-id="<?=CCache::$arIBlocks[SITE_ID]["aspro_scorp_form"]["aspro_scorp_order_product"][0]?>" data-product="<?=$arItem["NAME"]?>" data-name="order_product"><?=GetMessage("TO_ORDER")?></span>
+												<span class="btn btn-default btn-sm pull-right" <?=(strlen(($arItem['DISPLAY_PROPERTIES']['PRICE']['VALUE']) && strlen($arItem['DISPLAY_PROPERTIES']['PRICEOLD']['VALUE'])) ? 'style="margin-top:16px;"' : '')?> data-event="jqm" data-param-id="<?=$CCache::$arIBlocks[SITE_ID]["aspro_scorp_form"]["aspro_scorp_order_product"][0]?>" data-product="<?=$arItem["NAME"]?>" data-name="order_product"><?=GetMessage("TO_ORDER")?></span>
 											<?// element buy block?>
 											<?else:?>
 												<div class="buy_block clearfix">

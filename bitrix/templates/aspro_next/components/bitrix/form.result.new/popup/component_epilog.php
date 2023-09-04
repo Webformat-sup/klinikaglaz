@@ -1,5 +1,6 @@
 <?global $USER;?>
 <?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("form-block".$arParams["WEB_FORM_ID"]);?>
+<?$_SESSION['S_FORM_CREATE_DEACTIVATED'] = $arParams["CREATE_DEACTIVATED"] == "Y" ? "N" : "Y";?>
 <?if($USER->IsAuthorized()):?>
 	<?
 	$dbRes = CUser::GetList(($by = "id"), ($order = "asc"), array("ID" => $USER->GetID()), array("FIELDS" => array("ID", "PERSONAL_PHONE")));

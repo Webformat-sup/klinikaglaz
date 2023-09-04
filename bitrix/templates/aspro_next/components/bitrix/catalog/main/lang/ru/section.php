@@ -1,4 +1,6 @@
 <?
+	$MESS["SECT_ORDER_desc"] = " (убывание)";
+	$MESS["SECT_ORDER_asc"] = " (возрастание)";
 	$MESS["SECT_SORT_SHOWS"] = "По популярности";
 	$MESS["SECT_SORT_NAME"] = "По алфавиту";
 	$MESS["SECT_SORT_PRICE"] = "По цене";
@@ -24,4 +26,9 @@
 	$MESS['S_ORDER_SERVISE'] = 'Заказать услугу';
 	$MESS['POPULAR_CATEGORYS'] = 'Популярные категории';
 	$MESS['T_NEWS_NEWS_NA'] = 'Раздел не найден';
+	$MESS['NOTHING_SELECTED'] = 'Ничего не выбрано';
+
+	$MESS["SORT_TITLE_PROPETY"] = "#CODE#";
+	$MESS["SECT_SORT_CUSTOM"] = "По умолчанию";
+	$MESS["SECT_SORT_SORT"] = "По сортировке";
 ?>

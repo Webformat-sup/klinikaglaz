@@ -1,5 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<?if($GET["debug"] == "y")
+<?if($_GET["debug"] == "y")
 	error_reporting(E_ERROR | E_PARSE);
 IncludeTemplateLangFile(__FILE__);
 global $APPLICATION, $arRegion, $arSite, $arTheme;
@@ -23,7 +23,7 @@ $bIncludedModule = (\Bitrix\Main\Loader::includeModule("aspro.next"));?>
 	<?if($bIncludedModule)
 		CNext::Start(SITE_ID);?>
 </head>
-<?$bIndexBot = (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && strpos($_SERVER['HTTP_USER_AGENT'], 'Lighthouse') !== false);?>
+<?$bIndexBot = CNext::checkIndexBot();?>
 <body class="<?=($bIndexBot ? "wbot" : "");?> site_<?=SITE_ID?> <?=($bIncludedModule ? "fill_bg_".strtolower(CNext::GetFrontParametrValue("SHOW_BG_BLOCK")) : "");?>" id="main">
 	<div id="panel"><?$APPLICATION->ShowPanel();?></div>
 	<?if(!$bIncludedModule):?>
@@ -43,7 +43,6 @@ $bIncludedModule = (\Bitrix\Main\Loader::includeModule("aspro.next"));?>
 				<?CNext::ShowPageType('header');?>
 			</header>
 		</div>
-		<?CNext::get_banners_position('TOP_UNDERHEADER');?>
 
 		<?if($arTheme["TOP_MENU_FIXED"]["VALUE"] == 'Y'):?>
 			<div id="headerfixed">
@@ -56,7 +55,11 @@ $bIncludedModule = (\Bitrix\Main\Loader::includeModule("aspro.next"));?>
 			<div id="mobilemenu" class="<?=($arTheme["HEADER_MOBILE_MENU_OPEN"]["VALUE"] == '1' ? 'leftside':'dropdown')?> <?=($arTheme['HEADER_MOBILE_MENU_COMPACT']['VALUE'] == 'Y' ? ' menu-compact ':'')?>">
 				<?CNext::ShowPageType('header_mobile_menu');?>
 			</div>
-		</div> <?if($arTheme['MOBILE_FILTER_COMPACT']['VALUE'] === 'Y'):?>
+		</div>
+
+		<?CNext::get_banners_position('TOP_UNDERHEADER');?>
+
+		<?if($arTheme['MOBILE_FILTER_COMPACT']['VALUE'] === 'Y'):?>
 				<div id="mobilefilter" class="visible-xs visible-sm scrollbar-filter"></div>
 			<?endif;?>
 

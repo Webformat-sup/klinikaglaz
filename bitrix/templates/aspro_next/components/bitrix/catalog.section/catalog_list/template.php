@@ -1,5 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
+<?use \Bitrix\Main\Localization\Loc,
+	\Bitrix\Main\Web\Json;?>
 <?if( count( $arResult["ITEMS"] ) >= 1 ){?>
 	<?if($arParams["AJAX_REQUEST"]=="N"){?>
 		<div class="display_list <?=($arParams["SHOW_UNABLE_SKU_PROPS"] != "N" ? "show_un_props" : "unshow_un_props");?>">
@@ -18,70 +20,127 @@
 
 		$arParams["BASKET_ITEMS"] = ($arParams["BASKET_ITEMS"] ? $arParams["BASKET_ITEMS"] : array());
 
-		$arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
+		$arOfferProps = implode(';', (array)$arParams['OFFERS_CART_PROPERTIES']);
 		?>
 		<?foreach($arResult["ITEMS"] as $arItem){?>
 
 			<?$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_EDIT"));
 			$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arParams["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BCS_ELEMENT_DELETE_CONFIRM')));
-
-			$arItem["strMainID"] = $this->GetEditAreaId($arItem['ID']);
-			$arItemIDs=CNext::GetItemsIDs($arItem);
-
-			$totalCount = CNext::GetTotalCount($arItem, $arParams);
-			$arQuantityData = CNext::GetQuantityArray($totalCount, $arItemIDs["ALL_ITEM_IDS"], "N", $arItem["PRODUCT"]["TYPE"]);
-
-			$item_id = $arItem["ID"];
-			$strMeasure = '';
-			$arAddToBasketData = array();
-
-			$arCurrentSKU = array();
-
-			$elementName = ((isset($arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) ? $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] : $arItem['NAME']);
-
-			if(!$arItem["OFFERS"] || $arParams['TYPE_SKU'] !== 'TYPE_1'){
-				if($arParams["SHOW_MEASURE"] == "Y" && $arItem["CATALOG_MEASURE"]){
-					$arMeasure = CCatalogMeasure::getList(array(), array("ID" => $arItem["CATALOG_MEASURE"]), false, false, array())->GetNext();
-					$strMeasure = $arMeasure["SYMBOL_RUS"];
-				}
-				$arAddToBasketData = CNext::GetAddToBasketArray($arItem, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
-			}
-			elseif($arItem["OFFERS"]){
-				$strMeasure = $arItem["MIN_PRICE"]["CATALOG_MEASURE_NAME"];
-				if($arParams['TYPE_SKU'] == 'TYPE_1' && $arItem['OFFERS_PROP'])
-				{
-					$totalCount = CNext::GetTotalCount($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], $arParams);
-					$arQuantityData = CNext::GetQuantityArray($totalCount, $arItemIDs["ALL_ITEM_IDS"], "N", $arItem["PRODUCT"]["TYPE"]);
-
-					$currentSKUIBlock = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["IBLOCK_ID"];
-					$currentSKUID = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"];
-
-					$arItem["DETAIL_PAGE_URL"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DETAIL_PAGE_URL"];
-					if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"])
-						$arItem["PREVIEW_PICTURE"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"];
-					if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"])
-						$arItem["DETAIL_PICTURE"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DETAIL_PICTURE"];
-
-					if($arParams["SET_SKU_TITLE"] === "Y"){
-						$skuName = ((isset($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) ? $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] : $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['NAME']);
-						$arItem["NAME"] = $elementName = $skuName;
-					}
-
-					$item_id = $currentSKUID;
-
-					// ARTICLE
-					if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"])
-					{
-						$arItem["ARTICLE"]["NAME"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["NAME"];
-						$arItem["ARTICLE"]["VALUE"] = (is_array($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]) ? reset($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]) : $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]);
-					}
-
-					$arCurrentSKU = $arItem["JS_OFFERS"][$arItem["OFFERS_SELECTED"]];
-					$strMeasure = $arCurrentSKU["MEASURE"];
-				}
-			}
+			$bUseSkuProps = ($arItem["OFFERS"] && !empty($arItem['OFFERS_PROP']) && !$bBigBlock);
 			?>
-			<div class="list_item_wrapp item_wrap item">
+
+			<div class="list_item_wrapp item_wrap item js-notice-block">
+				<div class="basket_props_block" id="bx_basket_div_<?=$arItem["ID"];?>" style="display: none;">
+					<?if (!empty($arItem['PRODUCT_PROPERTIES_FILL'])){
+						foreach ($arItem['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
+							<input type="hidden" name="<? echo $arParams['PRODUCT_PROPS_VARIABLE']; ?>[<? echo $propID; ?>]" value="<? echo htmlspecialcharsbx($propInfo['ID']); ?>">
+							<?if (isset($arItem['PRODUCT_PROPERTIES'][$propID]))
+								unset($arItem['PRODUCT_PROPERTIES'][$propID]);
+						}
+					}
+					$arItem["EMPTY_PROPS_JS"]="Y";
+					$emptyProductProperties = empty($arItem['PRODUCT_PROPERTIES']);
+					if (!$emptyProductProperties){
+						$arItem["EMPTY_PROPS_JS"]="N";?>
+						<div class="wrapper">
+							<table>
+								<?foreach ($arItem['PRODUCT_PROPERTIES'] as $propID => $propInfo){?>
+									<tr>
+										<td><? echo $arItem['PROPERTIES'][$propID]['NAME']; ?></td>
+										<td>
+											<?if('L' == $arItem['PROPERTIES'][$propID]['PROPERTY_TYPE']	&& 'C' == $arItem['PROPERTIES'][$propID]['LIST_TYPE']){
+												foreach($propInfo['VALUES'] as $valueID => $value){?>
+													<label>
+														<input type="radio" name="<? echo $arParams['PRODUCT_PROPS_VARIABLE']; ?>[<? echo $propID; ?>]" value="<? echo $valueID; ?>" <? echo ($valueID == $propInfo['SELECTED'] ? '"checked"' : ''); ?>><? echo $value; ?>
+													</label>
+												<?}
+											}else{?>
+												<select name="<? echo $arParams['PRODUCT_PROPS_VARIABLE']; ?>[<? echo $propID; ?>]"><?
+													foreach($propInfo['VALUES'] as $valueID => $value){?>
+														<option value="<? echo $valueID; ?>" <? echo ($valueID == $propInfo['SELECTED'] ? '"selected"' : ''); ?>><? echo $value; ?></option>
+													<?}?>
+												</select>
+											<?}?>
+										</td>
+									</tr>
+								<?}?>
+							</table>
+						</div>
+						<?
+					}?>
+				</div>
+
+				<?
+				$arItem["strMainID"] = $this->GetEditAreaId($arItem['ID']);
+				$arItemIDs=CNext::GetItemsIDs($arItem);
+
+				$item_id = $arItem["ID"];
+				$strMeasure = '';
+				$arAddToBasketData = array();
+
+				$arCurrentSKU = array();
+
+				$totalCount = CNext::GetTotalCount($arItem, $arParams);
+				$arQuantityData = CNext::GetQuantityArray($totalCount, array('ID' => $item_id), "N", $arItem["PRODUCT"]["TYPE"], (($arItem["OFFERS"] || $arItem['CATALOG_TYPE'] == CCatalogProduct::TYPE_SET || !$arResult['STORES_COUNT']) ? false : true));
+
+				$elementName = ((isset($arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) ? $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] : $arItem['NAME']);
+
+				if(!$arItem["OFFERS"] || $arParams['TYPE_SKU'] !== 'TYPE_1'){
+					if($arParams["SHOW_MEASURE"] == "Y" && $arItem["CATALOG_MEASURE"]){
+						$arMeasure = CCatalogMeasure::getList(array(), array("ID" => $arItem["CATALOG_MEASURE"]), false, false, array())->GetNext();
+						$strMeasure = $arMeasure["SYMBOL_RUS"];
+					}
+					$arAddToBasketData = CNext::GetAddToBasketArray($arItem, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
+				}
+				elseif($arItem["OFFERS"]){
+					$strMeasure = $arItem["MIN_PRICE"]["CATALOG_MEASURE_NAME"];
+					if($arParams['TYPE_SKU'] == 'TYPE_1' && $arItem['OFFERS_PROP'])
+					{
+						$currentSKUIBlock = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["IBLOCK_ID"];
+						$currentSKUID = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"];
+
+						$totalCount = CNext::GetTotalCount($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], $arParams);
+						//$arQuantityData = CNext::GetQuantityArray($totalCount, $arItemIDs["ALL_ITEM_IDS"], "N", $arItem["PRODUCT"]["TYPE"]);
+						$arQuantityData = CNext::GetQuantityArray($totalCount, array('ID' => $currentSKUID), "N", $arItem["PRODUCT"]["TYPE"], (($arItem['CATALOG_TYPE'] == CCatalogProduct::TYPE_SET || !$arResult['STORES_COUNT']) ? false : true));
+
+						
+						$arItem["DETAIL_PAGE_URL"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DETAIL_PAGE_URL"];
+						if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"])
+							$arItem["PREVIEW_PICTURE"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"];
+						if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"])
+							$arItem["DETAIL_PICTURE"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DETAIL_PICTURE"];
+
+						if($arParams["SET_SKU_TITLE"] === "Y"){
+							$skuName = ((isset($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) ? $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] : $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['NAME']);
+							$arItem["NAME"] = $elementName = $skuName;
+						}
+
+						$item_id = $currentSKUID;
+
+						// ARTICLE
+						if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"])
+						{
+							$arItem["ARTICLE"]["NAME"] = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["NAME"];
+							$arItem["ARTICLE"]["VALUE"] = (is_array($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]) ? reset($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]) : $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]);
+						}
+
+						$arCurrentSKU = $arItem["JS_OFFERS"][$arItem["OFFERS_SELECTED"]];
+						$strMeasure = $arCurrentSKU["MEASURE"];
+
+						$arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IS_OFFER'] = 'Y';
+						$offerIblockID = $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IBLOCK_ID'];
+						$arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IBLOCK_ID'] = $arParams['IBLOCK_ID'];//fix add props to basket
+						$arAddToBasketData = CNext::GetAddToBasketArray($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
+						$arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IBLOCK_ID'] = $offerIblockID;
+					}
+				}
+				
+				// stickers
+				$arParams["STIKERS_PROP"] = $arParams["STIKERS_PROP"] ?: 'HIT';
+				$bShowHitStickers = $arParams["STIKERS_PROP"] && isset($arItem['DISPLAY_PROPERTIES'][$arParams["STIKERS_PROP"]]) && $arItem["DISPLAY_PROPERTIES"][$arParams["STIKERS_PROP"]]["VALUE"];
+				$bShowSaleStickers = $arParams["SALE_STIKER"] && isset($arItem['DISPLAY_PROPERTIES'][$arParams["SALE_STIKER"]]) && $arItem['DISPLAY_PROPERTIES'][$arParams["SALE_STIKER"]]["VALUE"];
+				?>
+
 				<table class="list_item" id="<?=$arItemIDs["strMainID"];?>">
 					<tr class="adaptive_name">
 						<td colspan="3">
@@ -89,68 +148,75 @@
 						</td>
 					</tr>
 					<tr>
-					<td class="image_block">
-						<div class="image_wrapper_block">
-							<div class="stickers">
-								<?$prop = ($arParams["STIKERS_PROP"] ? $arParams["STIKERS_PROP"] : "HIT");?>
-								<?foreach(CNext::GetItemStickers($arItem["PROPERTIES"][$prop]) as $arSticker):?>
-									<div><div class="<?=$arSticker['CLASS']?>"><?=$arSticker['VALUE']?></div></div>
-								<?endforeach;?>
-								<?if($arParams["SALE_STIKER"] && $arItem["PROPERTIES"][$arParams["SALE_STIKER"]]["VALUE"]){?>
-									<div><div class="sticker_sale_text"><?=$arItem["PROPERTIES"][$arParams["SALE_STIKER"]]["VALUE"];?></div></div>
-								<?}?>
-							</div>
-							<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="thumb shine" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['PICT']; ?>">
-								<?
-								if($arParams["SET_SKU_TITLE"] === "Y" && $arItem['OFFERS']){
-									$a_alt = ($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"] && strlen($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"]['DESCRIPTION']) ? $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"]['DESCRIPTION'] : ($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"] ? $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"] : $skuName ));
-									$a_title = ($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"] && strlen($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"]['DESCRIPTION']) ? $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["PREVIEW_PICTURE"]['DESCRIPTION'] : ($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"] ? $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"] : $skuName ));
-								}
-								else{
-									$a_alt = ($arItem["PREVIEW_PICTURE"] && strlen($arItem["PREVIEW_PICTURE"]['DESCRIPTION']) ? $arItem["PREVIEW_PICTURE"]['DESCRIPTION'] : ($arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"] ? $arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_ALT"] : $arItem["NAME"] ));
-									$a_title = ($arItem["PREVIEW_PICTURE"] && strlen($arItem["PREVIEW_PICTURE"]['DESCRIPTION']) ? $arItem["PREVIEW_PICTURE"]['DESCRIPTION'] : ($arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"] ? $arItem["IPROPERTY_VALUES"]["ELEMENT_PREVIEW_PICTURE_FILE_TITLE"] : $arItem["NAME"] ));
-								}
-								?>
-								<?if( !empty($arItem["PREVIEW_PICTURE"]) ):?>
-									<img src="<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>" alt="<?=$a_alt;?>" title="<?=$a_title;?>" />
-								<?elseif( !empty($arItem["DETAIL_PICTURE"])):?>
-									<?$img = CFile::ResizeImageGet($arItem["DETAIL_PICTURE"], array( "width" => 200, "height" => 200 ), BX_RESIZE_IMAGE_PROPORTIONAL,true );?>
-									<img src="<?=$img["src"]?>" alt="<?=$a_alt;?>" title="<?=$a_title;?>" />
+					<td class="image_block<?=($arParams['GALLERY_ITEM_SHOW'] == 'Y' ? ' with-gallery' : '');?>">
+						<div class="image_wrapper_block js-notice-block__image">
+							<? if ($bShowHitStickers || $bShowSaleStickers): ?>
+								<div class="stickers">
+									<? if($bShowHitStickers): ?>
+										<? foreach(CNext::GetItemStickers($arItem["DISPLAY_PROPERTIES"][$arParams["STIKERS_PROP"]]) as $arSticker): ?>
+											<div><div class="<?=$arSticker['CLASS']?>"><?=$arSticker['VALUE']?></div></div>
+										<? endforeach; ?>
+									<? endif; ?>
+									<? if($bShowSaleStickers): ?>
+										<div><div class="sticker_sale_text"><?= $arItem["DISPLAY_PROPERTIES"][$arParams["SALE_STIKER"]]["VALUE"]; ?></div></div>
+									<? endif; ?>
+								</div>
+							<? endif; ?>
+							<?$arParams['EVENT_TYPE'] = 'section_list_view'?>
+							<?if($arParams['GALLERY_ITEM_SHOW'] == 'Y'):?>
+								<?if($bUseSkuProps && $arItem["OFFERS"]):?>
+									<?//print_r($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]);?>
+									<?\Aspro\Functions\CAsproNext::showSectionGallery( array('ITEM' => $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], 'RESIZE' => $arResult['CUSTOM_RESIZE_OPTIONS']) );?>
 								<?else:?>
-									<img src="<?=SITE_TEMPLATE_PATH?>/images/no_photo_medium.png" alt="<?=$a_alt;?>" title="<?=$a_title;?>" />
+									<?\Aspro\Functions\CAsproNext::showSectionGallery( array('ITEM' => $arItem, 'RESIZE' => $arResult['CUSTOM_RESIZE_OPTIONS']) );?>
 								<?endif;?>
-							</a>
+							<?else:?>
+								<?\Aspro\Functions\CAsproNext::showImg($arParams, $arItem, false);?>
+							<?endif;?>
 						</div>
 						<?if($fast_view_text_tmp = CNext::GetFrontParametrValue('EXPRESSION_FOR_FAST_VIEW'))
 							$fast_view_text = $fast_view_text_tmp;
 						else
 							$fast_view_text = GetMessage('FAST_VIEW');?>
-						<div class="fast_view_block" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?=$arParams["IBLOCK_ID"];?>" data-param-id="<?=$arItem["ID"];?>" data-param-item_href="<?=urlencode($arItem["DETAIL_PAGE_URL"]);?>" data-name="fast_view"><?=$fast_view_text;?></div>
+						<div class="fast_view_block" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?=$arParams["IBLOCK_ID"];?>" data-param-id="<?=$arItem["ID"];?>" data-param-fid="<?=$arItemIDs["strMainID"];?>" data-param-item_href="<?=urlencode($arItem["DETAIL_PAGE_URL"]);?>" data-name="fast_view"><?=$fast_view_text;?></div>
 					</td>
 
-					<td class="description_wrapp">
+					<td class="description_wrapp item_info">
 						<div class="description">
 							<div class="item-title">
-								<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark_link"><span><?=$elementName;?></span></a>
+								<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark_link js-notice-block__title"><span><?=$elementName;?></span></a>
 							</div>
-							<div class="wrapp_stockers">
+							<div class="wrapp_stockers sa_block <?=($arParams["SHOW_RATING"] == "Y" ? 'with-rating' : '');?>" data-stores='<?=Json::encode($arParams["STORES"])?>' >
 								<?if($arParams["SHOW_RATING"] == "Y"):?>
 									<div class="rating">
-										<?$APPLICATION->IncludeComponent(
-										   "bitrix:iblock.vote",
-										   "element_rating_front",
-										   Array(
-											  "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
-											  "IBLOCK_ID" => $arItem["IBLOCK_ID"],
-											  "ELEMENT_ID" =>$arItem["ID"],
-											  "MAX_VOTE" => 5,
-											  "VOTE_NAMES" => array(),
-											  "CACHE_TYPE" => $arParams["CACHE_TYPE"],
-											  "CACHE_TIME" => $arParams["CACHE_TIME"],
-											  "DISPLAY_AS_RATING" => 'vote_avg'
-										   ),
-										   $component, array("HIDE_ICONS" =>"Y")
-										);?>
+										<?//$frame = $this->createFrame('dv_'.$arItem["ID"])->begin('');?>
+										<?if ($arParams['REVIEWS_VIEW']):?>
+											<?\Aspro\Functions\CAsproNext::showBlockHtml([
+												'FILE' => 'catalog/detail_rating_extended.php',
+												'PARAMS' => [
+													'MESSAGE' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE'] ? GetMessage('VOTES_RESULT', array('#VALUE#' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'])) : GetMessage('VOTES_RESULT_NONE'),
+													'RATING_VALUE' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'] ?? 0,
+													'REVIEW_COUNT' => isset($arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE']) ? intval($arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE']) : 0,
+												]
+											]);?>
+										<?else:?>
+											<?$APPLICATION->IncludeComponent(
+											   "bitrix:iblock.vote",
+											   "element_rating_front",
+											   Array(
+												  "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
+												  "IBLOCK_ID" => $arItem["IBLOCK_ID"],
+												  "ELEMENT_ID" =>$arItem["ID"],
+												  "MAX_VOTE" => 5,
+												  "VOTE_NAMES" => array(),
+												  "CACHE_TYPE" => $arParams["CACHE_TYPE"],
+												  "CACHE_TIME" => $arParams["CACHE_TIME"],
+												  "DISPLAY_AS_RATING" => 'vote_avg'
+											   ),
+											   $component, array("HIDE_ICONS" =>"Y")
+											);?>
+										<?endif;?>
+										<?//$frame->end();?>
 									</div>
 								<?endif;?>
 								<?=$arQuantityData["HTML"];?>
@@ -174,7 +240,7 @@
 														<td>
 															<span>
 															<?
-															if(count($arProp["DISPLAY_VALUE"])>1) { foreach($arProp["DISPLAY_VALUE"] as $key => $value) { if ($arProp["DISPLAY_VALUE"][$key+1]) {echo $value.", ";} else {echo $value;} }}
+															if(count((array)$arProp["DISPLAY_VALUE"])>1) { foreach($arProp["DISPLAY_VALUE"] as $key => $value) { if ($arProp["DISPLAY_VALUE"][$key+1]) {echo $value.", ";} else {echo $value;} }}
 															else { echo $arProp["DISPLAY_VALUE"]; }
 															?>
 															</span>
@@ -185,7 +251,22 @@
 										}?>
 									</table>
 									<?if ($boolShowOfferProps){?>
-										<table class="props_list offers" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['DISPLAY_PROP_DIV']; ?>" style="display: none;"></table>
+										<table class="props_list offers" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['DISPLAY_PROP_DIV']; ?>">
+											<?if($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['DISPLAY_PROPERTIES']):?>
+												<?foreach($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['DISPLAY_PROPERTIES'] as $arProp):?>
+													<tr>
+														<td><span><?=$arProp['NAME']?></span></td>
+														<td>
+															<span><?
+															if(is_array($arProp["DISPLAY_VALUE"])) { foreach($arProp["DISPLAY_VALUE"] as $key => $value) { if ($arProp["DISPLAY_VALUE"][$key+1]) {echo $value.", ";} else {echo $value;} }}
+															else { echo $arProp["DISPLAY_VALUE"]; }
+															?>
+															</span>
+														</td>
+													</tr>
+												<?endforeach;?>
+											<?endif;?>
+										</table>
 									<?}?>
 								</div>
 								<div class="show_props dark_link">
@@ -203,7 +284,8 @@
 										</div>
 									<?elseif($arItem["OFFERS"] && !empty($arItem['OFFERS_PROP'])):?>
 										<?$canBuy = ($arParams['USE_REGION'] == 'Y' ? $arAddToBasketData['CAN_BUY'] : $arCurrentSKU['CAN_BUY']);?>
-										<div class="wish_item_button" <?=($arCurrentSKU && $canBuy != 'Y' ? 'style="display:none;"' : '')?>>
+										<?//=($arCurrentSKU && $canBuy != 'Y' ? 'style="display:none;"' : '')?>
+										<div class="wish_item_button" <?=(!$arAddToBasketData["CAN_BUY"] ? 'style="display:none;"' : '');?>>
 											<span class="wish_item to <?=$arParams["TYPE_SKU"];?>" data-item="<?=$currentSKUID;?>" data-iblock="<?=$arItem["IBLOCK_ID"]?>" data-offers="Y" data-props="<?=$arOfferProps?>"><i></i><span><?=GetMessage('CATALOG_WISH')?></span></span>
 											<span class="wish_item in added <?=$arParams["TYPE_SKU"];?>" style="display: none;" data-item="<?=$currentSKUID;?>" data-iblock="<?=$arItem["IBLOCK_ID"]?>"><i></i><span><?=GetMessage('CATALOG_WISH_OUT')?></span></span>
 										</div>
@@ -262,7 +344,7 @@
 											$arCurrentSKU['CATALOG_MEASURE_NAME'] = $arCurrentSKU['MEASURE'];
 											if(isset($arCurrentSKU['PRICE_MATRIX']) && $arCurrentSKU['PRICE_MATRIX']) // USE_PRICE_COUNT
 											{?>
-												<?if($arCurrentSKU['ITEM_PRICE_MODE'] == 'Q' && count($arCurrentSKU['PRICE_MATRIX']['ROWS']) > 1):?>
+												<?if($arCurrentSKU['ITEM_PRICE_MODE'] == 'Q' && count((array)$arCurrentSKU['PRICE_MATRIX']['ROWS']) > 1):?>
 													<?=CNext::showPriceRangeTop($arCurrentSKU, $arParams, GetMessage("CATALOG_ECONOMY"));?>
 												<?endif;?>
 												<?=CNext::showPriceMatrix($arCurrentSKU, $arParams, $strMeasure, $arAddToBasketData);?>
@@ -285,7 +367,7 @@
 									$item_id = $arItem["ID"];
 									if(isset($arItem['PRICE_MATRIX']) && $arItem['PRICE_MATRIX']) // USE_PRICE_COUNT
 									{?>
-										<?if($arItem['ITEM_PRICE_MODE'] == 'Q' && count($arItem['PRICE_MATRIX']['ROWS']) > 1):?>
+										<?if($arItem['ITEM_PRICE_MODE'] == 'Q' && count((array)$arItem['PRICE_MATRIX']['ROWS']) > 1):?>
 											<?=CNext::showPriceRangeTop($arItem, $arParams, GetMessage("CATALOG_ECONOMY"));?>
 										<?endif;?>
 										<?=CNext::showPriceMatrix($arItem, $arParams, $strMeasure, $arAddToBasketData);?>
@@ -370,52 +452,11 @@
 									</div>
 								<?}?>
 							<?}?>
-
-							<div class="basket_props_block" id="bx_basket_div_<?=$arItem["ID"];?>" style="display: none;">
-								<?if (!empty($arItem['PRODUCT_PROPERTIES_FILL'])){
-									foreach ($arItem['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
-										<input type="hidden" name="<? echo $arParams['PRODUCT_PROPS_VARIABLE']; ?>[<? echo $propID; ?>]" value="<? echo htmlspecialcharsbx($propInfo['ID']); ?>">
-										<?if (isset($arItem['PRODUCT_PROPERTIES'][$propID]))
-											unset($arItem['PRODUCT_PROPERTIES'][$propID]);
-									}
-								}
-								$arItem["EMPTY_PROPS_JS"]="Y";
-								$emptyProductProperties = empty($arItem['PRODUCT_PROPERTIES']);
-								if (!$emptyProductProperties){
-									$arItem["EMPTY_PROPS_JS"]="N";?>
-									<div class="wrapper">
-										<table>
-											<?foreach ($arItem['PRODUCT_PROPERTIES'] as $propID => $propInfo){?>
-												<tr>
-													<td><? echo $arItem['PROPERTIES'][$propID]['NAME']; ?></td>
-													<td>
-														<?if('L' == $arItem['PROPERTIES'][$propID]['PROPERTY_TYPE']	&& 'C' == $arItem['PROPERTIES'][$propID]['LIST_TYPE']){
-															foreach($propInfo['VALUES'] as $valueID => $value){?>
-																<label>
-																	<input type="radio" name="<? echo $arParams['PRODUCT_PROPS_VARIABLE']; ?>[<? echo $propID; ?>]" value="<? echo $valueID; ?>" <? echo ($valueID == $propInfo['SELECTED'] ? '"checked"' : ''); ?>><? echo $value; ?>
-																</label>
-															<?}
-														}else{?>
-															<select name="<? echo $arParams['PRODUCT_PROPS_VARIABLE']; ?>[<? echo $propID; ?>]"><?
-																foreach($propInfo['VALUES'] as $valueID => $value){?>
-																	<option value="<? echo $valueID; ?>" <? echo ($valueID == $propInfo['SELECTED'] ? '"selected"' : ''); ?>><? echo $value; ?></option>
-																<?}?>
-															</select>
-														<?}?>
-													</td>
-												</tr>
-											<?}?>
-										</table>
-									</div>
-									<?
-								}?>
-							</div>
-
-							<?if(!$arItem["OFFERS"] || $arParams['TYPE_SKU'] !== 'TYPE_1'):?>
+							<?if(!$arItem["OFFERS"] /*|| $arParams['TYPE_SKU'] !== 'TYPE_1'*/):?>
 								<div class="counter_wrapp <?=($arItem["OFFERS"] && $arParams["TYPE_SKU"] == "TYPE_1" ? 'woffers' : '')?>">
 									<?if(($arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] && $arAddToBasketData["ACTION"] == "ADD") && $arAddToBasketData["CAN_BUY"]):?>
 										<div class="counter_block" data-offers="<?=($arItem["OFFERS"] ? "Y" : "N");?>" data-item="<?=$arItem["ID"];?>">
-											<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>">-</span>
+											<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>" <?=isset($arAddToBasketData["SET_MIN_QUANTITY_BUY"]) && $arAddToBasketData["SET_MIN_QUANTITY_BUY"] ? "data-min='".$arAddToBasketData["MIN_QUANTITY_BUY"]."'" : "";?>>-</span>
 											<input type="text" class="text" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY']; ?>" name="<? echo $arParams["PRODUCT_QUANTITY_VARIABLE"]; ?>" value="<?=$arAddToBasketData["MIN_QUANTITY_BUY"]?>" />
 											<span class="plus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_UP']; ?>" <?=($arAddToBasketData["MAX_QUANTITY_BUY"] ? "data-max='".$arAddToBasketData["MAX_QUANTITY_BUY"]."'" : "")?>>+</span>
 										</div>
@@ -446,7 +487,7 @@
 							<?elseif($arItem["OFFERS"]):?>
 								<?if(empty($arItem['OFFERS_PROP'])){?>
 									<div class="offer_buy_block buys_wrapp woffers">
-										<div class="counter_wrapp">
+										<div class="counter_wrapp <?=($arAddToBasketData["ACTION"] === "MORE" ? " more" : "")?>">
 										<?
 										$arItem["OFFERS_MORE"] = "Y";
 										$arAddToBasketData = CNext::GetAddToBasketArray($arItem, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small read_more1', $arParams);?>
@@ -460,12 +501,12 @@
 										<?
 										$arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IS_OFFER'] = 'Y';
 										$arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]['IBLOCK_ID'] = $arParams['IBLOCK_ID'];
-										$arAddToBasketData = CNext::GetAddToBasketArray($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
+										//$arAddToBasketData = CNext::GetAddToBasketArray($arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
 										?>
 										<div class="counter_wrapp">
 											<?if(($arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] && $arAddToBasketData["ACTION"] == "ADD") && $arAddToBasketData["CAN_BUY"]):?>
 												<div class="counter_block" data-item="<?=$arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"];?>">
-													<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>">-</span>
+													<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>" <?=isset($arAddToBasketData["SET_MIN_QUANTITY_BUY"]) && $arAddToBasketData["SET_MIN_QUANTITY_BUY"] ? "data-min='".$arAddToBasketData["MIN_QUANTITY_BUY"]."'" : "";?>>-</span>
 													<input type="text" class="text" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY']; ?>" name="<? echo $arParams["PRODUCT_QUANTITY_VARIABLE"]; ?>" value="<?=$arAddToBasketData["MIN_QUANTITY_BUY"]?>" />
 													<span class="plus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_UP']; ?>" <?=($arAddToBasketData["MAX_QUANTITY_BUY"] ? "data-max='".$arAddToBasketData["MAX_QUANTITY_BUY"]."'" : "")?>>+</span>
 												</div>

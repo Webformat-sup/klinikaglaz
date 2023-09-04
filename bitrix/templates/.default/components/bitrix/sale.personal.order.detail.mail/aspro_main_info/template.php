@@ -17,7 +17,7 @@
 			</div>
 			<div style="display:inline-block;vertical-align:top;font-size:14px;width:33.33%;">
 				<div><?=Loc::getMessage('SPOD_ORDER_SUMM');?></div>
-				<div style="font-size:18px;color:#1d2029;font-weight:600;padding-top:5px;"><?=CAllCurrencyLang::CurrencyFormat($arResult["PRICE"], $allCurrency);?></div>
+				<div style="font-size:18px;color:#1d2029;font-weight:600;padding-top:5px;"><?=CCurrencyLang::CurrencyFormat($arResult["PRICE"], $allCurrency);?></div>
 			</div>
 		<?endif;?>
 	</div>

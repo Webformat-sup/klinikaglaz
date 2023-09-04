@@ -1,4 +1,7 @@
-<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
+<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();
+$CScorp = new CScorp;
+$CCache = new CCache;
+?>
 <?$this->setFrameMode(true);?>
 <?// intro text?>
 <div class="text_before_items">
@@ -14,14 +17,14 @@
 </div>
 <?
 // get section items count and subsections
-$arItemFilter = CScorp::GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams, false);
-$arSubSectionFilter = CScorp::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, false);
-$itemsCnt = CCache::CIBlockElement_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
-$arSubSections = CCache::CIBlockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
+$arItemFilter = $CScorp->GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams, false);
+$arSubSectionFilter = $CScorp->GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, false);
+$itemsCnt = $CCache->CIBlockElement_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
+$arSubSections = $CCache->CIBlockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
 
 // rss
 if($arParams['USE_RSS'] !== 'N'){
-	CScorp::ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
+	$CScorp->ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 }
 
 $this->SetViewTarget('under_sidebar_pay_btn');

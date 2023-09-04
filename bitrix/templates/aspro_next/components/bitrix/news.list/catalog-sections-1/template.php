@@ -12,7 +12,7 @@ $this->setFrameMode(true);
 				$this->AddEditAction($arItem['ID'], $arSectionButtons['edit']['edit_section']['ACTION_URL'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'SECTION_EDIT'));
 				$this->AddDeleteAction($arItem['ID'], $arSectionButtons['edit']['delete_section']['ACTION_URL'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'SECTION_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 				// preview picture
-				if($bShowSectionImage = in_array('PREVIEW_PICTURE', $arParams['FIELD_CODE'])){
+				if($bShowSectionImage = in_array('PREVIEW_PICTURE', (array)$arParams['FIELD_CODE'])){
 					$bImage = strlen($arItem['~PICTURE']);
 					$arSectionImage = ($bImage ? CFile::ResizeImageGet($arItem['~PICTURE'], array('width' => 254, 'height' => 254), BX_RESIZE_IMAGE_PROPORTIONAL, true) : array());
 					$imageSectionSrc = ($bImage ? $arSectionImage['src'] : SITE_TEMPLATE_PATH.'/images/no_photo_medium.png');
@@ -31,7 +31,7 @@ $this->setFrameMode(true);
 						
 						<div class="info">
 							<?// section name?>
-							<?if(in_array('NAME', $arParams['FIELD_CODE'])):?>
+							<?if(in_array('NAME', (array)$arParams['FIELD_CODE'])):?>
 								<div class="title">
 									<a href="<?=$arItem['SECTION_PAGE_URL']?>" class="dark-color">
 										<?=$arItem['NAME']?>

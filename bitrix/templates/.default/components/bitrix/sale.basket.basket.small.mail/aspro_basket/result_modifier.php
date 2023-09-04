@@ -40,9 +40,9 @@ if(!function_exists("showItems"))
 								<?endif;?>
 							</div>
 						<?elseif($name == "DISCOUNT"):?>
-							<?=CAllCurrencyLang::CurrencyFormat($arItem["PRICE"], $allCurrency);?>
+							<?=CCurrencyLang::CurrencyFormat($arItem["PRICE"], $allCurrency);?>
 						<?elseif($name == "SUMM"):?>
-							<div style="font-weight:600;font-size:14px;color:#333333;"><?=CAllCurrencyLang::CurrencyFormat($arItem["PRICE"]*$arItem["QUANTITY"], $allCurrency);?></div>
+							<div style="font-weight:600;font-size:14px;color:#333333;"><?=CCurrencyLang::CurrencyFormat($arItem["PRICE"]*$arItem["QUANTITY"], $allCurrency);?></div>
 						<?else:?>
 							<?=$arItem[$name];?>
 						<?endif;?>

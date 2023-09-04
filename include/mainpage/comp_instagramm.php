@@ -15,6 +15,12 @@ $APPLICATION->SetTitle("");
 		Array(
 			"COMPOSITE_FRAME_MODE" => "A",
 			"COMPOSITE_FRAME_TYPE" => "AUTO",
+			"CACHE_TYPE" => "A",
+			"CACHE_TIME" => "86400",
+			"CACHE_GROUPS" => "N",
+			"ITEMS_COUNT" => \Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_ITEMS_COUNT", 8),
+			"ITEMS_VISIBLE" => \Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_ITEMS_VISIBLE", 4),
+			"TEXT_LENGTH" => "400",
 			"TITLE" => \Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_TITLE_BLOCK", ""),
 			"TOKEN" => \Bitrix\Main\Config\Option::get("aspro.next", "API_TOKEN_INSTAGRAMM", "1056017790.9b6cbfe.4dfb9d965b5c4c599121872c23b4dfd0")
 		)

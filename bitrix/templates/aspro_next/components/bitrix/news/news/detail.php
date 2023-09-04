@@ -13,14 +13,66 @@ if($arParams['CACHE_GROUPS'] == 'Y')
 	$arItemFilter['GROUPS'] = $GLOBALS["USER"]->GetGroups();
 }
 
-$arElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'ACTIVE_FROM', 'DETAIL_PICTURE', 'DETAIL_PAGE_URL', 'LIST_PAGE_URL', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_REVIEWS', 'PROPERTY_LINK_STAFF', 'PROPERTY_LINK_SERVICES', 'PROPERTY_FORM_QUESTION', 'PROPERTY_LINK_REGION', 'PROPERTY_LINK_GOODS_FILTER'));
+$arElement = CNextCache::CIblockElement_GetList(
+	array('CACHE' => 
+		array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 
+		'MULTI' => 'N'
+		)
+	), 
+	$arItemFilter, 
+	false, 
+	false, 
+	array('ID','NAME', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'ACTIVE_FROM', 'DETAIL_PICTURE', 'DETAIL_PAGE_URL'
+	, 'LIST_PAGE_URL', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_REVIEWS', 'PROPERTY_LINK_STAFF'
+	, 'PROPERTY_LINK_SERVICES', 'PROPERTY_FORM_QUESTION', 'PROPERTY_LINK_REGION', 'PROPERTY_LINK_GOODS_FILTER', 'DATE_CREATE'));
 
+$arSite = \CSite::GetByID(SITE_ID)->Fetch();
+$arSchema = array(
+	"@context" => "https://schema.org",
+	"@type" => "NewsArticle",
+	"url" => $_SERVER['SERVER_NAME'].$arElement['DETAIL_PAGE_URL'],
+	"publisher" => array(
+		"@type" => "Organization",
+			"name" => $arSite['NAME']
+	),
+	"headline" => $arElement['NAME'],
+	"articleBody" => $arElement['PREVIEW_TEXT'],
+	"datePublished" => $arElement['DATE_CREATE']
+);
+if($arElement['PREVIEW_PICTURE']){
+	$arSchema['image'][] = $_SERVER['SERVER_NAME'].CFile::GetPath($arElement['PREVIEW_PICTURE']);
+}
+if($arElement['DETAIL_PICTURE']){
+	$arSchema['image'][] = $_SERVER['SERVER_NAME'].CFile::GetPath($arElement['DETAIL_PICTURE']);
+}
+?>
+<script type="application/ld+json">
+	<?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?>
+</script>
+<?
 if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 {
 	$arSort=array($arParams["SORT_BY1"] => $arParams["SORT_ORDER1"], $arParams["SORT_BY2"] => $arParams["SORT_ORDER2"]);
 	$arElementNext = array();
-
-	$arAllElements = CNextCache::CIblockElement_GetList(array($arParams["SORT_BY1"] => $arParams["SORT_ORDER1"], $arParams["SORT_BY2"] => $arParams["SORT_ORDER2"], 'CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'Y')), array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ACTIVE" => "Y", "SECTION_ID" => $arElement["IBLOCK_SECTION_ID"]/*, ">ID" => $arElement["ID"]*/ ), false, false, array('ID', 'DETAIL_PAGE_URL', 'IBLOCK_ID', 'SORT'));
+	$arFilter = array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ACTIVE" => "Y", "SECTION_ID" => $arElement["IBLOCK_SECTION_ID"]);
+	if ($arParams['CHECK_DATES'] == "Y") {
+		$arFilter['ACTIVE_DATE'] = "Y";
+	}
+	$arAllElements = CNextCache::CIblockElement_GetList(
+		array(
+			$arParams["SORT_BY1"] => $arParams["SORT_ORDER1"], 
+			$arParams["SORT_BY2"] => $arParams["SORT_ORDER2"], 
+			'CACHE' => array(
+				'TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 
+				'MULTI' => 'Y'
+			)
+		), 
+		$arFilter, 
+		false, 
+		false, 
+		array('ID', 'DETAIL_PAGE_URL', 'IBLOCK_ID', 'SORT')
+	);
+	
 	if($arAllElements)
 	{
 		$url_page = $APPLICATION->GetCurPage();
@@ -82,7 +134,7 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 	<?CNext::AddMeta(
 		array(
 			'og:description' => $arElement['PREVIEW_TEXT'],
-			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
+			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['DETAIL_PICTURE'] ? $arElement['DETAIL_PICTURE'] : $arElement['PREVIEW_PICTURE'])) : false),
 		)
 	);?>
 	<?
@@ -90,6 +142,10 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 	if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 		$arParams["DISPLAY_COMPARE"] = 'N';
 	/**/
+
+	if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+		$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+	
 	?>
 	<div class="detail <?=($templateName = $component->{'__template'}->{'__name'})?> fixed_wrapper">
 		<?if($arParams["USE_SHARE"] == "Y" && $arElement):?>
@@ -134,6 +190,7 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 			<div class="col-md-12 links">
 				<a class="back-url url-block" href="<?=$arResult['FOLDER'].$arResult['URL_TEMPLATES']['news']?>"><i class="fa fa-angle-left"></i><span><?=($arParams["T_PREV_LINK"] ? $arParams["T_PREV_LINK"] : GetMessage('BACK_LINK'));?></span></a>
 				<?if($arElementNext):?>
+					
 					<a class="next-url url-block" href="<?=$arElementNext['DETAIL_PAGE_URL']?>"><i class="fa fa-angle-right"></i><span><?=($arParams["T_NEXT_LINK"] ? $arParams["T_NEXT_LINK"] : GetMessage('NEXT_LINK'));?></span></a>
 				<?endif;?>
 			</div>

@@ -31,7 +31,7 @@ function startMainBannerSlideVideo($slide){
 		var videoLoop = $slide.attr('data-video_loop')
 		var bVideoLoop = videoLoop == 1
 		var videoCover = $slide.attr('data-video_cover')
-		var bVideoCover = videoCover == 1 && !isMobile
+		var bVideoCover = videoCover == 1
 		var videoUnderText = $slide.attr('data-video_under_text')
 		var bVideoUnderText = videoUnderText == 1
 		var videoPlayer = $slide.attr('data-video_player')
@@ -39,6 +39,8 @@ function startMainBannerSlideVideo($slide){
 		var bVideoPlayerVimeo = videoPlayer === 'VIMEO'
 		var bVideoPlayerRutube = videoPlayer === 'RUTUBE'
 		var bVideoPlayerHtml5 = videoPlayer === 'HTML5'
+		var videoWidth = bVideoPlayerHtml5 ? false : $slide.attr('data-video_width')
+		var videoHeight = bVideoPlayerHtml5 ? false : $slide.attr('data-video_height')
 
 		if(videoPlayerSrc && !$slide.find('.video').length){
 			var InitPlayer = function(){
@@ -50,14 +52,14 @@ function startMainBannerSlideVideo($slide){
 					if(!$_slide.find('.video.'+tmp_class).length)
 					{
 						if(bVideoPlayerYoutube){
-							$_slide.prepend('<div class="wrapper_video"><iframe id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '" src="'+ videoPlayerSrc +'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay"></iframe></div>');
+							$_slide.prepend('<div class="wrapper_video"><iframe id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '" src="'+ videoPlayerSrc +'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; fullscreen;"' + ((videoWidth && videoHeight) ? ' data-video_proportion="' + (videoWidth / videoHeight) + '"' : '') + '></iframe></div>');
 						}
 						else if(bVideoPlayerVimeo){
-							$_slide.prepend('<div class="wrapper_video"><iframe id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '" src="'+ videoPlayerSrc +'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay"></iframe></div>');
+							$_slide.prepend('<div class="wrapper_video"><iframe id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '" src="'+ videoPlayerSrc +'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="accelerometer; autoplay; encrypted-media; gyroscope; fullscreen;"' + ((videoWidth && videoHeight) ? ' data-video_proportion="' + (videoWidth / videoHeight) + '"' : '') + '></iframe></div>');
 						}
 						else if(bVideoPlayerRutube){
 							videoPlayerSrc = videoPlayerSrc + '&playerid=' + videoID;
-							$_slide.prepend('<div class="wrapper_video"><iframe id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '" src="'+ videoPlayerSrc +'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay"></iframe></div>');
+							$_slide.prepend('<div class="wrapper_video"><iframe id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '" src="'+ videoPlayerSrc +'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; encrypted-media; gyroscope; fullscreen;"' + ((videoWidth && videoHeight) ? ' data-video_proportion="' + (videoWidth / videoHeight) + '"' : '') + '></iframe></div>');
 						}
 						else if(bVideoPlayerHtml5){
 							$_slide.prepend('<div class="wrapper_video"><video autobuffer playsinline webkit-playsinline autoplay id="player_' + videoID + '" class="video ' + tmp_class + (bVideoCover ? ' cover' : '') + '"' + (bVideoLoop ? ' loop ' : '') + (bVideoSoundDisabled || bClone ? ' muted ' : '') + '><source src="'+ videoPlayerSrc +'" type=\'video/mp4; codecs="avc1.42E01E, mp4a.40.2"\' /><p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video</p></iframe></div>');
@@ -73,7 +75,10 @@ function startMainBannerSlideVideo($slide){
 							videoPlayer: videoPlayer,
 							slideIndex: slideActiveIndex,
 							clone: bClone,
-							playing: false
+							playing: false,
+							videoWidth: videoWidth,
+							videoHeight: videoHeight,
+							videoProportion: ((videoWidth && videoHeight) ? videoWidth / videoHeight : false)
 						};
 
 						if(bVideoPlayerYoutube){
@@ -203,7 +208,6 @@ function startMainBannerSlideVideo($slide){
 						}, 50)
 					}
 				}
-
 			}
 			else{
 				InitPlayer()
@@ -214,7 +218,7 @@ function startMainBannerSlideVideo($slide){
 			// pause play video
 			if(typeof(players) !== 'undefined' && players){
 				for(var j in players){
-					if(/*players[j].playing &&*/ !players[j].clone/* && (players[j].slideIndex != curSlideIndex)*/){
+					if(/*players[j].playing &&*/ !players[j].clone/* && (players[j].slideIndex != $curSlideIndex)*/){
 						if((typeof window[players[j].id] == 'object')){
 							if(players[j].playing)
 							{
@@ -260,69 +264,41 @@ function startMainBannerSlideVideo($slide){
 	}
 }
 
-var CoverPlayerHtml = function(curSlideIndex){
-	var $videoCover = $('.video.cover');
-
-	if($videoCover.length){
-		//setTimeout(function(){
-			var currenSlide = $('.box[data-slide_index="'+curSlideIndex+'"]');
-
-			var bannersHeight = $('.top_slider_wrapp').height();
-			var bannersWidth = $('.top_slider_wrapp').width();
-			var videoHeight = $('.top_slider_wrapp video').outerHeight();
-			var videoWidth = $('.top_slider_wrapp video').outerWidth();
-
-			if(bannersHeight >= videoHeight && videoWidth >= bannersWidth){
-				currenSlide.find('video.cover').height(bannersHeight+(jQuery.browser.mobile ? 30 : 0)).width('auto');
-
-				if(currenSlide.hasClass('wvideo'))
-					currenSlide.css('background-position-x', 'auto');
-
-			}
-			else if(bannersHeight < videoHeight && videoWidth < bannersWidth){
-				currenSlide.find('video.cover').width(bannersWidth).height('auto');
-
-				if(currenSlide.hasClass('wvideo'))
-					currenSlide.css('background-position-y', 'auto');
-			}
-
-			//if(window.matchMedia('(min-width:992px)').matches){
-				//setTimeout(function(){
-					if(currenSlide.find('video.cover').length)
-					{
-						currenSlide.find('video.cover').css('margin-top', -videoHeight/2);
-						var bannerWidth = $('.top_slider_wrapp video').width();
-						// currenSlide.find('video.cover').css('margin-left', -bannerWidth/2);
-					}
-				//}, 300);
-			/*}
-			else{
-				$('.top_slider_wrapp video').css('margin-top', 0);
-			}*/
-			setTimeout(function(){
-				$('.video.cover').css('visibility', 'visible');
-			}, 1300);
-		//}, 10);
-	}
-}
-
 var CoverPlayer = function(){
-	var $videoCover = $('.video.cover')
-	if($videoCover.length){
-		var bannersHeight = $('.top_slider_wrapp .wrapper_video').height()
-		var bannersWidth = $('.top_slider_wrapp .wrapper_video').width()
-		var windowWidth = $(window).width()
-		var height = windowWidth * 9 / 16
-		$videoCover.css({'height': height + 'px', 'margin-top': (height > bannersHeight ? (bannersHeight - height) / 2 : 0) + 'px'})
-	}
+	$('.top_slider_wrapp .video.cover').each(function(){
+		var $slide = $(this).closest('.box');
+		var slideHeight = $slide.height();
+		var slideWidth = $slide.width();
+		var videoProportion = $(this).attr('data-video_proportion');
+		if(videoProportion === undefined){
+			videoProportion = 16 / 9;
+		}
+
+		// set video width = 100% of slide width
+		var videoWidth = slideWidth;
+		// calculate video height proportional
+		var videoHeight = slideWidth / videoProportion;
+		// video minimal  height = 100% slide height
+		if(videoHeight < slideHeight){
+			// increase video width proportional
+			videoWidth = slideHeight * videoProportion;
+			videoHeight = slideHeight;
+		}
+
+		$(this).width(videoWidth).height(videoHeight).css({
+			'margin-top' : '-' + (videoHeight - slideHeight) / 2 + 'px',
+			'margin-left' : '-' + (videoWidth - slideWidth) / 2 + 'px'
+		});
+	});
 }
 
 function onYoutubePlayerReady(e) {
-	var videoID = e.target.a.id.replace('player_', '')
+	var videoID = e.target.f.id.replace('player_', '')
 	if(videoID){
 		var mute = players[videoID].mute
 		var cover = players[videoID].cover
     	var clone = players[videoID].clone
+    	var $slide = $('#player_' + videoID).closest('.box')
 
     	// mute sound
 		if(mute || clone){
@@ -331,6 +307,24 @@ function onYoutubePlayerReady(e) {
 
     	// cover video
 		if(cover){
+			// get video`s original size
+			if(!players[videoID].videoProportion){
+				var embedHtml = e.target.getVideoEmbedCode();
+				if(embedHtml.length){
+					var match = embedHtml.match(/width="(\d*)"[^>]*height="(\d*)"/);
+					if(match !== null){
+						var videoWidth = match[1];
+						var videoHeight = match[2];
+
+						players[videoID].videoWidth = videoWidth;
+						players[videoID].videoHeight = videoHeight;
+						players[videoID].videoProportion = videoWidth / videoHeight;
+
+						$slide.find('.video').attr('data-video_proportion', players[videoID].videoProportion);
+					}
+				}
+			}
+
 	    	CoverPlayer()
 	    }
 
@@ -350,14 +344,13 @@ function onYoutubePlayerReady(e) {
     	}
 
     	// update slide class
-		var $slide = $('#player_' + videoID).closest('.box')
 		$slide.addClass('started')
 		// $slide.removeClass('loading')
     }
 }
 
 function onYoutubePlayerStateChange(e){
-	var videoID = e.target.a.id.replace('player_', '')
+	var videoID = e.target.f.id.replace('player_', '')
     if(videoID){
     	var clone = players[videoID].clone
 		var loop = players[videoID].loop
@@ -405,6 +398,12 @@ function onYoutubePlayerStateChange(e){
 					playMainBanner()
 		    	}
 			}
+			else if(e.data === YT.PlayerState.UNSTARTED){
+				players[videoID].playing = false
+				$('#player_'+videoID).closest('.box').find('.wrapper_inner .btn-video').removeClass('loading');
+				//window[players[videoID].id].mute()
+				e.target.playVideo()
+			}
 		}
 	}
 }
@@ -415,6 +414,7 @@ function onVimeoPlayerReady(e){
 		var mute = players[videoID].mute
 		var cover = players[videoID].cover
     	var clone = players[videoID].clone
+		var $slide = $('#player_' + videoID).closest('.box')
 
     	// mute sound
 		if(mute || clone){
@@ -423,7 +423,30 @@ function onVimeoPlayerReady(e){
 
     	// cover video
 		if(cover){
-	    	CoverPlayer()
+			// get video`s original size
+			if(!players[videoID].videoProportion){
+				var widthPromise = window[players[videoID].id].getVideoWidth();
+				var heightPromise = window[players[videoID].id].getVideoHeight();
+				widthPromise.then(
+					function(value) {
+						var videoWidth = value;
+
+						heightPromise.then(
+							function(value) {
+								var videoHeight = value;
+
+								players[videoID].videoWidth = videoWidth;
+								players[videoID].videoHeight = videoHeight;
+								players[videoID].videoProportion = videoWidth / videoHeight;
+
+								$slide.find('.video').attr('data-video_proportion', players[videoID].videoProportion);
+
+								CoverPlayer();
+							}
+						);
+					}
+				);
+			}
 	    }
 
     	// not start clone video playing
@@ -436,11 +459,21 @@ function onVimeoPlayerReady(e){
 		    // stop slider
 			pauseMainBanner()
 
-		    window[players[videoID].id].play()
+		    // start video
+		    var promise = window[players[videoID].id].play();
+			if(typeof promise !== 'undefined'){
+				promise.catch(
+					function(){
+						setTimeout(function(){
+							window[players[videoID].id].setVolume(0)
+							window[players[videoID].id].play()
+						}, 100);
+					}
+				);
+			}
     	}
 
     	// update slide class
-		var $slide = $('#player_' + videoID).closest('.box')
 		$slide.addClass('started')
 		// $slide.removeClass('loading')
     }
@@ -509,6 +542,7 @@ function onRutubePlayerReady(videoID){
 		var cover = players[videoID].cover
     	var clone = players[videoID].clone
     	var player = document.getElementById(players[videoID].id)
+		var $slide = $('#player_' + videoID).closest('.box')
 
     	// mute sound
 		if(mute || clone){
@@ -543,7 +577,6 @@ function onRutubePlayerReady(videoID){
     	}
 
     	// update slide class
-		var $slide = $('#player_' + videoID).closest('.box')
 		$slide.addClass('started')
 		// $slide.removeClass('loading')
     }
@@ -623,6 +656,7 @@ function onHtml5PlayerReady(e){
 		var mute = players[videoID].mute
 		var cover = players[videoID].cover
     	var clone = players[videoID].clone
+		var $slide = $('#player_' + videoID).closest('.box')
 
     	// mute sound
 		if(mute || clone){
@@ -631,6 +665,18 @@ function onHtml5PlayerReady(e){
 
     	// cover video
 		if(cover){
+			// get video`s original size
+			if(!players[videoID].videoProportion){
+				var videoWidth = $slide.find('.video')[0].videoWidth;
+				var videoHeight = $slide.find('.video')[0].videoHeight;
+
+				players[videoID].videoWidth = videoWidth;
+				players[videoID].videoHeight = videoHeight;
+				players[videoID].videoProportion = videoWidth / videoHeight;
+
+				$slide.find('.video').attr('data-video_proportion', players[videoID].videoProportion);
+			}
+
 	    	CoverPlayer()
 	    }
 
@@ -642,11 +688,20 @@ function onHtml5PlayerReady(e){
 		    // stop slider
 			pauseMainBanner()
 
-		    e.target.play()
+			var promise = e.target.play();
+		    if(typeof promise !== 'undefined'){
+				promise.catch(
+					function(){
+						setTimeout(function(){
+							$('#' + players[videoID].id).prop('muted', true);
+							e.target.play();
+						}, 100);
+					}
+				);
+			}
     	}
 
     	// update slide class
-		var $slide = $('#player_' + videoID).closest('.box')
 		$slide.addClass('started')
 		// $slide.removeClass('loading')
     }
@@ -724,7 +779,7 @@ $(document).on('click', 'video.video', function(e){
 			e.target.pause()
     	}
     	else{
-    		//e.target.play()
+    		e.target.play()
     	}
     }
 })
@@ -836,8 +891,8 @@ BX.addCustomEvent('onSlide', function(eventdata) {
 		if(eventdata){
 			var slider = eventdata.slider;
 			if(slider){
-				var curSlide = slider.find('.box.flex-active-slide');
-				var curSlideIndex = curSlide.attr('data-slide_index');
+				var $curSlide = slider.find('.box.flex-active-slide');
+				var $curSlideIndex = $curSlide.attr('data-slide_index');
 
 				$('.top_slider_wrapp.view_2').each(function(){
 					if($(this).find('.flexslider .slides > li .tablet_text .wrap').length){
@@ -851,13 +906,13 @@ BX.addCustomEvent('onSlide', function(eventdata) {
 					}
 				});
 
-				if(typeof(curSlideIndex) !== 'undefined' && curSlideIndex.length){
+				if(typeof($curSlideIndex) !== 'undefined' && $curSlideIndex.length){
 					var slidesIndexesWithVideo = slider.data('slidesIndexesWithVideo')
 					if(typeof slidesIndexesWithVideo === 'undefined'){
 						slidesIndexesWithVideo = [];
 					}
 
-					var bVideoVisible = slidesIndexesWithVideo.indexOf(curSlideIndex) != -1;
+					var bVideoVisible = slidesIndexesWithVideo.indexOf($curSlideIndex) != -1;
 					if(bVideoVisible){
 						slider.addClass('video_visible');
 					}
@@ -866,13 +921,13 @@ BX.addCustomEvent('onSlide', function(eventdata) {
 					}
 
 					setTimeout(function(){
-						CoverPlayerHtml(curSlideIndex);
+						CoverPlayer();
 					}, 200);
 
 					// pause play video
 					if(typeof(players) !== 'undefined' && players){
 						for(var j in players){
-							if(players[j].playing && !players[j].clone && (players[j].slideIndex != curSlideIndex)){
+							if(players[j].playing && !players[j].clone && (players[j].slideIndex != $curSlideIndex)){
 								if((typeof window[players[j].id] == 'object')){
 									if(players[j].videoPlayer === 'YOUTUBE'){
 										window[players[j].id].pauseVideo()
@@ -894,14 +949,14 @@ BX.addCustomEvent('onSlide', function(eventdata) {
 						}
 					}
 					// autoplay video
-					var bVideoAutoPlay = curSlide.attr('data-video_autoplay') == 1
+					var bVideoAutoPlay = $curSlide.attr('data-video_autoplay') == 1
 					if(bVideoAutoPlay){
-						startMainBannerSlideVideo(curSlide)
+						startMainBannerSlideVideo($curSlide)
 					}
 				}
 
-				if(curSlide.find('video').length && !curSlide.find('.btn-video').length){
-					var videoID = curSlide.find('video').attr('id');
+				if($curSlide.find('video').length && !$curSlide.find('.btn-video').length){
+					var videoID = $curSlide.find('video').attr('id');
 					document.getElementById(videoID).play();
 				}
 			}

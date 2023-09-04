@@ -197,9 +197,15 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 
 	$arDeleteIDs = $arUnDeleteIDs = array();
 
-	if($bHideNotAvailable)
+	if(
+		$bHideNotAvailable &&
+		$arCatalogs
+	)
 	{
-		$arFilter["CATALOG_AVAILABLE"] = "Y";
+		$arAvailableFilter = array(
+			"CATALOG_AVAILABLE" => "Y",
+		);
+
 		if($arRegion)
 		{
 			if($arRegion["LIST_STORES"])
@@ -213,10 +219,16 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 				}
 				if($arTmpFilter){
 					$arTmpFilter["LOGIC"] = "OR";
-					$arFilter[] = $arTmpFilter;
+					$arAvailableFilter[] = $arTmpFilter;
 				}
 			}
 		}
+
+		$arFilter[] = array(
+			'LOGIC' => 'OR',
+			$arAvailableFilter,
+			array('!IBLOCK_ID' => array_keys($arCatalogs)),
+		);
 	}
 
 	$arOffersWithoutPictureProductsIDs = $arFilterIBlocks = array();
@@ -229,7 +241,7 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 	if($arFilterIBlocks){
 		$arFilter['IBLOCK_ID'] = array_unique($arFilterIBlocks);
 	}
-
+	$bHasRegionElementProp = false;
 	$rsElements = CIBlockElement::GetList(array(), $arFilter, false, false, $arSelect);
 	while($arElement = $rsElements->Fetch())
 	{
@@ -237,10 +249,11 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 		$rsPropRegion = CIBlockElement::GetProperty($arElement["IBLOCK_ID"], $arElement["ID"], array("sort" => "asc"), Array("CODE"=>"LINK_REGION"));
 		while($arPropRegion = $rsPropRegion->Fetch())
 		{
+			$bHasRegionElementProp = true;
 			if($arPropRegion['VALUE'])
 				$arRegionProps[] = $arPropRegion['VALUE'];
 		}
-		if($arRegionProps && $arRegion)
+		if($bHasRegionElementProp && $arRegion && $GLOBALS['arTheme']['USE_REGIONALITY']['DEPENDENT_PARAMS']['REGIONALITY_FILTER_ITEM']['VALUE'] === 'Y')
 		{
 			if(!in_array($arRegion['ID'], $arRegionProps))
 			{
@@ -361,6 +374,21 @@ foreach($arResult["SEARCH"] as $i=>$arItem)
 						$arElement["PICTURE"] = CFile::ResizeImageGet($arElement["PREVIEW_PICTURE"], array("width"=>80, "height"=>80), BX_RESIZE_IMAGE_PROPORTIONAL, true);
 					elseif ($arElement["DETAIL_PICTURE"] > 0)
 						$arElement["PICTURE"] = CFile::ResizeImageGet($arElement["DETAIL_PICTURE"], array("width"=>80, "height"=>80), BX_RESIZE_IMAGE_PROPORTIONAL, true);
+					elseif ($arElement['OFFERS'] && \Bitrix\Main\Config\Option::get('aspro.next', 'SHOW_FIRST_SKU_PICTURE', 'N') === 'Y') {
+						$bFindPicture = false;
+
+						foreach ($arElement['OFFERS'] as $keyOffer => $arOffer) {
+							if (($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE'])) {
+								$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
+							}
+
+							if ($arOffer['DETAIL_PICTURE'] && !$arElement['PREVIEW_PICTURE']['ID'] && !$bFindPicture) {
+								$arElement['PICTURE'] = CFile::ResizeImageGet($arOffer["DETAIL_PICTURE"], array("width"=>80, "height"=>80), BX_RESIZE_IMAGE_PROPORTIONAL, true);
+								$bFindPicture = true;
+								break;
+							}
+						}
+					}
 				}
 			}
 			break;

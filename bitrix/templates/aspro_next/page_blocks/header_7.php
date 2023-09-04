@@ -63,7 +63,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 							</div>
 						</div>
 						<div class="pull-right block-link">
-							<?=CNext::ShowBasketWithCompareLink('', 'big', true, 'wrap_icon wrap_basket baskets');?>
+							<?=CNext::ShowBasketWithCompareLink('', 'big', true, 'wrap_icon wrap_basket baskets basket_wrapper');?>
 						</div>
 						<div class="pull-right">
 							<div class="wrap_icon wrap_cabinet">

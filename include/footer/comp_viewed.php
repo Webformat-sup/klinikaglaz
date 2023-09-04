@@ -15,19 +15,27 @@ if($arRegion)
 			$arParams['STORES'] = $arRegion['LIST_STORES'];
 	}
 }
-$arViewedIDs=CNext::getViewedProducts((int)CSaleBasket::GetBasketUserID(false), SITE_ID);
-if($arViewedIDs){?>
-	<?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("viewed-block");?>
-	<div class="viewed_product_block <?=($arTheme["SHOW_BG_BLOCK"]["VALUE"] == "Y" ? "fill" : "no_fill");?>">
-		<div class="wrapper_inner">
-			<div class="similar_products_wrapp">
-				<?if(!$IsViewedTypeLocal):?>
-					<?$GLOBALS['arrFilterViewed'] = array( "ID" => $arViewedIDs );?>
+?>
+<?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("viewed-block");?>
+<div class="viewed_product_block <?=($arTheme["SHOW_BG_BLOCK"]["VALUE"] == "Y" ? "fill" : "no_fill");?>">
+	<div class="wrapper_inner">
+		<div class="similar_products_wrapp">
+			<?if(!$IsViewedTypeLocal):?>
+				<?$arViewedIDs=CNext::getViewedProducts((int)CSaleBasket::GetBasketUserID(false), SITE_ID);
+				if($arViewedIDs){?>
+					<?
+					$GLOBALS['arrFilterViewed'] = array(
+						"IBLOCK_ID" => "46",
+						"ID" => $arViewedIDs,
+					);
+					CNext::makeElementFilterInRegion($GLOBALS['arrFilterViewed'], false, true);
+					?>
 					<?$APPLICATION->IncludeComponent(
-						"bitrix:catalog.section", 
-						"catalog_viewed_".strtolower($arTheme['VIEWED_TEMPLATE']['VALUE']), 
+						"bitrix:catalog.section",
+						"catalog_viewed_".strtolower($arTheme['VIEWED_TEMPLATE']['VALUE']),
 						array(
-							"IBLOCK_TYPE" => "aspro_next_catalog",
+							"COMPATIBLE_MODE" => "Y",
+		"IBLOCK_TYPE" => "aspro_next_catalog",
 							"IBLOCK_ID" => "46",
 							"SECTION_ID" => "",
 							"SECTION_CODE" => "",
@@ -130,19 +138,19 @@ if($arViewedIDs){?>
 						),
 						false
 					);?>
-				<?else:?>
-					<?$APPLICATION->IncludeComponent(
-						"aspro:catalog.viewed.next",
-						"main_".strtolower($arTheme['VIEWED_TEMPLATE']['VALUE']),
-						array(
-							"TITLE_BLOCK" => GetMessage('VIEWED_BEFORE'),
-							"SHOW_MEASURE" => "Y",
-						),
-						false
-					);?>
-				<?endif;?>
-			</div>
+				<?}?>
+			<?else:?>
+				<?$APPLICATION->IncludeComponent(
+					"aspro:catalog.viewed.next",
+					"main_".strtolower($arTheme['VIEWED_TEMPLATE']['VALUE']),
+					array(
+						"TITLE_BLOCK" => GetMessage('VIEWED_BEFORE'),
+						"SHOW_MEASURE" => "Y",
+					),
+					false
+				);?>
+			<?endif;?>
 		</div>
 	</div>
-	<?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID("viewed-block", "");?>
-<?}?>
+</div>
+<?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID("viewed-block", "");?>

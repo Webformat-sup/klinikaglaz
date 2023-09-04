@@ -1,7 +1,8 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<? $this->setFrameMode( true );?>
+<?$this->setFrameMode(true);?>
+<?$bCompactViewMobile = $arParams['COMPACT_VIEW_MOBILE'] === 'Y';?>
 <?if($arResult['SECTIONS']):?>
-	<div class="sections_wrapper">
+	<div class="sections_wrapper <?=($bCompactViewMobile ? 'compact-view-mobile' : '')?>">
 		<?if($arParams["TITLE_BLOCK"] || $arParams["TITLE_BLOCK_ALL"]):?>
 			<div class="top_block">
 				<h3 class="title_block"><?=$arParams["TITLE_BLOCK"];?></h3>
@@ -13,7 +14,7 @@
 				<?foreach($arResult['SECTIONS'] as $arSection):
 					$this->AddEditAction($arSection['ID'], $arSection['EDIT_LINK'], CIBlock::GetArrayByID($arSection["IBLOCK_ID"], "SECTION_EDIT"));
 					$this->AddDeleteAction($arSection['ID'], $arSection['DELETE_LINK'], CIBlock::GetArrayByID($arSection["IBLOCK_ID"], "SECTION_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_SECTION_DELETE_CONFIRM')));?>
-					<div class="col-md-3 col-sm-4 col-xs-6">
+					<div class="col-md-3 col-sm-4 col-xs-<?=($bCompactViewMobile ? 12 : 6)?>">
 						<div class="item" id="<?=$this->GetEditAreaId($arSection['ID']);?>">
 							<?if ($arParams["SHOW_SECTION_LIST_PICTURES"]!="N"):?>
 								<div class="img shine">

@@ -25,15 +25,18 @@ else
 		<?if($arResult["use_captcha"]===true)
 		{
 			?>
-				var cc;
-				if(document.cookie.indexOf('<?echo session_name()?>'+'=') == -1)
-					cc = Math.random();
-				else
-					cc ='<?=$arResult["CaptchaCode"]?>';
+				var cc ='<?=$arResult["CaptchaCode"]?>';
+				if(BX('captcha')){
+					BX('captcha').src='/bitrix/tools/captcha.php?captcha_code='+cc;
+				}
 
-				BX('captcha').src='/bitrix/tools/captcha.php?captcha_code='+cc;
-				BX('captcha_code').value = cc;
-				BX('captcha_word').value = "";
+				if(BX('captcha_code')){
+					BX('captcha_code').value = cc;
+				}
+
+				if(BX('captcha_word')){
+					BX('captcha_word').value = "";
+				}
 			<?
 		}
 	?>
@@ -222,29 +225,21 @@ else
 						<div id="nocommentreason" style="display:none;"><?=$arResult["NoCommentReason"]?></div>
 						<?
 					}
+
 					if($arResult["use_captcha"]===true)
 					{
 						?>
-						<div class="row captcha-row form">
-							<div class="col-md-8 col-sm-8 col-xs-8">
-								<div class="form-group animated-labels">
-									<label for="captcha_word"><?=GetMessage("B_B_MS_CAPTCHA_SYM")?> <span class="required-star">*</span></label>
-									<div class="input">
-										<input type="hidden" name="captcha_code" id="captcha_code" class="captcha_sid" value="<?=$arResult["CaptchaCode"]?>">
-										<input type="text" size="30" name="captcha_word" class="form-control" id="captcha_word" value=""  tabindex="7">
-									</div>
-								</div>
+						<div class="form-group captcha-row clearfix">
+							<label><span><?=GetMessage("B_B_MS_CAPTCHA_SYM")?>&nbsp;<span class="star">*</span></span></label>
+							<div class="captcha_image">
+								<img src="/bitrix/tools/captcha.php?captcha_code=<?=$arResult["CaptchaCode"]?>" class="captcha_img" width="180" height="40" id="captcha" border="0" />
+								<input type="hidden" name="captcha_code" id="captcha_code" value="<?=$arResult["CaptchaCode"]?>" />
+								<div class="captcha_reload"></div>
 							</div>
-							<div class="col-md-4 col-sm-4 col-xs-4">
-								<div class="form-group">
-									<div class="captcha-img">
-										<div class="blog-comment-field-captcha-image"><div id="div_captcha"></div></div>
-										<span class="refresh captcha_reload"><a href="javascript:;" rel="nofollow"><?=GetMessage("REFRESH")?></a></span>
-									</div>
-								</div>
+							<div class="captcha_input">
+								<input type="text" class="inputtext captcha" name="captcha_word" id="captcha_word" size="30" maxlength="50" value="" required tabindex="7"/>
 							</div>
 						</div>
-
 						<?
 					}
 					?>
@@ -259,17 +254,6 @@ else
 			</div>
 			</div>
 			<?
-			if($arResult["use_captcha"]===true)
-			{
-				?>
-				<div id="captcha_del">
-					<img src="/bitrix/tools/captcha.php?captcha_code=<?=$arResult["CaptchaCode"]?>" class="captcha_img" width="180" height="40" id="captcha" style="display:none;">
-					<script>
-						document.getElementById('captcha_code').value = '<?=$arResult["CaptchaCode"]?>';
-					</script>
-				</div>
-				<?
-			}
 		}
 
 		$prevTab = 0;

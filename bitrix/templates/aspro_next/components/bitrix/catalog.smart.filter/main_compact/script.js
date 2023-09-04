@@ -82,6 +82,26 @@ $(document).ready(function(){
 		var bActive = tooltipWrapp.is('.active');
 		$('.bx_filter .hint.active').removeClass("active").find(".tooltip").slideUp(200);
 		if(!bActive){
+
+			/////
+			//need for resolve problem when hint goes off-screen
+			if($(this).parents("#mobilefilter").length){
+				var leftPosHint = tooltipWrapp[0].getBoundingClientRect().left,
+				mobFilterWidth = $('#mobilefilter').width(),
+				rightOfset = mobFilterWidth - leftPosHint;
+				
+				if(rightOfset < 200 ){
+					var tooltip = tooltipWrapp.find(".tooltip");
+					if(rightOfset > 100){
+						tooltip.css('left', -(200 - rightOfset) - 10);
+					} else {
+						tooltip.css('left', 'auto');
+						tooltip.css('right', -20);
+					}
+				}
+			}
+			/////
+			
 			tooltipWrapp.addClass("active").find(".tooltip").slideDown(200);
 			tooltipWrapp.find(".tooltip_close").click(function(e) { e.stopPropagation(); tooltipWrapp.removeClass("active").find(".tooltip").slideUp(200);});
 		}
@@ -349,6 +369,10 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 			modef_num_mobile.innerHTML = result.ELEMENT_COUNT;
 			hrefFILTER = BX.findChildren(modef, {tag: 'A'}, true);
 			hrefFILTER_mobile = BX.findChildren(modef_mobile, {tag: 'A'}, true);
+
+			if(typeof mobileFilterNum === 'function'){
+				mobileFilterNum(result.ELEMENT_COUNT);
+			}
 
 			if (result.FILTER_URL && hrefFILTER)
 			{

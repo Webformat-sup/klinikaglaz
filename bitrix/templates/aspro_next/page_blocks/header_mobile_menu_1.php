@@ -1,5 +1,14 @@
 <div class="mobilemenu-v1 scroller">
 	<div class="wrap">
+		<?
+		// show regions
+		CNext::ShowMobileRegions();
+
+		// show cabinet item
+		CNext::ShowMobileMenuCabinet();
+		?>
+		<?if(CNext::nlo('menu-mobile', 'class="loadings" style="height:47px;"')):?>
+		<!-- noindex -->
 		<?$APPLICATION->IncludeComponent(
 			"bitrix:menu",
 			"top_mobile",
@@ -20,13 +29,10 @@
 				"USE_EXT" => "Y"
 			)
 		);?>
+		<!-- /noindex -->
+		<?endif;?>
+		<?CNext::nlo('menu-mobile');?>
 		<?
-		// show regions
-		CNext::ShowMobileRegions();
-
-		// show cabinet item
-		CNext::ShowMobileMenuCabinet();
-
 		// show basket item
 		CNext::ShowMobileMenuBasket();
 

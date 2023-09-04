@@ -273,6 +273,10 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 				hrefFILTER_mobile[0].href = BX.util.htmlspecialcharsback(result.FILTER_URL.replace('/filter/clear/apply/', '/'));
 			}
 
+			if(typeof mobileFilterNum === 'function'){
+				mobileFilterNum(result.ELEMENT_COUNT);
+			}
+
 			if (result.FILTER_AJAX_URL && result.COMPONENT_CONTAINER_ID)
 			{
 				BX.unbindAll(hrefFILTER[0]);

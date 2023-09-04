@@ -35,9 +35,10 @@ $skuTemplate = array();
 					</div>
 					<?if($arItem["MIN_PRICE"]["VALUE"]):?>
 						<div class="prices">
-							<div style="color:#1d2029;font-size:15px;font-weight:600;padding: 9px 0px 9px;"><?=$arItem["MIN_PRICE"]["PRINT_VALUE"];?></div>
-							<?if($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] && ($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] != $arItem["MIN_PRICE"]["VALUE"])):?>
-								<div style="font-size:13px;color:#555555;text-decoration:line-through;"><?=$arItem["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"];?></div>
+							<?$bDiscount = ($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] != $arItem["MIN_PRICE"]["VALUE"]);?>
+							<div style="color:#1d2029;font-size:15px;font-weight:600;padding: 9px 0px 9px;"><?=($bDiscount ? $arItem["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"] : $arItem["MIN_PRICE"]["PRINT_VALUE"]);?></div>
+							<?if($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] && $bDiscount):?>
+								<div style="font-size:13px;color:#555555;text-decoration:line-through;"><?=$arItem["MIN_PRICE"]["PRINT_VALUE"];?></div>
 							<?endif;?>
 						</div>
 					<?endif;?>

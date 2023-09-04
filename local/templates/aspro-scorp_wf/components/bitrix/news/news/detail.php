@@ -1,20 +1,23 @@
-<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
+<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$CScorp = new CScorp;
+$CCache = new CCache;
+?>
 <?$this->setFrameMode(true);?>
 <?
 // get element
-$arItemFilter = CScorp::GetCurrentElementFilter($arResult['VARIABLES'], $arParams);
-$arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_STUDY', 'PROPERTY_LINK_SERVICES'));
+$arItemFilter = $CScorp->GetCurrentElementFilter($arResult['VARIABLES'], $arParams);
+$arElement = $CCache->CIblockElement_GetList(array('CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_STUDY', 'PROPERTY_LINK_SERVICES'));
 ?>
 <?if(!$arElement && $arParams['SET_STATUS_404'] !== 'Y'):?>
 	<div class="alert alert-warning"><?=GetMessage("ELEMENT_NOTFOUND")?></div>
 <?elseif(!$arElement && $arParams['SET_STATUS_404'] === 'Y'):?>
-	<?CScorp::goto404Page();?>
+	<?$CScorp->goto404Page();?>
 <?else:?>
 	<?// rss
 	if($arParams['USE_RSS'] !== 'N'){
-		CScorp::ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
+		$CScorp->ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 	}?>
-	<?CScorp::AddMeta(
+	<?$CScorp->AddMeta(
 		array(
 			'og:description' => $arElement['PREVIEW_TEXT'],
 			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
@@ -92,7 +95,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 					Array(
 						"S_ORDER_PRODUCT" => $arParams["S_ORDER_PRODUCT"],
 						"IBLOCK_TYPE" => "aspro_scorp_catalog",
-						"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_catalog"][0],
+						"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_catalog"][0],
 						"NEWS_COUNT" => "20",
 						"SORT_BY1" => "ACTIVE_FROM",
 						"SORT_ORDER1" => "DESC",
@@ -133,7 +136,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 						"PAGER_TEMPLATE" => ".default",
 						"DISPLAY_TOP_PAGER" => "N",
 						"DISPLAY_BOTTOM_PAGER" => "Y",
-						"PAGER_TITLE" => "Новости",
+						"PAGER_TITLE" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
 						"PAGER_SHOW_ALWAYS" => "N",
 						"PAGER_DESC_NUMBERING" => "N",
 						"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -163,7 +166,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 					"study",
 					array(
 						"IBLOCK_TYPE" => "aspro_scorp_catalog",
-						"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_study"][0],
+						"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_study"][0],
 						"NEWS_COUNT" => "20",
 						"SORT_BY1" => "ACTIVE_FROM",
 						"SORT_ORDER1" => "DESC",
@@ -203,7 +206,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 						"PAGER_TEMPLATE" => ".default",
 						"DISPLAY_TOP_PAGER" => "N",
 						"DISPLAY_BOTTOM_PAGER" => "Y",
-						"PAGER_TITLE" => "Новости",
+						"PAGER_TITLE" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
 						"PAGER_SHOW_ALWAYS" => "N",
 						"PAGER_DESC_NUMBERING" => "N",
 						"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -229,7 +232,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 					"services",
 					array(
 						"IBLOCK_TYPE" => "aspro_scorp_content",
-						"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_services"][0],
+						"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_services"][0],
 						"NEWS_COUNT" => "20",
 						"SORT_BY1" => "ACTIVE_FROM",
 						"SORT_ORDER1" => "DESC",
@@ -269,7 +272,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 						"PAGER_TEMPLATE" => ".default",
 						"DISPLAY_TOP_PAGER" => "N",
 						"DISPLAY_BOTTOM_PAGER" => "Y",
-						"PAGER_TITLE" => "Новости",
+						"PAGER_TITLE" => "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",
 						"PAGER_SHOW_ALWAYS" => "N",
 						"PAGER_DESC_NUMBERING" => "N",
 						"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -286,7 +289,7 @@ $arElement = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCac
 	</div>
 	<?
 	if(is_array($arElement['IBLOCK_SECTION_ID']) && count($arElement['IBLOCK_SECTION_ID']) > 1){
-		CScorp::CheckAdditionalChainInMultiLevel($arResult, $arParams, $arElement);
+		$CScorp->CheckAdditionalChainInMultiLevel($arResult, $arParams, $arElement);
 	}
 	?>
 <?endif;?>

@@ -13,15 +13,14 @@
 
 CJSCore::Init(array("ajax"));
 //Let's determine what value to display: rating or average ?
-if($arParams["DISPLAY_AS_RATING"] == "vote_avg")
-{
-	if($arResult["PROPERTIES"]["vote_count"]["VALUE"])
-		$DISPLAY_VALUE = round($arResult["PROPERTIES"]["vote_sum"]["VALUE"]/$arResult["PROPERTIES"]["vote_count"]["VALUE"], 2);
-	else
-		$DISPLAY_VALUE = 0;
+if($arParams["DISPLAY_AS_RATING"] == "vote_avg"){
+	$DISPLAY_VALUE = $arResult["PROPERTIES"]["vote_count"]["VALUE"] > 0 && $arResult["PROPERTIES"]["vote_sum"]["VALUE"] > 0
+		? round($arResult["PROPERTIES"]["vote_sum"]["VALUE"] / $arResult["PROPERTIES"]["vote_count"]["VALUE"], 2)
+		: 0;
 }
-else
+else {
 	$DISPLAY_VALUE = $arResult["PROPERTIES"]["rating"]["VALUE"];
+}
 ?>
 <?if(intval($arResult["PROPERTIES"]["vote_count"]["VALUE"])):?>
 	<div class="iblock-vote" id="vote_<?echo $arResult["ID"]?>" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">

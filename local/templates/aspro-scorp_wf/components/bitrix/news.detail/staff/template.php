@@ -1,9 +1,10 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <?
+$CScorp = new CScorp;
 $this->setFrameMode(true);
 if($arParams["DISPLAY_PICTURE"] != "N"){
 	$picture = ($arResult["FIELDS"]["DETAIL_PICTURE"] ? "DETAIL_PICTURE" : "PREVIEW_PICTURE");
-	CScorp::getFieldImageData($arResult, array($picture));
+	$CScorp->getFieldImageData($arResult, array($picture));
 	$arPhoto = $arResult[$picture];
 	if($arPhoto){
 		$arImgs[] = array(

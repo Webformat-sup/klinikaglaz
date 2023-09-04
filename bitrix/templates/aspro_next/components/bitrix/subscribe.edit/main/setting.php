@@ -54,6 +54,9 @@
 			</div>
 		</div>
 	<?endif;?>
+	<div class="form-control">
+		<?$APPLICATION->IncludeFile(SITE_DIR."include/required_message.php", Array(), Array("MODE" => "html"));?>
+	</div>
 	<input type="submit" name="Save" class="btn btn-default" value="<?echo ($arResult["ID"] > 0? GetMessage("subscr_upd"):GetMessage("subscr_add"))?>" />
 	<input type="reset" class="btn btn-default white" value="<?echo GetMessage("subscr_reset")?>" name="reset" />
 </td></tr></tfoot>

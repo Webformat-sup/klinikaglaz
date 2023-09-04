@@ -1,5 +1,6 @@
 <?
 if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$this->setFrameMode(false);
 
 if($arResult['SHOW_SMS_FIELD']){
 	CJSCore::Init('phone_auth');
@@ -335,6 +336,9 @@ list($bPhoneAuthSupported, $bPhoneAuthShow, $bPhoneAuthRequired, $bPhoneAuthUse)
 									<div class="iblock text_block"></div>
 								</div>
 							<?}?>
+							<div class="form-control wrapper-required-text">
+								<?$APPLICATION->IncludeFile(SITE_DIR."include/required_message.php", Array(), Array("MODE" => "html"));?>
+							</div>
 							<div class="but-r">
 								<?if($arTheme["SHOW_LICENCE"]["VALUE"] == "Y"):?>
 									<div class="wrap_md">

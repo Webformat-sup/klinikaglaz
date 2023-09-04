@@ -74,6 +74,12 @@ if (\Bitrix\Main\Loader::includeModule('catalog'))
 			"TYPE" => "CHECKBOX",
 			"DEFAULT" => "N",
 		),
+		"PRICE_VAT_INCLUDE" => array(
+			"PARENT" => "PRICES",
+			"NAME" => GetMessage("TP_BST_PRICE_VAT_INCLUDE"),
+			"TYPE" => "CHECKBOX",
+			"DEFAULT" => "Y",
+		),
 	);
 }
 if (\Bitrix\Main\ModuleManager::isModuleInstalled("sale"))

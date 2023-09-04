@@ -89,7 +89,7 @@ function registerJquery()
 
 
 class aspro_import {
-    function FillTheBrands($arFields){
+    static function FillTheBrands($arFields){
         $arCatalogID=array(46);
         if( in_array($arFields['IBLOCK_ID'], $arCatalogID) ){
          // \Bitrix\Main\Loader::includeModule('catalog');

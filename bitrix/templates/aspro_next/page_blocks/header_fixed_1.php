@@ -11,7 +11,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 		<div class="pull-left">
 			<div class="inner-table-block sep-left nopadding logo-block">
 				<div class="logo<?=$logoClass?>">
-					<?=CNext::ShowLogo();?>
+					<?=CNext::ShowLogoFixed();?>
 				</div>
 			</div>
 		</div>
@@ -19,6 +19,8 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 			<div class="inner-table-block menu-block rows sep-left">
 				<div class="title"><i class="svg svg-burger"></i><?=GetMessage("S_MOBILE_MENU")?>&nbsp;&nbsp;<i class="fa fa-angle-down"></i></div>
 				<div class="navs table-menu js-nav">
+					<?if(CNext::nlo('menu-fixed')):?>
+					<!-- noindex -->
 					<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
 						array(
 							"COMPONENT_TEMPLATE" => ".default",
@@ -30,22 +32,10 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 						),
 						false, array("HIDE_ICONS" => "Y")
 					);?>
+					<!-- /noindex -->
+					<?endif;?>
+					<?CNext::nlo('menu-fixed');?>
 				</div>
-			</div>
-		</div>
-		<div class="pull-left col-md-3 nopadding hidden-sm hidden-xs search animation-width">
-			<div class="inner-table-block">
-				<?global $isFixedTopSearch;
-				$isFixedTopSearch = true;?>
-				<?$APPLICATION->IncludeComponent(
-					"bitrix:main.include",
-					"",
-					Array(
-						"AREA_FILE_SHOW" => "file",
-						"PATH" => SITE_DIR."include/top_page/search.title.catalog.php",
-						"EDIT_TEMPLATE" => "include_area.php"
-					)
-				);?>
 			</div>
 		</div>
 		<div class="pull-right">
@@ -74,5 +64,20 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 				</div>
 			</div>
 		<?endif;?>
+		<div class="nopadding hidden-sm hidden-xs search animation-width">
+			<div class="inner-table-block">
+				<?global $isFixedTopSearch;
+				$isFixedTopSearch = true;?>
+				<?$APPLICATION->IncludeComponent(
+					"bitrix:main.include",
+					"",
+					Array(
+						"AREA_FILE_SHOW" => "file",
+						"PATH" => SITE_DIR."include/top_page/search.title.catalog.php",
+						"EDIT_TEMPLATE" => "include_area.php"
+					)
+				);?>
+			</div>
+		</div>
 	</div>
 </div>
