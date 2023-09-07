@@ -1,0 +1,21 @@
+{
+    "name": "webformat/klinikaglaz.ru",
+    "repositories": {
+        "webformat.waf-ii": {
+            "type": "path",
+            "url": "/home/bitrix/shared/packages/webformat.waf-ii",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
+    "authors": [
+        {
+            "name": "webformat",
+            "email": "test@webformat.ru"
+        }
+    ],
+    "require": {
+        "webformat/waf-ii": "@dev"
+    }
+}

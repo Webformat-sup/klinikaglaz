@@ -322,6 +322,7 @@ ul.dropdown-menu .search .btn-search {
 }
 .logo_and_menu-row.custom .logo-row .top-description img{
   height: 28px;
+  width: 32px;
   margin: 3px 0 0px 0px;
   float: left;
   padding: 0 12px 0 0px;
@@ -1334,7 +1335,10 @@ span.btn-custom-sign:hover{
 .main-footer-container .footer-second .payment-container img,
 .main-footer-container .footer-second .reviews-container img {
   max-width: 60px;
-  margin: 0 15px 0 0;
+  margin: 0 15px 7px 0;
+
+  width: auto;
+  height: 30px;
 }
 
 

@@ -1,7 +1,7 @@
 <?php
 \Bitrix\Main\Loader::includeModule('webformat.utils');
 CModule::IncludeModule('webformat.debug1');
-
+\file_exists($incFile = $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php') && include($incFile);
 include_once 'webformat/stringHeadCanonical.php';
 include_once 'webformat/stringMicromarkingJson.php';
 

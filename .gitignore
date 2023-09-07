@@ -80,3 +80,5 @@ BackUp*
 /bitrix/templates/aspro_next_/
 
 /yandex*.txt
+
+/vendor/
