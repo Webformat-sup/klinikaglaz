@@ -1452,3 +1452,8 @@ span.btn-custom-sign:hover{
     bottom: 70px!important;
   }
 }
+
+/* XS */
+@media (max-width:767px) {
+    #dialog.banner .row img {height: 100%;}
+}
