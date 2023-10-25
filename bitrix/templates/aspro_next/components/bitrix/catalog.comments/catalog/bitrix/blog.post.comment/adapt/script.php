@@ -3,7 +3,7 @@
 <script>
 fileInputInit("<?=GetMessage('INPUT_FILE_DEFAULT');?>", 'Y');
 
-let lastCommentID = '';
+var lastCommentID = '';
 
 var rating_value = <?=CUtil::PhpToJSObject($arResult['ALL_RATING_VALUE'])?>;
 if(!isNaN(rating_value) && rating_value !== undefined && rating_value) {
@@ -240,61 +240,9 @@ function editComment(key) {
 
 	BX('form_comment_' + key).appendChild(pFormCont); // Move form
 
-	const $filesContainer = document.querySelector('.blog-comment-form__existing-files');
-	const $images = document.querySelectorAll('[rel="reviews-gallery_' + key + '"] img');
-	const deletedImagesCount = $filesContainer.querySelectorAll('img').length;
+	dropZone.drawImagesFromColection(document.querySelectorAll('[rel="reviews-gallery_' + key + '"] img'));
+	
 
-	if (document.form_comment.edit_id.value !== key || !deletedImagesCount) {
-		$filesContainer.innerHTML = '';
-
-		if ($images.length) {
-			for (let i = 0; i < $images.length; i++) {
-				const $block = BX.create('div', {
-					attrs: {
-						className: 'image-block',
-					},
-					children: [
-						BX.create('input', {
-							attrs: {
-								type: 'checkbox',
-								name: 'deleted_images[]',
-								value: $images[i].dataset.id,
-								id: 'del-image-' + $images[i].dataset.id
-							},
-						}),
-						BX.create('label', {
-							attrs: {
-								className: 'image-block__wrapper',
-								for: 'del-image-' + $images[i].dataset.id
-							},
-							children: [
-								BX.create('div', {
-									attrs: {
-										className: 'image-block__inner',
-									},
-									children: [
-										BX.create('img', {
-											attrs: {
-												src: $images[i].getAttribute('src')
-											},
-										}),
-										BX.create('i', {
-											attrs: {
-												className: 'close',
-												title: BX.message('BPC_MES_DELETE'),
-											},
-										}),
-									]
-								}),
-							]
-						}),
-					]
-				});
-
-				$filesContainer.appendChild($block);
-			}
-		}
-	}
 	pFormCont.style.display = "block";
 
 	files = BX('form_comment')["UF_BLOG_COMMENT_DOC[]"];

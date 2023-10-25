@@ -429,7 +429,6 @@ ul.tabs li.stretch {
     width: 33.33%;
   }
   footer .phone .dropdown {
-    left: auto;
     text-align: right;
   }
   .type_clothes .info_item .middle_info .buy_block .counter_wrapp {
@@ -2839,6 +2838,7 @@ ul.tabs li.stretch {
   }
   .popup {
     min-width: 250px;
+    width: 100%;
   }
   .popup .prompt {
     width: 100px;
@@ -5484,9 +5484,6 @@ ul.tabs li.stretch {
   /* body .ce_cmp .catalog_block.block_list .item_block {
     width: 50%;
   } */
-  .ce_cmp .catalog_block .stickers {
-    display:none;
-  }
   body #header .middle-h-row td.logo_wrapp {
     width: 50%;
   }
@@ -6325,7 +6322,7 @@ ul.tabs li.stretch {
   }
   .ce_cmp .catalog_block .catalog_item,
   body .ce_cmp .tabs_slider .catalog_item .inner_wrap {
-    padding: 15px 14px 21px 15px;
+    padding: 9px 9px 15px 9px;
   }
   body .ce_cmp .tabs_slider .catalog_block .catalog_item {
     padding: 0;

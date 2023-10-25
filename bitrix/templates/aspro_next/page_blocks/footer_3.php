@@ -67,7 +67,7 @@
 					<div class="item_block col-md-3 soc">
 						<div class="soc_wrapper">
 							<div class="phones">
-								<div class="phone_block">
+								<div class="phone_block phone-block phone blocks">
 									<?=CNext::ShowHeaderPhones();?>
 									<?if($arTheme['SHOW_CALLBACK']['VALUE'] == 'Y'):?>
 										<span class="order_wrap_btn">

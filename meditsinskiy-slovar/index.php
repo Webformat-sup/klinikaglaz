@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Медицинский словарь");?><h2>Глоссарий офтальмологических терминов</h2>
+$APPLICATION->SetTitle("Медицинский словарь");
+$APPLICATION->SetPageProperty("description", "Глоссарий офтальмологических терминов");?><h2>Глоссарий офтальмологических терминов</h2>
 <p>
  <b>А</b>
 </p>

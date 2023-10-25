@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("История");?>
+$APPLICATION->SetTitle("История");
+$APPLICATION->SetPageProperty("description", "История компании");?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
 	"history", 

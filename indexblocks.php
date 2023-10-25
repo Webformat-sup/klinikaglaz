@@ -128,7 +128,7 @@
 	),
 	false,
 	array(
-	"ACTIVE_COMPONENT" => "N"
+	//"ACTIVE_COMPONENT" => "N"
 	)
 );?>
 	</div>

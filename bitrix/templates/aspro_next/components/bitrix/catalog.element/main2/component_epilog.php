@@ -1351,6 +1351,7 @@ if ($blockViewType) {
 											"SHOW_RATING" => "Y",
 											"RATING_TYPE" => "like_graphic_catalog_reviews",
 											"MAX_IMAGE_SIZE" => $arParams["MAX_IMAGE_SIZE"],
+											"MAX_IMAGE_COUNT" => $arParams["MAX_IMAGE_COUNT"],
 											"BLOG_URL" => $arParams["BLOG_URL"],
 											"REVIEW_COMMENT_REQUIRED" => $arParams["REVIEW_COMMENT_REQUIRED"],
 											"REVIEW_FILTER_BUTTONS" => $arParams["REVIEW_FILTER_BUTTONS"],

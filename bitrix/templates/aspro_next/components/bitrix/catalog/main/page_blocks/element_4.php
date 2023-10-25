@@ -219,6 +219,7 @@
 		"BLOG_URL" => $arParams["BLOG_URL"],
 		"DETAIL_BLOG_EMAIL_NOTIFY" => (isset($arParams['DETAIL_BLOG_EMAIL_NOTIFY']) ? $arParams['DETAIL_BLOG_EMAIL_NOTIFY'] : 'Y'),
 		"MAX_IMAGE_SIZE" => (isset($arParams['MAX_IMAGE_SIZE']) ? $arParams['MAX_IMAGE_SIZE'] : '0.5'),
+		"MAX_IMAGE_COUNT" => $arParams['MAX_IMAGE_COUNT'] ? $arParams['MAX_IMAGE_COUNT'] : '10',
 		
 		"DETAIL_BLOCKS_ORDER" => ($arParams["DETAIL_BLOCKS_ORDER"] ? $arParams["DETAIL_BLOCKS_ORDER"] : 'tizers,complect,nabor,tabs,stores,char,galery,exp_goods,services,gifts,goods,podborki,blog,recomend_goods,assoc_goods'),
 		"DETAIL_BLOCKS_TAB_ORDER" => ($arParams["DETAIL_BLOCKS_TAB_ORDER"] ? $arParams["DETAIL_BLOCKS_TAB_ORDER"] : 'offers,desc,char,buy,payment,delivery,video,reviews,ask,stores,custom_tab'),

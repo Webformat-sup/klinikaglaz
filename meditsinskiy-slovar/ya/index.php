@@ -1,2 +1,2 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Я");?><a href="http:///meditsinskiy-slovar/ya/yatrogennoe-zabolevanie/?clear_cache=Y">Ятрогенное заболевание</a><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+$APPLICATION->SetTitle("Я");$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву Я");?><a href="http:///meditsinskiy-slovar/ya/yatrogennoe-zabolevanie/?clear_cache=Y">Ятрогенное заболевание</a><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

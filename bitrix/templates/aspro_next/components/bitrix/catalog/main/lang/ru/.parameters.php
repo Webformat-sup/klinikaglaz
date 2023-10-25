@@ -318,6 +318,7 @@ $MESS["T_REVIEW_FILTER_BUTTONS"] = "Кнопки фильтрации отзыв
 $MESS['T_REAL_CUSTOMER_TEXT'] = 'Текст подписи «реальный покупатель»';
 $MESS["CP_BC_TPL_DETAIL_BLOG_EMAIL_NOTIFY"] = "Уведомление об отзыве по электронной почте";
 $MESS["CP_BC_TPL_MAX_IMAGE_SIZE"] = "Максимальный размер прикрепляемых картинок";
+$MESS["CP_BC_TPL_MAX_IMAGE_COUNT"] = "Максимальное количество прикрепляемых картинок";
 
 $MESS["T_USE_COMPARE_GROUP"] = "Использовать группировку на странице сравнения";
 ?>

@@ -663,6 +663,12 @@
 				'TYPE' => 'STRING',
 				'DEFAULT' => '0.5'
 			),
+			'MAX_IMAGE_COUNT' => array(
+				'PARENT' => 'REVIEW_SETTINGS',
+				'NAME' => GetMessage('CP_BC_TPL_MAX_IMAGE_COUNT'),
+				'TYPE' => 'STRING',
+				'DEFAULT' => '10'
+			),
 			'DETAIL_BLOG_EMAIL_NOTIFY' => array(
 				'PARENT' => 'REVIEW_SETTINGS',
 				'NAME' => GetMessage('CP_BC_TPL_DETAIL_BLOG_EMAIL_NOTIFY'),

@@ -47,9 +47,9 @@ function deleteProduct(basketId, itemSection, item, th){
 function updateTopBasket($arBasketInfo) {
 
 	$(".basket-link.basket .count, .wraps_icon_block.basket .count .items > span").text($arBasketInfo.COUNT);
-	$(".basket-link.basket .prices").text($arBasketInfo.ALL_SUM);
-	$(".basket-link.basket").attr("title", $arBasketInfo.TITLE);
-
+	$(".basket-link.basket .prices").html($arBasketInfo.ALL_SUM);
+	$(".basket-link.basket").attr("title", htmlEncode($arBasketInfo.TITLE));
+	
 	if ($arBasketInfo.COUNT <= 0) {
 		$(".basket-link.basket .prices").text($arBasketInfo.EMPTY_BASKET);
 		$(".basket-link.basket").removeClass("basket-count");

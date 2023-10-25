@@ -1,4 +1,5 @@
 <?
+use CNext as Solution;
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 //$this->setFrameMode(true);
 global $APPLICATION;
@@ -187,7 +188,7 @@ $arParams["CLICKABLE"] = ( $arParams["CLICKABLE"] ? $arParams["CLICKABLE"] : "Y"
 				<?if( $cnt > 1 ){?>
 					map.fitBounds(bounds);
 				<?}else{
-					$map_data = unserialize($arParams["MAP_DATA"]);?>
+					$map_data = Solution::unserialize($arParams["MAP_DATA"]);?>
 					//map.SetZoom(<?=$map_data["google_scale"]?>);
 				<?}?>
 			<?}?>

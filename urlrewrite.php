@@ -144,14 +144,6 @@ $arUrlRewrite=array (
     'PATH' => '/shop_catalog/personal/index.php',
     'SORT' => 100,
   ),
-  111 => 
-  array (
-    'CONDITION' => '#^/glaznye-zabolevaniya/#',
-    'RULE' => '',
-    'ID' => 'bitrix:catalog',
-    'PATH' => '/glaznye-zabolevaniya/index.php',
-    'SORT' => 100,
-  ),
   55 => 
   array (
     'CONDITION' => '#^/shop_catalog/catalog/#',
@@ -160,20 +152,20 @@ $arUrlRewrite=array (
     'PATH' => '/shop_catalog/catalog/index.php',
     'SORT' => 100,
   ),
-  43 => 
+  124 => 
   array (
-    'CONDITION' => '#^/shop_catalog/blog/#',
+    'CONDITION' => '#^/glaznye-zabolevaniya/#',
     'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/shop_catalog/blog/index.php',
+    'ID' => 'bitrix:catalog',
+    'PATH' => '/glaznye-zabolevaniya/index.php',
     'SORT' => 100,
   ),
-  44 => 
+  77 => 
   array (
-    'CONDITION' => '#^/shop_catalog/auth/#',
+    'CONDITION' => '#^/online/(/?)([^/]*)#',
     'RULE' => '',
-    'ID' => 'aspro:auth.next',
-    'PATH' => '/shop_catalog/auth/index.php',
+    'ID' => NULL,
+    'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
   53 => 
@@ -184,12 +176,20 @@ $arUrlRewrite=array (
     'PATH' => '/shop_catalog/sale/index.php',
     'SORT' => 100,
   ),
-  77 => 
+  44 => 
   array (
-    'CONDITION' => '#^/online/(/?)([^/]*)#',
+    'CONDITION' => '#^/shop_catalog/auth/#',
     'RULE' => '',
-    'ID' => NULL,
-    'PATH' => '/desktop_app/router.php',
+    'ID' => 'aspro:auth.next',
+    'PATH' => '/shop_catalog/auth/index.php',
+    'SORT' => 100,
+  ),
+  43 => 
+  array (
+    'CONDITION' => '#^/shop_catalog/blog/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/shop_catalog/blog/index.php',
     'SORT' => 100,
   ),
   89 => 
@@ -208,20 +208,28 @@ $arUrlRewrite=array (
     'PATH' => '/company/reviews/index.php',
     'SORT' => 100,
   ),
-  3 => 
-  array (
-    'CONDITION' => '#^/company/history/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/company/history/index.php',
-    'SORT' => 100,
-  ),
   97 => 
   array (
     'CONDITION' => '#^/company/vacancy/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/company/vacancy/index.php',
+    'SORT' => 100,
+  ),
+  121 => 
+  array (
+    'CONDITION' => '#^/contacts/stores/#',
+    'RULE' => '',
+    'ID' => 'bitrix:catalog.store',
+    'PATH' => '/contacts/stores/index.php',
+    'SORT' => 100,
+  ),
+  123 => 
+  array (
+    'CONDITION' => '#^/company/history/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/company/history/index.php',
     'SORT' => 100,
   ),
   18 => 
@@ -248,7 +256,7 @@ $arUrlRewrite=array (
     'PATH' => '/company/staff/index.php',
     'SORT' => 100,
   ),
-  80 => 
+  122 => 
   array (
     'CONDITION' => '#^/company/news/#',
     'RULE' => '',
@@ -270,22 +278,6 @@ $arUrlRewrite=array (
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/info/news/index.php',
-    'SORT' => 100,
-  ),
-  75 => 
-  array (
-    'CONDITION' => '#^/onlinepay/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/onlinepay/index.php',
-    'SORT' => 100,
-  ),
-  9 => 
-  array (
-    'CONDITION' => '#^/info/faq/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/info/faq/index.php',
     'SORT' => 100,
   ),
   30 => 
@@ -312,6 +304,14 @@ $arUrlRewrite=array (
     'PATH' => '/services/index.php',
     'SORT' => 100,
   ),
+  117 => 
+  array (
+    'CONDITION' => '#^/info/faq/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/info/faq/index.php',
+    'SORT' => 100,
+  ),
   59 => 
   array (
     'CONDITION' => '#^/catalog/#',
@@ -336,7 +336,15 @@ $arUrlRewrite=array (
     'PATH' => '/study/index.php',
     'SORT' => 100,
   ),
-  73 => 
+  114 => 
+  array (
+    'CONDITION' => '#^/sale/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/sale/index.php',
+    'SORT' => 100,
+  ),
+  118 => 
   array (
     'CONDITION' => '#^/auth/#',
     'RULE' => '',
@@ -344,12 +352,12 @@ $arUrlRewrite=array (
     'PATH' => '/auth/index.php',
     'SORT' => 100,
   ),
-  114 => 
+  119 => 
   array (
-    'CONDITION' => '#^/sale/#',
+    'CONDITION' => '#^/blog/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
-    'PATH' => '/sale/index.php',
+    'PATH' => '/blog/index.php',
     'SORT' => 100,
   ),
 );

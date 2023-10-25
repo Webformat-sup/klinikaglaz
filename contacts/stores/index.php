@@ -1,6 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Магазины");
+$APPLICATION->SetPageProperty("description", "Магазины нашей компании");
 ?>
 <?global $arTheme;?>
 <?if($arTheme["STORES_SOURCE"]["VALUE"] != 'IBLOCK'):?>

@@ -94,7 +94,7 @@ foreach($arProfiles as $PROFILE_ID)
 	$params['MAX_EXECUTION_TIME'] = (isset($MAX_EXECUTION_TIME) && (int)$MAX_EXECUTION_TIME > 0 ? $MAX_EXECUTION_TIME : 0);
 
 	$needImport = true;
-	if($needCheckSize)
+	if(true /*$needCheckSize*/)
 	{
 		$checkSum = $arProfileFields['FILE_HASH'];
 	}
@@ -113,7 +113,7 @@ foreach($arProfiles as $PROFILE_ID)
 				$fileLink = $_SERVER["DOCUMENT_ROOT"].$arFile['SRC'];
 				$fileSum = md5_file($fileLink);
 			}
-			elseif($checkSum)
+			elseif(/*$needCheckSize &&*/ $checkSum)
 			{
 				 $fileSum = $checkSum;
 			}
@@ -128,7 +128,7 @@ foreach($arProfiles as $PROFILE_ID)
 				$i--;
 			}
 			if($arFile['tmp_name'] && file_exists($arFile['tmp_name'])) $fileSum = md5_file($arFile['tmp_name']);
-			elseif($checkSum) $fileSum = $checkSum;
+			elseif($needCheckSize && $checkSum) $fileSum = $checkSum;
 		}
 		
 		if($needCheckSize && $checkSum && $checkSum==$fileSum)
@@ -206,6 +206,11 @@ foreach($arProfiles as $PROFILE_ID)
 			$oProfile->OnBreakImport('FILE_IS_LOADED');
 			echo date('Y-m-d H:i:s').": file is loaded\r\n"."Profile id = ".$PROFILE_ID."\r\n\r\n";
 			continue;
+		}
+		elseif($checkSum && $checkSum==$fileSum)
+		{
+			$oProfile->SetImportParams($pid, false, array('IMPORT_MODE'=>'CRON'));
+			$oProfile->OnFileNotChanged();
 		}
 		elseif($newFileId===0)
 		{

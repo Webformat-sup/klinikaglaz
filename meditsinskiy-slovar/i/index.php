@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("И");?><p>
+$APPLICATION->SetTitle("И");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на буквы И");?><p>
  <a href="/meditsinskiy-slovar/i/izometropiya/">Изометропия</a>
 </p>
 <p>

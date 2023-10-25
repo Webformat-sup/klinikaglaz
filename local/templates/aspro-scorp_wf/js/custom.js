@@ -31,7 +31,9 @@ function getWindowClose(){
  setTimeout (getWindowClose, 1000);
 })
 $(document).ready(function() {
-
+	$('body').bind("contextmenu", function(e) {
+		e.preventDefault();
+	});
 	/*------открыть формы------*/
 	var hash = window.location.hash;
 	if(hash != ''){

@@ -1,4 +1,5 @@
 <?
+use CNext as Solution;
 if($arResult['STORES'])
 {
 	$arTmpItems = $arTmpItems2 = array();
@@ -9,7 +10,7 @@ if($arResult['STORES'])
 		$arTmp = array();
 		$arTmp['EMAIL'] = htmlspecialchars_decode($arStore['EMAIL']);
 		$arTmp['METRO_PLACEMARK_HTML'] = '';
-		if($arTmp['METRO'] = unserialize($arStore['UF_METRO']))
+		if($arTmp['METRO'] = Solution::unserialize($arStore['UF_METRO']))
 		{
 			$arTmp['METRO_PLACEMARK_HTML'] = implode(', ', $arTmp['METRO']);
 		}

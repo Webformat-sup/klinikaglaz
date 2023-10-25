@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("С");?><p>
+$APPLICATION->SetTitle("С");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву С");?><p>
  <a href="http:///meditsinskiy-slovar/s/sindrom-sukhogo-glaza/">Синдром сухого глаза</a>
 </p>
 <p>

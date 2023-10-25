@@ -152,12 +152,6 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 
 	$obParser = new CTextParser;
 
-	if($arRegion)
-	{
-		if($arRegion["LIST_PRICES"] && !in_array('component', $arRegion["LIST_PRICES"]))
-			$arParams["PRICE_CODE"] = array_keys($arRegion["LIST_PRICES"]);
-	}
-
 	if (is_array($arParams["PRICE_CODE"]))
 		$arResult["PRICES"] = CIBlockPriceTools::GetCatalogPrices(0, $arParams["PRICE_CODE"]);
 	else
@@ -347,10 +341,12 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 						}
 					}
 				}
-				if($bHideNotAvailable)
-				{
-					if(!$arUnDeleteIDs[$arItem["ITEM_ID"]])
-						unset($arResult["CATEGORIES"][$category_id]["ITEMS"][$i]);
+				if (
+					$bHideNotAvailable 
+					&& strpos($arItem["ITEM_ID"], "S") === false
+					&& !$arUnDeleteIDs[$arItem["ITEM_ID"]]
+				) {
+					unset($arResult["CATEGORIES"][$category_id]["ITEMS"][$i]);
 				}
 				if($arDeleteIDs)
 				{
@@ -367,8 +363,11 @@ foreach($arResult["SEARCH"] as $i=>$arItem)
 	switch($arItem["MODULE_ID"])
 	{
 		case "iblock":
-			if(array_key_exists($arItem["ITEM_ID"], $arResult["ELEMENTS"]))
-			{
+			if(
+				is_array($arResult["ELEMENTS"])
+				&& array_key_exists($arItem["ITEM_ID"], $arResult["ELEMENTS"])
+				&& is_array($arResult["ELEMENTS"][$arItem["ITEM_ID"]])
+			) {
 				$arElement = &$arResult["ELEMENTS"][$arItem["ITEM_ID"]];
 				if ($arParams["SHOW_PREVIEW"] == "Y")
 				{

@@ -124,6 +124,8 @@ if ($existShow || $existDelete)
 	Collection::sortByColumn($arResult['ALL_OFFER_FIELDS'], array('SORT' => SORT_ASC));
 }
 
+$arResult["SHOW_OFFER_PROPERTIES"] = CNext::PrepareItemProps($arResult["SHOW_OFFER_PROPERTIES"]);
+
 $arResult['ALL_OFFER_PROPERTIES'] = array();
 $existShow = !empty($arResult["SHOW_OFFER_PROPERTIES"]);
 $existDelete = !empty($arResult["DELETED_OFFER_PROPERTIES"]);
@@ -150,7 +152,9 @@ if ($existShow || $existDelete)
 		unset($arProp, $propCode, $arResult['DELETED_OFFER_PROPERTIES']);
 	}
 	Collection::sortByColumn($arResult['ALL_OFFER_PROPERTIES'], array('SORT' => SORT_ASC, 'ID' => SORT_ASC));
+
 }
+
 
 $arResult['SECTIONS'] = array();
 if ($arParams["USE_COMPARE_GROUP"] === "Y") {

@@ -317,6 +317,7 @@ $MESS["T_REVIEW_FILTER_BUTTONS"] = "Reviews filtering buttons";
 $MESS['T_REAL_CUSTOMER_TEXT'] = 'Signature text "Real Buyer" for review';
 $MESS["CP_BC_TPL_DETAIL_BLOG_EMAIL_NOTIFY"] = "Revocation email notification";
 $MESS["CP_BC_TPL_MAX_IMAGE_SIZE"] = "Maximum size of attached pictures";
+$MESS["CP_BC_TPL_MAX_IMAGE_COUNT"] = "Maximum number of attached pictures";
 
 $MESS["T_USE_COMPARE_GROUP"] = "Use grouping on the compare page";
 ?>

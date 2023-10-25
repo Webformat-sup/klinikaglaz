@@ -1439,7 +1439,16 @@ span.btn-custom-sign:hover{
 #footer-fixed-menu .items-container a img {
   width: 100%;
 }
-
+.footer-yandex-map {
+  display: block;
+}
+.footer-yandex-map__img {
+  width: 100%;
+  height: auto;
+  min-height: 390px;
+  object-fit: cover;
+  object-position: center;
+}
 @media screen and (max-width: 415px) {
   #footer-fixed-menu {
     display: block;
@@ -1456,4 +1465,7 @@ span.btn-custom-sign:hover{
 /* XS */
 @media (max-width:767px) {
     #dialog.banner .row img {height: 100%;}
+    .footer-yandex-map__img {
+      min-height: 270px;
+    }
 }

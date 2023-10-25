@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("К");?><p>
+$APPLICATION->SetTitle("К");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву К");?><p>
  <a href="/meditsinskiy-slovar/k/katarakta/">Катаракта</a>
 </p>
 <p>

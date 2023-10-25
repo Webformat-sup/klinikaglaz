@@ -523,12 +523,13 @@
 	"left", 
 	array(
 		"ROOT_MENU_TYPE" => "left",
-		"MENU_CACHE_TYPE" => "Y",
+		"MENU_CACHE_TYPE" => "N",
 		"MENU_CACHE_TIME" => "10",
 		"MENU_CACHE_USE_GROUPS" => "N",
 		"MENU_CACHE_GET_VARS" => array(
 			0 => "SECTION_CODE",
 			1 => "SECTION_ID",
+			2 => "",
 		),
 		"MAX_LEVEL" => "4",
 		"CHILD_MENU_TYPE" => "left",

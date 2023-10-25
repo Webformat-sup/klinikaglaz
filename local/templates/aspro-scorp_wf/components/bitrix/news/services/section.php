@@ -7,7 +7,7 @@ $CCache = new CCache;
 $arItemFilter = $CScorp->GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams);
 $arSectionFilter = $CScorp->GetCurrentSectionFilter($arResult["VARIABLES"], $arParams);
 $itemsCnt = $CCache->CIblockElement_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
-$arSection = $CCache->CIblockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE' ,'DETAIL_TEXT'), true);
+$arSection = $CCache->CIblockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE' ,'DETAIL_TEXT', 'UF_DOCTORS','UF_SP_VIEW'), true);
 $CScorp->AddMeta(
 	array(
 		'og:description' => $arSection['DESCRIPTION'],
@@ -163,11 +163,26 @@ $this->EndViewTarget();
 	);?>
 <?endif;?>
 <?// staff links?>
-<?$dbServicesGroupedBySpecialities = \CIblockElement::getList(['PROPERTY_LINK_STAFF_VALUE' => 'ASC'], ['SECTION_ID' => $arSection['ID'], 'INCLUDE_SUBSECTIONS' => true], ['PROPERTY_LINK_STAFF']);
-  $arSpecIds = [];
+
+
+
+
+<?
+$arSpecSecIds = is_array($arSection['UF_DOCTORS'])?$arSection['UF_DOCTORS']:array();
+$modeSpec = 'ADD';
+if($arSection && $arSection['UF_SP_VIEW']!= false)
+{
+	$modeSpec = 'CHANGE';
+}
+ $arSpecIds = [];
+if($modeSpec == 'ADD')
+{
+	$dbServicesGroupedBySpecialities = \CIblockElement::getList(['PROPERTY_LINK_STAFF_VALUE' => 'ASC'], ['SECTION_ID' => $arSection['ID'], 'INCLUDE_SUBSECTIONS' => true], ['PROPERTY_LINK_STAFF']);
   while($res = $dbServicesGroupedBySpecialities->Fetch()) {
     $arSpecIds[$res['PROPERTY_LINK_STAFF_VALUE']] = $res['PROPERTY_LINK_STAFF_VALUE'];
   }
+}
+$arSpecIds = array_unique(array_merge($arSpecSecIds, $arSpecIds));
   if(!empty($arSpecIds)) {
   ?><div class="wraps nomargin wf-specialists">
     <hr />

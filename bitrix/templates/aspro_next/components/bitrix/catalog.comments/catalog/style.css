@@ -473,7 +473,9 @@ div.blog-comment-buttons input {
 .EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .form.virtues,
 .EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .form.limitations,
 .EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .rating_label,
-.EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .form.files {
+.EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .form.files,
+.EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .approve-text,
+.EXTENDED .blog-comment #form_c_del:not(.edit-form) form#form_comment .drop-zone {
   display: none;
 }
 

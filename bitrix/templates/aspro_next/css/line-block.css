@@ -342,3 +342,10 @@
     --gap: 8px;
   }
 }
+
+@media (max-width: 450px) { 
+  .line-block--column-450 {
+    flex-direction: column;
+  }
+}
+

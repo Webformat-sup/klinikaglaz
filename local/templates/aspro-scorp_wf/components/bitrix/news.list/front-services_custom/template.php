@@ -157,8 +157,9 @@ $frame->setAnimation(true);
 		</div>
 	</div>
 <?endif;?>
-<script type="text/javascript">
-$(document).ready(function() {
+<script>
+    $(document).ready(function() {
+    return;
 	try{
 		if(arScorpOptions.THEME.CATALOG_INDEX == 'Y'){
 			$('.catalog.item-views.sections.front').show();
@@ -204,5 +205,6 @@ $(document).ready(function() {
 	catch(e){}
 });
 </script>
+
 <?$frame->end();?>
 </div>

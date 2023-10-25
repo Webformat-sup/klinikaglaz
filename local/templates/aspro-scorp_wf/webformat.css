@@ -218,6 +218,61 @@ div.preim.index .text{
 	.banners-big .slides > li .maxwidth-theme.fulla .row{
 		margin: 0;
 	}
+	.text_before_items img, .content img, .cat-desc img,
+	.content-md img{
+		width: 100%!important;
+		height: auto;
+	}
+	.detail div.ask_a_question{
+		width: 100%;
+	}
+	.detail .wraps hr{
+		display: none;
+	}
+	.detail .chars table.props_table{
+		width: 100%;
+	}
+	body{
+		overflow-x: hidden;
+	}
+	table.adaptive thead{
+		display: none;
+	}
+	table.adaptive td{
+		display: block;
+	}
+	table.adaptive td:before {
+		content: attr(data-label);
+		float: left;
+		font-weight: bold;
+		width: 100%;
+	}
+	.mobile-ver .mobile-phone-callback, .mobile-ver .mobile-form-callback, .mobile-ver .mobile-contacts-callback{
+		margin-right: 15px;
+	}
+	.reviews.item-views .item{
+		margin-bottom: 15px;
+	}
+	.pic .image img, .item-views.list .item .image img,
+	.item-views.sections .item .image img{
+		object-fit: contain;
+	}
+	.item-views.list.image_left .item .image{
+		padding-top: 0 !important;
+	}
+	.social-icons li{
+		margin: 10px;
+	}
+	.review .text{
+		width: 100%;
+	}
+	.view_sale_block{
+		margin: 10px 0 !important;
+		float: none !important;
+	}
+	.content, .content p, .content>div{
+		font-size: 14px;
+	}
 }
 
 .form .required-fileds{

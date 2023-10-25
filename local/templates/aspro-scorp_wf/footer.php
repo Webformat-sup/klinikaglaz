@@ -134,231 +134,13 @@
 
 		<footer style="color: #000; margin-top: -6px !important;">
 			<div class="container main-footer-container">
-					<div class="row">
-						<div class="maxwidth-theme">
-							<div class="col-md-4 col-sm-4 col-xs-12 footer-first">
-									<div class="logotip">
-										<img src="/upload/logotip_footer.svg" alt="logotip" />
-									</div>
-
-									<div class="text">
-										<?$APPLICATION->IncludeComponent(
-											'bitrix:main.include',
-											'',
-											[
-												'AREA_FILE_SHOW' => 'file',
-												'AREA_FILE_SUFFIX' => 'inc',
-												'EDIT_TEMPLATE' => '',
-												'PATH' => '/include/footer/footer-block-1.php'
-											]
-										);?>
-									</div>
-									<div class="text data">
-										<?$APPLICATION->IncludeComponent(
-											'bitrix:main.include',
-											'',
-											[
-												'AREA_FILE_SHOW' => 'file',
-												'AREA_FILE_SUFFIX' => 'inc',
-												'EDIT_TEMPLATE' => '',
-												'PATH' => '/include/footer/footer-block-2.php'
-											]
-										);?>
-									</div>
-									<div class="text links">
-										<div>
-											<a href="/terms-of-use.php">Пользовательское соглашение</a>
-										</div>
-										<div>
-											<a href="/privacy-policy.php">Политика конфиденциальности</a>			
-										</div>
-									</div>
-									<div class="webmaster-yandex">
-										<a href="https://webmaster.yandex.ru/sqi?host=klinikaglaz.ru">
-											<img alt="" src="https://yandex.ru/cycounter?klinikaglaz.ru&amp;theme=light&amp;lang=ru" width="88" height="31" border="0" />
-										</a>
-									</div>
-
-							</div>
-							<div class="col-md-5 col-sm-5 col-xs-12 footer-second">
-
-								<div class="row">
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<?$APPLICATION->IncludeComponent(
-											"bitrix:menu", 
-											"bottom_custom", 
-											array(
-												"ROOT_MENU_TYPE" => "bottom",
-												"MENU_CACHE_TYPE" => "A",
-												"MENU_CACHE_TIME" => "3600000",
-												"MENU_CACHE_USE_GROUPS" => "N",
-												"MENU_CACHE_GET_VARS" => array(),
-												"MAX_LEVEL" => "1",
-												"CHILD_MENU_TYPE" => "",
-												"USE_EXT" => "Y",
-												"DELAY" => "N",
-												"ALLOW_MULTI_SELECT" => "Y"
-											),
-											false
-										);?>
-									</div>
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<?$APPLICATION->IncludeComponent(
-											"bitrix:menu", 
-											"bottom_custom", 
-											array(
-												"ROOT_MENU_TYPE" => "bottom-right",
-												"MENU_CACHE_TYPE" => "A",
-												"MENU_CACHE_TIME" => "3600000",
-												"MENU_CACHE_USE_GROUPS" => "N",
-												"MENU_CACHE_GET_VARS" => array(
-												),
-												"MAX_LEVEL" => "1",
-												"CHILD_MENU_TYPE" => "",
-												"USE_EXT" => "Y",
-												"DELAY" => "N",
-												"ALLOW_MULTI_SELECT" => "Y",
-												"COMPONENT_TEMPLATE" => "bottom_custom"
-											),
-											false
-										);?>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<div class="payment-container">
-											<?$APPLICATION->IncludeComponent(
-												'bitrix:main.include',
-												'',
-												[
-													'AREA_FILE_SHOW' => 'file',
-													'AREA_FILE_SUFFIX' => 'inc',
-													'EDIT_TEMPLATE' => '',
-													'PATH' => '/include/footer/payment-container.php'
-												]
-											);?>
-										</div>
-									</div>
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<div class="reviews-container">
-											<?$APPLICATION->IncludeComponent(
-												'bitrix:main.include',
-												'',
-												[
-													'AREA_FILE_SHOW' => 'file',
-													'AREA_FILE_SUFFIX' => 'inc',
-													'EDIT_TEMPLATE' => '',
-													'PATH' => '/include/footer/reviews-container.php'
-												]
-											);?>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12 col-sm-12 col-xs-12 text">
-										<?$APPLICATION->IncludeComponent(
-											'bitrix:main.include',
-											'',
-											[
-												'AREA_FILE_SHOW' => 'file',
-												'AREA_FILE_SUFFIX' => 'inc',
-												'EDIT_TEMPLATE' => '',
-												'PATH' => '/include/footer/second-block-1.php'
-											]
-										);?>								
-									</div>
-								</div>
-								<div class="row awards">
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<?$APPLICATION->IncludeComponent(
-											'bitrix:main.include',
-											'',
-											[
-												'AREA_FILE_SHOW' => 'file',
-												'AREA_FILE_SUFFIX' => 'inc',
-												'EDIT_TEMPLATE' => '',
-												'PATH' => '/include/footer/awards-item-1.php'
-											]
-										);?>
-									</div>
-
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<?$APPLICATION->IncludeComponent(
-											'bitrix:main.include',
-											'',
-											[
-												'AREA_FILE_SHOW' => 'file',
-												'AREA_FILE_SUFFIX' => 'inc',
-												'EDIT_TEMPLATE' => '',
-												'PATH' => '/include/footer/awards-item-2.php'
-											]
-										);?>
-									</div>
-								</div>
-								<div class="row awards" style="margin-top: 0;">
-									<div class="col-md-12 col-sm-12 col-xs-12">
-										<?$APPLICATION->IncludeComponent(
-											'bitrix:main.include',
-											'',
-											[
-												'AREA_FILE_SHOW' => 'file',
-												'AREA_FILE_SUFFIX' => 'inc',
-												'EDIT_TEMPLATE' => '',
-												'PATH' => '/include/footer/awards-item-3.php'
-											]
-										);?>
-									</div>
+				<div class="row">
+					<div class="maxwidth-theme">
+						<div class="col-md-4 col-sm-4 col-xs-12 footer-first">
+								<div class="logotip">
+									<img src="/upload/logotip_footer.svg" alt="logotip" />
 								</div>
 
-							</div>
-							<div class="col-md-3 col-sm-3 col-xs-12 footer-third">
-								<div class="version-impaired">
-									<a href="?special_version=Y">
-										<img src="/upload/version-impaired.svg" alt="версия для слабовидящих" />
-										<div class="text"><?= GetMessage('FOOTER_SPECIAL_VERSION') ?></div>
-									</a>
-								</div>
-								<div class="contact text">
-									<?$APPLICATION->IncludeComponent(
-										'bitrix:main.include',
-										'',
-										[
-											'AREA_FILE_SHOW' => 'file',
-											'AREA_FILE_SUFFIX' => 'inc',
-											'EDIT_TEMPLATE' => '',
-											'PATH' => '/include/footer/contact-block.php'
-										]
-									);?>
-									<div>
-										<?$APPLICATION->IncludeFile(SITE_DIR."include/site-phone.php", array(), array(
-												"MODE" => "html",
-												"NAME" => "Phone",
-											)
-										);?>
-									</div>
-
-								</div>
-								<div class="social-container">
-									<div class="text"><?=GetMessage('SOCIAL')?></div>
-									<?$APPLICATION->IncludeComponent(
-										"aspro:social.info.scorp", 
-										".default", 
-										array(
-											"CACHE_TYPE" => "A",	// Тип кеширования
-											"CACHE_TIME" => "3600000",	// Время кеширования (сек.)
-											"CACHE_GROUPS" => "N",	// Учитывать права доступа
-											"COMPONENT_TEMPLATE" => ".default",
-											"SOCIAL_ZEN_LINK" => "https://dzen.ru/id/5c12201a264c6c00acf664c9"
-										),
-										false
-									);?>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="maxwidth-theme">
-							<div class="col-md-12 col-sm-12 col-xs-12 footer-last">
 								<div class="text">
 									<?$APPLICATION->IncludeComponent(
 										'bitrix:main.include',
@@ -367,13 +149,231 @@
 											'AREA_FILE_SHOW' => 'file',
 											'AREA_FILE_SUFFIX' => 'inc',
 											'EDIT_TEMPLATE' => '',
-											'PATH' => '/include/footer/footer-last-block.php'
+											'PATH' => '/include/footer/footer-block-1.php'
+										]
+									);?>
+								</div>
+								<div class="text data">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/footer-block-2.php'
+										]
+									);?>
+								</div>
+								<div class="text links">
+									<div>
+										<a href="/terms-of-use.php">Пользовательское соглашение</a>
+									</div>
+									<div>
+										<a href="/privacy-policy.php">Политика конфиденциальности</a>			
+									</div>
+								</div>
+								<div class="webmaster-yandex">
+									<a href="https://webmaster.yandex.ru/sqi?host=klinikaglaz.ru">
+										<img alt="" src="https://yandex.ru/cycounter?klinikaglaz.ru&amp;theme=light&amp;lang=ru" width="88" height="31" border="0" />
+									</a>
+								</div>
+
+						</div>
+						<div class="col-md-5 col-sm-5 col-xs-12 footer-second">
+
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<?$APPLICATION->IncludeComponent(
+										"bitrix:menu", 
+										"bottom_custom", 
+										array(
+											"ROOT_MENU_TYPE" => "bottom",
+											"MENU_CACHE_TYPE" => "A",
+											"MENU_CACHE_TIME" => "3600000",
+											"MENU_CACHE_USE_GROUPS" => "N",
+											"MENU_CACHE_GET_VARS" => array(),
+											"MAX_LEVEL" => "1",
+											"CHILD_MENU_TYPE" => "",
+											"USE_EXT" => "Y",
+											"DELAY" => "N",
+											"ALLOW_MULTI_SELECT" => "Y"
+										),
+										false
+									);?>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<?$APPLICATION->IncludeComponent(
+										"bitrix:menu", 
+										"bottom_custom", 
+										array(
+											"ROOT_MENU_TYPE" => "bottom-right",
+											"MENU_CACHE_TYPE" => "A",
+											"MENU_CACHE_TIME" => "3600000",
+											"MENU_CACHE_USE_GROUPS" => "N",
+											"MENU_CACHE_GET_VARS" => array(
+											),
+											"MAX_LEVEL" => "1",
+											"CHILD_MENU_TYPE" => "",
+											"USE_EXT" => "Y",
+											"DELAY" => "N",
+											"ALLOW_MULTI_SELECT" => "Y",
+											"COMPONENT_TEMPLATE" => "bottom_custom"
+										),
+										false
+									);?>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="payment-container">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/payment-container.php'
+											]
+										);?>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<div class="reviews-container">
+										<?$APPLICATION->IncludeComponent(
+											'bitrix:main.include',
+											'',
+											[
+												'AREA_FILE_SHOW' => 'file',
+												'AREA_FILE_SUFFIX' => 'inc',
+												'EDIT_TEMPLATE' => '',
+												'PATH' => '/include/footer/reviews-container.php'
+											]
+										);?>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 text">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/second-block-1.php'
+										]
+									);?>								
+								</div>
+							</div>
+							<div class="row awards">
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/awards-item-1.php'
+										]
+									);?>
+								</div>
+
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/awards-item-2.php'
 										]
 									);?>
 								</div>
 							</div>
+							<div class="row awards" style="margin-top: 0;">
+								<div class="col-md-12 col-sm-12 col-xs-12">
+									<?$APPLICATION->IncludeComponent(
+										'bitrix:main.include',
+										'',
+										[
+											'AREA_FILE_SHOW' => 'file',
+											'AREA_FILE_SUFFIX' => 'inc',
+											'EDIT_TEMPLATE' => '',
+											'PATH' => '/include/footer/awards-item-3.php'
+										]
+									);?>
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-12 footer-third">
+							<div class="version-impaired">
+								<a href="?special_version=Y">
+									<img src="/upload/version-impaired.svg" alt="версия для слабовидящих" />
+									<div class="text"><?= GetMessage('FOOTER_SPECIAL_VERSION') ?></div>
+								</a>
+							</div>
+							<div class="contact text">
+								<?$APPLICATION->IncludeComponent(
+									'bitrix:main.include',
+									'',
+									[
+										'AREA_FILE_SHOW' => 'file',
+										'AREA_FILE_SUFFIX' => 'inc',
+										'EDIT_TEMPLATE' => '',
+										'PATH' => '/include/footer/contact-block.php'
+									]
+								);?>
+								<div>
+									<?$APPLICATION->IncludeFile(SITE_DIR."include/site-phone.php", array(), array(
+											"MODE" => "html",
+											"NAME" => "Phone",
+										)
+									);?>
+								</div>
+
+							</div>
+							<div class="social-container">
+								<div class="text"><?=GetMessage('SOCIAL')?></div>
+								<?$APPLICATION->IncludeComponent(
+									"aspro:social.info.scorp", 
+									".default", 
+									array(
+										"CACHE_TYPE" => "A",	// Тип кеширования
+										"CACHE_TIME" => "3600000",	// Время кеширования (сек.)
+										"CACHE_GROUPS" => "N",	// Учитывать права доступа
+										"COMPONENT_TEMPLATE" => ".default",
+										"SOCIAL_ZEN_LINK" => "https://dzen.ru/id/5c12201a264c6c00acf664c9"
+									),
+									false
+								);?>
+							</div>
 						</div>
 					</div>
+				</div>
+				<div class="row">
+					<div class="maxwidth-theme">
+						<div class="col-md-12 col-sm-12 col-xs-12 footer-last">
+							<div class="text">
+								<?$APPLICATION->IncludeComponent(
+									'bitrix:main.include',
+									'',
+									[
+										'AREA_FILE_SHOW' => 'file',
+										'AREA_FILE_SUFFIX' => 'inc',
+										'EDIT_TEMPLATE' => '',
+										'PATH' => '/include/footer/footer-last-block.php'
+									]
+								);?>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</footer>
 
@@ -400,7 +400,7 @@
 		<?$CScorp->SetMeta();?>
 		<?//всплывающий баннер ?>
 		<?	$curDir = $APPLICATION->GetCurDir();
-			if(strpos($curDir,'/special/') === false && strpos($curDir,'/sale/') === false){?>
+		if(strpos($curDir,'/special/') === false && strpos($curDir,'/sale/') === false){?>
 		<div class="banner modal fade in" id="dialog">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -426,11 +426,11 @@
 								<a class="link" href="/company/staff/eyzenshmidt-viktor-aleksandrovich/">О враче</a>
 							</div>
 						</div>
-					<div>
+					</div>
 				</div>
 			</div>
 		</div>	
-			<?}?>
+		<?}?>
 		<script>
 				(function(w,d,u){
 								var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);

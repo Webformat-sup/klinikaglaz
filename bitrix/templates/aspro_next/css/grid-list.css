@@ -69,7 +69,7 @@ body .grid-list--gap-column-24 {
 }
 
 .grid-list--no-gap .grid-list-border-outer {
-  margin: 0px -1px -1px 0px;
+  margin: 0px 0px -1px 0px;
 }
 
 .grid-list--items-2-wide {

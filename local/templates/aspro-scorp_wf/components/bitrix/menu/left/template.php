@@ -1,5 +1,7 @@
 <?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
-<?$this->setFrameMode(true);?>
+<?
+\Bitrix\Main\Loader::incLudeModule('aspro.scorp');
+$this->setFrameMode(true);?>
 <?
 $CScorp = new CScorp;
 
@@ -17,7 +19,7 @@ if(!function_exists("ShowSubItems")){
 						<?endif;?>
 					</li>
 					<?
-					if($arSubItem["CHILD"])
+					if(is_array($arSubItem["CHILD"]) && $CScorp!=null)
 						$noMoreSubMenuOnThisDepth |= $CScorp->isChildsSelected($arSubItem["CHILD"]);
 					?>
 				<?endforeach;?>

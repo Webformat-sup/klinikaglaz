@@ -1,6 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Онлайн-оплата");
+$APPLICATION->SetPageProperty("description", "На нашем сайте вы можете оплатить услуги онлайн картами платежных систем Visa, MasterCard, МИР.");
 ?>
 
 <?$APPLICATION->IncludeComponent(

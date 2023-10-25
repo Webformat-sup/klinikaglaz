@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("title", "Клиника микрохирургии ГЛАЗ им. С.Фёдорова, Екатеринбург. Глазная клиника. Офтальмологические услуги");
+$APPLICATION->SetPageProperty("description", "О клинике микрохирургии ГЛАЗ им. С.Фёдорова, Екатеринбург");
 $APPLICATION->SetPageProperty("keywords", "Офтальмологическая диагностика, проверка зрения, операции на глаза и лазерная коррекция зрения. Глазная клиника для всей семьи, детские и взрослые офтальмологи");
 $APPLICATION->SetTitle("Главная");?>Type text here... <br>
 <h1>О клинике</h1>

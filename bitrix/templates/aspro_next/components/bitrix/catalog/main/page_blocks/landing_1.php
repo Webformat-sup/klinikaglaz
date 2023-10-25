@@ -31,7 +31,7 @@
 				$regionId = $GLOBALS['arRegion']['ID'];
 			}
 				if($bSetLinkRegionFilter){
-					if(self::isIblockHasPropertyLinkRegion($iblockId)){
+					if(CNext::isIblockHasPropertyLinkRegion($iblockId)){
 						$arFilter['PROPERTY_LINK_REGION'] = $regionId;
 					}
 	

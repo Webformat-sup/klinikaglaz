@@ -554,6 +554,23 @@ ErrorDocument 404 /404.php
 	Redirect 301 /services/bolezni-setchatki/lazernaya-distsiziya-vtorichnoy-katarakty.php /
 	Redirect 301 /services/bolezni-setchatki/lazernoe-lechenie-glaukomy.php /
 	Redirect 301 /services/bolezni-setchatki/lazernoe-udalenie-novoobrazovaniy-na-vekakh.php /
+	Redirect 301 /study/engchild/child-5-12/ /
+	Redirect 301 /study/eng/ /
+	Redirect 301 /study/eng/free/ /
+	Redirect 301 /free/ /
+	Redirect 301 /study/ /
+	Redirect 301 /study/derevo/ /
+	Redirect 301 /study/derevo/classic/ /
+	Redirect 301 /projects/design/razvivaem-zrenie-v-igrah/ /projects/detskoe-zrenie/razvivaem-zrenie-v-igrah/
+	Redirect 301 /projects/design/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/ /projects/detskoe-zrenie/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/
+	Redirect 301 /projects/design/6-sovetov-detskogo-oftalmologa/ /projects/detskoe-zrenie/6-sovetov-detskogo-oftalmologa/
+	Redirect 301 /projects/design/mir-glazami-rebenka/ /projects/detskoe-zrenie/mir-glazami-rebenka/	
+	Redirect 301 /oftalmogipertenziya/ /meditsinskiy-slovar/oftalmogipertenziya/o/oftalmogipertenziya/
+	Redirect 301 /company/nashi-preimushchestva.php	/company/nashi-preimushchestva/
+	Redirect 301 /company/reviews/otzyv-yandyganovoy-diny-anatolevny/ /company/reviews/
+	Redirect 301 /services/diagnostika/opticheskaya-kogerentnaya-tomografiya-oct-glaza/ /services/issledovaniya-i-diagnostika/opticheskaya-kogerentnaya-tomografiya-okt-glaza/
+	Redirect 301 /services/diagnostika/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /company/news/detskie_opravy_fisher_price_po_spetsialnoy_tsene_ot_3_900_rubley/ /company/news/detskie_opravy_fisher_price_po_spetsialnoy_tsene_ot_4_900_rubley/
 </IfModule>
 
 

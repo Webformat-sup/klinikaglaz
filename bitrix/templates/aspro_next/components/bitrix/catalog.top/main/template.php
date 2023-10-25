@@ -1,9 +1,11 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
+<?
+use CNext as Solution;
+if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <? $this->setFrameMode( true ); ?>
 <?
 $sliderID  = "specials_slider_wrapp_".$this->randString();
 $notifyOption = COption::GetOptionString("sale", "subscribe_prod", "");
-$arNotify = unserialize($notifyOption);
+$arNotify = Solution::unserialize($notifyOption);
 ?>
 <?if($arResult["ITEMS"]):?>
 	<?foreach($arResult["ITEMS"] as $key => $arItem):?>

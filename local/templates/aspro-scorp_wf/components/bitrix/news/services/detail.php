@@ -204,7 +204,7 @@ $arElement = $CCache->CIblockElement_GetList(array('CACHE' => array('TAG' => $CC
 		<?if(in_array('LINK_STAFF', $arParams['DETAIL_PROPERTY_CODE']) && $arElement['PROPERTY_LINK_STAFF_VALUE']):?>
 			<div class="wraps nomargin">
 				<hr />
-				<h4 class="underline"><?=(strlen($arParams['T_STAFF']) ? $arParams['T_STAFF'] : (count($arElement['PROPERTY_LINK_STAFF_VALUE']) > 1 ? GetMessage('T_STAFF2') : GetMessage('T_STAFF1')))?></h4>
+				<h4 class="underline"><?=(strlen($arParams['T_STAFF']) ? $arParams['T_STAFF'] : ($arElement['PROPERTY_LINK_STAFF_VALUE']!==NULL ? GetMessage('T_STAFF2') : GetMessage('T_STAFF1')))?></h4>
 				<?global $arrrFilter; $arrrFilter = array('ID' => $arElement['PROPERTY_LINK_STAFF_VALUE']);?>
 				<?$APPLICATION->IncludeComponent("bitrix:news.list", "staff-linked", array(
 					"IBLOCK_TYPE" => "aspro_scorp_content",

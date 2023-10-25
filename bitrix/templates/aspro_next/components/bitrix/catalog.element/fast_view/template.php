@@ -63,7 +63,7 @@ $templateData = array(
 		"USE_ONLY_MAX_AMOUNT" => $arParams["USE_ONLY_MAX_AMOUNT"],
 		"USER_FIELDS" => $arParams['USER_FIELDS'],
 		"FIELDS" => $arParams['FIELDS'],
-		"STORES" => $arParams['STORES'] = array_diff($arParams['STORES'], array('')),
+		"STORES" => $arParams['STORES'] = array_diff((array)$arParams['STORES'], array('')),
 	)
 );
 unset($currencyList, $templateLibrary);

@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-	$APPLICATION->SetTitle("Глазные заболевания");?><?$APPLICATION->IncludeComponent(
+	$APPLICATION->SetTitle("Глазные заболевания");
+	$APPLICATION->SetPageProperty("description", "Глазные заболевания, виды хрусталиков и лекарственных препаратов");?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	".default_old", 
 	array(

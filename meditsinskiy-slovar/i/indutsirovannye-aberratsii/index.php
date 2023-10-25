@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Индуцированные аберрации");?><h2>Индуцированные аберрации</h2>
+$APPLICATION->SetTitle("Что такое Индуцированные аберрации");
+$APPLICATION->SetPageProperty("description", "Индуцированные аберрации - аберрации, причиной возникновения которых стали операция, травма, воспаление.");?><h2>Индуцированные аберрации</h2>
 <p>
  <a href="/services/issledovaniya-i-diagnostika/analiz-volnovogo-fronta/">аберрации</a>, причиной возникновения которых стали операция, травма, воспаление.
 </p>

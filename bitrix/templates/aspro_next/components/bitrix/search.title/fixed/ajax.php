@@ -18,7 +18,7 @@
 				<a class="bx_item_block" href="<?=$arItem["URL"]?>">
 					<div class="maxwidth-theme">
 						<div class="bx_img_element">
-							<?if(is_array($arElement["PICTURE"])):?>
+							<?if(isset($arElement["PICTURE"]) && is_array($arElement["PICTURE"])):?>
 								<img src="<?=$arElement["PICTURE"]["src"]?>">
 							<?else:?>
 								<img src="<?=SITE_TEMPLATE_PATH?>/images/no_photo_small.png" width="38" height="38">
@@ -28,7 +28,9 @@
 							<span><?=$arItem["NAME"]?></span>
 							<div class="price cost prices">
 								<div class="title-search-price">
-									<?if(isset($arElement["MIN_PRICE"]) && $arElement["MIN_PRICE"]){?>
+									<?if ((isset($arElement["MIN_PRICE"]) && $arElement["MIN_PRICE"]) 
+												|| (isset($arElement["PRICES"]) && $arElement["PRICES"])
+											){?>
 										<?if($arElement["MIN_PRICE"]["DISCOUNT_VALUE"] < $arElement["MIN_PRICE"]["VALUE"]):?>
 											<div class="price"><?=$arElement["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"]?></div>
 											<div class="price discount">

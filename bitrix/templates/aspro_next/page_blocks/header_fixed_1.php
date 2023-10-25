@@ -59,7 +59,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 		<?endif;?>
 		<?if($bPhone):?>
 			<div class="pull-right logo_and_menu-row">
-				<div class="inner-table-block phones">
+				<div class="inner-table-block phones phone-block">
 					<?CNext::ShowHeaderPhones();?>
 				</div>
 			</div>

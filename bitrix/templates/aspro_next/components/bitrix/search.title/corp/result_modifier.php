@@ -345,10 +345,12 @@ if (!empty($arResult["ELEMENTS"]) && CModule::IncludeModule("iblock"))
 						}
 					}
 				}
-				if($bHideNotAvailable)
-				{
-					if(!$arUnDeleteIDs[$arItem["ITEM_ID"]])
-						unset($arResult["CATEGORIES"][$category_id]["ITEMS"][$i]);
+				if (
+					$bHideNotAvailable 
+					&& strpos($arItem["ITEM_ID"], "S") === false
+					&& !$arUnDeleteIDs[$arItem["ITEM_ID"]]
+				) {
+					unset($arResult["CATEGORIES"][$category_id]["ITEMS"][$i]);
 				}
 				if($arDeleteIDs)
 				{
@@ -365,8 +367,11 @@ foreach($arResult["SEARCH"] as $i=>$arItem)
 	switch($arItem["MODULE_ID"])
 	{
 		case "iblock":
-			if(array_key_exists($arItem["ITEM_ID"], $arResult["ELEMENTS"]))
-			{
+			if(
+				is_array($arResult["ELEMENTS"])
+				&& array_key_exists($arItem["ITEM_ID"], $arResult["ELEMENTS"])
+				&& is_array($arResult["ELEMENTS"][$arItem["ITEM_ID"]])
+			) {
 				$arElement = &$arResult["ELEMENTS"][$arItem["ITEM_ID"]];
 				if ($arParams["SHOW_PREVIEW"] == "Y")
 				{

@@ -1,6 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Информация");
+$APPLICATION->SetPageProperty("description", "Информация для клиентов компании");
 ?><div>
  <img width="600" height="400" title="DSC_8391.jpg" align="middle" class="img-responsive" alt="DSC_8391.jpg" src="/upload/medialibrary/811/811ee7422720355b34a29501fb528ea6.jpg">
 </div>

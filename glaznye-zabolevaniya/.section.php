@@ -1,6 +1,8 @@
 <?
 $sSectionName = "Глазные заболевания";
-$arDirProperties = Array(
-
+$arDirProperties = array(
+   "MENU" => "Y",
+   "MENU_SHOW_ELEMENTS" => "Y",
+   "MENU_SHOW_SECTIONS" => "Y"
 );
 ?>

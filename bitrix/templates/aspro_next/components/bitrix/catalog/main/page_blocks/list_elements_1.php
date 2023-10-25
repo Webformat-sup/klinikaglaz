@@ -517,6 +517,7 @@ if($isAjaxFilter == "Y")
 					}
 					$bannersCount = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($linkedBannersIblock))), $GLOBALS[$filterName], array());
 					if ($bannersCount):?>
+						<?$APPLICATION->AddHeadScript($this->GetFolder() . '/js/moveSectionBlock.js');?>
 						<?\Aspro\Functions\CAsproNext::showBlockHtml([
 							'FILE' => '/catalog/banners_in_list.php',
 							'PARAMS' => [
@@ -525,6 +526,42 @@ if($isAjaxFilter == "Y")
 							],
 						])?>
 					<?endif;?>
+				<?/**/?>
+				<?/*blog*/?>
+				<?$blogIblockID = CNextCache::$arIBlocks[SITE_ID]["aspro_next_content"]["aspro_next_articles"][0];?>
+				<?if($blogIblockID && $linkedArticles):?>
+					<?
+                    $filterNameLinkedBlog = "MAX_FILTER_LINKED_BLOG";
+                    $GLOBALS[$filterNameLinkedBlog] = array(
+                        array(
+                            'LOGIC' => 'OR',
+                            array( "ID" => $linkedArticles ),
+                            array( "PROPERTY_LINK_GOODS_SECTIONS" => $section['ID'] ),
+                        ),
+                    );
+
+                    if($sectionParent) {
+                        $GLOBALS[$filterNameLinkedBlog][0][] = array( "PROPERTY_LINK_GOODS_SECTIONS" => $sectionParent['ID'] );
+                    }
+                    if($sectionRoot) {
+                        $GLOBALS[$filterNameLinkedBlog][0][] = array( "PROPERTY_LINK_GOODS_SECTIONS" => $sectionRoot['ID'] );
+                    }
+
+                    if ($arParams["FILTER_NAME"] && $arParams["FILTER_NAME"] == "arRegionLink" && $arRegion) {
+                        $GLOBALS[$filterNameLinkedBlog]["PROPERTY_LINK_REGION"] = $arRegion['ID'];
+                    }
+                    $blogsCount = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($blogIblockID))), $GLOBALS[$filterNameLinkedBlog], array());
+					if($blogsCount):?>
+						<?$APPLICATION->AddHeadScript($this->GetFolder() . '/js/moveSectionBlock.js');?>
+						<?\Aspro\Functions\CAsproNext::showBlockHtml([
+							'FILE' => '/catalog/blog_in_list.php',
+							'PARAMS' => [
+								'IBLOCK_ID' => $blogIblockID,
+								'FILTER_NAME' => $filterNameLinkedBlog,
+							],
+						])?>
+					<?endif;?>
+				<?endif?>
 				<?/**/?>
 				<?if(!$arSeoItem):?>
 					<?if($arParams["SHOW_SECTION_DESC"] != 'N' && strpos($_SERVER['REQUEST_URI'], 'PAGEN') === false):?>

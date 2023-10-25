@@ -77,6 +77,7 @@ if (!$templateData['BLOG']['BLOG_FROM_AJAX'])
 			'REVIEW_COMMENT_REQUIRED' => $arParams['REVIEW_COMMENT_REQUIRED'],
 			'REVIEW_FILTER_BUTTONS' => $arParams["REVIEW_FILTER_BUTTONS"],
 			'REAL_CUSTOMER_TEXT' => $arParams["REAL_CUSTOMER_TEXT"],
+			'MAX_IMAGE_COUNT' => $arParams["MAX_IMAGE_COUNT"],
 		);
 
 		$arJSParams['serviceList']['blog'] = true;
@@ -132,7 +133,6 @@ if (!$templateData['BLOG']['BLOG_FROM_AJAX'])
 <script type="text/javascript">
 var obCatalogComments_<? echo $arResult['ELEMENT']['ID']; ?> = new JCCatalogSocnetsComments(<? echo CUtil::PhpToJSObject($arJSParams, false, true); ?>);
 $(document).on('click', '.show-comment.btn', function(){
-
 	if($(this).hasClass('clicked') && $('#form_comment_0 #form_c_del').length) {
 		$('#form_comment_0').slideToggle();
 	} else {

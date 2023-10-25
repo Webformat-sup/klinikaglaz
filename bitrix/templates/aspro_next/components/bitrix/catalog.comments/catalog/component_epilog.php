@@ -4,11 +4,14 @@
 /** @var array $arResult */
 /** @var array $arParams */
 /** @var CBitrixComponent $this */
+
+use Aspro\Next\Functions\Extensions;
 $ajaxMode = isset($templateData['BLOG']['BLOG_FROM_AJAX']) && $templateData['BLOG']['BLOG_FROM_AJAX'];
 if (!$ajaxMode)
 {
 	CJSCore::Init(array('window', 'ajax'));
 }
+Extensions::init('drop');
 
 global $BLOG_DATA;
 $BLOG_DATA = $arResult;
@@ -42,10 +45,11 @@ if (isset($templateData['BLOG_USE']) && $templateData['BLOG_USE'] == 'Y')
 			"ELEMENT_ID" => (array_key_exists('AJAX_PARAMS', $templateData['BLOG']) && array_key_exists('ELEMENT_ID', $templateData['BLOG']['AJAX_PARAMS']) && $templateData['BLOG']['AJAX_PARAMS']['ELEMENT_ID'] ? $templateData['BLOG']['AJAX_PARAMS']['ELEMENT_ID'] : $_REQUEST['ELEMENT_ID']),
 			"NO_URL_IN_COMMENTS" => "",
 			"USE_FILTER" => $arParams["USE_FILTER"],
+			"MAX_IMAGE_COUNT" => $arParams['MAX_IMAGE_COUNT'],
 		);
 
 		$APPLICATION->IncludeComponent(
-			'bitrix:blog.post.comment',
+			'aspro:blog.post.comment.next',
 			'adapt',
 			$arBlogCommentParams,
 			$this,

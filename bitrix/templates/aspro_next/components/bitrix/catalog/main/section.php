@@ -19,7 +19,7 @@ elseif(strlen(trim($arResult["VARIABLES"]["SECTION_CODE"])) > 0){
 	$arSectionFilter = array('GLOBAL_ACTIVE' => 'Y', "=CODE" => $arResult["VARIABLES"]["SECTION_CODE"], "IBLOCK_ID" => $arParams["IBLOCK_ID"]);
 }
 if($arSectionFilter){
-	$section = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeSectionFilterInRegion($arSectionFilter), false, array("ID", "IBLOCK_ID", "NAME", "DESCRIPTION", "UF_SECTION_DESCR", "UF_OFFERS_TYPE", 'UF_FILTER_VIEW', $arParams["SECTION_DISPLAY_PROPERTY"], "IBLOCK_SECTION_ID", "DEPTH_LEVEL", "LEFT_MARGIN", "RIGHT_MARGIN", "PICTURE", "DETAIL_PICTURE"));
+	$section = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeSectionFilterInRegion($arSectionFilter), false, array("ID", "IBLOCK_ID", "NAME", "DESCRIPTION", "UF_SECTION_DESCR", "UF_OFFERS_TYPE", 'UF_FILTER_VIEW', 'UF_LINKED_BLOG', $arParams["SECTION_DISPLAY_PROPERTY"], "IBLOCK_SECTION_ID", "DEPTH_LEVEL", "LEFT_MARGIN", "RIGHT_MARGIN", "PICTURE", "DETAIL_PICTURE"));
 }
 
 $sectionPicturePatch = $section["PICTURE"] ? CFile::GetPath($section["PICTURE"]) : CFile::GetPath($section["DETAIL_PICTURE"]);
@@ -81,6 +81,9 @@ if($section){
 	if($section['UF_FILTER_VIEW']){
 		$viewTmpFilter = $section['UF_FILTER_VIEW'];
 	}
+	if ($section['UF_LINKED_BLOG']) {
+        $linkedArticles = $section['UF_LINKED_BLOG'];
+    }
 	if(!$typeTmpSKU || !$viewTmpFilter){
 		if($section['DEPTH_LEVEL'] > 1){
 			$sectionParent = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), array('GLOBAL_ACTIVE' => 'Y', "ID" => $section["IBLOCK_SECTION_ID"], "IBLOCK_ID" => $arParams["IBLOCK_ID"]), false, array("ID", "IBLOCK_ID", "NAME", "UF_OFFERS_TYPE", 'UF_FILTER_VIEW'));

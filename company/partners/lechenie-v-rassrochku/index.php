@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Title");?><p>
+$APPLICATION->SetTitle("Лечение в рассрочку");
+$APPLICATION->SetPageProperty("description", "Мы предоставляем возможность оплатить лечение в рассрочку без процентов.");?><p>
  <img width="261" alt="girl" src="http://klinikaglaz.ru/wp-content/uploads/2016/07/girl-261x300.jpg" height="300" srcset="http://klinikaglaz.ru/wp-content/uploads/2016/07/girl-261x300.jpg 261w, http://klinikaglaz.ru/wp-content/uploads/2016/07/girl.jpg 311w" sizes="(max-width: 261px) 100vw, 261px">Мы делаем все для того, чтобы наша помощь была доступна!
 </p>
 <p>
