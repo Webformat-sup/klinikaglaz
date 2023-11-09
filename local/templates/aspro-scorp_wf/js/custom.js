@@ -49,6 +49,12 @@ $(document).ready(function() {
 				break;
 		}
 	}
+
+    $('a[href*="#appointment"]').on('click', function(){
+        console.log('appointment ref clicked');
+        $('div.questiondockTitle span').trigger('click')
+        return false;
+    });
 	/*------открыть формы------*/
 
 	/*------цели яндекс------*/
