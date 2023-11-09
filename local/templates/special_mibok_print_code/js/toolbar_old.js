@@ -1,7 +1,7 @@
 var bPlaySetting;
 
 $.fn.hasAttr = function(name) {
-    return this.attr(name) !== undefined;
+   return this.attr(name) !== undefined;
 };
 
 $(document).ready(function () {
@@ -22,8 +22,8 @@ $(document).on('click', '.btn-exit', function(){
     {
         playSetting('exit');
         setTimeout(function(){
-            window.location.href = link.attr('href');
-        }, duration);
+                window.location.href = link.attr('href');
+             }, duration);
         return false;
     }
     else
@@ -102,9 +102,9 @@ toolbar.prototype.bindHandlers = function () {
         $(this).removeClass('menu-hover menu-hover-checked');
         return true;
     });
-
-
-
+	
+	
+	
     this.$allItems.click(function (e) {
         return thisObj.handleClick($(this), e);
     });
@@ -166,7 +166,7 @@ toolbar.prototype.handleBlur = function ($item, e) {
 } // end handleBlur()
 toolbar.prototype.handleKeyDown = function ($item, e) {
 
-
+	
     if (e.altKey || e.ctrlKey) {
         // Modifier key pressed: Do not process
         return true;
@@ -223,7 +223,7 @@ toolbar.prototype.handleKeyDown = function ($item, e) {
 };
 toolbar.prototype.moveToNext = function ($item) {
 
-    var $itemUL = $item.parents('.access-toolbar'); // $item's containing menu
+    var $itemUL = $item.parents('.access-toolbar'); // $item's containing menu 
     var $menuItems = $itemUL.find('button:not(.disabled)'); // the items in the currently active menu
     var menuNum = $menuItems.length; // the number of items in the active menu
     var menuIndex = $menuItems.index($item); // the items index in its menu
@@ -242,7 +242,7 @@ toolbar.prototype.moveToNext = function ($item) {
 };
 toolbar.prototype.moveToPrevious = function ($item) {
 
-    var $itemUL = $item.parents('.access-toolbar'); // $item's containing menu
+    var $itemUL = $item.parents('.access-toolbar'); // $item's containing menu 
     var $menuItems = $itemUL.find('button:not(.disabled)'); // the items in the currently active menu
     var menuNum = $menuItems.length; // the number of items in the active menu
     var menuIndex = $menuItems.index($item); // the items index in its menu
@@ -268,8 +268,8 @@ toolbar.prototype.moveUp = function ($item) {
 };
 toolbar.prototype.handleKeyPress = function ($item, e) {
 
-    if($item.hasClass('disabled'))
-        e.stopPropagation();
+if($item.hasClass('disabled'))
+		e.stopPropagation();
 
 
     if (e.altKey || e.ctrlKey || e.shiftKey) {
@@ -363,7 +363,7 @@ toolbar.prototype.processMenuChoice = function ($item) {
             this.processSetChoice('FONT_SIZE', 'font-size-200');
             break;
         }
-
+				
         case 'images':
         {
             /*if ($('#content').is('.not-images')) {
@@ -374,19 +374,19 @@ toolbar.prototype.processMenuChoice = function ($item) {
                 $('#content').addClass('not-images');
                 this.processSetChoice('IMAGES', 'not-images');
             }*/
-            $item.attr('aria-checked', 'true').addClass('checked');
+			$item.attr('aria-checked', 'true').addClass('checked');
             $('#content').addClass('images');
             $('#content').removeClass('not-images');
-            $('.btn-mono').removeClass('disabled');
+			$('.btn-mono').removeClass('disabled');
             this.processSetChoice('IMAGES', 'images');
             break;
         }
-        case 'not-images':
+		case 'not-images':
         {
-            $item.attr('aria-checked', 'true').addClass('checked');
+			$item.attr('aria-checked', 'true').addClass('checked');
             $('#content').addClass('not-images');
             $('#content').removeClass('images mono');
-            $('.btn-mono').addClass('disabled').removeClass('checked');
+			$('.btn-mono').addClass('disabled').removeClass('checked');
             this.processSetChoice('IMAGES', 'not-images');
             break;
         }
@@ -412,9 +412,9 @@ toolbar.prototype.processMenuChoice = function ($item) {
                 $item.attr('aria-checked', 'true').addClass('checked');
                 $('#content').addClass('not-flash');
                 $('object')
-                    .wrap('<div class="fl-wrapper">')
-                    .parent().css({'overflow': 'hidden'})
-                    .children().css({'margin-left': -99999});
+                        .wrap('<div class="fl-wrapper">')
+                        .parent().css({'overflow': 'hidden'})
+                        .children().css({'margin-left': -99999});
                 this.processSetChoice('FLASH', 'not-flash');
             }
             break;
@@ -443,22 +443,22 @@ toolbar.prototype.processMenuChoice = function ($item) {
             this.processSetChoice('COLOR', 'color-3');
             break;
         }
-        case 'color-4':
+		case 'color-4':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
             $('#content, #c_panel_special').addClass('color-4');
             $('#content, #c_panel_special').removeClass('color-1 color-2 color-3 color-5');
             this.processSetChoice('COLOR', 'color-4');
-
+			
             break;
         }
-        case 'color-5':
+		case 'color-5':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
             $('#content, #c_panel_special').addClass('color-5');
             $('#content, #c_panel_special').removeClass('color-1 color-2 color-3 color-4');
             this.processSetChoice('COLOR', 'color-5');
-
+			
             break;
         }
         case 'kerning-1':
@@ -485,7 +485,7 @@ toolbar.prototype.processMenuChoice = function ($item) {
             this.processSetChoice('KERNING', 'kerning-3');
             break;
         }
-
+		
         case 'line-1':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
@@ -510,7 +510,7 @@ toolbar.prototype.processMenuChoice = function ($item) {
             this.processSetChoice('LINE', 'line-3');
             break;
         }
-
+		
         case 'garnitura-1':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
@@ -527,193 +527,177 @@ toolbar.prototype.processMenuChoice = function ($item) {
             this.processSetChoice('GARNITURA', 'garnitura-2');
             break;
         }
-        case 'voice-1':
+		case 'voice-1':
         {
-            $item.attr('aria-checked', 'true').addClass('checked');
+           $item.attr('aria-checked', 'true').addClass('checked');
             $('#content').addClass('voice-1');
-            $('#content').attr('data-volume', 0);
+			$('#content').attr('data-volume', 0);
             $('#content').removeClass('voice-2 voice-3 voice-4');
-            if($('#start_sound').length > 0)
+			if($('#start_sound').length > 0)
                 document.getElementById('start_sound').volume = 0;
             if($('#panel_sound').length > 0)
                 document.getElementById('panel_sound').volume = 0;
-            if($('.play_voice').length)
-            {
-                $('.play_voice').each(function(){
-                    $(this)[0].volume = 0;
-                })
-            }
+			if($('.play_voice').length)
+			{
+				$('.play_voice').each(function(){
+					$(this)[0].volume = 0;
+				})
+			}
             this.processSetChoice('VOICE', 'voice-1');
-            this.processSetChoice('VOLUME',0 );
-            $('#current-volume').text(0);
-            $('.btn-voice-off-on').data('checked', 'false').find('.glyphicon').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
-            $('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleoff'));
-            if($('#start_panel_sound').length){
-                $('#start_panel_sound').remove();
-            }
+			this.processSetChoice('VOLUME',0 );
+			$('#current-volume').text(0);
+			$('.btn-voice-off-on').data('checked', 'false').find('.glyphicon').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
+			$('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleoff'));
+			if($('#start_panel_sound').length){
+				$('#start_panel_sound').remove();
+			}
             break;
         }
-        case 'voice-2':
+		case 'voice-2':
         {
-            $item.attr('aria-checked', 'true').addClass('checked');
+           $item.attr('aria-checked', 'true').addClass('checked');
             $('#content').addClass('voice-2');
             $('#content').removeClass('voice-1 voice-3 voice-4');
             this.processSetChoice('VOICE', 'voice-2');
-
-            var volume = 0.1;
-            var data_volume = 0;
-            data_volume = $('#content').attr('data-volume');
-            if(data_volume > 0.1)
-                volume = (data_volume - volume).toFixed(1);
-            $('#content').attr('data-volume', volume);
-
-            document.getElementById('start_sound').volume = volume;
-            if($('.play_voice').length)
-            {
-                $('.play_voice').each(function(){
-                    $(this)[0].volume = volume;
-                })
-            }
-            this.processSetChoice('VOLUME',volume);
-            document.getElementById("start_sound").play();
-            $('#current-volume').text(volume * 100);
-            $('.btn-voice-off-on').data('checked', 'true').find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
-            $('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleon'));
+			
+			var volume = 0.1;
+			var data_volume = 0;
+			data_volume = $('#content').attr('data-volume');
+			if(data_volume > 0.1)
+				volume = (data_volume - volume).toFixed(1);
+			$('#content').attr('data-volume', volume);
+			
+			document.getElementById('start_sound').volume = volume;
+			if($('.play_voice').length)
+			{
+				$('.play_voice').each(function(){
+					$(this)[0].volume = volume;
+				})
+			}
+			this.processSetChoice('VOLUME',volume);
+			document.getElementById("start_sound").play();
+			$('#current-volume').text(volume * 100);
+			$('.btn-voice-off-on').data('checked', 'true').find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
+			$('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleon'));
             break;
         }
-        case 'voice-3':
+		case 'voice-3':
         {
             $item.attr('aria-checked', 'true').addClass('checked');
             $('#content').addClass('voice-3');
-            $('#content').attr('data-volume', 0.5);
+			$('#content').attr('data-volume', 0.5);
             $('#content').removeClass('voice-2 voice-1 voice-4');
             this.processSetChoice('VOICE', 'voice-3');
-            document.getElementById('start_sound').volume = 0.5;
-            if($('.play_voice').length)
-            {
-                $('.play_voice').each(function(){
-                    $(this)[0].volume = 0.5;
-                })
-            }
-            this.processSetChoice('VOLUME',0.5 );
-            document.getElementById("start_sound").play();
-            $('#current-volume').text(50);
-            $('.btn-voice-off-on').data('checked', 'true').find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
-            $('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleon'));
+			document.getElementById('start_sound').volume = 0.5;
+			if($('.play_voice').length)
+			{
+				$('.play_voice').each(function(){
+					$(this)[0].volume = 0.5;
+				})
+			}
+			this.processSetChoice('VOLUME',0.5 );
+			document.getElementById("start_sound").play();
+			$('#current-volume').text(50);
+			$('.btn-voice-off-on').data('checked', 'true').find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
+			$('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleon'));
             break;
         }
-        case 'voice-4':
+		case 'voice-4':
         {
-            $item.attr('aria-checked', 'true').addClass('checked');
+			$item.attr('aria-checked', 'true').addClass('checked');
             $('#content').addClass('voice-4');
             $('#content').removeClass('voice-2 voice-1 voice-3');
             this.processSetChoice('VOICE', 'voice-4');
-
-            var volume = 0.1;
-            var data_volume = 0;
-            data_volume = parseFloat($('#content').attr('data-volume'));
-            if(data_volume < 1)
-            {
-                volume = (volume + data_volume).toFixed(1);
-            }
-            else if(data_volume == 1)
-                volume  = 1;
-            $('#content').attr('data-volume', volume);
-
-
-            document.getElementById('start_sound').volume = volume;
-            if($('.play_voice').length)
-            {
-                $('.play_voice').each(function(){
-                    $(this)[0].volume = volume;
-                })
-            }
-            this.processSetChoice('VOLUME',volume);
-            document.getElementById("start_sound").play();
-            $('#current-volume').text(volume * 100);
-            $('.btn-voice-off-on').data('checked', 'true').find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
-            $('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleon'));
+			
+			var volume = 0.1;
+			var data_volume = 0;
+			data_volume = parseFloat($('#content').attr('data-volume'));
+			if(data_volume < 1)
+			{
+				volume = (volume + data_volume).toFixed(1);
+			}
+			else if(data_volume == 1)
+				volume  = 1;
+			$('#content').attr('data-volume', volume);
+			
+			
+			document.getElementById('start_sound').volume = volume;
+			if($('.play_voice').length)
+			{
+				$('.play_voice').each(function(){
+					$(this)[0].volume = volume;
+				})
+			}
+			this.processSetChoice('VOLUME',volume);
+			document.getElementById("start_sound").play();
+			$('#current-volume').text(volume * 100);
+			$('.btn-voice-off-on').data('checked', 'true').find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
+			$('.btn-voice-off-on').attr('title', $('.btn-voice-off-on').data('titleon'));
             break;
         }
         case 'voice-off-on':
-        {
-            if($item.data('checked') === false){
-                $item.data('checked', true);
-                $('.btn-voice-3').attr('aria-checked', 'true').addClass('checked');
-                $('.btn-voice-1, .btn-voice-2, .btn-voice-4').removeClass('checked');
-                $('#content').addClass('voice-3');
-                $('#content').attr('data-volume', 0.5);
-                $('#content').removeClass('voice-2 voice-1 voice-4');
-                this.processSetChoice('VOICE', 'voice-3');
+		{
+		    if($item.data('checked') === false){
+				$item.data('checked', true);
+				$('.btn-voice-3').attr('aria-checked', 'true').addClass('checked');
+				$('.btn-voice-1, .btn-voice-2, .btn-voice-4').removeClass('checked');
+				$('#content').addClass('voice-3');
+				$('#content').attr('data-volume', 0.5);
+				$('#content').removeClass('voice-2 voice-1 voice-4');
+				this.processSetChoice('VOICE', 'voice-3');
                 if($('#start_sound').length > 0)
                     document.getElementById('start_sound').volume = 0.5;
-                if($('.play_voice').length)
-                {
-                    $('.play_voice').each(function(){
-                        $(this)[0].volume = 0.5;
-                    })
-                }
-                this.processSetChoice('VOLUME',0.5 );
+				if($('.play_voice').length)
+				{
+					$('.play_voice').each(function(){
+						$(this)[0].volume = 0.5;
+					})
+				}
+				this.processSetChoice('VOLUME',0.5 );
                 if($('#start_sound').length > 0)
                     document.getElementById("start_sound").play();
-                $('#current-volume').text(50);
-                $item.find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
-                $item.attr('title', $item.data('titleon'));
-            } else {
+				$('#current-volume').text(50);
+				$item.find('.glyphicon').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
+				$item.attr('title', $item.data('titleon'));
+			} else {
+           
+				$item.data('checked', false);
 
-                $item.data('checked', false);
-
-                $('.btn-voice-1').attr('aria-checked', 'true').addClass('checked');
-                $('.btn-voice-2, .btn-voice-3, .btn-voice-4').removeClass('checked');
-                $('#content').addClass('voice-1');
-                $('#content').attr('data-volume', 0);
-                $('#content').removeClass('voice-2 voice-3 voice-4');
+				$('.btn-voice-1').attr('aria-checked', 'true').addClass('checked');
+				$('.btn-voice-2, .btn-voice-3, .btn-voice-4').removeClass('checked');
+				$('#content').addClass('voice-1');
+				$('#content').attr('data-volume', 0);
+				$('#content').removeClass('voice-2 voice-3 voice-4');
                 if($('#start_sound').length > 0)
                     document.getElementById('start_sound').volume = 0;
                 if($('#panel_sound').length > 0)
                     document.getElementById('panel_sound').volume = 0;
-                if($('.play_voice').length)
-                {
-                    $('.play_voice').each(function(){
-                        $(this)[0].volume = 0;
-                    })
-                }
-                this.processSetChoice('VOICE', 'voice-1');
-                this.processSetChoice('VOLUME',0 );
-                $('#current-volume').text(0);
-                $item.find('.glyphicon').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
-                $item.attr('title', $item.data('titleoff'));
-                if($('#start_panel_sound').length){
-                    $('#start_panel_sound').remove();
-                }
-            }
-            break;
-        }
-        case 'font-switch':
-        {
-            if ($('#content').is('.braille')) {
-                $('#content').removeClass('braille');
-                this.processSetChoice('FONT_SWITCH', 'origin');
-                // $item.find('.glyphicon').removeClass('glyphicon-font').addClass('glyphicon-option-vertical');
-                $item.attr('title', $item.data('origin'));
-            } else {
-                $item.attr('aria-checked', 'true').addClass('checked');
-                $('#content').addClass('braille');
-                this.processSetChoice('FONT_SWITCH', 'braille');
-                // $item.find('.glyphicon').removeClass('glyphicon-option-vertical').addClass('glyphicon-font');
-                $item.attr('title', $item.data('braille'));
-            }
-            break;
-        }
+				if($('.play_voice').length)
+				{
+					$('.play_voice').each(function(){
+						$(this)[0].volume = 0;
+					})
+				}
+				this.processSetChoice('VOICE', 'voice-1');
+				this.processSetChoice('VOLUME',0 );
+				$('#current-volume').text(0);
+				$item.find('.glyphicon').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
+				$item.attr('title', $item.data('titleoff'));
+				if($('#start_panel_sound').length){
+					$('#start_panel_sound').remove();
+				}
+			}
+			break;
+		}
         case 'reset':
         {
-            bPlaySetting = false;
+			bPlaySetting = false;
             for (i = 1; i <= this.$firstButton.length; i++) {
                 this.resetMenuChoice(this.$firstButton[i - 1]);
             }
             this.processSetChoice('RESET', 'Y');
             //bPlaySetting = true;
-            if($('.bs-docs-panel').hasClass('voice-panel'))
+			if($('.bs-docs-panel').hasClass('voice-panel'))
                 bPlaySetting = true;
             else
                 bPlaySetting = false;
@@ -762,11 +746,11 @@ function playSetting(choice)
 {
     var number = 0;
     switch (choice) {
-        case 'reset':
+		case 'reset':
         {
             number = 25; break;
         }
-        case 'content':
+		case 'content':
         {
             number = 29; break;
         }
@@ -817,87 +801,79 @@ function playSetting(choice)
         case 'mono':
         {
             if ($('#content').is('.mono'))
-                number = 14;
-            else
-                number = 13;
-            break;
+				number = 14;
+			else
+				number = 13;
+			break;
         }
-        case 'flash':
+		case 'flash':
         {
-            if ($('#content').is('.not-flash'))
-                number = 16;
-            else
-                number = 15;
-            break;
+			if ($('#content').is('.not-flash'))
+				number = 16;
+			else
+				number = 15;
+			break;
         }
-        case 'kerning-1':
+		case 'kerning-1':
         {
             number = 17; break;
         }
-        case 'kerning-2':
+		case 'kerning-2':
         {
             number = 18; break;
         }
-        case 'kerning-3':
+		case 'kerning-3':
         {
             number = 19; break;
         }
-        case 'line-1':
+		case 'line-1':
         {
             number = 20; break;
         }
-        case 'line-2':
+		case 'line-2':
         {
             number = 21; break;
         }
-        case 'line-3':
+		case 'line-3':
         {
             number = 22; break;
         }
-        case 'garnitura-1':
+		case 'garnitura-1':
         {
             number = 23; break;
         }
-        case 'garnitura-2':
+		case 'garnitura-2':
         {
             number = 24; break;
         }
-        case 'voice-1':
+		case 'voice-1':
         {
             number = 28; break;
         }
-        case 'exit':
+		case 'exit':
         {
             number = 2; break;
         }
-        case 'setting':
+		case 'setting':
         {
             if($('.access-toolbar').find('.panel-subsetting').is('.active'))
-                number = 27;
-            else
-                number = 26;
-            break;
+				number = 27;
+			else
+				number = 26;
         }
-        case 'font-switch':
-        {
-            if ($('#content').is('.braille'))
-                number = 31;
-            else
-                number = 30;
-            break;
-        }
+		
     }
-    if(number != 0 && bPlaySetting)
-    {
-        var trek = $('audio#panel_sound').attr('data-src') + number + '.mp3';
-        $('audio#panel_sound').attr('src', trek);
-        var audSet = document.querySelector("audio#panel_sound");
+	if(number != 0 && bPlaySetting)
+	{
+		var trek = $('audio#panel_sound').attr('data-src') + number + '.mp3';
+		$('audio#panel_sound').attr('src', trek);
+		var audSet = document.querySelector("audio#panel_sound");
         if($('#content').hasAttr('data-volume'))
             audSet.volume = parseFloat($('#content').attr('data-volume'));
         else
             audSet.volume = 0.5;
-        audSet.play();
-    }
+		audSet.play();
+	}
 }
 
 toolbar.prototype.resetMenuChoice = function ($item) {
@@ -944,25 +920,18 @@ toolbar.prototype.resetMenuChoice = function ($item) {
             }
             break;
         }
-        case 'voice-1':
-        {
-            $('.btn-voice-3').trigger('click');
-            break;
-        }
-        case 'mono':
-        {
-            if ($('#content').is('.mono')) {
+		case 'voice-1':
+		{
+			$('.btn-voice-3').trigger('click');
+			break;
+		}
+		case 'mono':
+		{
+			if ($('#content').is('.mono')) {
                 $item.trigger('click');
             }
-            break;
-        }
-        case 'font-switch':
-        {
-            if ($('#content').is('.braille')) {
-                $item.trigger('click');
-            }
-            break;
-        }
+			break;
+		}
     }
 };
 toolbar.prototype.resumeNoAuth = function () {

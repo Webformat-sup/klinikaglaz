@@ -14,12 +14,12 @@ if(!defined('NO_AGENT_STATISTIC')){
 if(!defined('NO_AGENT_CHECK')){
 	define('NO_AGENT_CHECK', true);
 }
-
 if((isset($_POST['PRODUCT_ID']) && $_POST['PRODUCT_ID']) || (isset($_POST['ID']) && $_POST['ID']) || (isset($_POST['BASKET']) && $_POST['BASKET']) || (isset($_POST['ORDER_ID']) && $_POST['ORDER_ID'])){
+
 	require($_SERVER['DOCUMENT_ROOT'].'/bitrix/modules/main/include/prolog_before.php');
 	$APPLICATION->RestartBuffer();
 	header('Content-Type: application/json; charset=UTF-8');
-	
+
 	\Bitrix\Main\Loader::includeModule('iblock');
 	\Bitrix\Main\Loader::includeModule('sale');
 
@@ -160,7 +160,6 @@ if((isset($_POST['PRODUCT_ID']) && $_POST['PRODUCT_ID']) || (isset($_POST['ID'])
 					$arOrder['ITEMS'][$arBasketItem['PRODUCT_ID']] = $arBasketItem;
 					$arItemsIDs[] = $arBasketItem['PRODUCT_ID'];
 				}
-
 				if(!$arItemsIDs && $userId){
 					$dbBasket = CSaleBasket::GetList(
 						array('DATE_INSERT' => 'ASC', 'NAME' => 'ASC'),
@@ -200,6 +199,7 @@ if((isset($_POST['PRODUCT_ID']) && $_POST['PRODUCT_ID']) || (isset($_POST['ID'])
 						}
 
 						$arOrder['ITEMS'][$arTmpItem['ID']] = $GLOBALS["APPLICATION"]->ConvertCharsetArray(array_merge($arOrder['ITEMS'][$arTmpItem['ID']], $arTmpItem), SITE_CHARSET, 'UTF-8');
+						// $arOrder['ITEMS'][$arTmpItem['ID']] = array_merge($arOrder['ITEMS'][$arTmpItem['ID']], $arTmpItem);
 					}
 
 					$arOrder['SHOP_NAME'] = $arSite['SITE_NAME'];

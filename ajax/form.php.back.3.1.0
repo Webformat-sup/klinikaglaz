@@ -1,0 +1,36 @@
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");?>
+<?
+CModule::IncludeModule('aspro.scorp');
+$id = (isset($_REQUEST["id"]) ? $_REQUEST["id"] : false);
+$arTheme = CScorp::GetFrontParametrsValues(SITE_ID);
+$captcha = ($arTheme["USE_CAPTCHA_FORM"] === "Y" ? "Y" : "N");
+$isCallBack = $id == CCache::$arIBlocks[SITE_ID]["aspro_corporation_form"]["aspro_corporation_callback"][0];
+$successMessageCustom="Ваше сообщение отправлено. Руководство клиники просит: если<br />1) Вам не ответили в течение суток либо ответили не полно,<br />2) вы обнаружили ошибку,<br />3) произошел cбой в работе сайта, <br />пожалуйста, сообщите письмом на spravka@klinikaglaz.ru";
+$successMessage = ($isCallBack ? "<p>Наш менеджер перезвонит вам в ближайшее время.</p><p>Спасибо за ваше обращение!</p>" : $successMessageCustom);
+?>
+<span class="jqmClose top-close fa fa-close"></span>
+<?if($id):?>
+	<?$APPLICATION->IncludeComponent(
+		"aspro:form.scorp", "popup",
+		Array(
+			"IBLOCK_TYPE" => "aspro_corporation_form",
+			"IBLOCK_ID" => $id,
+			"USE_CAPTCHA" => $captcha,
+			"AJAX_MODE" => "Y",
+			"AJAX_OPTION_JUMP" => "N",
+			"AJAX_OPTION_STYLE" => "N",
+			"AJAX_OPTION_HISTORY" => "N",
+			"CACHE_TYPE" => "A",
+			"CACHE_TIME" => "100000",
+			"AJAX_OPTION_ADDITIONAL" => "",
+			//"IS_PLACEHOLDER" => "Y",
+			"SUCCESS_MESSAGE" => $successMessage,
+			"SEND_BUTTON_NAME" => "Отправить",
+			"SEND_BUTTON_CLASS" => "btn btn-default",
+			"DISPLAY_CLOSE_BUTTON" => "Y",
+			"POPUP" => "Y",
+			"CLOSE_BUTTON_NAME" => "Закрыть",
+			"CLOSE_BUTTON_CLASS" => "jqmClose btn btn-default bottom-close"
+		)
+	);?>
+<?endif;?>

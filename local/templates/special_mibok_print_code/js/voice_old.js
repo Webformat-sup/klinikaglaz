@@ -132,7 +132,7 @@ $(document).ready(function () {
 	
     $('.page_body').prepend('<div class="container-player player-bg"><a class="voice_btn btn btn-default" href="#" audio-index="-1">' + voiceAllBtnTxt + '</a></div>');
     $('#main_content').prepend('<div class="container-player player-bg" id="selectiontext"><a class="voice_btn btn btn-default" id="selectiontext-audio" href="#" audio-index="-2">' + voiceBtnTxt + '</a></div>');
-	$('#main_content div[tabindex="-1"], #main_content div[tabindex="0"], #main_content p.welcome, .mibok-voice-block').not('[class^="vjs-"]').each(function(index){
+	$('#main_content div[tabindex="-1"], #main_content div[tabindex="0"], #main_content p.welcome, .mibok-voice-block').each(function(index){
 		$(this).prepend('<div class="container-player player-bg"><a class="voice_btn btn btn-default voice_pad" href="#" audio-index="' + index + '">' + voiceBtnTxt + '</a></div>');
 	})
 	var butAll = $('.voice_btn');

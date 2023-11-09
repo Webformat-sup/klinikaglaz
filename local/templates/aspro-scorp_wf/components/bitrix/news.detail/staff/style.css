@@ -1,4 +1,15 @@
 #lightgallery{
 	display: flex;
-
+}
+.detail div.detailimage img{
+	max-height: 350px;
+	object-fit: contain;
+}
+ul.flex-direction-nav a:before{
+	font-family: "fontAwesome";
+    content: '\f053';
+}
+ul.flex-direction-nav a.flex-next:before{
+	font-family: "fontAwesome";
+    content: '\f054';
 }

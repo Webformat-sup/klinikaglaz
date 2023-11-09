@@ -7,7 +7,7 @@ $arResult['LIST_PAGE_URL'] = str_replace("#SITE_DIR#", SITE_DIR, $arResult['LIST
     <div class="element-list">
         <? foreach ($arResult["ITEMS"] as $arItem): ?>
             <div class="element-item">
-                <div class="element-content mibok-voice-block" tabindex="0">
+                <div class="element-content" tabindex="0">
                     <? if ($arParams["DISPLAY_DATE"] != "N" && $arItem["DISPLAY_ACTIVE_FROM"]): ?>
                         <div class="element-date"><? echo ToLower($arItem["DISPLAY_ACTIVE_FROM"]) ?></div>
                     <? endif ?>
@@ -17,15 +17,11 @@ $arResult['LIST_PAGE_URL'] = str_replace("#SITE_DIR#", SITE_DIR, $arResult['LIST
                 <? foreach ($arItem["DISPLAY_PROPERTIES"] as $pid => $arProperty): ?>
                     <br/>
                     <?= $arProperty["NAME"] ?>:&nbsp;
-                    <?if (stripos($arProperty["DISPLAY_VALUE"], "/iframe") !== false):?>
-                        <?=$arProperty["~VALUE"];?>
-                    <?else:?>
-                        <?if(is_array($arProperty["DISPLAY_VALUE"])):?>
-                            <?=implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);?>
-                        <?else:?>
-                            <?=$arProperty["DISPLAY_VALUE"];?>
-                        <?endif?>
-                    <?endif?>
+                    <? if (is_array($arProperty["DISPLAY_VALUE"])): ?>
+                        <?= implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]); ?>
+                    <? else: ?>
+                        <?= $arProperty["DISPLAY_VALUE"]; ?>
+                    <? endif ?>
                 <? endforeach; ?>
 
                 <? if (!$arParams["HIDE_LINK_WHEN_NO_DETAIL"] || ($arItem["DETAIL_TEXT"] && $arResult["USER_HAVE_ACCESS"])): ?>

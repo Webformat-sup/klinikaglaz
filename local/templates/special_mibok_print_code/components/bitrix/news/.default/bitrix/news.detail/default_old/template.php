@@ -33,14 +33,10 @@
     <?foreach($arResult["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
         <p>
         <?=$arProperty["NAME"]?>:&nbsp;
-        <?if (stripos($arProperty["DISPLAY_VALUE"], "/iframe") !== false):?>
-            <?=$arProperty["~VALUE"];?>
-        <?else:?>
-            <?if(is_array($arProperty["DISPLAY_VALUE"])):?>
+        <?if(is_array($arProperty["DISPLAY_VALUE"])):?>
                 <?=implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);?>
-            <?else:?>
+        <?else:?>
                 <?=$arProperty["DISPLAY_VALUE"];?>
-            <?endif?>
         <?endif?>
         </p>  
     <?endforeach;?>

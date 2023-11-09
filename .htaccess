@@ -571,6 +571,7 @@ ErrorDocument 404 /404.php
 	Redirect 301 /services/diagnostika/opticheskaya-kogerentnaya-tomografiya-oct-glaza/ /services/issledovaniya-i-diagnostika/opticheskaya-kogerentnaya-tomografiya-okt-glaza/
 	Redirect 301 /services/diagnostika/ /services/issledovaniya-i-diagnostika/
 	Redirect 301 /company/news/detskie_opravy_fisher_price_po_spetsialnoy_tsene_ot_3_900_rubley/ /company/news/detskie_opravy_fisher_price_po_spetsialnoy_tsene_ot_4_900_rubley/
+	Redirect 301 /glaznye-zabolevaniya/diagnostika-katarakty.php /services/katarakta/
 </IfModule>
 
 

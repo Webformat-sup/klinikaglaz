@@ -3,7 +3,7 @@ $CScorp = new CScorp;?>
 <?$this->setFrameMode(true);?>
 <div class="item-views image_left reviews col-md-8">
 	<?if($arResult['SECTIONS']):?>
-		<h4>Отзывы</h3>
+		<h4>Отзывы</h4>
 
 			<?// group elements by sections?>
 			<?foreach($arResult['SECTIONS'] as $si => $arSection):?>
