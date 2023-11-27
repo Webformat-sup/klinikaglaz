@@ -1,6 +1,8 @@
 Options -Indexes
 ErrorDocument 404 /404.php
-php_value auto_prepend_file "/home/bitrix/ext_www/klinikaglaz.ru/bitrix/modules/security/tools/start.php"
+# php_value auto_prepend_file "/home/bitrix/ext_www/klinikaglaz.ru/bitrix/modules/security/tools/start.php"
+php_value auto_prepend_file "autoprepend.php"
+
 
 <IfModule mod_rewrite.c>
 	RewriteCond %{HTTP:X-Forwarded-Proto} ^https$ [NC,OR]
