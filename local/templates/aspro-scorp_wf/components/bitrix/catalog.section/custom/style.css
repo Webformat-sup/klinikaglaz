@@ -1,0 +1,98 @@
+.main #maxwidth-custom.maxwidth-theme {
+	margin: 0 !important;
+  max-width: 100% !important;
+}
+
+.catalog-section {
+	display: none;
+}
+
+.pricelist-container {
+	margin: 100px 0;
+}
+.pricelist-container {
+	background-color: #ebf4f8;
+}
+.pricelist-container .pricelist-wrapp {
+	padding: 80px 0;
+}
+.pricelist-container h2 {
+	margin-bottom: 25px;
+}
+.pricelist-container .pricelist-text.user-edit {
+	margin-bottom: 25px;
+	font-size: 16px;
+	font-weight: 700;
+}
+.pricelist-container .item {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 25px;
+	border-bottom: 1px solid #d3dadd;
+}
+.pricelist-container .item:not(:first-child) {
+	margin-top: 25px;
+}
+.pricelist-container .item .text {
+	width: 100%;
+	max-width: 80%;
+	font-size: 16px;
+}
+.pricelist-container .item .price {
+	font-size: 22px;
+	font-weight: 400;
+}
+.pricelist-container .pricelist-footer .text {
+	text-align: end;
+	font-size: 12px;
+	font-weight: 400;
+}
+.pricelist-container .pricelist-footer {
+	margin-top: 25px;
+}
+
+@media screen and (max-width: 992px){
+	
+}
+@media screen and (max-width: 768px){
+	
+}
+@media screen and (max-width: 576px){
+	.pricelist-container .item {
+		flex-direction: column;
+	}
+	.pricelist-container .item .text {
+		margin-bottom: 25px;
+		max-width: 100%;
+	}
+	.pricelist-container .pricelist-footer .text {
+		text-align: start;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 992px){
+	
+}
+@media screen and (max-width: 768px){
+	
+}
+@media screen and (max-width: 576px){
+	
+}

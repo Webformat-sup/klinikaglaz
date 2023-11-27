@@ -23,9 +23,11 @@
 		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/theme-elements.css');?>
 		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/jqModal.css');?>
 		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/theme-responsive.css');?>
+		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/swiper-bundle.min.css');?>
 		<?$APPLICATION->ShowHead()?>
 		<?$APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/webformat.css');?>
 		<?CJSCore::Init(array('jquery', 'fx', 'popup'));?>
+		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/swiper-bundle.min.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.actual.min.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/jquery.fancybox.js');?>
 		<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/blink.js');?>
@@ -480,12 +482,13 @@
 										<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_card_1.svg" /></a>
 									</div>
 									<?php } ?>
-
-									<div class="row">
-										<div class="col-md-12">
-											<h1><?$APPLICATION->ShowTitle(false)?></h1>
+									<? if(!CSite::InDir('/glaznye-zabolevaniya/')) { ?>
+										<div class="row">
+											<div class="col-md-12">
+												<h1><?$APPLICATION->ShowTitle(false)?></h1>
+											</div>
 										</div>
-									</div>
+									<? } ?>
 									<div class="row">
 										<div class="col-md-12">
 											<?$APPLICATION->IncludeComponent(
@@ -511,37 +514,37 @@
 				<div class="container">
 					<?if(!$isIndex):?>
 						<div class="row">
-							<div class="maxwidth-theme">
+							<div id="maxwidth-custom" class="maxwidth-theme">
 								<?if(!$isMenu):?>
 									<div class="col-md-12 col-sm-12 col-xs-12 content-md">
 								<?elseif($isMenu && $arTheme["SIDE_MENU"]["VALUE"] == "RIGHT"):?>
 									<div class="col-md-9 col-sm-9 col-xs-8 content-md">
-								<?elseif($isMenu && $arTheme["SIDE_MENU"]["VALUE"] == "LEFT"):?>
+								<?elseif($isMenu && $arTheme["SIDE_MENU"]["VALUE"] == "LEFT" && !CSite::InDir('/glaznye-zabolevaniya/')):?>
 									<div class="col-md-3 col-sm-3 col-xs-4 left-menu-md">
 										<?$APPLICATION->IncludeComponent(
-	"bitrix:menu", 
-	"left", 
-	array(
-		"ROOT_MENU_TYPE" => "left",
-		"MENU_CACHE_TYPE" => "N",
-		"MENU_CACHE_TIME" => "10",
-		"MENU_CACHE_USE_GROUPS" => "N",
-		"MENU_CACHE_GET_VARS" => array(
-			0 => "SECTION_CODE",
-			1 => "SECTION_ID",
-			2 => "",
-		),
-		"MAX_LEVEL" => "4",
-		"CHILD_MENU_TYPE" => "left",
-		"USE_EXT" => "Y",
-		"DELAY" => "N",
-		"ALLOW_MULTI_SELECT" => "Y",
-		"COMPONENT_TEMPLATE" => "left",
-		"COMPOSITE_FRAME_MODE" => "A",
-		"COMPOSITE_FRAME_TYPE" => "AUTO"
-	),
-	false
-);?>
+												"bitrix:menu", 
+												"left", 
+												array(
+													"ROOT_MENU_TYPE" => "left",
+													"MENU_CACHE_TYPE" => "N",
+													"MENU_CACHE_TIME" => "10",
+													"MENU_CACHE_USE_GROUPS" => "N",
+													"MENU_CACHE_GET_VARS" => array(
+														0 => "SECTION_CODE",
+														1 => "SECTION_ID",
+														2 => "",
+													),
+													"MAX_LEVEL" => "4",
+													"CHILD_MENU_TYPE" => "left",
+													"USE_EXT" => "Y",
+													"DELAY" => "N",
+													"ALLOW_MULTI_SELECT" => "Y",
+													"COMPONENT_TEMPLATE" => "left",
+													"COMPOSITE_FRAME_MODE" => "A",
+													"COMPOSITE_FRAME_TYPE" => "AUTO"
+												),
+												false
+											);?>
 										<div class="sidearea">
 											<?$APPLICATION->ShowViewContent('under_sidebar_pay_btn');?>
 											<?$APPLICATION->ShowViewContent('under_sidebar_content');?>

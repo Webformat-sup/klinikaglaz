@@ -37,7 +37,7 @@
 						</div><?// class=row?>						
 						</div>
 						</div>
-						<div class="row hidden-md hidden-sm hidden-lg hidden-xs mobile">
+						<div id="news_list_preim" class="row hidden-md hidden-sm hidden-lg hidden-xs mobile news-list-preim">
 							<div class="maxwidth-theme">
 								<hr><div class="col-md-12">
 								<h3>Наши преимущества</h3>

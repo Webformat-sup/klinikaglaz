@@ -82,3 +82,6 @@ BackUp*
 /yandex*.txt
 
 /vendor/
+
+
+**/={$template}/

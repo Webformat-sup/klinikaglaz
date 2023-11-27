@@ -428,7 +428,7 @@ $arElement = $CCache->CIblockElement_GetList(array('CACHE' => array('TAG' => $CC
 	</div>
 </div>
 
-<?php // ������������� Json LD
+<?php // Json LD
 $iblockId = $arParams['IBLOCK_ID'];
 $elementId = $arElement['ID'];
 

@@ -1,0 +1,57 @@
+.personal-recommendations {
+	margin-top: 30px;
+	z-index: 0!important;
+}
+.personal-recommendations h2 {
+	margin-bottom: 30px;
+}
+.personal-recommendations-wrapp {
+	display: flex;
+	padding: 0 15px;
+	height: 265px!important;
+}
+.personal-recommendations-wrapp .item {
+  padding: 15px;
+	height: 250px;
+	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+}
+.personal-recommendations-wrapp .item > .row-wrapp {
+	display: flex;
+}
+.personal-recommendations-wrapp .item > .row-wrapp,
+.personal-recommendations-wrapp .item .img-block,
+.personal-recommendations-wrapp .item .content-block {
+	height: 100%;
+}
+.personal-recommendations-wrapp .item .img-block,
+.personal-recommendations-wrapp .item .content-block {
+	width: 50%;
+}
+.personal-recommendations-wrapp .item .content-block {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-left: 15px;
+}
+.personal-recommendations-wrapp .item img.pic {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.personal-recommendations-wrapp .item .link img {
+	max-width: 5px;
+}
+.personal-recommendations-wrapp .name {
+	font-size: 18px;
+	font-weight: 700;
+}
+.personal-recommendations-wrapp .desc {
+	margin: 15px 0;
+	font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+	.personal-recommendations h2 {
+		font-size: 22px;
+	}
+}
