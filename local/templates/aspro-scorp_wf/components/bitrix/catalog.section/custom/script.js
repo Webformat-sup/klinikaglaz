@@ -1,3 +1,4 @@
+
 (function() {
 	'use strict';
 
@@ -357,3 +358,9 @@
 		}
 	};
 })();
+
+$(document).on('click', '.collapse-item .header-icon img', function(){
+	var $this = $(this);
+	$('.collapse-container .collapse-item[data-id="'+$this.data('id')+'"]')
+			.attr('data-status', $this.data('code'));
+});

@@ -1,28 +1,13 @@
 <?php
-$MESS["CT_BCS_TPL_ELEMENT_DELETE_CONFIRM"] = "Будет удалена вся информация, связанная с этой записью. Продолжить?";
-$MESS["CT_BCS_TPL_MESS_BTN_BUY"] = "Купить";
-$MESS["CT_BCS_TPL_MESS_BTN_ADD_TO_BASKET"] = "В корзину";
-$MESS["CT_BCS_TPL_MESS_PRODUCT_NOT_AVAILABLE"] = "Нет в наличии";
-$MESS['CP_BCS_TPL_MESS_PRODUCT_NOT_AVAILABLE_SERVICE'] = "Недоступно";
-$MESS["CT_BCS_TPL_MESS_BTN_DETAIL"] = "Подробнее";
-$MESS["CT_BCS_TPL_MESS_BTN_SUBSCRIBE"] = "Подписаться";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_BASKET_REDIRECT"] = "Перейти в корзину";
-$MESS["ADD_TO_BASKET_OK"] = "Товар добавлен в корзину";
-$MESS["CT_BCS_TPL_MESS_BTN_COMPARE"] = "Сравнить";
-$MESS["CT_BCS_CATALOG_TITLE_ERROR"] = "Ошибка";
-$MESS["CT_BCS_CATALOG_TITLE_BASKET_PROPS"] = "Свойства товара, добавляемые в корзину";
-$MESS["CT_BCS_CATALOG_BASKET_UNKNOWN_ERROR"] = "Неизвестная ошибка при добавлении товара в корзину";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_SEND_PROPS"] = "Выбрать";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_CLOSE"] = "Закрыть";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_CLOSE_POPUP"] = "Продолжить покупки";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_BASKET_REDIRECT"] = "Перейти в корзину";
-$MESS["CT_BCS_CATALOG_MESS_COMPARE_OK"] = "Товар добавлен в список сравнения";
-$MESS["CT_BCS_CATALOG_MESS_COMPARE_TITLE"] = "Сравнение товаров";
-$MESS["CT_BCS_CATALOG_MESS_COMPARE_UNKNOWN_ERROR"] = "При добавлении товара в список сравнения произошла ошибка";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_COMPARE_REDIRECT"] = "Перейти в список сравнения";
-$MESS["CT_BCS_CATALOG_BTN_MESSAGE_LAZY_LOAD_WAITER"] = "Загрузка";
-$MESS["CT_BCS_CATALOG_PRICE_TOTAL_PREFIX"] = "на сумму";
-$MESS["CT_BCS_CATALOG_SHOW_MAX_QUANTITY"] = "Наличие";
-$MESS["CT_BCS_CATALOG_RELATIVE_QUANTITY_MANY"] = "много";
-$MESS["CT_BCS_CATALOG_RELATIVE_QUANTITY_FEW"] = "мало";
-$MESS["CT_BCS_CATALOG_MESS_BTN_LAZY_LOAD"] = "Показать ещё";
+$MESS["CT_PRODUCT_MORE"] = "Показать ещё";
+$MESS["CT_LEARN_MORE"] = "Узнать больше";
+$MESS["CT_REVIEW_TITLE"] = "Отзывы о нашей работе";
+$MESS["CT_REVIEW_DESC"] = "Мы стремимся оказывать качественные услуги с высоким уровнем сервиса. Мы благодарны нашим клиентам за оказанное доверие и положительные отзывы о совместной работе.";
+$MESS["CT_PRICE_TITLE"] = "Стоимость операции";
+$MESS["CT_PRICE_TEXT_1"] = "Несмотря на общее название «Имплантация интраокулярной линзы» существует несколько методов провещения этой операции, у каждого из которых своя цена. Врач выбирает метод в зависимости от показаний, сопуствующих заболеваний, состояния глазного яблока и организма на момент вмешательства.";
+$MESS["CT_PRICE_TEXT_2"] = "Цены без учета стоимости линзы (подбирается индивидуально)";
+$MESS["CT_STAFF"] = "Наши специалисты";
+$MESS["CT_COLLAPSE_TITLE"] = "Что нужно знать об искусственных хрусталиках (ИОЛ)";
+$MESS["CT_FORM_TEXT"] = "Оформите заявку на сайте, мы свяжемся с вами в ближайшее время и ответим на все интересующие вопросы.";
+
+

@@ -81,6 +81,13 @@ if(count($arResult['ITEMS']) < 2){
 								</div>
 							<?endforeach;?>
 						</div>
+						<?if($arParams['FORM_ID'] && $arParams['VIEW_TYPE'] == 'block'){?>
+							<div class="form-block">
+								<div class="buttom-wrapp">
+									<div class="btn-custom-sign" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>">Записаться</div>
+								</div>
+							</div>
+						<?}?>
 					<?endif;?>
 				<?$textPart = ob_get_clean();?>
 
@@ -128,6 +135,24 @@ if(count($arResult['ITEMS']) < 2){
 								</div>
 							</div>
 						</div>
+					</div>
+				<?elseif($arParams['VIEW_TYPE'] == 'block'):?>
+					<div class="item-wrapp">
+						<div class="item" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
+							<?if(!in_array('PREVIEW_PICTURE', $arParams['FIELD_CODE'])):?>
+								<div class="text"><?=$textPart?></div>
+							<?else:?>
+								<?=$imagePart?>
+								<div class="text"><?=$textPart?></div>
+							<?endif;?>
+						</div>
+						<?if($arParams['FORM_ID']){?>
+							<div class="form-block mobile">
+								<div class="buttom-wrapp">
+									<div class="btn-custom-sign" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>">Записаться</div>
+								</div>
+							</div>
+						<?}?>
 					</div>
 				<?endif;?>
 			<?endforeach;?>

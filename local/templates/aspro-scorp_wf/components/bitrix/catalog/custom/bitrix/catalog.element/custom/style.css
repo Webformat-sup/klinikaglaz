@@ -120,6 +120,9 @@
 .tab-block .tabs-wrapp .tab.disable {
 	opacity: .5;
 }
+.tab-detail img {
+	padding: 15px;
+}
 .swiper {
 	z-index: 0!important;
 }
@@ -165,47 +168,6 @@
 .tab-staff .item .col-md-12 .image {
 	padding: 15px 15px 0!important;
 }
-.form-wrapp {
-	margin-top: 30px;
-}
-.form-wrapp .title {
-	font-size: 36px;
-	font-weight: 700;
-	line-height: 52px;
-	text-align: center;
-	color: rgba(1, 105, 194, 1);
-}
-.form-wrapp .desc {
-	margin: 15px 0;
-	margin-bottom: 25px;
-	font-size: 20px;
-	font-weight: 400;
-	line-height: 29px;
-	text-align: center;
-}
-.form-wrapp .button {
-	background: rgba(175, 202, 11, 1);
-  padding: 20px 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #fff;
-  font-size: 16px;
-  border-radius: 4px;
-  /* margin: 0 auto; */
-	width: max-content;
-	cursor: pointer;
-}
-.form-wrapp .button-container {
-	display: flex;
-  justify-content: space-between;
-}
-.form-wrapp .button-container input {
-	width: 33%;
-	border: 1px solid #e6e6e6;
-  padding: 0 20px;
-  font-size: 16px;
-}
 .video-container {
 	margin: 60px 0 30px 0;
 	border-radius: 4px;
@@ -243,6 +205,15 @@
 .swiper-pagination-bullets.recommendations .swiper-pagination-bullet-active {
 	background: black;
 }
+.projects-container {
+	margin: 60px 0 45px 0;
+	padding: 0 24px;
+}
+.projects-container h4 {
+	font-size: 28px;
+	line-height: 22px;
+	border: none !important;
+}
 .chars .char-wrapp{margin-bottom:-10px;margin-top:14px;}
 .chars .char-wrapp .char_name{font-weight:bold;font-style:italic;text-align:left;position:relative;vertical-align:top;}
 .chars .char-wrapp .char_name .hint .tooltips{display:none;position:absolute;left:-30px;top:40px;width:100px;padding:5px;box-shadow:0 0 10px;z-index:9;background:#fff;}
@@ -257,7 +228,7 @@
 0px no-repeat;}
 .chars .props_table .char_value span ul, .detail .chars .props_table .char_value span ol{text-align:left;}
 .price_operation {
-	margin: 30px 0;
+	margin: 60px 0;
 	padding: 0 24px;
 }
 .price_operation h2 {
@@ -363,27 +334,6 @@
 	}
 	#news_list_preim {
 		display: none!important;
-	}
-	.form-wrapp .button-container {
-		flex-direction: column;
-	}
-	.form-wrapp .button-container input {
-		padding: 18px 40px;
-		margin-bottom: 15px;
-		width: 100%;
-	}
-	.form-wrapp .title {
-		font-size: 24px;
-		line-height: normal;
-	}
-	.form-wrapp .desc {
-		font-size: 15px;
-		line-height: 22px;
-	}
-	.form-wrapp .button {
-		padding: 18px 40px;
-		width: 100%;
-  	text-align: center;
 	}
 	.tab-block .tabs-wrapp {
 		flex-direction: column;
