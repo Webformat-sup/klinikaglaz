@@ -20,9 +20,10 @@
 }
 .first-block .img-block img {
 	height: 100%;
-	object-fit: cover;
-	max-height: 400px;
+	object-fit: contain;
+	max-height: 475px;
   margin: 0 auto;
+  width: 100%;
 }
 .first-block .content-block {
 	display: flex;
@@ -185,7 +186,7 @@
 .price-link {
 	display: flex;
 	margin-bottom: 30px;
-	margin-top: -15px;
+	/*margin-top: -15px;*/
 }
 .price-link .price-link-img img {
 	width: 20px;
@@ -220,7 +221,7 @@
 .chars .char-wrapp .char_name .hint .icons:hover + .tooltips{display:block;}
 .chars .props_table{width:100%;}
 .chars .props_table td{padding:5px 0;border-top:1px dotted #aaa;}
-.chars .props_table .char_name span, .detail .chars .props_table .char_value span{display:inline-block;background:#fff;background:#fff;position:relative;zoom:1;top:-21px;}
+.chars .props_table .char_name span, .chars .props_table .char_value span{display:inline-block;background:#fff;background:#fff;position:relative;zoom:1;top:-21px;}
 .chars .props_table .char_name span{font-style:normal;padding-right:10px;left:-2px;}
 .chars .props_table .char_value{text-align:right;}
 .chars .props_table .char_value span{padding-left:10px;right:-2px;}

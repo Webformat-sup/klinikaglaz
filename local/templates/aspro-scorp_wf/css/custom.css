@@ -11,10 +11,12 @@
     color: #ffffff;
 }
 
-/* .body{
-  background: url(/local/templates/aspro-scorp_wf/images/background-new-year.jpg) no-repeat top center;
+ .body{
+  /*background: url(../images/background-new-year.jpg) no-repeat top center;
   background-size: 1920px auto;
-} */
+  	background-attachment: fixed;*/
+
+} 
 /* */
 
 /*  footer btn */

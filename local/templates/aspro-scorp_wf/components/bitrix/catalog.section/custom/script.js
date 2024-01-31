@@ -357,6 +357,16 @@
 			}
 		}
 	};
+
+	var collapseSnippets = $('.collapse-container.snippets');
+	$.each(collapseSnippets, function(code, item)   
+	{
+			var imgs = '<img data-id="cs_'+code+'" data-code="open" class="i-open" src="/upload/icon-open.png" alt="open" /><img data-id="cs_'+code+'" data-code="close" class="i-close" src="/upload/icon-close.png" alt="close" />';
+
+			$(item).find('.collapse-item').attr('data-id', 'cs_'+code);
+			$(item).find('.header-icon').html(imgs);
+	});
+	
 })();
 
 $(document).on('click', '.collapse-item .header-icon img', function(){

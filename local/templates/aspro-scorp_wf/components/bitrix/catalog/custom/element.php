@@ -22,14 +22,11 @@ else
 {
 	$basketAction = (isset($arParams['DETAIL_ADD_TO_BASKET_ACTION']) ? $arParams['DETAIL_ADD_TO_BASKET_ACTION'] : array());
 }
-global $USER; 
-if($USER->isAdmin()) $template = 'custom'; 
-else $template = '';
 ?>
 
 <?$ElementID = $APPLICATION->IncludeComponent(
 	"bitrix:catalog.element",
-	$template,
+	'custom',
 	array(
 		"TAB_PROPS" => ['LINK_REVIEWS', 'PHOTOS', 'LINK_STAFF', 'PREPARING_SURGERY', 'PATIENT_REMINDER'],
 		"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],

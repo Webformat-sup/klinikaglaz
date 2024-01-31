@@ -20,16 +20,22 @@ foreach ($arResult['ITEMS'] as $k => $product)
 			'DETAIL_PAGE_URL' => $product['DETAIL_PAGE_URL']
 		];
 
-		if($product['PREVIEW_PICTURE'] && false)
+		if($product['PREVIEW_PICTURE']['ID'] && true)
 		{
-				$arFileTmp = CFile::ResizeImageGet(
-					$product['PREVIEW_PICTURE'],
-					["width" => 100, "height" => 50],
-					BX_RESIZE_IMAGE_PROPORTIONAL,
-					true,
-					[]
-				);
-				$arProducts[$k]['PREVIEW_PICTURE'] = $arFileTmp;
+				// $arFileTmp = CFile::ResizeImageGet(
+				// 	$product['PREVIEW_PICTURE']['ID'],
+				// 	["width" => 125, "height" => 225],
+				// 	BX_RESIZE_IMAGE_PROPORTIONAL,
+				// 	true,
+				// 	[]
+				// );
+
+				// $arProducts[$k]['PREVIEW_PICTURE'] = [
+				// 	'ID' => 1,
+				// 	"SRC" => $arFileTmp['src']
+				// ];
+	
+				$arProducts[$k]['PREVIEW_PICTURE'] = $product['PREVIEW_PICTURE'];
 		}
 
 		$arProducts[$k]['LOGOTIP'] = 
@@ -102,7 +108,7 @@ if($section = $result->GetNext())
 	if($section['UF_GZ_REVIEWS'])
 	{
 			$rs = CIBlockElement::GetList(
-				['SORT'=>'ASC'],['IBLOCK_ID' => 10, 'ID' => $section['UF_GZ_REVIEWS']],false,false,['NAME','PROPERTY_MESSAGE','PROPERTY_NAME','DATE_CREATE']
+				['SORT'=>'ASC'],['IBLOCK_ID' => 10, 'ID' => $section['UF_GZ_REVIEWS']],false,false,['NAME','PROPERTY_MESSAGE','PROPERTY_NAME','DATE_CREATE','PREVIEW_TEXT']
 			);
 			while($ar = $rs->GetNext()) $arSection['REVIEWS'][] = $ar;
 	}

@@ -431,12 +431,14 @@
 			</div>
 		</div>	
 		<?}?>
+		<?/*?>
 		<script>
 				(function(w,d,u){
 								var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
 								var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
 				})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/site_button/loader_1_8v7204.js');
 		</script>
+		
 
 		<script>
 				window.addEventListener('onBitrixLiveChat', function(event){
@@ -444,7 +446,7 @@
 						widget.setOption('checkSameDomain', false);
 				});
 		</script>
-
+<?*/?>
 	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/dist/js/lightgallery.min.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/lib/jquery.mousewheel.min.js"></script>
 	<script src="<?=SITE_TEMPLATE_PATH?>/data/lightgallery/modules/lg-thumbnail.min.js"></script>

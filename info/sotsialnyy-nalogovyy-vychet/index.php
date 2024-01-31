@@ -32,13 +32,5 @@ $APPLICATION->SetTitle("Социальный налоговый вычет");?>�
 <h4><br>
  </h4>
  </span></h5>
-<script id="bx24_form_inline" data-skip-moving="true">
-         (function(w,d,u,b){w['Bitrix24FormObject']=b;w[b] = w[b] || function(){arguments[0].ref=u;
-                 (w[b].forms=w[b].forms||[]).push(arguments[0])};
-                 if(w[b]['forms']) return;
-                 var s=d.createElement('script');s.async=1;s.src=u+'?'+(1*new Date());
-                 var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-         })(window,document,'https://bitrix.klinikaglaz.ru/bitrix/js/crm/form_loader.js','b24form');
-
-         b24form({"id":"3","lang":"ru","sec":"npu1lx","type":"inline"});
- </script><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<script data-b24-form="inline/31/not3u9" data-skip-moving="true">(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://bitrix.klinikaglaz.ru/upload/crm/form/loader_31_not3u9.js');</script>
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

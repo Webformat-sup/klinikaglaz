@@ -297,62 +297,7 @@ if($arResult['PROPERTIES']['LINK_REVIEWS']['VALUE'])
 
 
 
-<?// projects links?>
-		<?if($arResult['PROPERTIES']['LINK_PROJECTS']['VALUE']):?>
-			<?$arProjects = $CCache->CIBlockElement_GetList(array('CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('ID' => $arResult['PROPERTIES']['LINK_PROJECTS']['VALUE'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'DETAIL_PICTURE'));?>
-			<div class="wraps nomargin projects-container">
-				<hr />
-				<h4 class="underline"><?=(strlen($arParams['T_PROJECTS']) ? $arParams['T_PROJECTS'] : GetMessage('T_PROJECTS'))?></h4>
-				<div class="projects item-views table">
-					<div class="row items">
-						<?
-						$itemsCount = count($arProjects);
-						$arParams['COLUMN_COUNT'] = 3;
-						//$arParams['COLUMN_COUNT'] = ($arParams['COLUMN_COUNT'] > 0 && $arParams['COLUMN_COUNT'] < 6) ? ($arParams['COLUMN_COUNT'] > $itemsCount ? $itemsCount : $arParams['COLUMN_COUNT']) : 3;
-						$countmd = $arParams['COLUMN_COUNT'];
-						$countsm = (($tmp = ceil($arParams['COLUMN_COUNT'] / 2)) > 2 ? $tmp : (!$tmp ? 1 : $tmp));
-						$colmd = floor(12 / $countmd);
-						$colsm = floor(12 / $countsm);
-						?>
-						<?foreach($arProjects as $arItem):?>
-							<?
-							// edit/add/delete buttons for edit mode
-							$arItemButtons = CIBlock::GetPanelButtons($arItem['IBLOCK_ID'], $arItem['ID'], 0, array('SESSID' => false, 'CATALOG' => true));
-							$this->AddEditAction($arItem['ID'], $arItemButtons['edit']['edit_element']['ACTION_URL'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'ELEMENT_EDIT'));
-							$this->AddDeleteAction($arItem['ID'], $arItemButtons['edit']['delete_element']['ACTION_URL'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
-							$thumb = CFile::GetPath($arItem['PREVIEW_PICTURE'] ? $arItem['PREVIEW_PICTURE'] : $arItem['DETAIL_PICTURE']);
-							?>
-							<div class="col-md-<?=$colmd?> col-sm-<?=$colsm?>">
-								<div class="item noborder" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
-									<a href="<?=$arItem['DETAIL_PAGE_URL']?>" class="blink">
-										<?// preview picture?>
-										<div class="image">
-											<?if($thumb):?>
-												<img src="<?=$thumb?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" class="img-responsive" />
-											<?else:?>
-												<img class="img-responsive" src="<?=SITE_TEMPLATE_PATH?>/images/noimage.png" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" />
-											<?endif;?>
-										</div>
-										<div class="info">
-											<?// element name?>
-											<div class="title">
-												<span><?=$arItem['NAME']?></span>
-											</div>
-										</div>
-									</a>
-								</div>
-							</div>
-						<?endforeach;?>
-						<script type="text/javascript">
-						$(document).ready(function(){
-							$('.projects.item-views .item .image').sliceHeight({lineheight: -3});
-							$('.projects.item-views .item .info').sliceHeight();
-						});
-						</script>
-					</div>
-				</div>
-			</div>
-		<?endif;?>
+
 
 
 
@@ -504,6 +449,64 @@ if($arResult['PROPERTIES']['LINK_PRICE_OPERATION']['VALUE'])
 	<div class="video-container">
 		<?$videoId = str_replace('https://youtu.be/','',$arResult["PROPERTIES"]['LINK_VIDEO']['VALUE']);?>
 		<iframe width="480" height="360" title='video' src="https://www.youtube.com/embed/<?=$videoId?>?feature=oembed" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+	</div>
+<?endif;?>
+
+
+<?// projects links?>
+<?if($arResult['PROPERTIES']['LINK_PROJECTS']['VALUE']):?>
+	<?$arProjects = $CCache->CIBlockElement_GetList(array('CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('ID' => $arResult['PROPERTIES']['LINK_PROJECTS']['VALUE'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'DETAIL_PICTURE'));?>
+	<div class="wraps nomargin projects-container">
+		<hr />
+		<h4 class="underline"><?=(strlen($arParams['T_PROJECTS']) ? $arParams['T_PROJECTS'] : GetMessage('T_PROJECTS'))?></h4>
+		<div class="projects item-views table">
+			<div class="row items">
+				<?
+				$itemsCount = count($arProjects);
+				$arParams['COLUMN_COUNT'] = 3;
+				//$arParams['COLUMN_COUNT'] = ($arParams['COLUMN_COUNT'] > 0 && $arParams['COLUMN_COUNT'] < 6) ? ($arParams['COLUMN_COUNT'] > $itemsCount ? $itemsCount : $arParams['COLUMN_COUNT']) : 3;
+				$countmd = $arParams['COLUMN_COUNT'];
+				$countsm = (($tmp = ceil($arParams['COLUMN_COUNT'] / 2)) > 2 ? $tmp : (!$tmp ? 1 : $tmp));
+				$colmd = floor(12 / $countmd);
+				$colsm = floor(12 / $countsm);
+				?>
+				<?foreach($arProjects as $arItem):?>
+					<?
+					// edit/add/delete buttons for edit mode
+					$arItemButtons = CIBlock::GetPanelButtons($arItem['IBLOCK_ID'], $arItem['ID'], 0, array('SESSID' => false, 'CATALOG' => true));
+					$this->AddEditAction($arItem['ID'], $arItemButtons['edit']['edit_element']['ACTION_URL'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'ELEMENT_EDIT'));
+					$this->AddDeleteAction($arItem['ID'], $arItemButtons['edit']['delete_element']['ACTION_URL'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
+					$thumb = CFile::GetPath($arItem['PREVIEW_PICTURE'] ? $arItem['PREVIEW_PICTURE'] : $arItem['DETAIL_PICTURE']);
+					?>
+					<div class="col-md-<?=$colmd?> col-sm-<?=$colsm?>">
+						<div class="item noborder" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
+							<a href="<?=$arItem['DETAIL_PAGE_URL']?>" class="blink">
+								<?// preview picture?>
+								<div class="image">
+									<?if($thumb):?>
+										<img src="<?=$thumb?>" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" class="img-responsive" />
+									<?else:?>
+										<img class="img-responsive" src="<?=SITE_TEMPLATE_PATH?>/images/noimage.png" alt="<?=$arItem['NAME']?>" title="<?=$arItem['NAME']?>" />
+									<?endif;?>
+								</div>
+								<div class="info">
+									<?// element name?>
+									<div class="title">
+										<span><?=$arItem['NAME']?></span>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				<?endforeach;?>
+				<script type="text/javascript">
+				$(document).ready(function(){
+					$('.projects.item-views .item .image').sliceHeight({lineheight: -3});
+					$('.projects.item-views .item .info').sliceHeight();
+				});
+				</script>
+			</div>
+		</div>
 	</div>
 <?endif;?>
 

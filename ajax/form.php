@@ -56,7 +56,7 @@ $url = (in_array($form_id, ['17','5'])) ? "/thanks/" : "";
 	<?$APPLICATION->IncludeComponent(
 		"aspro:form.scorp", "popup",
 		Array(
-			"IBLOCK_TYPE" => "aspro_corporation_form",
+			"IBLOCK_TYPE" => "aspro_scorp_content",
 			"IBLOCK_ID" => 10,
 			"USE_CAPTCHA" => "N",
 			"AJAX_MODE" => "Y",

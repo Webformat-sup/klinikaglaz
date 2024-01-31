@@ -1,0 +1,11 @@
+<div class="info-container">
+	<div class="info-item">
+		<div class="info-title">Показания:</div>
+		<div class="info-content">
+			<div class="bl bl-1">Первая колонка</div>
+			<div class="bl bl-2">
+				Вторая колонка
+			</div>
+		</div>
+	</div>					
+</div>

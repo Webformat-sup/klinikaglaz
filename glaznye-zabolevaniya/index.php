@@ -1,11 +1,12 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 	$APPLICATION->SetTitle("Глазные заболевания");
-	$template = '.default_old';
-	global $USER; if($USER->isAdmin()) $template = 'custom'; 
+	$template = 'custom';
+	//$template = '.default_old';
+	//global $USER; if($USER->isAdmin()) $template = 'custom'; 
 
 	$APPLICATION->SetPageProperty("description", "Глазные заболевания, виды хрусталиков и лекарственных препаратов");?><?$APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
-	$template, 
+	"custom", 
 	array(
 		"ACTION_VARIABLE" => "action",
 		"ADD_ELEMENT_CHAIN" => "Y",
@@ -175,7 +176,7 @@
 		"DISPLAY_ELEMENT_SLIDER" => "10",
 		"DISPLAY_TOP_PAGER" => "N",
 		"DISPLAY_WISH_BUTTONS" => "Y",
-		"ELEMENT_SORT_FIELD" => "shows",
+		"ELEMENT_SORT_FIELD" => "sort",
 		"ELEMENT_SORT_FIELD2" => "shows",
 		"ELEMENT_SORT_FIELD_BOX" => "name",
 		"ELEMENT_SORT_FIELD_BOX2" => "id",

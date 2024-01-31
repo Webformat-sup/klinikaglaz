@@ -46,17 +46,23 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 				<div class="products-wrapp swiper-wrapper">
 					<? foreach($arResult['PRODUCTS'] as $k => $product){ ?>
 						<? if($product['SHOW'] == 'Y') { ?>
-							<div class="product swiper-slide">
-								<div class="manufacturer-block">
-									<? if($product['LOGOTIP']){ ?>
+							<div class="product swiper-slide <?= ($product['PREVIEW_PICTURE']['ID']) ? 'hasImg' : ''?>">
+								<a class="manufacturer-block" href="<?=$product['DETAIL_PAGE_URL']?>">
+									<?if($product['PREVIEW_PICTURE']['ID']){?>
+										<div class="preview-img" href="<?=$product['DETAIL_PAGE_URL']?>">
+											<img src="<?= $product['PREVIEW_PICTURE']['SRC'] ?>" alt="">
+										</div>
+									<?}else{?>
+										<? if($product['LOGOTIP']){ ?>
 										<div class="manufacturer">
 											<img src="<?=$product['LOGOTIP']['SRC']?>" alt="<?=$product['NAME']?>" />
 										</div>
+										<?}?>
+										<?if($product['COUNTRY']){?>
+											<div class="country">(<?=$product['COUNTRY']?>)</div>
+										<?}?>
 									<?}?>
-									<?if($product['COUNTRY']){?>
-										<div class="country">(<?=$product['COUNTRY']?>)</div>
-									<?}?>
-								</div>
+								</a>
 								<div class="product-name"><?=$product['NAME']?></div>
 								<a href="<?=$product['DETAIL_PAGE_URL']?>" class="product-more">
 									<span><?=Loc::getMessage('CT_LEARN_MORE');?></span>
@@ -118,15 +124,18 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 					<?}?>
 			</div>
 		<?}?>
-
+		
 		<div class="info-container info-2">
-			<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default", array(
-				"AREA_FILE_SHOW" => "sec",
-				"AREA_FILE_SUFFIX" => "info_container_".$arResult['CODE'],
-				"EDIT_TEMPLATE" => "standard.php"
-				),
-				false
-			);?>&nbsp;
+			<?$APPLICATION->IncludeFile(
+				"/glaznye-zabolevaniya/index_info_container_".$arResult['CODE'].".php",
+				// "/include/section-glaznye-zabolevaniya-1.php", 
+				array(), 
+				array(
+					"MODE"      => "html",
+					"NAME"      => Loc::getMessage('CT_NAME_INCLUDE'),
+					"TEMPLATE"  => "section_include_template.php"
+				)
+			);?>
 		</div>
 
 		<div class="order-block form-container">
@@ -166,13 +175,15 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 	<div class="maxwidth-theme">
 
 		<div class="info-container info-2">
-			<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default", array(
-				"AREA_FILE_SHOW" => "sec",
-				"AREA_FILE_SUFFIX" => "info2_container_".$arResult['CODE'],
-				"EDIT_TEMPLATE" => "standard.php"
-				),
-				false
-			);?>&nbsp;
+			<?$APPLICATION->IncludeFile(
+				"/glaznye-zabolevaniya/index_info2_container_".$arResult['CODE'].".php", 
+				array(), 
+				array(
+					"MODE"      => "html",
+					"NAME"      => Loc::getMessage('CT_NAME_INCLUDE_2'),
+					"TEMPLATE"  => "section_include_template.php"
+				)
+			);?>
 		</div>
 
 		<? $arStaffIds = $arResult['SECTION_USER_FIELDS']['STAFF']; ?>
@@ -249,13 +260,13 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 		<div class="sertif-container">
 			<div class="sertif-background"></div>
 			<div class="content">
-				<?$APPLICATION->IncludeComponent(
-					'bitrix:main.include',
-					'',
+				<?$APPLICATION->IncludeFile(
+					"/include/they_trust_us.php", 
+					array(), 
 					array(
-						'AREA_FILE_SHOW' => 'file',
-						'PATH' => SITE_DIR.'include/they_trust_us.php',
-						'EDIT_TEMPLATE' => ''
+						"MODE"      => "html",
+						"NAME"      => Loc::getMessage('CT_NAME_INCLUDE_3'),
+						"TEMPLATE"  => "section_include_template.php"
 					)
 				);?>
 			</div>
@@ -299,17 +310,21 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 				</div>
 				<div class="item-wrapp swiper-wrapper">
 					<? foreach($arResult['SECTION_USER_FIELDS']['REVIEWS'] as $k => $reviews){ ?>
-						<? if($reviews['PROPERTY_MESSAGE_VALUE']['TEXT']){?>
+						<?
+						$nameReview = ($reviews['PROPERTY_NAME_VALUE']) ?: $reviews['NAME'];
+						$textReview = ($reviews['PREVIEW_TEXT']) ?: $reviews['PROPERTY_MESSAGE_VALUE']['TEXT'];
+						?>
+						<? if($textReview){?>
 							<div class="item swiper-slide">
 									<div class="item-text">
-										<? if(strlen($reviews['PROPERTY_MESSAGE_VALUE']['TEXT']) > 730){ ?>
-											<?= mb_substr(trim($reviews['PROPERTY_MESSAGE_VALUE']['TEXT']),0,465, 'UTF-8') . ' ...' ?>
+										<? if(strlen($textReview) > 730){ ?>
+											<?= mb_substr(trim($textReview),0,465, 'UTF-8') . ' ...' ?>
 										<?} else {?>
-											<?= $reviews['PROPERTY_MESSAGE_VALUE']['TEXT'] ?>
+											<?= $textReview ?>
 										<?}?>
 									</div>
 									<div class="item-info">
-										<div class="item-info-name"><?= $reviews['PROPERTY_NAME_VALUE'] ?></div>
+										<div class="item-info-name"><?= $nameReview ?></div>
 										<div class="item-info-date"><?= $reviews['DATE_CREATE'] ?></div>
 									</div>
 							</div>
@@ -362,7 +377,8 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 
 		<?if($arResult['SECTION_USER_FIELDS']['VIDEO']):?>
 			<div class="video-container">
-				<?$videoId = str_replace('https://youtu.be/','',$arResult["PROPERTIES"]['LINK_VIDEO']['VALUE']);?>
+				<?$videoId = str_replace('https://youtu.be/','',$arResult['SECTION_USER_FIELDS']['VIDEO']);
+				?>
 				<iframe width="480" height="360" title='video' src="https://www.youtube.com/embed/<?=$videoId?>?feature=oembed" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
 			</div>
 		<?endif;?>

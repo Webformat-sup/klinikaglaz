@@ -1,8 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Контакты компании");
 $APPLICATION->SetPageProperty("keywords", "Контакты компании");
-$APPLICATION->SetPageProperty("description", "Контакты компании");
-$APPLICATION->SetPageProperty("title", "Контакты компании");
+$APPLICATION->SetPageProperty("description", "Контактная информация клиники микрохирургии \"Глаз\" им. С. Федорова в Екатеринбурге. Телефон регистратуры для записи в офтальмологическую клинику: +7 (343) 270-00-30, +7(343) 328-88-45");
+$APPLICATION->SetPageProperty("title", "Контакты клиники микрохирургии \"Глаз\" им. Святослава Федорова в Екатеринбурге (Метро Динамо)");
 $APPLICATION->SetTitle("Контакты компании");?><div class="row contacts" itemtype="http://schema.org/Organization" itemscope="">
 	<div class="col-md-12">
 		<h4><?$APPLICATION->IncludeFile(SITE_DIR."include/contacts-site-name.php", Array(), Array("MODE" => "html", "NAME" => "Name"));?></h4>
