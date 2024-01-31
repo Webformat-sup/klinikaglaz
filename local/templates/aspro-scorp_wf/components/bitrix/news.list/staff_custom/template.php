@@ -89,7 +89,7 @@
 										<?// element display properties?>
 										<?if($arItem['DISPLAY_PROPERTIES']):?>
 											
-											<div class="properties">
+											<div class="properties custom_prop">
 												<?foreach($arItem['DISPLAY_PROPERTIES'] as $PCODE => $arProperty):?>
 													<div class="property">
 														<?if($arProperty['XML_ID']):?>
@@ -102,12 +102,16 @@
 														<?else:?>
 															<?$val = $arProperty['DISPLAY_VALUE'];?>
 														<?endif;?>
+
 														<?if($PCODE == 'SITE'):?>
 															<!--noindex-->
 															<?=str_replace("href=", "rel='nofollow' target='_blank' href=", $val);?>
 															<!--/noindex-->
 														<?elseif($PCODE == 'EMAIL'):?>
 															<a href="mailto:<?=$val?>"><?=$val?></a>
+														<?elseif($PCODE == 'PHONE'):?>
+															<? $phone = str_replace([' ','(',')','-'], '', $val); ?>
+															<a class="callibri_phone" href="tel:+7<?=$phone?>"><?=$val?></a>
 														<?else:?>
 															<?=$val?>
 														<?endif;?>

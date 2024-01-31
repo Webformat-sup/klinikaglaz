@@ -11,12 +11,12 @@
     color: #ffffff;
 }
 
- .body{
-  /*background: url(../images/background-new-year.jpg) no-repeat top center;
+ /* .body{
+  background: url(../images/background-new-year.jpg) no-repeat top center;
   background-size: 1920px auto;
-  	background-attachment: fixed;*/
+  	background-attachment: fixed;
 
-} 
+}  */
 /* */
 
 /*  footer btn */
@@ -374,9 +374,9 @@ ul.dropdown-menu .search .btn-search {
     margin-left: 5px;
 }
 
-.logo_and_menu-row.custom .questionTitle span {
-  /*border-bottom: 1px solid #0074b6;*/
-}
+/* .logo_and_menu-row.custom .questionTitle span {
+  border-bottom: 1px solid #0074b6;
+} */
 .logo_and_menu-row.custom .questiondockTitle{
     background: #99cc00;
     /*margin: 25px 0px 0 -30px;*/
@@ -428,7 +428,7 @@ ul.dropdown-menu .search .btn-search {
     max-height: 160px;
     max-width: 250px;
     display: inline-block;
-    *display: inline;
+    /* *display: inline; */
     zoom: 1;
 }
 .items.row.custom .catalog.sections .item .image img {
@@ -1470,4 +1470,11 @@ span.btn-custom-sign:hover{
     .footer-yandex-map__img {
       min-height: 270px;
     }
+}
+
+.properties.custom_prop a.callibri_phone {
+	color: #555555;
+}
+.properties.custom_prop a.callibri_phone:hover {
+	color: #0088cc;
 }
