@@ -1455,6 +1455,18 @@ global $arTheme, $arRegion;
 			<?elseif($code == 'video'):?>
 				<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
 
+			<?//show buy block?>
+			<?elseif($code == 'buy'):?>
+			<?$APPLICATION->ShowViewContent('PRODUCT_HOW_BUY_INFO')?>
+			
+			<?//show delivery block?>
+			<?elseif($code == 'delivery'):?>
+				<?$APPLICATION->ShowViewContent('PRODUCT_DELIVERY_INFO')?>
+
+			<?//show payment block?>
+			<?elseif($code == 'payment'):?>
+				<?$APPLICATION->ShowViewContent('PRODUCT_PAYMENT_INFO')?>
+
 			<?//docs?>
 			<?elseif($code == 'docs'):?>
 				<?$APPLICATION->ShowViewContent('PRODUCT_FILES_INFO')?>
@@ -1705,6 +1717,11 @@ $arExt = [];
 
 if ($arParams['USE_REVIEW'])
 	array_push($arExt, 'swiper', 'swiper_init');
+
+if($templateData['SHOW_VIDEO']){
+	$arExt[] = 'grid_list';
+	\CJSCore::init(['player']);
+}
 
 \Aspro\Next\Functions\Extensions::init($arExt);
 ?>

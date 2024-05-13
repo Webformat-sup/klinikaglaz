@@ -751,9 +751,7 @@ $arTabOrder = explode(",", $strTabOrder);
 											<span class="count empty">&nbsp;(<?=count($templateData["VIDEO"])?>)</span>
 										<?endif;?>
 									</div>
-									<div class="video_block">
-										<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
-									</div>
+									<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
 								</div>
 							<?endif;?>
 						<?endif;?>
@@ -1955,6 +1953,11 @@ $arExt = [];
 
 if ($arParams['USE_REVIEW'])
 	array_push($arExt, 'swiper', 'swiper_init');
+
+if($templateData['SHOW_VIDEO']){
+	$arExt[] = 'grid_list';
+	\CJSCore::init(['player']);
+}
 
 \Aspro\Next\Functions\Extensions::init($arExt);
 ?>

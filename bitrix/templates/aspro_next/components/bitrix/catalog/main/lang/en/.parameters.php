@@ -320,4 +320,5 @@ $MESS["CP_BC_TPL_MAX_IMAGE_SIZE"] = "Maximum size of attached pictures";
 $MESS["CP_BC_TPL_MAX_IMAGE_COUNT"] = "Maximum number of attached pictures";
 
 $MESS["T_USE_COMPARE_GROUP"] = "Use grouping on the compare page";
+$MESS["ADDITIONAL_VIDEO_PROPERTY_CODE"] = "Properties for the \"Video\" block";
 ?>

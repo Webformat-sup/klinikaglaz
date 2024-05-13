@@ -73,7 +73,7 @@
 		};
 	
 		var obPlacemark = new ymaps.Placemark(
-			[arPlacemark.LAT, arPlacemark.LON],
+			[parseFloat(arPlacemark.LAT), parseFloat(arPlacemark.LON)],
 			props,
 			option,
 			{balloonCloseButton: true}

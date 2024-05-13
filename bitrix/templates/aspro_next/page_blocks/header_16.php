@@ -88,8 +88,8 @@ $noMegaMenu = true;
 							</div>
 						</div>
 						<div class="pull-right">
-							<div class="wrap_icon wrap_basket">
-								<?=CNext::ShowBasketWithCompareLink('', 'big', '', 'wrapp_top_icon');?>
+							<div class="pull-right block-link">
+								<?=CNext::ShowBasketWithCompareLink('with_price', 'big', false, 'wrap_icon baskets basket_wrapper');?>
 							</div>
 						</div>
 						<div class="pull-right">

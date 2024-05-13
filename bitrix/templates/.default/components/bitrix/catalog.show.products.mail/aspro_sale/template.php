@@ -14,7 +14,7 @@ $skuTemplate = array();
 		<?foreach($arResult['ITEMS'] as $arItem):?>
 			<div class="item" style="font-size:0px;color: #000;box-sizing: border-box;text-align:left;padding:0px 0px 25px;margin-bottom:25px;<?=($i == $count ? 'margin-bottom:0px;' : 'border-bottom:1px solid #dedede;')?><?=($i == 1 ? 'margin-top:0px;' : 'margin-top:25px;')?>">
 				<?if($arItem["PREVIEW_PICTURE"]["SRC"]):
-					$img = CFile::ResizeImageGet($arItem["~PREVIEW_PICTURE"], array("width" => 130, "height" => 130), BX_RESIZE_PROPORTIONAL_ALT);?>
+					$img = CFile::ResizeImageGet($arItem["~PREVIEW_PICTURE"], array("width" => 130, "height" => 130), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);?>
 					<div class="img" style="max-width: 130px;margin:0px;font-size: 12px;width: 22%;display: inline-block;vertical-align: top;"><img src="<?=$img["src"]?>" alt="<?=$arItem["NAME"];?>" title="<?=$arItem["NAME"];?>"/></div>
 					<div class="right-data" style="padding: 0 30px 2px;margin-left: 0;display: inline-block;vertical-align: top;width: 78%;box-sizing: border-box;">
 				<?endif;?>

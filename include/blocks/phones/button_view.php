@@ -13,12 +13,12 @@ $bShowWrapper = !!trim($arOptions['WRAPPER_CLASS']);
 <div class="<?=$arOptions['WRAPPER_CLASS'];?>">
 <?endif;?>
 
-	<a href="javascript:void(0)" rel="nofollow"
+	<span
 	   class="phone-block__item-inner phone-block__item-button phone-block__item-inner--no-description dark-color callback" 
-	   data-event="jqm" data-param-id="<?=$arOptions['DATASET']['PARAM_ID'];?>" data-name="<?=$arOptions['DATASET']['NAME'];?>"
+	   data-event="jqm" data-param-form_id="<?=$arOptions['DATASET']['PARAM_ID'];?>" data-name="<?=$arOptions['DATASET']['NAME'];?>"
 	>
 		<?=$arOptions['TEXT'];?>
-	</a>
+	</span>
 
 <?if ($bShowWrapper):?>
 </div>

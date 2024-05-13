@@ -98,3 +98,14 @@ if($arParams['USE_RSS'] !== 'N'){
 		<br />
 	<?endforeach;?>
 <?endif;?>
+
+<?
+$sectionUrl = $APPLICATION->GetCurDir();
+if($APPLICATION->GetCurDir() == '/projects/'){
+	$APPLICATION->SetTitle('Информационные статьи  | Клиника микрохирургии «Глаз» им. Святослава Федорова');
+	$APPLICATION->SetPageProperty("keywords_inner", "Полезно знать");
+	$APPLICATION->SetPageProperty("title", "Информационные статьи  | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+	$APPLICATION->SetPageProperty("description", "Актуальные темы в сфере офтальмологии от клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Полезная информация о здоровье глаз, болезнях глаз и их лечении, советы и рекомендации как заботиться о зрении");
+	$APPLICATION->SetTitle("Статьи клиники микрохирургии \"ГЛАЗ\" им. академика Святослава Федорова");
+}
+?>

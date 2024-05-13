@@ -106,6 +106,16 @@
 		<!--  -->*/?>
 		
 		<?/*-------верхнее меню для мобилки-------*/?>
+		<script>
+			window.addEventListener('b24:form:init', (event) => {
+				let form = event.detail.object;
+				let yaCID;
+				ym(30339732, 'getClientID', function (clientID) {
+					yaCID = clientID;
+				});
+				form.setProperty("clientID", yaCID);
+			});
+		</script>
 			<div id="drop-menu-mobile" class=" ">
 				<div class="mobile-drop-wrap ">
 					<ul>

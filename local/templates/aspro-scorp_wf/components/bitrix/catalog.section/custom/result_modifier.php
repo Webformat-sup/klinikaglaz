@@ -100,7 +100,7 @@ if($section = $result->GetNext())
 	if($section['UF_GZ_PRICE'])
 	{
 			$rs = CIBlockElement::GetList(
-				['SORT'=>'ASC'],['IBLOCK_ID' => 27, 'ID' => $section['UF_GZ_PRICE']],false,false,['NAME','PROPERTY_PRICE']
+				['SORT'=>'ASC'],['IBLOCK_ID' => 27, 'ID' => $section['UF_GZ_PRICE']],false,false,['NAME','PROPERTY_PRICE','PROPERTY_SERVICE_CODE']
 			);
 			while($ar = $rs->GetNext()) $arSection['PRICE'][] = $ar;
 	}

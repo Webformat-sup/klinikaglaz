@@ -6,7 +6,7 @@ if($arRegion):
 	if (isset($arRegion['PROPERTY_ADDRESS_VALUE']) && is_array($arRegion['PROPERTY_ADDRESS_VALUE']) && $arRegion['PROPERTY_ADDRESS_VALUE']['TEXT']) {
 		$adress =  strip_tags($arRegion['PROPERTY_ADDRESS_VALUE']['TEXT']);
 	}
-	$phone = implode(', ', (array)$arRegion['PHONES']);
+	$phone = implode(', ', array_column((array)$arRegion['PHONES'], 'PHONE'));
 else:
 	$adress = strip_tags(file_get_contents($_SERVER['DOCUMENT_ROOT'].SITE_DIR."include/contacts-site-address.php"));
 	$phone = strip_tags(file_get_contents($_SERVER['DOCUMENT_ROOT'].SITE_DIR."include/contacts-site-phone-one.php"));
@@ -72,7 +72,9 @@ endif;
 				<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 					<span itemprop="streetAddress" content="<?=$adress?>"></span>
 				</div>
-				<span itemprop="telephone" content="<?=$phone?>"></span>
+				<?if($phone):?>
+					<span itemprop="telephone" content="<?=$phone?>"></span>
+				<?endif;?>
 			</div>
 			<?if($notSlider):?>
 				<div class="appear-block loading_state<?=(!$bOneItem ? ' shadow' : '');?>" >

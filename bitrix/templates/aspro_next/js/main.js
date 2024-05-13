@@ -1937,10 +1937,6 @@ if (!funcDefined("purchaseCounter")) {
           }
         },
       });
-    } else if (checkYandexCounter()) {
-      if (typeof callback !== "undefined") {
-        callback({ goal: "goal_order_success", result: order_id });
-      }
     }
   }
 }
@@ -3905,30 +3901,30 @@ $(document).ready(function () {
     var arUrl = parseUrlQuery();
     if ("ORDER_ID" in arUrl) {
       var _id = arUrl["ORDER_ID"];
-      if (typeof localStorage !== "undefined") {
-        var val = localStorage.getItem("gtm_e_" + _id),
+      if (arNextOptions["COUNTERS"]["USE_FULLORDER_GOALS"] !== "N") {
+        var eventdata = { goal: "goal_order_success", result: _id };
+        BX.onCustomEvent("onCounterGoals", [eventdata]);
+      }
+      if (checkCounters()) {
+        if (typeof localStorage !== "undefined") {
+          var val = localStorage.getItem("gtm_e_" + _id),
             d = "";
-        try {
-          d = JSON.parse(val);
-        } catch (e) {
-          d = val;
-        }
-        
-        if (typeof d === "object" && d) {
-          if (arNextOptions["COUNTERS"]["USE_FULLORDER_GOALS"] !== "N") {
-            BX.onCustomEvent("onCounterGoals", [d]);
+          try {
+            d = JSON.parse(val);
+          } catch (e) {
+            d = val;
           }
-
-          if (checkCounters()) {
+          
+          if (typeof d === "object" && d) {
             window.dataLayer = window.dataLayer || [];
             dataLayer.push({
               event: arNextOptions["COUNTERS"]["GOOGLE_EVENTS"]["PURCHASE"],
               ecommerce: d,
             });
           }
-        }
 
-        localStorage.removeItem("gtm_e_" + _id);
+          localStorage.removeItem("gtm_e_" + _id);
+        }
       }
     }
   }
@@ -8276,7 +8272,7 @@ if (!funcDefined("orderActions")) {
           // fix hide total block
           $(window).scroll();
 
-          if ((checkCounters() || checkYandexCounter()) && typeof BX.Sale.OrderAjaxComponent.oldSaveOrder === "undefined") {
+          if (checkCounters() && typeof BX.Sale.OrderAjaxComponent.oldSaveOrder === "undefined") {
             var saveFunc =
               typeof BX.Sale.OrderAjaxComponent.saveOrder !== "undefined" ? "saveOrder" : "saveOrderWithJson";
             if (typeof BX.Sale.OrderAjaxComponent[saveFunc] !== "undefined") {

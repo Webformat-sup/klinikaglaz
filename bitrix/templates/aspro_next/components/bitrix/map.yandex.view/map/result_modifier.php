@@ -23,7 +23,7 @@ if($arParams['USE_REGION_DATA'] == 'Y' && $arRegion && $arRegion["PROPERTY_REGIO
 		$metrolist .= '<div class="metro"><i></i>'. $metro . '</div>';
 	}
 
-	$address = ($arRegion['PROPERTY_ADDRESS_VALUE']['TEXT'] ? $arRegion['PROPERTY_ADDRESS_VALUE']['TEXT'] : $arItem['NAME']);
+	$address = (!empty($arRegion['PROPERTY_ADDRESS_VALUE']['TEXT']) ? $arRegion['PROPERTY_ADDRESS_VALUE']['TEXT'] : $arItem['NAME']);
 
 	$popupOptions = [
 			'EMAIL' => is_array($arRegion['PROPERTY_EMAIL_VALUE']) ? implode(",", $arRegion['PROPERTY_EMAIL_VALUE']) : $arRegion['PROPERTY_EMAIL_VALUE'],

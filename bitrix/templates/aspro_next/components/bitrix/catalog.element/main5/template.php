@@ -1377,6 +1377,44 @@ if($arResult['CATALOG'] && $actualItem['CAN_BUY'] && $arParams['USE_PREDICTION']
 	<?endif;?>
 <?$this->EndViewTarget();?>
 
+<?//delivery tab?>
+<?if($arParams["SHOW_DELIVERY"] == "Y"):?>
+	<?$this->SetViewTarget('PRODUCT_DELIVERY_INFO');?>
+		<div class="wraps">
+			<hr>
+			<h4><?=($arParams["TITLE_DELIVERY"])?></h4>
+			<div class="additional_block" id="dops">
+				<?$APPLICATION->IncludeFile(SITE_DIR."include/tab_catalog_detail_delivery.php", array(), array("MODE" => "html", "NAME" => GetMessage('TITLE_DELIVERY')));?>
+			</div>
+		</div>
+	<?$this->EndViewTarget();?>
+<?endif;?>
+
+<?//payment tab?>
+<?if($arParams['SHOW_PAYMENT'] == 'Y'):?>
+	<?$this->SetViewTarget('PRODUCT_PAYMENT_INFO');?>
+		<div class="wraps">
+			<hr>
+			<h4><?=($arParams["TITLE_PAYMENT"])?></h4>
+			<div class="additional_block" id="dops">
+				<?$APPLICATION->IncludeFile(SITE_DIR."include/tab_catalog_detail_payment.php", array(), array("MODE" => "html", "NAME" => GetMessage('TITLE_PAYMENT')));?>
+			</div>
+		</div>
+	<?$this->EndViewTarget();?>
+<?endif;?>
+
+<?//howbuy tab?>
+<?if($arParams['SHOW_HOW_BUY'] == 'Y'):?>
+	<?$this->SetViewTarget('PRODUCT_HOW_BUY_INFO');?>
+		<div class="wraps">
+			<hr>
+			<h4><?=($arParams["TITLE_HOW_BUY"])?></h4>
+			<div class="additional_block" id="dops">
+				<?$APPLICATION->IncludeFile(SITE_DIR."include/tab_catalog_detail_howbuy.php", array(), array("MODE" => "html", "NAME" => GetMessage('TITLE_HOW_BUY')));?>
+			</div>
+		</div>
+	<?$this->EndViewTarget();?>
+<?endif;?>
 
 <?//detail description?>
 <?$this->SetViewTarget('PRODUCT_DETAIL_TEXT_INFO');?>
@@ -1626,6 +1664,7 @@ if($arResult['CATALOG'] && $actualItem['CAN_BUY'] && $arParams['USE_PREDICTION']
 
 <?//VIDEO?>
 <?if($arResult['VIDEO']):?>
+	<?$templateData['SHOW_VIDEO'] = true;?>
 	<?$this->SetViewTarget('PRODUCT_VIDEO_INFO');?>
 		<?if($arResult['VIDEO']):?>
 			<div class="wraps hidden_print">
@@ -1636,28 +1675,12 @@ if($arResult['CATALOG'] && $actualItem['CAN_BUY'] && $arParams['USE_PREDICTION']
 						<span class="count empty">&nbsp;(<?=count($arResult['VIDEO'])?>)</span>
 					<?endif;?>
 				</h4>
-				<div class="video_block">
-					<?if(count($arResult['VIDEO']) > 1):?>
-						<table class="video_table">
-							<tbody>
-								<?foreach($arResult['VIDEO'] as $v => $value):?>
-									<?if(($v + 1) % 2):?>
-										<tr>
-									<?endif;?>
-									<td width="50%"><?=str_replace('src=', 'width="458" height="257" src=', str_replace(array('width', 'height'), array('data-width', 'data-height'), $value));?></td>
-									<?if(!(($v + 1) % 2)):?>
-										</tr>
-									<?endif;?>
-								<?endforeach;?>
-								<?if(($v + 1) % 2):?>
-									</tr>
-								<?endif;?>
-							</tbody>
-						</table>
-					<?else:?>
-						<?=$arResult['VIDEO'][0]?>
-					<?endif;?>
-				</div>
+				<?\Aspro\Functions\CAsproNext::showBlockHtml([
+					'FILE' => 'video/detail_video_block.php',
+					'PARAMS' => [
+						'VIDEO' => $arResult['VIDEO'],
+					],
+				])?>
 			</div>
 		<?endif;?>
 	<?$this->EndViewTarget();?>

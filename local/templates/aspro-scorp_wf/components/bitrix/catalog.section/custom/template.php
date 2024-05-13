@@ -159,6 +159,9 @@ if($arResult['SECTION_USER_FIELDS']['VIEWTYPE'] == '1') $sectionViewType = 'TABL
 					<div class="pricelist-list">
 						<? foreach($arResult['SECTION_USER_FIELDS']['PRICE'] as $k => $item){ ?>
 							<div class="item">
+								<?if($item['PROPERTY_SERVICE_CODE_VALUE']){?>
+									<div class="text code"><?=$item['PROPERTY_SERVICE_CODE_VALUE']?></div>
+								<?}?>
 								<div class="text"><?=$item['NAME']?></div>
 								<div class="price"><?=$item['PROPERTY_PRICE_VALUE']?> ₽</div>
 							</div>

@@ -1,10 +1,10 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetPageProperty("description", "Прайс-лист");
-$APPLICATION->SetPageProperty("title", "Прайс-лист клиники микрохирургии \"Глаз\"");
+$APPLICATION->SetPageProperty("description", "Стоимость платных медицинских услуг в клинике микрохирургии «Глаз» им. Святослава Федорова. Мы предлагаем широкий спектр услуг и операций для улучшения и восстановления зрения по лучшим ценам в Екатеринбурге. Звоните: +7 (343) 253-05-37, +7(343)328-88-45");
+$APPLICATION->SetPageProperty("title", "Стоимость офтальмологических услуг в Екатеринбурге | Клиника микрохирургии «Глаз» им. Святослава Федорова");
 $APPLICATION->SetTitle("Прайс-лист");?><a id="start" ></a> <?$APPLICATION->IncludeComponent(
-	"bitrix:news.list",
-	"catalog-sections_wf",
-	Array(
+	"bitrix:news.list", 
+	"catalog-sections_wf", 
+	array(
 		"ACTIVE_DATE_FORMAT" => "d.m.Y",
 		"ADD_SECTIONS_CHAIN" => "Y",
 		"AJAX_MODE" => "N",
@@ -27,7 +27,10 @@ $APPLICATION->SetTitle("Прайс-лист");?><a id="start" ></a> <?$APPLICATI
 		"DISPLAY_PICTURE" => "Y",
 		"DISPLAY_PREVIEW_TEXT" => "Y",
 		"DISPLAY_TOP_PAGER" => "N",
-		"FIELD_CODE" => array(0=>"NAME",1=>"",),
+		"FIELD_CODE" => array(
+			0 => "NAME",
+			1 => "",
+		),
 		"FILTER_NAME" => "",
 		"HIDE_LINK_WHEN_NO_DETAIL" => "N",
 		"IBLOCK_ID" => "27",
@@ -46,7 +49,13 @@ $APPLICATION->SetTitle("Прайс-лист");?><a id="start" ></a> <?$APPLICATI
 		"PARENT_SECTION" => "",
 		"PARENT_SECTION_CODE" => "",
 		"PREVIEW_TRUNCATE_LEN" => "",
-		"PROPERTY_CODE" => array(0=>"PRICE",1=>"PRICE_KIDS",2=>"anchor",3=>"",),
+		"PROPERTY_CODE" => array(
+			0 => "PRICE",
+			1 => "PRICE_KIDS",
+			2 => "anchor",
+			3 => "SERVICE_CODE",
+			4 => "",
+		),
 		"SET_BROWSER_TITLE" => "Y",
 		"SET_LAST_MODIFIED" => "N",
 		"SET_META_DESCRIPTION" => "Y",
@@ -66,8 +75,10 @@ $APPLICATION->SetTitle("Прайс-лист");?><a id="start" ></a> <?$APPLICATI
 		"T_CHARACTERISTICS" => "",
 		"T_DOCS" => "",
 		"T_GALLERY" => "",
-		"T_PROJECTS" => ""
-	)
+		"T_PROJECTS" => "",
+		"STRICT_SECTION_CHECK" => "N"
+	),
+	false
 );?> <br>
  <b>Примечания:</b>
 <ul>
@@ -84,7 +95,7 @@ $APPLICATION->SetTitle("Прайс-лист");?><a id="start" ></a> <?$APPLICATI
 	<li>При выполнении повторных операций, в случае, если первая операция была выполнена в другой клинике, стоимость операции выше цены прейскуранта на 30% стоимости операции.</li>
 </ul>
 <p>
-	 *Скидки на услуги клиники НЕ ПРЕДОСТАВЛЯЮТСЯ на следующие услуги:&nbsp;&nbsp;услуги процедурного кабинета, лабораторная диагностика, ЭКГ,&nbsp; отдельные консультации специалистов, анестезия, ИОЛ, интравитреальное введение препаратов, инъекции в условиях операционной (введение Кеналога, инъекционное лечение косоглазия), специальные исследования при проведении услуги на единственном глазу. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+	 *Скидки на услуги клиники НЕ ПРЕДОСТАВЛЯЮТСЯ на следующие услуги:&nbsp;&nbsp;услуги процедурного кабинета, лабораторная диагностика, ЭКГ,&nbsp; отдельные консультации специалистов, анестезия, ИОЛ, интравитреальное введение препаратов, инъекции в условиях операционной (введение Кеналога, инъекционное лечение косоглазия), витреоретинальные операции. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
 </p>
 <p style="text-align: right;">
  <a class="section" href="#start">Вернуться в начало прайс-листа</a>

@@ -57,7 +57,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 						<div class="pull-right">
 							<div class="wrap_icon inner-table-block">
 								<div class="phone-block">
-									<div class="visible-lg">
+									<div class="">
 										<?if($bPhone):?>
 											<?CNext::ShowHeaderPhones();?>
 										<?endif?>

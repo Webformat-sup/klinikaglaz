@@ -12,9 +12,9 @@ if($arParams['USE_RSS'] !== 'N'){
 	$CScorp->ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 }
 ?>
-<div class="row" style="margin-right: -22px">
+<div class="bbg row" style="margin-right: -22px">
 	<div class="col-md-12" style="padding-right: 0px;">
-		<div style="float:right; width: 240px;">
+		<div class="bbg-e" style="float:right; width: 240px;">
 			<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_card_1.svg" /></a>
 		</div>
 		<?php $APPLICATION->IncludeComponent(

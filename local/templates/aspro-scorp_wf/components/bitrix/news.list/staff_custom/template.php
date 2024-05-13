@@ -32,7 +32,7 @@
 
 							<?if($arParams['SHOW_SECTION_PREVIEW_DESCRIPTION'] == 'Y'):?>
 								<?// section name?>
-								<?if(strlen($arSection['NAME'])):?>
+								<?if(strlen($arSection['NAME']) && $APPLICATION->GetCurDir()!='/company/staff/'):?>
 									<h3 class="underline"><?=$arSection['NAME']?></h3>
 								<?endif;?>
 

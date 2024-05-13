@@ -1700,27 +1700,14 @@ if($arResult['CATALOG'] && $actualItem['CAN_BUY'] && $arParams['USE_PREDICTION']
 
 <?//VIDEO?>
 <?if($arResult['VIDEO']):?>
+	<?$templateData['SHOW_VIDEO'] = true;?>
 	<?$this->SetViewTarget('PRODUCT_VIDEO_INFO');?>
-		<?if(count($arResult["VIDEO"]) > 1):?>
-			<table class="video_table">
-				<tbody>
-					<?foreach($arResult["VIDEO"] as $v => $value):?>
-						<?if(($v + 1) % 2):?>
-							<tr>
-						<?endif;?>
-						<td width="50%"><?=str_replace('src=', 'width="458" height="257" src=', str_replace(array('width', 'height'), array('data-width', 'data-height'), $value));?></td>
-						<?if(!(($v + 1) % 2)):?>
-							</tr>
-						<?endif;?>
-					<?endforeach;?>
-					<?if(($v + 1) % 2):?>
-						</tr>
-					<?endif;?>
-				</tbody>
-			</table>
-		<?else:?>
-			<?=$arResult["VIDEO"][0]?>
-		<?endif;?>
+		<?\Aspro\Functions\CAsproNext::showBlockHtml([
+			'FILE' => 'video/detail_video_block.php',
+			'PARAMS' => [
+				'VIDEO' => $arResult['VIDEO'],
+			],
+		])?>
 	<?$this->EndViewTarget();?>
 <?endif;?>
 

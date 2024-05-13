@@ -7,6 +7,7 @@ if($arRegion)
 else
 	$bPhone = ((int)$arTheme['HEADER_PHONES'] ? true : false);
 $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
+$bBasketInHeader = $arTheme['ORDER_BASKET_VIEW']['VALUE'] == 'NORMAL';
 ?>
 <div class="header-v7 header-wrapper">
 	<div class="logo_and_menu-row">
@@ -49,7 +50,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 							<?endif;?>
 						</div>
 					</div>
-					<div class="logo-block col-lg-3 col-md-2 text-center">
+					<div class="logo-block <?=$bBasketInHeader ? 'col-lg-2' : 'col-lg-3'?> col-md-2 text-center">
 						<div class="logo<?=$logoClass?>">
 							<?=CNext::ShowLogo();?>
 						</div>

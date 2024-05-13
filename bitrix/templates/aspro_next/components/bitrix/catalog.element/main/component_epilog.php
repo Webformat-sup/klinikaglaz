@@ -419,9 +419,9 @@ if ($blockViewType) {
 	$bShowVideoTab = (!empty($templateData['VIDEO']) || !empty($templateData['VIDEO_IFRAME']) ? ++$i : '');
 	$bShowFaqTab = (!empty($templateData['LINK_FAQ']) ? ++$i : '');
 	$bShowProjecTab = (!empty($templateData['LINK_PROJECTS']) ? ++$i : '');
-	//$bShowHowBuyTab = (($arParams["SHOW_HOW_BUY"] == "Y") ? ++$i : '');
-	//$bShowPaymentTab = (($arParams["SHOW_PAYMENT"] == "Y") ? ++$i : '');
-	//$bShowDeliveryTab = (($arParams["SHOW_DELIVERY"] == "Y") ? ++$i : '');
+	$bShowHowBuyTab = (($arParams["SHOW_HOW_BUY"] == "Y") ? ++$i : '');
+	$bShowPaymentTab = (($arParams["SHOW_PAYMENT"] == "Y") ? ++$i : '');
+	$bShowDeliveryTab = (($arParams["SHOW_DELIVERY"] == "Y") ? ++$i : '');
 	$bShowCustomTab = (($arParams['SHOW_ADDITIONAL_TAB'] == 'Y') ? ++$i : '');
 	$bShowStoresTab = ($templateData["STORES"]['USE_STORES'] && $templateData["STORES"]["STORES"] ? ++$i : '');
 	$bShowReviewsTab = ( ($arParams["USE_REVIEW"] == "Y" && ($templateData["YM_ELEMENT_ID"] || IsModuleInstalled("forum")) || (IsModuleInstalled("blog") && $arParams['REVIEWS_VIEW'] == 'EXTENDED' && ($arParams['USE_REVIEW'] == 'Y' || $arParams["DETAIL_USE_COMMENTS"] == 'Y'))) ? ++$i : '');
@@ -434,7 +434,7 @@ if ($blockViewType) {
 	<?//tabs?>
 	<?if($code == 'tabs'):?>
 
-		<?if($bShowDetailTextTab || $bShowPropsTab || $bShowVideoTab || $templateData["OFFERS_INFO"]["OFFERS_MORE"] || $bShowAskTab /*|| $bShowHowBuyTab || $bShowPaymentTab || $bShowDeliveryTab*/ || $bShowStoresTab || $bShowCustomTab || $bShowReviewsTab):?>
+		<?if($bShowDetailTextTab || $bShowPropsTab || $bShowVideoTab || $templateData["OFFERS_INFO"]["OFFERS_MORE"] || $bShowAskTab || $bShowHowBuyTab || $bShowPaymentTab || $bShowDeliveryTab || $bShowStoresTab || $bShowCustomTab || $bShowReviewsTab):?>
 			<div class="tabs_section drag_block_detail">
 				<?//if($i > 1):?>
 					<div class="tabs">
@@ -524,8 +524,32 @@ if ($blockViewType) {
 									<?endif;?>
 								<?endif;?>
 
+								<?//show buy ?>
+								<?if($value == "buy"):?>
+									<?if($arParams["SHOW_HOW_BUY"] == "Y"):?>
+										<li class="<?=(!($iTab++) ? ' active' : '')?>">
+											<a href="#hbuy" data-toggle="tab"><span><?=$arParams["TITLE_HOW_BUY"];?></span></a>
+										</li>
+									<?endif;?>
+								<?endif;?>
 
+								<?//show payment ?>
+								<?if($value == "payment"):?>
+									<?if($arParams["SHOW_PAYMENT"] == "Y"):?>
+										<li class="<?=(!($iTab++) ? ' active' : '')?>">
+											<a href="#payment" data-toggle="tab"><span><?=$arParams["TITLE_PAYMENT"];?></span></a>
+										</li>
+									<?endif;?>
+								<?endif;?>
 
+								<?//show delivery ?>
+								<?if($value == "delivery"):?>
+									<?if($arParams["SHOW_DELIVERY"] == "Y"):?>
+										<li class="<?=(!($iTab++) ? ' active' : '')?>">
+											<a href="#delivery" data-toggle="tab"><span><?=$arParams["TITLE_DELIVERY"];?></span></a>
+										</li>
+									<?endif;?>
+								<?endif;?>
 							<?endforeach;?>
 						</ul>
 					</div>
@@ -739,9 +763,7 @@ if ($blockViewType) {
 											<span class="count empty">&nbsp;(<?=count($templateData["VIDEO"])?>)</span>
 										<?endif;?>
 									</div>
-									<div class="video_block">
-										<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
-									</div>
+									<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
 								</div>
 							<?endif;?>
 						<?endif;?>
@@ -801,6 +823,36 @@ if ($blockViewType) {
 								</div>
 							<?endif;?>
 						<?endif;?>
+						
+						<?//show buy block?>
+						<?if($value == "buy"):?>
+							<?if($arParams["SHOW_HOW_BUY"] == "Y"):?>
+								<div class="tab-pane hblock<?=(!($iTab++) ? ' active' : '')?>" id="hbuy">
+									<div class="title-tab-heading visible-xs"><?=$arParams["TITLE_HOW_BUY"];?></div>
+									<?$APPLICATION->ShowViewContent('PRODUCT_HOW_BUY_TAB_INFO')?>
+								</div>
+							<?endif;?>
+						<?endif;?>
+
+						<?//show payment block?>
+						<?if($value == "payment"):?>
+							<?if($arParams["SHOW_PAYMENT"] == "Y"):?>
+								<div class="tab-pane pblock<?=(!($iTab++) ? ' active' : '')?>" id="payment">
+									<div class="title-tab-heading visible-xs"><?=$arParams["TITLE_PAYMENT"];?></div>
+									<?$APPLICATION->ShowViewContent('PRODUCT_PAYMENT_TAB_INFO')?>
+								</div>
+							<?endif;?>
+						<?endif;?>
+
+						<?//show delivery block?>
+						<?if($value == "delivery"):?>
+							<?if($arParams["SHOW_DELIVERY"] == "Y"):?>
+								<div class="tab-pane dblock<?=(!($iTab++) ? ' active' : '')?>" id="delivery">
+									<div class="title-tab-heading visible-xs"><?=$arParams["TITLE_DELIVERY"];?></div>
+									<?$APPLICATION->ShowViewContent('PRODUCT_DELIVERY_TAB_INFO')?>
+								</div>
+							<?endif;?>
+						<?endif;?>
 
 						<?//show stores block?>
 						<?if($value == "stores"):?>
@@ -814,15 +866,10 @@ if ($blockViewType) {
 								</div>
 							<?endif;?>
 						<?endif;?>
-
-
-
 					<?endforeach;?>
 				</div>
-
 			</div>
 		<?endif;?>
-
 	<?//nabor?>
 	<?elseif($code == 'nabor'):?>
 		<?if($templateData['OFFERS_INFO']['OFFERS']):?>
@@ -1797,6 +1844,11 @@ $arExt = [];
 
 if ($arParams['USE_REVIEW'])
 	array_push($arExt, 'swiper', 'swiper_init');
+
+if($templateData['SHOW_VIDEO']){
+	$arExt[] = 'grid_list';
+	\CJSCore::init(['player']);
+}
 
 \Aspro\Next\Functions\Extensions::init($arExt);
 ?>

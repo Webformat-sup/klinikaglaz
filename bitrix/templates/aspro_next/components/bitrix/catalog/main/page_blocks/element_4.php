@@ -223,7 +223,7 @@
 		
 		"DETAIL_BLOCKS_ORDER" => ($arParams["DETAIL_BLOCKS_ORDER"] ? $arParams["DETAIL_BLOCKS_ORDER"] : 'tizers,complect,nabor,tabs,stores,char,galery,exp_goods,services,gifts,goods,podborki,blog,recomend_goods,assoc_goods'),
 		"DETAIL_BLOCKS_TAB_ORDER" => ($arParams["DETAIL_BLOCKS_TAB_ORDER"] ? $arParams["DETAIL_BLOCKS_TAB_ORDER"] : 'offers,desc,char,buy,payment,delivery,video,reviews,ask,stores,custom_tab'),
-		"DETAIL_BLOCKS_ALL_ORDER" => ($arParams["DETAIL_BLOCKS_ALL_ORDER"] ? $arParams["DETAIL_BLOCKS_ALL_ORDER"] : 'tizers,complect,nabor,offers,desc,char,galery,video,reviews,gifts,ask,stores,services,docs,custom_tab,goods,recomend_goods,exp_goods,podborki,blog,assoc_goods'),
+		"DETAIL_BLOCKS_ALL_ORDER" => ($arParams["DETAIL_BLOCKS_ALL_ORDER"] ? $arParams["DETAIL_BLOCKS_ALL_ORDER"] : 'tizers,complect,nabor,offers,desc,char,galery,video,reviews,gifts,ask,stores,services,docs,custom_tab,goods,recomend_goods,exp_goods,podborki,blog,assoc_goods,buy,payment,delivery'),
 		"TITLE_SLIDER" => $arParams["TITLE_SLIDER"],
 		"DETAIL_ASSOCIATED_TITLE" => $arParams["DETAIL_ASSOCIATED_TITLE"],
 		"DETAIL_EXPANDABLES_TITLE" => $arParams["DETAIL_EXPANDABLES_TITLE"],
@@ -231,6 +231,7 @@
 		"VIEW_BLOCK_TYPE" => $arParams["VIEW_BLOCK_TYPE"],
 		"FILTER_NAME" => $arParams["FILTER_NAME"], // !need to filter similar goods
 		"BIG_DATA_SHOW_FROM_SECTION" => $arParams["BIG_DATA_SHOW_FROM_SECTION"],
+		"ADDITIONAL_VIDEO_PROPERTY_CODE" => $arParams["ADDITIONAL_VIDEO_PROPERTY_CODE"],
 	),
 	$component
 );?>

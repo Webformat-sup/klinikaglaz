@@ -69,7 +69,7 @@ $price = ($arResult['PROPERTIES']['PRICE']['VALUE']) ?: '';
 		</div>
 		<div class="content-block">
 			<div>
-				<div class="title-wrapp"><h1><?= $arResult['NAME'] ?></h1></div>
+				<div class="title-wrapp"><h1><?= GetMessage('T_H1') ?><br /> <?= $arResult['NAME'] ?></h1></div>
 				<div class="props-wrapp">
 					<? foreach ($arProps as $key => $prop): ?>
 						<? if(!empty($prop['VALUE'])): ?>

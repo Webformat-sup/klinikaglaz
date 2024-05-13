@@ -26,39 +26,37 @@
 						</div>
 						<div class="bx_item_element">
 							<span><?=$arItem["NAME"]?></span>
-							<div class="price cost prices">
-								<div class="title-search-price">
-									<?if (
-											(isset($arElement["MIN_PRICE"]) && $arElement["MIN_PRICE"]) 
-											|| (isset($arElement["PRICES"]) && $arElement["PRICES"])
-										){?>
-										<?if($arElement["MIN_PRICE"]["DISCOUNT_VALUE"] < $arElement["MIN_PRICE"]["VALUE"]):?>
-											<div class="price"><?=$arElement["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"]?></div>
-											<div class="price discount">
-												<strike><?=$arElement["MIN_PRICE"]["PRINT_VALUE"]?></strike>
-											</div>
-										<?else:?>
-											<div class="price"><?=$arElement["MIN_PRICE"]["PRINT_VALUE"]?></div>
-										<?endif;?>
-									<?}else{?>
-										<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
-											<?if($arPrice["CAN_ACCESS"]):?>
-												<?if (count($arElement["PRICES"])>1):?>
-													<div class="price_name"><?=$arResult["PRICES"][$code]["TITLE"];?></div>
-												<?endif;?>
-												<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
-													<div class="price"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></div>
-													<div class="price discount">
-														<strike><?=$arPrice["PRINT_VALUE"]?></strike>
-													</div>
-												<?else:?>
-													<div class="price"><?=$arPrice["PRINT_VALUE"]?></div>
-												<?endif;?>
+							<?if (
+								(isset($arElement["MIN_PRICE"]) && $arElement["MIN_PRICE"]) 
+								|| (isset($arElement["PRICES"]) && $arElement["PRICES"])
+							):?>
+								<div class="price cost prices">
+									<div class="title-search-price">
+										<?if (isset($arElement["MIN_PRICE"]) && $arElement["MIN_PRICE"]){?>
+											<?if($arElement["MIN_PRICE"]["DISCOUNT_VALUE"] < $arElement["MIN_PRICE"]["VALUE"]):?>
+												<div class="price"><?=$arElement["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"]?></div>
+												<div class="price discount"><?=$arElement["MIN_PRICE"]["PRINT_VALUE"]?></div>
+											<?else:?>
+												<div class="price"><?=$arElement["MIN_PRICE"]["PRINT_VALUE"]?></div>
 											<?endif;?>
-										<?endforeach;?>
-									<?}?>
+										<?}else{?>
+											<?foreach($arElement["PRICES"] as $code=>$arPrice):?>
+												<?if($arPrice["CAN_ACCESS"]):?>
+													<?if (count($arElement["PRICES"])>1):?>
+														<div class="price_name"><?=$arResult["PRICES"][$code]["TITLE"];?></div>
+													<?endif;?>
+													<?if($arPrice["DISCOUNT_VALUE"] < $arPrice["VALUE"]):?>
+														<div class="price"><?=$arPrice["PRINT_DISCOUNT_VALUE"]?></div>
+														<div class="price discount"><?=$arPrice["PRINT_VALUE"]?></div>
+													<?else:?>
+														<div class="price"><?=$arPrice["PRINT_VALUE"]?></div>
+													<?endif;?>
+												<?endif;?>
+											<?endforeach;?>
+										<?}?>
+									</div>
 								</div>
-							</div>
+							<?endif;?>
 						</div>
 						<div style="clear:both;"></div>
 					</div>

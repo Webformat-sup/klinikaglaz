@@ -157,12 +157,15 @@ $CCache = new CCache;
 								<table class="props_table">
 								<?foreach($arResult["SECTION_USER_FIELDS"]['UF_COST'] as $id){?>
 									<tr class="char">
+										<td class="char_name char_code">
+											<span><?=$arUFProps[$id]['PROPS']['SERVICE_CODE']['VALUE']?></span>
+										</td>
 										<td class="char_name">
 											<span><?=$arUFProps[$id]['NAME']?>
 											<?if($arUFProps[$id]['PREVIEW_TEXT']){?>
 												<i class="fa fa-question question" data-trigger="click" data-toggle="tooltip" data-placement="right" title="" data-original-title="<?=$arUFProps[$id]['PREVIEW_TEXT']?>"></i>
 											<?}?>
-										</span>
+											</span>
 										</td>
 										<td class="char_value">
 											<?if(!empty($arUFProps[$id]['PROPS']['PRICE']['VALUE'])){?>

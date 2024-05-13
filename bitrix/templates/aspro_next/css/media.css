@@ -460,6 +460,15 @@ ul.tabs li.stretch {
   }
   
   /*header*/
+  .logo_and_menu-row .top-description .region_wrapper {
+    margin-left: 20px;
+  }
+  .logo_and_menu-row .burger{
+    width: 30px;
+  }
+  div.header-v4 .top-description .region_wrapper {
+    margin-right: 10px;
+  }
   .header-v3 .logo_and_menu-row .top-description .region_wrapper {
     margin-left: 0px;
   }
@@ -1226,6 +1235,7 @@ ul.tabs li.stretch {
     top: -2px;
   }
 
+
   .ajax_load.block .view_sale_block {
     width: auto;
     margin-left: -10px;
@@ -1790,15 +1800,12 @@ ul.tabs li.stretch {
     margin: 0;
     padding: 0;
   }
-  .item_slider .slides li img,
-  .item_slider .thumbs li img {
-    margin: 0 auto;
-  }
   .fill_bg_n .top_inner_block_wrapper,
   .top_inner_block_wrapper .maxwidth-theme {
     padding: 0;
   }
-  .tabs_section .tabs .nav-tabs,
+  /*.bx_size
+ .tabs_section .tabs .nav-tabs,
   .img_wrapper .wrapp_thumbs,
   .product-item-detail-tabs-container-fixed,
   .info_item .middle_info .buy_block .wrapp_one_click,
@@ -1807,9 +1814,18 @@ ul.tabs li.stretch {
   .img_wrapper .popup_video.mobile,
   .catalog_detail .item_main_info .right_info {
     display: none !important;
+  }*/
+  .product-item-detail-tabs-list {
+    display: none;
   }
   .offers_img.wof {
     opacity: 1 !important;
+  }
+  .sliders, .popup_video, .sharing, .cheaper_form, .wrapp_one_click, .inner_slider, .gift_form, .podborki{
+    display: none !important;
+  }
+  .catalog_detail .element_detail_text .price_txt>.sharing+.text {
+    padding-left: 0px; 
   }
   .container .catalog_detail .item_slider .slides {
     display: block !important;
@@ -1819,6 +1835,48 @@ ul.tabs li.stretch {
   body .maxwidth-theme {
     padding: 0px !important;
   }
+  .sku_props .bx_item_detail_size ul li:not(.active) {
+    display: none;
+  }
+  .basket-checkout-info:before {
+    display: none;
+  }
+  .catalog_block .blog-info__rating--top-info {
+    display: none;
+  }
+  .catalog_block .blog-slider {
+    display: none;
+  }
+  .right_info .calculate-delivery {
+    display: none !important;
+  }
+  .tab-content .reviews {
+    display: none !important;
+  }
+  .tab-content .title-tab-heading {
+    display: none !important;
+  }
+  .title-tab-heading {
+    padding: 0;
+  }
+  .b24-widget-button-block {
+    display: none;
+  }
+  .right_info .buy_block .table_sizes {
+    display: none !important;
+  }
+  .right_info .buy_block .btn {
+    display: none !important;
+  }
+  .catalog_detail .tizers_block_detail {
+    display: none;
+  }
+  .catalog_detail .wrapp_thumbs {
+    display: none;
+  }
+
+
+ 
 }
 
 @media all and (max-width: 900px) {

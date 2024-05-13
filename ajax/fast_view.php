@@ -65,6 +65,7 @@
 					$('#fast_view_item').closest('.form').addClass('init');
 					$('.fast_view_frame .form_head h2').html($('#fast_view_item .title.hidden').html());
 
+					initFancybox()
 					initCountdown();
 					setBasketStatusBtn();
 					InitFlexSlider();

@@ -168,7 +168,7 @@
 											<?if($name == "NAME"):?>
 												<?if($arItem["PREVIEW_PICTURE"])
 												{
-													$img = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], array("width" => 75, "height" => 75), BX_RESIZE_PROPORTIONAL_ALT);
+													$img = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], array("width" => 75, "height" => 75), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);
 													// $src= str_replace(array("//", ":/"), array("/", "://"), $arParams["SITE_ADDRESS"].$img["src"]);
 												}?>
 												<div class="item" <?=($arItem["PREVIEW_PICTURE"] ? 'style="position:relative; min-height:75px;font-size:0px;"' : '');?>>

@@ -22,8 +22,8 @@
 .grid-list--gap-32 {
   --gap: 32px;
 }
-#main .body .grid-list--items-1,
-#main .body .grid-list--items-1-wide {
+#main .grid-list--items-1,
+#main .grid-list--items-1-wide {
   grid-template-columns: 1fr;
 }
 .grid-list--items-2 {

@@ -1150,6 +1150,53 @@ $arResult["BRAND_ITEM"]=$arBrand;
 $arStores=CNextCache::CCatalogStore_GetList(array(), array("ACTIVE" => "Y"), false, false, array());
 $arResult["STORES_COUNT"] = count($arStores);
 
+/*video block*/
+if(!empty($arResult['DISPLAY_PROPERTIES']))
+{
+	$arVideo = array();
+	if(strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO"]["VALUE"])){
+		$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO"]["~VALUE"];
+	}
+	if(isset($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])){
+		if(is_array($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])){
+			$arVideo = $arVideo + $arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["~VALUE"];
+		}
+		elseif(strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])){
+			$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["~VALUE"];
+		}
+	}
+	if(strlen($arResult["SECTION_FULL"]["UF_VIDEO"])){
+		$arVideo[] = $arResult["SECTION_FULL"]["~UF_VIDEO"];
+	}
+	if(strlen($arResult["SECTION_FULL"]["UF_VIDEO_YOUTUBE"])){
+		$arVideo[] = $arResult["SECTION_FULL"]["~UF_VIDEO_YOUTUBE"];
+	}
+
+	//add video from file
+	$arVideoPropCode = (array)$arParams["ADDITIONAL_VIDEO_PROPERTY_CODE"] ?? [];
+	foreach ($arVideoPropCode as $videoPropCode) {
+		if($videoPropCode == '-') continue;
+		
+		if($arResult["PROPERTIES"][$videoPropCode]){
+			$arPropVideo = $arResult["PROPERTIES"][$videoPropCode];
+			if (is_array($arPropVideo['PROPERTY_VALUE_ID']) && count($arPropVideo['PROPERTY_VALUE_ID'])) {
+				foreach ($arPropVideo['VALUE'] as $val) {
+					if ($val['path']) {
+						$arVideo[] = $val;
+					}
+				}
+			} elseif (!empty($arPropVideo['VALUE']['path'])) {
+				$arVideo[] = $arPropVideo['VALUE'];
+			}
+			if(isset($arResult["DISPLAY_PROPERTIES"][$videoPropCode])){
+				unset($arResult["DISPLAY_PROPERTIES"]);
+			}
+		}
+	}
+
+	$arResult["VIDEO"] = $arVideo;
+}
+
 $arGroupsProp = array();
 if($arResult["DISPLAY_PROPERTIES"])
 {
@@ -1238,29 +1285,5 @@ if(is_array($arParams["SECTION_TIZER"]) && $arParams["SECTION_TIZER"]){
 		$obCache->EndDataCache($arTizersData);
 	}
 	$arResult["TIZERS_ITEMS"]=$arTizersData;
-}
-
-if(!empty($arResult['DISPLAY_PROPERTIES']))
-{
-	$arVideo = array();
-	if(strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO"]["VALUE"])){
-		$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO"]["~VALUE"];
-	}
-	if(isset($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])){
-		if(is_array($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])){
-			$arVideo = $arVideo + $arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["~VALUE"];
-		}
-		elseif(strlen($arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["VALUE"])){
-			$arVideo[] = $arResult["DISPLAY_PROPERTIES"]["VIDEO_YOUTUBE"]["~VALUE"];
-		}
-	}
-	if(strlen($arResult["SECTION_FULL"]["UF_VIDEO"])){
-		$arVideo[] = $arResult["SECTION_FULL"]["~UF_VIDEO"];
-	}
-	if(strlen($arResult["SECTION_FULL"]["UF_VIDEO_YOUTUBE"])){
-		$arVideo[] = $arResult["SECTION_FULL"]["~UF_VIDEO_YOUTUBE"];
-	}
-
-	$arResult["VIDEO"] = $arVideo;
 }
 ?>

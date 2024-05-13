@@ -70,9 +70,11 @@ if (!empty($arParams['LABEL_PROP_POSITION']))
 				?>
 				<td class="basket-items-list-item-picture" {{#HAS_SERVICES}}rowspan="2"{{/HAS_SERVICES}}>
 					<div class="basket-item-block-image<?=(!isset($mobileColumns['PREVIEW_PICTURE']) ? ' hidden-xs' : '')?>">
-						<div class="fast_view"  data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="{{IBLOCK_ID}}" data-param-id="{{PRODUCT_ID}}" data-param-item_href="{{DETAIL_PAGE_URL}}" data-name="fast_view">
-							<?=\CNext::showIconSvg("fw", SITE_TEMPLATE_PATH."/images/svg/quickview.svg");?>
-						</div>
+						{{#USE_FAST_VIEW}}
+							<div class="fast_view"  data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="{{IBLOCK_ID}}" data-param-id="{{PRODUCT_ID}}" data-param-item_href="{{DETAIL_PAGE_URL}}" data-name="fast_view">
+								<?=\CNext::showIconSvg("fw", SITE_TEMPLATE_PATH."/images/svg/quickview.svg");?>
+							</div>
+						{{/USE_FAST_VIEW}}
 						{{#DETAIL_PAGE_URL}}
 							<a href="{{DETAIL_PAGE_URL}}" class="basket-item-image-link">
 						{{/DETAIL_PAGE_URL}}

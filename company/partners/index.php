@@ -1,10 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Партнеры");
-$APPLICATION->SetPageProperty("title", "Партнеры");
-$APPLICATION->SetPageProperty("keywords", "Партнеры");
-$APPLICATION->SetPageProperty("description", "Партнеры");
-$APPLICATION->SetTitle("Партнеры");
+$APPLICATION->SetPageProperty("title", "Кредит и рассрочка на лечение в Екатеринбурге | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Лечение в рассрочку без процентов в Екатеринбурге в клинике микрохирургии «Глаз» им. Святослава Федорова. Рассрочка до 300 000 рублей! В нашей клинике вы можете подать заявку на кредит. Звоните: +7 (343) 253-05-37, +7(343)328-88-45");
+$APPLICATION->SetTitle("Лечение в рассрочку и кредит");
 ?><h2>Лечение в рассрочку</h2>
 <p>
  <b>Мы делаем все для того, чтобы наша помощь была доступна! </b>

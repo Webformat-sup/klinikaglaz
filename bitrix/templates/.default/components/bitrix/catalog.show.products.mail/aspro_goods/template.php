@@ -22,7 +22,7 @@ $skuTemplate = array();
 						</div>
 					<?}?>
 					<?if($arItem["~PREVIEW_PICTURE"]){
-						$img = CFile::ResizeImageGet($arItem["~PREVIEW_PICTURE"], array("width" => 130, "height" => 130), BX_RESIZE_PROPORTIONAL_ALT);
+						$img = CFile::ResizeImageGet($arItem["~PREVIEW_PICTURE"], array("width" => 130, "height" => 130), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);
 						$src= str_replace(array("//", ":/"), array("/", "://"), $arParams["SITE_ADDRESS"].$img["src"]);?>
 						<a class="name" href="<?=$arItem["DETAIL_PAGE_URL"];?>">
 							<div class="img" style="overflow:hidden;height:130px;line-height:127px;text-align:center;margin: 0px 0px 10px 0px;white-space:normal;font-size: 12px;">

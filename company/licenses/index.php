@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Лицензии и сертификаты");
-$APPLICATION->SetPageProperty("title", "Лицензии и сертификаты");
-$APPLICATION->SetPageProperty("keywords", "Лицензии и сертификаты");
-$APPLICATION->SetPageProperty("description", "Лицензии и сертификаты");
+$APPLICATION->SetPageProperty("title", "Лицензии и сертификаты | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Лицензии на осуществление медицинской деятельности клиники микрохирургии «Глаз» им. Святослава Федорова.");
 $APPLICATION->SetTitle("Лицензии и сертификаты");
 ?>
 <?$APPLICATION->IncludeComponent(

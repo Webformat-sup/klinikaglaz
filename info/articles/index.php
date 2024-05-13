@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Вопрос-ответ");
-$APPLICATION->SetPageProperty("keywords", "Вопрос-ответ");
-$APPLICATION->SetPageProperty("description", "В этом разделе вы можете ознакомиться с частыми вопросами пациентов, а также задать свой вопрос.");
-$APPLICATION->SetPageProperty("title", "Часто задаваемые вопросы пациентов клиники микрохирургии \"Глаз\" им. Федорова");
+$APPLICATION->SetPageProperty("description", "Получите ответы от врачей-офтальмологов на часто задаваемые вопросы пациентов клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге.");
+$APPLICATION->SetPageProperty("title", "Часто задаваемые вопросы пациентов клиники микрохирургии «Глаз» им. Святослава Федорова");
 $APPLICATION->SetTitle("Вопрос-ответ");
 ?>
 <?$APPLICATION->IncludeComponent(

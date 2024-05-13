@@ -4638,7 +4638,8 @@ body .wrapper1.mfixed_Y > div#mobileheader.fixed {
 #mobilemenu .menu ul li:before {
   display: none;
 }
-#mobilemenu .menu ul > li a {
+#mobilemenu .menu ul > li a,
+#mobilemenu .menu ul > li span.callback {
   padding: 19px 20px 20px 19px;
   display: block;
   position: relative;
@@ -4648,7 +4649,8 @@ body .wrapper1.mfixed_Y > div#mobileheader.fixed {
   line-height: 1em;
   font-weight: bold;
 }
-#mobilemenu.menu-compact .menu ul > li a {
+#mobilemenu.menu-compact .menu ul > li a,
+#mobilemenu.menu-compact .menu ul > li span.callback {
   padding: 12px 20px 13px 19px;
 }
 #mobilemenu.menu-compact .menu ul > li a.decript {
@@ -16558,6 +16560,29 @@ body .bx_catalog_item_scu .bx_item_detail_scu ul li:hover .cnt1.nf {
 .video_block .description {
   text-align: left;
 }
+.video_block .vjs-big-play-button {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%)
+}
+.video_block .grid-list:not(.one-video-block) .video_body {
+  padding-bottom: 56.25%;
+  position: relative
+}
+.video_block .one-video-block {
+  display: inline-block;
+  max-width: 100%;
+}
+.video_block .video-js{
+  max-width: 100%;
+}
+.video_block .grid-list:not(.one-video-block) .video-js,.video_block .grid-list:not(.one-video-block) .video_block__error,.video_block .grid-list:not(.one-video-block) iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%!important;
+  height: 100%!important;
+}
 .video_table {
   width: 100%;
 }
@@ -25138,7 +25163,7 @@ body #basket-root .basket-item-label-ring {
   justify-content: center;
   left: 0;
   position: absolute;
-  right: 0;
+  right: 15px;
   top: 0;
   transition: background-color 0.25s ease-in-out;
   z-index: 1;

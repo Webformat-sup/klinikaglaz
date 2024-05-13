@@ -125,10 +125,10 @@
 									<?if(is_array($arItem['PREVIEW_PICTURE'])):?>
 										<?if($bLinkOnName):?>
 											<a href="<?=$arItem['PROPERTIES']['LINKIMG']['VALUE']?>" class="image">
-												<img src="<?=$arItem['PREVIEW_PICTURE']['SRC']?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT'] ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE'] ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" />
+												<img src="<?=WatermarkAdvertisingToken::showWatermarkImg($arItem)?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT'] ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE'] ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" />
 											</a>
 										<?else:?>
-											<img src="<?=$arItem['PREVIEW_PICTURE']['SRC']?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT'] ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE'] ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" />
+											<img src="<?=WatermarkAdvertisingToken::showWatermarkImg($arItem)?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT'] ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE'] ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" />
 										<?endif;?>
 									<?endif;?>
 									<?$img = ob_get_clean();?>
@@ -146,7 +146,7 @@
 										</div>
 									<?elseif($bOnlyImage && $bLinkOnName):?>
 										<a href="<?=$arItem['PROPERTIES']['LINKIMG']['VALUE']?>">
-											<img src="<?=$arItem['PREVIEW_PICTURE']['SRC']?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT'] ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE'] ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" />
+											<img src="<?=WatermarkAdvertisingToken::showWatermarkImg($arItem)?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT'] ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE'] ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" />
 										</a>
 									<?elseif($bOnlyImage):?>
 										<?if($bShowVideo && !$bVideoAutoStart):?>

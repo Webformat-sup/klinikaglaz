@@ -45,6 +45,10 @@ div[class^="bx-"] input[type='button'], div[class^="bx-"] input[type='submit'], 
 .bx_item_element .title-search-price{line-height:20px;margin-top: -20px;margin-left: -7px;margin-bottom: 16px;}
 .bx_item_element .cost.prices .title-search-price .price_name{margin-left:7px;}
 .bx_item_element .title-search-price .price{display:inline-block;}
+.title-search-result .bx_item_element .title-search-price .price.discount{
+	font-size: 0.928rem;
+    line-height: 1.071rem;
+}
 
 .basket_fly td.total_wrapp a.more_row .icon, .basket_fly td.total_wrapp a.more_row .icon i { display: inline-block; height: 15px; width: 15px; }
 table.title-search-result td.title-search-separator, table.title-search-result th.title-search-separator { padding:0; height: 10px; font-size:0; }

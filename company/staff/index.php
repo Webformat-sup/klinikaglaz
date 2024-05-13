@@ -1,8 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Врачи клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге");
 $APPLICATION->SetPageProperty("keywords_inner", "Сотрудники");
-$APPLICATION->SetPageProperty("description", "Сотрудники");
-$APPLICATION->SetTitle("Сотрудники");
+$APPLICATION->SetPageProperty("description", "Врачи-офтальмологи клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Записаться на прием к офтальмологу можно по телефону: +7 (343) 253-05-37, +7(343)328-88-45");
+$APPLICATION->SetTitle("Врачи");
 ?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news", 
@@ -34,7 +35,7 @@ $APPLICATION->SetTitle("Сотрудники");
 		"SET_TITLE" => "Y",
 		"SET_STATUS_404" => "Y",
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
-		"ADD_SECTIONS_CHAIN" => "Y",
+		"ADD_SECTIONS_CHAIN" => "N",
 		"USE_PERMISSIONS" => "N",
 		"PREVIEW_TRUNCATE_LEN" => "",
 		"LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",

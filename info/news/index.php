@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Новости");
-$APPLICATION->SetPageProperty("title", "Новости");
-$APPLICATION->SetPageProperty("keywords", "Новости");
-$APPLICATION->SetPageProperty("description", "Новости");
+$APPLICATION->SetPageProperty("title", "Новости | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Информация о свежих новостях и интересных событиях в клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Актуальная информацию о мероприятиях, достижениях, специальных предложениях и последних технологиях в области офтальмологии. Звоните: +7 (343) 253-05-37, +7(343)328-88-45");
 $APPLICATION->SetTitle("Новости");
 ?>
 <?$APPLICATION->IncludeComponent(

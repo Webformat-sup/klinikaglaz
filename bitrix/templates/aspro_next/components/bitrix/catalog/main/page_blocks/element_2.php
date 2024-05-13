@@ -187,6 +187,12 @@
 		"TAB_FAQ_NAME" => $arParams["TAB_FAQ_NAME"],
 		"TAB_STOCK_NAME" => $arParams["TAB_STOCK_NAME"],
 		"TAB_DOPS_NAME" => $arParams["TAB_DOPS_NAME"],
+		"SHOW_PAYMENT" => (isset($arParams["SHOW_PAYMENT"]) ? $arParams["SHOW_PAYMENT"] : "Y"),
+		"SHOW_DELIVERY" => (isset($arParams["SHOW_DELIVERY"]) ? $arParams["SHOW_DELIVERY"] : "Y"),
+		"SHOW_HOW_BUY" => (isset($arParams["SHOW_HOW_BUY"]) ? $arParams["SHOW_HOW_BUY"] : "Y"),
+		"TITLE_HOW_BUY" => ($arParams["TITLE_HOW_BUY"] ? $arParams["TITLE_HOW_BUY"] : GetMessage("TITLE_HOW_BUY")),
+		"TITLE_DELIVERY" => ($arParams["TITLE_DELIVERY"] ? $arParams["TITLE_DELIVERY"] : GetMessage("TITLE_DELIVERY")),
+		"TITLE_PAYMENT" => ($arParams["TITLE_PAYMENT"] ? $arParams["TITLE_PAYMENT"] : GetMessage("TITLE_PAYMENT")),
 		"BLOCK_SERVICES_NAME" => $arParams["BLOCK_SERVICES_NAME"],
 		"BLOCK_DOCS_NAME" => $arParams["BLOCK_DOCS_NAME"],
 		"CHEAPER_FORM_NAME" => $arParams["CHEAPER_FORM_NAME"],
@@ -204,7 +210,7 @@
 		
 		"DETAIL_BLOCKS_ORDER" => ($arParams["DETAIL_BLOCKS_ORDER"] ? $arParams["DETAIL_BLOCKS_ORDER"] : 'tizers,complect,nabor,tabs,stores,char,galery,exp_goods,services,gifts,goods,podborki,blog,recomend_goods,assoc_goods'),
 		"DETAIL_BLOCKS_TAB_ORDER" => ($arParams["DETAIL_BLOCKS_TAB_ORDER"] ? $arParams["DETAIL_BLOCKS_TAB_ORDER"] : 'offers,desc,char,buy,payment,delivery,video,reviews,ask,stores,custom_tab'),
-		"DETAIL_BLOCKS_ALL_ORDER" => ($arParams["DETAIL_BLOCKS_ALL_ORDER"] ? $arParams["DETAIL_BLOCKS_ALL_ORDER"] : 'tizers,complect,nabor,offers,desc,char,galery,video,reviews,gifts,ask,stores,services,docs,custom_tab,goods,exp_goods,assoc_goods,recomend_goods,podborki,blog'),
+		"DETAIL_BLOCKS_ALL_ORDER" => ($arParams["DETAIL_BLOCKS_ALL_ORDER"] ? $arParams["DETAIL_BLOCKS_ALL_ORDER"] : 'tizers,complect,nabor,offers,desc,char,galery,video,reviews,gifts,ask,stores,services,docs,custom_tab,goods,exp_goods,assoc_goods,recomend_goods,podborki,blog,buy,payment,delivery'),
 		"BIGDATA_PATH_TEMPLATE" => $this->__folder.'/page_blocks/'.$sViewBigDataTemplate.'.php',
 		"TITLE_SLIDER" => $arParams["TITLE_SLIDER"],
 		"DETAIL_ASSOCIATED_TITLE" => $arParams["DETAIL_ASSOCIATED_TITLE"],
@@ -214,6 +220,7 @@
 		"FILTER_NAME" => $arParams["FILTER_NAME"], // !need to filter similar goods
 		"USE_BIG_DATA" => $arParams['USE_BIG_DATA'],
 		"BIG_DATA_SHOW_FROM_SECTION" => $arParams["BIG_DATA_SHOW_FROM_SECTION"],
+		"ADDITIONAL_VIDEO_PROPERTY_CODE" => $arParams["ADDITIONAL_VIDEO_PROPERTY_CODE"],
 	),
 	$component
 );?>

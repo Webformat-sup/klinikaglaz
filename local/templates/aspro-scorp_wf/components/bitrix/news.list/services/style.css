@@ -1,0 +1,4 @@
+.detail .chars .char-wrapp .props_table,
+.char .char_name:not(.char_code) {
+	width: 100%;
+}

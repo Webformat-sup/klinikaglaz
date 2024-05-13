@@ -2608,7 +2608,6 @@ $(".set_block").ready(function () {
     });
     /* init flexslider end */
   };
-
   /*set compare/wish*/
   window.JCCatalogElementFast.prototype.setLikeBlock = function (th, className, obj, type) {
     var block = th;

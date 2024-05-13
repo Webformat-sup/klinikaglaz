@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Вакансии");
-$APPLICATION->SetPageProperty("title", "Вакансии");
-$APPLICATION->SetPageProperty("keywords", "Вакансии");
-$APPLICATION->SetPageProperty("description", "Вакансии");
+$APPLICATION->SetPageProperty("title", "Вакансии | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Информация об открытых вакансиях клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Отправляйте свое резюме нам на почту и мы обязательно свяжемся с вами! Звоните : +7 (343) 270-00-30, +7(343) 328-88-45");
 $APPLICATION->SetTitle("Вакансии");
 ?>
 <?$APPLICATION->IncludeComponent(

@@ -19,6 +19,8 @@ $mobileColumns = array_fill_keys($mobileColumns, true);
 
 $result['BASKET_ITEM_RENDER_DATA'] = array();
 
+$bUseFastView =  CNext::GetFrontParametrValue('USE_FAST_VIEW_PAGE_DETAIL') !== 'NO';
+
 foreach ($this->basketItems as $row)
 {
 	$rowData = array(
@@ -63,6 +65,7 @@ foreach ($this->basketItems as $row)
 		'BRAND' => isset($row[$this->arParams['BRAND_PROPERTY'].'_VALUE'])
 			? $row[$this->arParams['BRAND_PROPERTY'].'_VALUE']
 			: '',
+		'USE_FAST_VIEW' => $bUseFastView,
 	);
 	$typeStickers = \Bitrix\Main\Config\Option::get('aspro.max', 'ITEM_STICKER_CLASS_SOURCE', 'PROPERTY_VALUE', $rowData['LID']);
 	$parentItemIDs = [

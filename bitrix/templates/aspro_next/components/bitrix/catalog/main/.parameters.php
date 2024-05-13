@@ -236,6 +236,9 @@
 	$arHighloadPropList = array(
 		'-' => GetMessage('CP_BC_TPL_PROP_EMPTY')
 	);
+	$arVideoPropList = array(
+		'-' => GetMessage('CP_BC_TPL_PROP_EMPTY')
+	);
 	$rsProps = CIBlockProperty::GetList(
 		array('SORT' => 'ASC', 'ID' => 'ASC'),
 		array('IBLOCK_ID' => $arCurrentValues['IBLOCK_ID'], 'ACTIVE' => 'Y')
@@ -252,6 +255,8 @@
 			$arListPropList[$arProp['CODE']] = $strPropName;
 		if ('S' == $arProp['PROPERTY_TYPE'] && 'directory' == $arProp['USER_TYPE'] && CIBlockPriceTools::checkPropDirectory($arProp))
 			$arHighloadPropList[$arProp['CODE']] = $strPropName;
+		if ('S' == $arProp['PROPERTY_TYPE'] && 'video' == $arProp['USER_TYPE'])
+			$arVideoPropList[$arProp['CODE']] = $strPropName;
 
 	}
 
@@ -1021,7 +1026,15 @@
 			'REFRESH' => 'N',
 			'DEFAULT' => '-',
 			'VALUES' => $arFilePropList
-		)
+		),
+		"ADDITIONAL_VIDEO_PROPERTY_CODE" => Array(
+			"NAME" => GetMessage("ADDITIONAL_VIDEO_PROPERTY_CODE"),
+			"TYPE" => "LIST",
+			"DEFAULT" => "-",
+			'MULTIPLE' => 'Y',
+			"VALUES" => $arVideoPropList,
+			"PARENT" => "DETAIL_SETTINGS",
+		),
 	);
 
 	if ($boolSKU)
@@ -1120,7 +1133,7 @@
 			'PARENT' => 'DETAIL_SETTINGS',
 			'NAME' => GetMessage('CP_BC_TPL_PRODUCT_BLOCKS_ORDER'),
 			'TYPE' => 'CUSTOM',
-			'JS_FILE' => CatalogSectionComponent::getSettingsScript('/bitrix/components/bitrix/catalog.section', 'dragdrop_order'),
+			'JS_FILE' => \Bitrix\Main\Page\Asset::getInstance()->getFullAssetPath('/bitrix/js/aspro.next/settings/dragdrop_order/script.min.js'),
 			'JS_EVENT' => 'initDraggableOrderControl',
 			'JS_DATA' => Json::encode(array(
 				'complect' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_COMPLECT'),
@@ -1147,7 +1160,7 @@
 			'PARENT' => 'DETAIL_SETTINGS',
 			'NAME' => GetMessage('CP_BC_TPL_PRODUCT_BLOCKS_TAB_ORDER'),
 			'TYPE' => 'CUSTOM',
-			'JS_FILE' => CatalogSectionComponent::getSettingsScript('/bitrix/components/bitrix/catalog.section', 'dragdrop_order'),
+			'JS_FILE' => \Bitrix\Main\Page\Asset::getInstance()->getFullAssetPath('/bitrix/js/aspro.next/settings/dragdrop_order/script.min.js'),
 			'JS_EVENT' => 'initDraggableOrderControl',
 			'JS_DATA' => Json::encode(array(
 				'offers' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_OFFERS'),
@@ -1170,7 +1183,7 @@
 			'PARENT' => 'DETAIL_SETTINGS',
 			'NAME' => GetMessage('CP_BC_TPL_PRODUCT_BLOCKS_ALL_ORDER'),
 			'TYPE' => 'CUSTOM',
-			'JS_FILE' => CatalogSectionComponent::getSettingsScript('/bitrix/components/bitrix/catalog.section', 'dragdrop_order'),
+			'JS_FILE' => \Bitrix\Main\Page\Asset::getInstance()->getFullAssetPath('/bitrix/js/aspro.next/settings/dragdrop_order/script.min.js'),
 			'JS_EVENT' => 'initDraggableOrderControl',
 			'JS_DATA' => Json::encode(array(
 				'complect' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_COMPLECT'),
@@ -1178,12 +1191,12 @@
 				'offers' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_OFFERS'),
 				'desc' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DESC'),
 				'char' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CHAR'),
-				//'buy' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_HOW_BUY'),
-				//'payment' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_PAYMENT'),
-				//'delivery' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DELIVERY'),
 				'video' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_VIDEO'),
 				'stores' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_STORES'),
 				'custom_tab' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CUSTOM_TABS'),
+				'buy' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_HOW_BUY'),
+				'payment' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_PAYMENT'),
+				'delivery' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DELIVERY'),
 				'services' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_SERVICES'),
 				'reviews' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_REVIEWS'),
 				'blog' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_BLOG'),

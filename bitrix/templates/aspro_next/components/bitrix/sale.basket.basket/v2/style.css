@@ -519,9 +519,6 @@ body .text-success.basket-coupon-alert {
   .basket-items-list-header-filter {
     flex-wrap: wrap;
   }
-  #basket-root .basket-items-list-outer .top_control .delete_all {
-    padding-left: 0px;
-  }
 }
 
 #basket-root .basket-items-list-outer .basket-items-list-wrapper .basket-items-list-header {

@@ -31,6 +31,17 @@ footer .payment .img img {
     height: 43%;
 }
 
+h1 {
+  line-height: 38px;
+}
+
+.mobile-ver .mobile-phone-callback > div {
+	background: url(/local/templates/aspro-scorp_wf/images/mobile-header/phone-s.svg) no-repeat center center;
+}
+
+.mobile-ver .mobile-phone-callback > div div{
+	background: none!important;
+}
 
 
 footer .copy {
@@ -1477,4 +1488,70 @@ span.btn-custom-sign:hover{
 }
 .properties.custom_prop a.callibri_phone:hover {
 	color: #0088cc;
+}
+
+form[name="aspro_scorp_akciya"] label.error {
+	top: 6px;
+  right: 7px;
+}
+
+
+
+
+@media screen and (max-width: 767px) {
+	#tmg-page .tmg {
+		width: auto;
+	}
+	#tmg-page form > div > div {
+		display: flex;
+		flex-direction: column;
+	}
+	#tmg-page form > div > div label {
+		margin-left: 0;
+		margin-bottom: 2px;
+	}
+	#tmg-page form > div > div input {
+		width: 100%!important;
+		padding: 10px 10px;
+	}
+	#tmg-page .tmg_ps_payment_option {
+		height: 100%;
+	}
+	#tmg-page .tmg_ps_payment_option .tmg_ps_paysys {
+		padding: 10px;
+		width: auto;
+	}
+	#tmg-page .tmg_ps_payment_option .tmg_ps_paysys img {
+		margin: 0!important;
+	}
+	#tmg-page #tmg_ps_body .tmg_ps_payment_option > input {
+		margin-right: 15px;
+	}
+	#tmg-page #tmg_ps_body .tmg_ps_paysys_desc {
+		width: 100%;
+		margin-bottom: 25px;
+	}
+	#tmg-page #tmg_ps_body .tmg_ps_payform.tmg_ps_cont_form {
+		text-align: left;
+	}
+	#onlinepay-page {
+		padding-right: 20px;
+	}
+	#onlinepay-page .bbg.row {
+		margin-right: 0;
+	}
+	#onlinepay-page .bbg.row .bbg-e {
+		width: 100%;
+	}
+	#onlinepay-page img[width="24"] {
+		max-width: 24px;
+	}
+	#onlinepay-page img[width="19"] {
+		max-width: 19px;
+		margin-left: 2px;
+	}
+	#onlinepay-page img[alt="bill.png"] {
+		max-width: 24px;
+		margin-left: 4px;
+	}
 }

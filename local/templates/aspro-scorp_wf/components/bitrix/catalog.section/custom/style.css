@@ -88,6 +88,9 @@
 	max-width: 80%;
 	font-size: 16px;
 }
+.pricelist-container .item .text.code {
+	max-width: 5%;
+}
 .pricelist-container .item .price {
 	font-size: 22px;
 	font-weight: 400;

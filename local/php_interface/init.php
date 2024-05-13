@@ -104,7 +104,7 @@ class aspro_import {
                     $arParams = array( "replace_space" => "-", "replace_other" => "-" );
                     $id = $el->Add( array(
                         'ACTIVE' => 'Y',
-                        'NAME' => $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'],
+                        'NAME' => $arItem['PROPERTY_593_VALUE'],
                         'IBLOCK_ID' => 41,
                         'CODE' => Cutil::translit( $arItem['PROPERTY_593_VALUE'], "ru", $arParams )
                     ) ); 			    
@@ -119,4 +119,13 @@ class aspro_import {
 
         }
     }
+}
+// WATERMARK ADVERTISING TOKEN
+if(!class_exists('WatermarkAdvertisingToken')){
+	include_once 'webformat/watermarkAdvertisingToken.php';
+}
+AddEventHandler('iblock', 'OnIBlockElementUpdate', 'watermarkAdvertisingToken');
+function watermarkAdvertisingToken($newFields, $ar_wf_element)
+{
+		$arFileTmp = WatermarkAdvertisingToken::start($newFields,$ar_wf_element);
 }
