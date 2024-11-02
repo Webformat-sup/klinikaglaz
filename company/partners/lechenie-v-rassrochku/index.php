@@ -1,7 +1,7 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Лечение в рассрочку");
 $APPLICATION->SetPageProperty("description", "Мы предоставляем возможность оплатить лечение в рассрочку без процентов.");?><p>
- <img width="261" alt="girl" src="http://klinikaglaz.ru/wp-content/uploads/2016/07/girl-261x300.jpg" height="300" srcset="http://klinikaglaz.ru/wp-content/uploads/2016/07/girl-261x300.jpg 261w, http://klinikaglaz.ru/wp-content/uploads/2016/07/girl.jpg 311w" sizes="(max-width: 261px) 100vw, 261px">Мы делаем все для того, чтобы наша помощь была доступна!
+	<img width="300" alt="57.jpg" src="/upload/medialibrary/634/lg77rk53kmx56sl22ygw5vmg3zzrz0ma.jpg" height="200" title="57.jpg" align="right">Мы делаем все для того, чтобы наша помощь была доступна!
 </p>
 <p>
 	 Мы предоставляем возможность оплатить лечение в рассрочку без процентов.
@@ -25,7 +25,7 @@ $APPLICATION->SetPageProperty("description", "Мы предоставляем в
 	 — Партнеры по программе «Лечение в рассрочку»: «Альфа-Банк», Банк «Хоум Кредит»
 </p>
 <p>
- <img width="135" alt="Alfa-Bank" src="http://klinikaglaz.ru/wp-content/uploads/2016/07/Alfa-Bank.jpg" height="85">Программа «Лечение в рассрочку» от «Альфа-Банк»:
+	Программа «Лечение в рассрочку» от «Альфа-Банк»:
 </p>
 <p>
 	 — Рассрочка на срок – 4 месяца
@@ -40,7 +40,7 @@ $APPLICATION->SetPageProperty("description", "Мы предоставляем в
 	 — Сумма рассрочки 15 000руб – 200 000руб.
 </p>
 <p>
- <img width="120" alt="1215538291941720224_homecreditbank" src="http://klinikaglaz.ru/wp-content/uploads/2016/07/1215538291941720224_homecreditbank.jpg" height="120">Программа «Лечение в рассрочку» от Банка «Хоум кредит»:
+	Программа «Лечение в рассрочку» от Банка «Хоум кредит»:
 </p>
 <p>
 	 — Первоначальный взнос 0-50%
@@ -64,7 +64,7 @@ $APPLICATION->SetPageProperty("description", "Мы предоставляем в
 	 — Сумма рассрочки 15 000руб – 200 000руб.
 </p>
 <p>
-	 &nbsp;<img width="214" alt="500С…700 РјРј (Р&nbsp;)" src="http://klinikaglaz.ru/wp-content/uploads/2016/07/500S---700-RjRj-R--214x300.jpg" height="300" srcset="http://klinikaglaz.ru/wp-content/uploads/2016/07/500S---700-RjRj-R--214x300.jpg 214w, http://klinikaglaz.ru/wp-content/uploads/2016/07/500S---700-RjRj-R-.jpg 567w" sizes="(max-width: 214px) 100vw, 214px">Если Вас заинтересовала программа «Лечение в рассрочку», Вы можете задать все интересующие вопросы и получить более подробную консультацию по телефону (343) 270-00-30 в пн-вс с 8:00 до 20:00.
+	 &nbsp;Если Вас заинтересовала программа «Лечение в рассрочку», Вы можете задать все интересующие вопросы и получить более подробную консультацию по телефону (343) 270-00-30 в пн-вс с 8:00 до 20:00.
 </p>
 <p>
 </p>

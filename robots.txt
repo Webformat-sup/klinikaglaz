@@ -101,6 +101,12 @@ Disallow: */%20%20https://www.horosheezrenie.ru/uprazhneniya-dlya-glaz-za-kompyu
 Disallow: */administrator-v-meditsinskiy-tsentr-i-salon-optiki-s-funktsiyami-operator-koll-tsentra/
 Disallow: */hirurgicheskoe-lechenie-kataraktyi/
 Disallow: /study/*
+Disallow: /politika.html
+Disallow: /afakia
+Disallow: /meditsinskiy-slovar/aberratsiya/g/
+Disallow: /presbiopia
+Disallow: /pterigium
+
 Allow: /*/*.js
 Allow: /*/*.css
 Allow: /wp-*.png
@@ -218,6 +224,11 @@ Disallow: */ekspress-test-na-antitela-k-koronavirusu/
 Disallow: */%20%20https://www.horosheezrenie.ru/uprazhneniya-dlya-glaz-za-kompyuterom/
 Disallow: */administrator-v-meditsinskiy-tsentr-i-salon-optiki-s-funktsiyami-operator-koll-tsentra/
 Disallow: */hirurgicheskoe-lechenie-kataraktyi/
+Disallow: /politika.html
+Disallow: /afakia
+Disallow: /meditsinskiy-slovar/aberratsiya/g/
+Disallow: /presbiopia
+Disallow: /pterigium
 Allow: /*/*.js
 Allow: /*/*.css
 Allow: /wp-*.png
@@ -334,6 +345,11 @@ Disallow: */ekspress-test-na-antitela-k-koronavirusu/
 Disallow: */%20%20https://www.horosheezrenie.ru/uprazhneniya-dlya-glaz-za-kompyuterom/
 Disallow: */administrator-v-meditsinskiy-tsentr-i-salon-optiki-s-funktsiyami-operator-koll-tsentra/
 Disallow: */hirurgicheskoe-lechenie-kataraktyi/
+Disallow: /politika.html
+Disallow: /afakia
+Disallow: /meditsinskiy-slovar/aberratsiya/g/
+Disallow: /presbiopia
+Disallow: /pterigium
 Allow: /*/*.js
 Allow: /*/*.css
 Allow: /wp-*.png

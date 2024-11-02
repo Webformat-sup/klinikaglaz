@@ -58,12 +58,14 @@
 			gtag('config', 'UA-161721051-1');
 			setTimeout(function(){gtag('event', location.pathname, {'event_category': 'Новый посетитель'});}, 15000);
 		</script>
+		<?/*?>
 		<script src='https://salebot.pro/js/salebot.js' charset='utf-8'></script>
 		<script>
 		SaleBotPro.init({
 			onlineChatId: '1351'
 		});
 		</script>
+		<?*/?>
 	</head>
 	<body>
 		<?CAjax::Init();?>
@@ -382,6 +384,14 @@
 								</div>
 							</div>
 							<div class="col-md-2 col-sm-2 socialNetwork">
+								<?$tLink = \Bitrix\Main\Config\Option::get( "askaron.settings", "UF_TELEGRAM_LINK"); ?>
+								<? if($tLink) { ?>
+									<div class="telegram">
+										<a href="<?=$tLink?>" target="_blank" rel="nofollow" title="Написать в telegram">
+											<img src="<?= SITE_TEMPLATE_PATH."/images/telegram.svg" ?>" alt="telegram" />
+										</a>
+									</div>
+								<? } ?>
 								<div class="whatsApp">
 									<a href="https://api.whatsapp.com/send?phone=79221588731" rel="nofollow"><img src="/local/templates/aspro-scorp_wf/images/whatsapp.png"></a>
 								</div>
@@ -508,18 +518,18 @@
 									<div class="row">
 										<div class="col-md-12">
 											<?$APPLICATION->IncludeComponent(
-												"bitrix:breadcrumb", 
-												"corp", 
-												array(
-													"START_FROM" => "1",
-													"PATH" => "",
-													"SITE_ID" => "s1",
-													"COMPONENT_TEMPLATE" => "corp",
-													"COMPOSITE_FRAME_MODE" => "A",
-													"COMPOSITE_FRAME_TYPE" => "AUTO"
-												),
-												false
-											);?>
+	"bitrix:breadcrumb", 
+	"corp", 
+	array(
+		"START_FROM" => "1",
+		"PATH" => "",
+		"SITE_ID" => "s1",
+		"COMPONENT_TEMPLATE" => "corp",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
+	),
+	false
+);?>
 										</div>
 									</div>
 								</div>

@@ -2,7 +2,7 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("title", "Врачи клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге");
 $APPLICATION->SetPageProperty("keywords_inner", "Сотрудники");
-$APPLICATION->SetPageProperty("description", "Врачи-офтальмологи клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Записаться на прием к офтальмологу можно по телефону: +7 (343) 253-05-37, +7(343)328-88-45");
+$APPLICATION->SetPageProperty("description", "Врачи-офтальмологи клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Записаться на прием к офтальмологу можно по телефону: +7 (343) 270-00-30, +7(343)328-88-45");
 $APPLICATION->SetTitle("Врачи");
 ?>
 <?$APPLICATION->IncludeComponent(

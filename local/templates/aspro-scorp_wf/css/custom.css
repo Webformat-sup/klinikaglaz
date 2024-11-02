@@ -131,6 +131,9 @@ button.btn.what {
 }
 /*  footer btn  */
 
+a.scroll-to-top{
+  z-index: 10000 !important;
+}
 a.scroll-to-top.ROUND_COLOR, a.scroll-to-top.RECT_COLOR {
     background-color: #0060aa;
 }
@@ -276,6 +279,10 @@ ul.dropdown-menu .search .btn-search {
 
 .detail .chars .props_table {
     width: 78%;
+}
+
+.detail .chars .props_table.code {
+    width: 100%;
 }
 
 .item-views.sections .item .title {
@@ -1553,5 +1560,136 @@ form[name="aspro_scorp_akciya"] label.error {
 	#onlinepay-page img[alt="bill.png"] {
 		max-width: 24px;
 		margin-left: 4px;
+	}
+}
+.logo_and_menu-row.custom .socialNetwork {
+	padding-left: 10px;
+  padding-right: 10px;
+}
+.logo_and_menu-row.custom .telegram {
+	padding: 0;
+  float: left;
+}
+.logo_and_menu-row.custom .telegram img {
+	width: 28px;
+}
+.logo_and_menu-row.custom .whatsApp {
+	padding: 0px 10px 0 10px;
+}
+.logo_and_menu-row.custom .viber {
+	padding: 0px 10px 0 0px;
+}
+.logo_and_menu-row.custom .glaz {
+	padding: 0;
+	float: left;
+}
+.logo_and_menu-row.custom .questionTitle {
+	display: flex;
+	margin-top: 45px;
+}
+.logo_and_menu-row.custom .questionTitle img {
+	position: relative;
+	top: 3px;
+	margin-right: 8px;
+	width: 16px;
+	height: 16px;
+}
+
+
+
+
+/* #services-banners {
+	padding: 30px 0;
+} */
+#services-banners .services-banners-item {
+  display: flex;
+  margin-bottom: 35px;
+	/* background-color: #ebf5cc; */
+	background-color: #eaeff2;
+  border-radius: 15px;
+	overflow: hidden;
+}
+#services-banners .services-banners-item .services-banners-info-block {
+	width: 60%;
+}
+#services-banners .services-banners-item .services-banners-img-block {
+	width: 40%;
+}
+#services-banners .services-banners-item .services-banners-text {
+	font-size: 16px;
+  transition: 0.3s ease;
+}
+#services-banners .services-banners-item .services-banners-link {
+	margin-top: 15px;
+	text-align: end;
+}
+#services-banners .services-banners-item .services-banners-link a {
+	position: relative;
+	padding-right: 15px;
+	font-size: 14px;
+	font-weight: 500;
+}
+#services-banners .services-banners-item .services-banners-link a::before {
+	color: #08c;
+  position: absolute;
+  font-family: FontAwesome;
+  content: "\f054";
+  font-size: 8px;
+  right: 0;
+  font-weight: normal;
+  top: -1px;
+}
+#services-banners .services-banners-item .services-banners-link a:hover::before {
+	color: #000;
+}
+#services-banners .services-banners-item .services-banners-info-block {
+	position: relative;
+	display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 30px;
+}
+/* #services-banners .services-banners-item .services-banners-info-block::after,
+#services-banners .services-banners-item .services-banners-info-block::before {
+	content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: #fff;
+  right: -12px;
+  border-radius: 25px;
+  z-index: 10;
+}
+#services-banners .services-banners-item .services-banners-info-block::before {
+  top: -20px;
+}
+#services-banners .services-banners-item .services-banners-info-block::after {
+  bottom: -20px;
+} */
+#services-banners .services-banners-item .services-banners-img-block {
+	overflow: hidden;
+}
+#services-banners .services-banners-item .services-banners-img-block img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: 0.4s ease;
+}
+#services-banners .services-banners-item:hover .services-banners-img-block img {
+  transform: scale(1.1);
+}
+@media screen and (max-width:768px){
+	#services-banners .services-banners-item {
+		flex-direction: column;
+	}
+	#services-banners .services-banners-item .services-banners-info-block,
+	#services-banners .services-banners-item .services-banners-img-block {
+		width: 100%;
+	}
+	#services-banners .services-banners-item .services-banners-img-block {
+		max-height: 200px;
+	}
+	#services-banners .services-banners-item .services-banners-info-block {
+		order: 2;
 	}
 }

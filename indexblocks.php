@@ -656,6 +656,17 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="row">
+		<div class="maxwidth-theme">
+			<div class="col-md-12">
+				<h2 style="margin-top: 40px;">Отзывы</h2>
+				<script src="https://res.smartwidgets.ru/app.js" defer></script>
+				<div style="margin: 40px 0;" class="sw-app" data-app="e9f6f2b3baea515ec1a13d6dee5d0459"></div>
+			</div>
+		</div>
+	</div>
+
 	<div class="blueline footer"></div>
 
 <?$indexPreim = ob_get_clean();?>

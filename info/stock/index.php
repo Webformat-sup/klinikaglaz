@@ -3,7 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Акции");
 $APPLICATION->SetPageProperty("title", "Акции, скидки и специальные предложения | Клиника микрохирургии \"Глаз\" им. С. Федорова");
 $APPLICATION->SetPageProperty("keywords", "Акции");
-$APPLICATION->SetPageProperty("description", "Посмотрите действующие акции и специальные предложения офтальмологической клиники \"Глаз\" им С. Федорова в Екатеринбурге. Звоните по т.  +7 (343) 288-02-31, +7(343)328-88-45");
+$APPLICATION->SetPageProperty("description", "Посмотрите действующие акции и специальные предложения офтальмологической клиники «Глаз» им С. Федорова в Екатеринбурге. Звоните по т. +7 (343) 270-00-30, +7(343)328-88-45");
 $APPLICATION->SetTitle("Акции");
 ?>
 <?$APPLICATION->IncludeComponent(
