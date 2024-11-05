@@ -62,7 +62,7 @@ $CCache = new CCache;
 					<?if($arItem['DISPLAY_PROPERTIES']):?>
 						<div class="properties">
 							<?foreach($arItem['DISPLAY_PROPERTIES'] as $PCODE => $arProperty):?>
-								<?if(in_array($PCODE, array('PERIOD', 'TITLE_BUTTON', 'LINK_BUTTON'))) continue;?>
+								<?if(in_array($PCODE, array('PERIOD', 'TITLE_BUTTON', 'LINK_BUTTON', 'BANNERS'))) continue;?>
 								<div class="property">
 									<?if($arProperty['XML_ID']):?>
 										<i class="fa <?=$arProperty['XML_ID']?>"></i>&nbsp;
