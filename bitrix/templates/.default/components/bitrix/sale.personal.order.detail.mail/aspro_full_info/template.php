@@ -16,7 +16,7 @@
 						</div>
 						<div style="display:inline-block;vertical-align:top;font-size:14px;width:33.33%;">
 							<div><?=Loc::getMessage('SPOD_ORDER_SUMM');?></div>
-							<div style="font-size:18px;color:#1d2029;font-weight:600;padding-top:5px;"><?=CAllCurrencyLang::CurrencyFormat($arResult["PRICE"], $allCurrency);?></div>
+							<div style="font-size:18px;color:#1d2029;font-weight:600;padding-top:5px;"><?=CCurrencyLang::CurrencyFormat($arResult["PRICE"], $allCurrency);?></div>
 						</div>
 						<?if($arResult["CANCELED"] == "Y" || $arResult["CAN_CANCEL"] == "Y"):?>	
 							<div style="display:inline-block;vertical-align:top;font-size:14px;width:33.33%;">
@@ -168,7 +168,7 @@
 											<?if($name == "NAME"):?>
 												<?if($arItem["PREVIEW_PICTURE"])
 												{
-													$img = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], array("width" => 75, "height" => 75), BX_RESIZE_PROPORTIONAL_ALT);
+													$img = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], array("width" => 75, "height" => 75), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);
 													// $src= str_replace(array("//", ":/"), array("/", "://"), $arParams["SITE_ADDRESS"].$img["src"]);
 												}?>
 												<div class="item" <?=($arItem["PREVIEW_PICTURE"] ? 'style="position:relative; min-height:75px;font-size:0px;"' : '');?>>
@@ -213,9 +213,9 @@
 													<?endif;?>
 												</div>
 											<?elseif($name == "DISCOUNT"):?>
-												<?=CAllCurrencyLang::CurrencyFormat($arItem["PRICE"], $allCurrency);?>
+												<?=CCurrencyLang::CurrencyFormat($arItem["PRICE"], $allCurrency);?>
 											<?elseif($name == "SUMM"):?>
-												<div style="font-weight:600;font-size:14px;color:#333333;"><?=CAllCurrencyLang::CurrencyFormat($arItem["PRICE"]*$arItem["QUANTITY"], $allCurrency);?></div>
+												<div style="font-weight:600;font-size:14px;color:#333333;"><?=CCurrencyLang::CurrencyFormat($arItem["PRICE"]*$arItem["QUANTITY"], $allCurrency);?></div>
 											<?else:?>
 												<?=$arItem[$name];?>
 											<?endif;?>
@@ -247,7 +247,7 @@
 								<?if(strlen($arResult["PRICE_DELIVERY_FORMATED"])):?>
 									<div>
 										<div style="display:inline-block;vertical-align:top;font-size:15px;width:170px;text-align:left;"><?=Loc::getMessage('SPOD_DELIVERY')?></div>
-										<div style="display:inline-block;vertical-align:top;font-size:16px;width:120px;text-align:right;font-weight:600;"><?=CAllCurrencyLang::CurrencyFormat($arResult['PRICE_DELIVERY'], $allCurrency)?></div>
+										<div style="display:inline-block;vertical-align:top;font-size:16px;width:120px;text-align:right;font-weight:600;"><?=CCurrencyLang::CurrencyFormat($arResult['PRICE_DELIVERY'], $allCurrency)?></div>
 									</div>
 								<?endif;?>
 
@@ -271,13 +271,13 @@
 								<?if(floatval($arResult["DISCOUNT_VALUE"])):?>
 									<div>
 										<div style="display:inline-block;vertical-align:top;font-size:15px;width:170px;text-align:left;"><?=Loc::getMessage('SPOD_DISCOUNT')?></div>
-										<div style="display:inline-block;vertical-align:top;font-size:16px;width:120px;text-align:right;font-weight:600;"><?=CAllCurrencyLang::CurrencyFormat($arResult['DISCOUNT_VALUE'], $allCurrency)?></div>
+										<div style="display:inline-block;vertical-align:top;font-size:16px;width:120px;text-align:right;font-weight:600;"><?=CCurrencyLang::CurrencyFormat($arResult['DISCOUNT_VALUE'], $allCurrency)?></div>
 									</div>
 								<?endif;?>
 
 								<div>
 									<div style="display:inline-block;vertical-align:top;font-size:15px;width:170px;text-align:left;"><?=Loc::getMessage('SPOD_SUMMARY')?></div>
-									<div style="display:inline-block;vertical-align:top;font-size:16px;width:120px;text-align:right;font-weight:600;"><?=CAllCurrencyLang::CurrencyFormat($arResult['PRICE'], $allCurrency)?></div>
+									<div style="display:inline-block;vertical-align:top;font-size:16px;width:120px;text-align:right;font-weight:600;"><?=CCurrencyLang::CurrencyFormat($arResult['PRICE'], $allCurrency)?></div>
 								</div>
 							</div>
 						</div>

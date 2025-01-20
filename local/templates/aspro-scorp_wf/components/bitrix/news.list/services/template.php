@@ -1,4 +1,6 @@
-<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
+<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$CCache = new CCache;
+?>
 <?$this->setFrameMode(true);?>
 <div class="item-views list <?=($arParams['IMAGE_POSITION'] ? 'image_'.$arParams['IMAGE_POSITION'] : '')?> <?=($templateName = $component->{'__parent'}->{'__template'}->{'__name'})?>">
 
@@ -60,7 +62,7 @@
 					<?if($arItem['DISPLAY_PROPERTIES']):?>
 						<div class="properties">
 							<?foreach($arItem['DISPLAY_PROPERTIES'] as $PCODE => $arProperty):?>
-								<?if(in_array($PCODE, array('PERIOD', 'TITLE_BUTTON', 'LINK_BUTTON'))) continue;?>
+								<?if(in_array($PCODE, array('PERIOD', 'TITLE_BUTTON', 'LINK_BUTTON', 'BANNERS'))) continue;?>
 								<div class="property">
 									<?if($arProperty['XML_ID']):?>
 										<i class="fa <?=$arProperty['XML_ID']?>"></i>&nbsp;
@@ -85,14 +87,9 @@
 							<?endforeach;?>
 						</div>
 					<?endif;?>
-			<?/*if($bDetailLink):?>
-						<a href="<?=$arItem['DETAIL_PAGE_URL']?>" class="btn btn-default btn-sm"><span><?=GetMessage('TO_ALL')?></span></a>
-					<?endif;*/?>
-					<?/*if($arResult['DISPLAY_PROPERTIES']['FORM_ORDER']['VALUE_XML_ID'] == 'YES'):*/?>
 					<div class="prevorder">
-								<span class="btn btn-default btn-sm" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
+						<span class="btn btn-default btn-sm" data-event="jqm" data-param-id="5" data-name="order_services" data-autoload-service="<?=$arItem['NAME']?>"><span><?=(strlen($arParams['S_ORDER_SERVICE']) ? $arParams['S_ORDER_SERVICE'] : GetMessage('S_ORDER_SERVICE'))?></span></span>
 					</div>
-				<?e/*ndif;*/?>
 				<?$textPart = ob_get_clean();?>
 
 				<?ob_start();?>
@@ -110,26 +107,21 @@
 					<?endif;?>
 				<?$imagePart = ob_get_clean();?>
 				<div class="col-md-3 col-sm-3">
-					<?/*if($i):?>
-						<hr />
-					<?endif;*/?>
-					<div class="item<?/*=($bImage ? '' : ' wti')*/?><?=($bActiveDate ? ' wdate' : '')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
-						
-							<?if(!$bImage):?>
-							<div class="pic">
-								<div class="image">			
-									<img src="<?=SITE_TEMPLATE_PATH?>/images/noimage_sections.png" alt="no image" title="" class="img-responsive" />	
-								</div>
+					<div class="item<?=($bActiveDate ? ' wdate' : '')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
+						<?if(!$bImage):?>
+						<div class="pic">
+							<div class="image">			
+								<img src="<?=SITE_TEMPLATE_PATH?>/images/noimage_sections.png" alt="no image" title="" class="img-responsive" />	
 							</div>
-								<div class="item"><div class="htext"><?=$textPart?></div></div>							
-							<?elseif($arParams['IMAGE_POSITION'] == 'right'):?>
-								<div class="pic"><div class="htext"><?=$textPart?></div></div>
-								<div class="item"><?=$imagePart?></div>
-							<?else:?>
-								<div class="pic"><?=$imagePart?></div>
-								<div class="item"><div class="htext"><?=$textPart?></div></div>
-							<?endif;?>
-						
+						</div>
+							<div class="item"><div class="htext"><?=$textPart?></div></div>							
+						<?elseif($arParams['IMAGE_POSITION'] == 'right'):?>
+							<div class="pic"><div class="htext"><?=$textPart?></div></div>
+							<div class="item"><?=$imagePart?></div>
+						<?else:?>
+							<div class="pic"><?=$imagePart?></div>
+							<div class="item"><div class="htext"><?=$textPart?></div></div>
+						<?endif;?>
 					</div>
 				</div>
 			<?endforeach;?>
@@ -149,7 +141,6 @@
 		<?endif;?>
 	<?endif;?>
 
-
 <?if(is_array($arResult['SECTION_USER_FIELDS_PROPS'])){?>
 	<?/*----  ДОПОЛНИТЕЛЬНЫЕ ПОЛЯ  ----*/?>
 	<div class="uf-divs">
@@ -166,12 +157,15 @@
 								<table class="props_table">
 								<?foreach($arResult["SECTION_USER_FIELDS"]['UF_COST'] as $id){?>
 									<tr class="char">
+										<td class="char_name char_code">
+											<span><?=$arUFProps[$id]['PROPS']['SERVICE_CODE']['VALUE']?></span>
+										</td>
 										<td class="char_name">
 											<span><?=$arUFProps[$id]['NAME']?>
 											<?if($arUFProps[$id]['PREVIEW_TEXT']){?>
 												<i class="fa fa-question question" data-trigger="click" data-toggle="tooltip" data-placement="right" title="" data-original-title="<?=$arUFProps[$id]['PREVIEW_TEXT']?>"></i>
 											<?}?>
-										</span>
+											</span>
 										</td>
 										<td class="char_value">
 											<?if(!empty($arUFProps[$id]['PROPS']['PRICE']['VALUE'])){?>
@@ -243,6 +237,111 @@
 				</div>
 		<?/*----  Форма обратной связи  ----*/?>
 
+
+		
+
+			<?
+			$bannersIds = CIBlockSection::GetList(
+				false,array('IBLOCK_ID'=>'13','ID'=>$arResult['SECTION']['PATH']['0']['ID']),false,array('ID','UF_BANNERS')
+			)->Fetch()['UF_BANNERS'];
+			if($bannersIds){
+						global $serviceBanners;
+						$serviceBanners = ['ID' => $bannersIds];
+					?>
+					<?$APPLICATION->IncludeComponent(
+						"bitrix:news.list", 
+						"section-banners", 
+						array(
+							// Основные параметры
+							"IBLOCK_TYPE" => "aspro_scorp_content",
+							"IBLOCK_ID" => "77",
+							"NEWS_COUNT" => "20",
+
+							// Источник данных
+							"SORT_BY1" => "SORT",
+							"SORT_ORDER1" => "ASC",
+							"SORT_BY2" => "ID",
+							"SORT_ORDER2" => "ASC",
+							"FILTER_NAME" => "serviceBanners",
+							"FIELD_CODE" => array( // Указываются поля, которые будут отображены на странице
+								0 => "NAME",
+								1 => "PREVIEW_TEXT",
+								2 => ""
+							),
+							"PROPERTY_CODE" => array(
+								0=>'LINK'
+							),
+							"CHECK_DATES" => "Y", // [Y|N] показ только активные на данный момент элементы.
+
+							// Шаблоны ссылок
+							"DETAIL_URL" => "",
+
+							// Управление режимом AJAX
+							"AJAX_MODE" => "N",
+							"AJAX_OPTION_JUMP" => "N", // [Y|N] по окончании загрузки произойдет прокрутка к началу компонента.
+							"AJAX_OPTION_STYLE" => "N", // [Y|N] при совершении AJAX-переходов, подгрузка и обработка стилей, вызванных компонентом.
+							"AJAX_OPTION_HISTORY" => "N",
+
+							// Настройки кеширования
+							"CACHE_TYPE" => "A", 
+							"CACHE_TIME" => "0", //"3600000",
+							"CACHE_FILTER" => "Y",
+							"CACHE_GROUPS" => "N",
+
+							// Дополнительные настройки
+							// При передаче символьного кода раздела (SECTION_CODE) выполняется дополнительная проверка на принадлежность раздела к инфоблоку, 
+							// указанному в параметре IBLOCK_ID и активность с учетом вышележащих разделов. 
+							// При передаче идентификатора раздела (SECTION_ID) такая проверка не производится.
+							"PARENT_SECTION" => "",
+							"PARENT_SECTION_CODE" => "",
+
+							"PREVIEW_TRUNCATE_LEN" => "",
+							"ACTIVE_DATE_FORMAT" => "j F Y",
+							"SET_TITLE" => "N",
+							"SET_BROWSER_TITLE" => "N",
+							"SET_META_KEYWORDS" => "N",
+							"SET_META_DESCRIPTION" => "N",
+							"SET_LAST_MODIFIED" => "N", // 	[Y|N] http-ответ сервера будет содержать время последнего изменения страницы
+							"SET_STATUS_404" => "N",
+							"INCLUDE_IBLOCK_INTO_CHAIN" => "N", // [Y|N] в цепочку навигации будет добавлено имя инфоблока
+							"ADD_SECTIONS_CHAIN" => "N", // [Y|N] при переходе по разделам ифоблока в цепочку навигации будут добавлены названия разделов
+							"HIDE_LINK_WHEN_NO_DETAIL" => "N", // [Y|N] ссылки будут скрыты, если нет детальной информации или прав 
+
+							"INCLUDE_SUBSECTIONS" => "N", // [Y|N] При отмеченной опции будут отображены элементы подразделов раздела.
+							"DISPLAY_DATE" => "N", // [Y|N] будут выведены даты элементов.
+							"DISPLAY_NAME" => "Y", // [Y|N] для каждого элемента будет выведено его название.
+							"DISPLAY_PICTURE" => "N", // [Y|N] выведены изображения для элемента, если они заданы.
+							"DISPLAY_PREVIEW_TEXT" => "Y", // [Y|N] выведен текст анонса для элементов, если он определен.
+
+							// Настройки постраничной навигации
+							"PAGER_TEMPLATE" => "ajax", // название шаблона постраничной навигации.
+							"DISPLAY_TOP_PAGER" => "N", // [Y|N] постраничная навигация будет выведена вверху страницы, над списком.
+							"DISPLAY_BOTTOM_PAGER" => "N", // [Y|N] постраничная навигация будет выведена внизу страницы, под списком.
+							"PAGER_TITLE" => "",
+							"PAGER_SHOW_ALWAYS" => "N",
+							"PAGER_DESC_NUMBERING" => "N",
+							"PAGER_DESC_NUMBERING_CACHE_TIME" => "3600000",
+							"PAGER_SHOW_ALL" => "N",
+							"PAGER_BASE_LINK_ENABLE" => "N",
+
+							// Настройки 404 ошибки
+							"SHOW_404" => "N", // [Y|N] показана специальная страница
+							"SET_STATUS_404" => "N", // [Y|N] Опция служит для включения обработки ошибки 404 в компоненте.
+							"MESSAGE_404" => "",
+							"STRICT_SECTION_CHECK" => "N", // [Y|N] Не выводить элементы если раздел не существует
+
+							"AJAX_OPTION_ADDITIONAL" => "",
+							"COMPONENT_TEMPLATE" => "section-banners",
+
+						),
+						$component,
+						array(
+							"HIDE_ICONS" => $isAjax
+						)
+					);?>
+			<?}?>
+
+		
 
 		<?/*----  Видео  ----*/?>
 		<?if($arResult["SECTION_USER_FIELDS"]['UF_VIDEO_NAME'] && $arResult["SECTION_USER_FIELDS"]['UF_VIDEO_LINK']):?>
@@ -323,7 +422,7 @@
 
 		<?/*----  Отзывы  ----*/?>
 			<?if($arResult["SECTION_USER_FIELDS"]['UF_REVIEWS']):?>
-				<?$arRevies = CCache::CIBlockElement_GetList(array('CACHE' => array('TAG' => CCache::GetIBlockCacheTag(CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_reviews'][0]), 'MULTI' => 'Y')), array('ID' => $arResult["SECTION_USER_FIELDS"]['UF_REVIEWS'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'PROPERTY_POST', 'PROPERTY_DOCUMENTS', 'PREVIEW_TEXT'));?>
+				<?$arRevies = $CCache->CIBlockElement_GetList(array('CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_reviews'][0]), 'MULTI' => 'Y')), array('ID' => $arResult["SECTION_USER_FIELDS"]['UF_REVIEWS'], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'PROPERTY_POST', 'PROPERTY_DOCUMENTS', 'PREVIEW_TEXT'));?>
 				<div class="wraps nomargin">
 					<hr />
 					<h4 class="underline"><a href="/company/reviews/">Отзывы</a></h4>
@@ -383,7 +482,7 @@
 					<?global $arrrFilter; $arrrFilter = array('ID' => $arResult["SECTION_USER_FIELDS"]['UF_SPECIALIST']);?>
 					<?$APPLICATION->IncludeComponent("bitrix:news.list", "staff-linked", array(
 						"IBLOCK_TYPE" => "aspro_scorp_content",
-						"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_staff"][0],
+						"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_staff"][0],
 						"NEWS_COUNT" => "30",
 						"SORT_BY1" => "SORT",
 						"SORT_ORDER1" => "DESC",
@@ -457,7 +556,7 @@
 						Array(
 							"S_ORDER_PRODUCT" => '',//$arParams["S_ORDER_PRODUCT"],
 							"IBLOCK_TYPE" => "aspro_scorp_catalog",
-							"IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_catalog"][0],
+							"IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_catalog"]["aspro_scorp_catalog"][0],
 							"NEWS_COUNT" => "20",
 							"SORT_BY1" => "ACTIVE_FROM",
 							"SORT_ORDER1" => "DESC",

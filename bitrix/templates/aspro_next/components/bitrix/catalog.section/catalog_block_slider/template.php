@@ -42,22 +42,30 @@
 							}
 
 							if(!$arItem['OFFERS_PROP']){
-								$arAddToBasketData = CNext::GetAddToBasketArray($arItem["OFFERS"][0], $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
+								$arItem["OFFERS_MORE"] = "Y";
+								$arAddToBasketData = CNext::GetAddToBasketArray($arItem, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'small', $arParams);
 							}
 						}
+						// stickers
+						$arParams["STIKERS_PROP"] = $arParams["STIKERS_PROP"] ?: 'HIT';
+						$bShowHitStickers = $arParams["STIKERS_PROP"] && isset($arItem['DISPLAY_PROPERTIES'][$arParams["STIKERS_PROP"]]) && $arItem["DISPLAY_PROPERTIES"][$arParams["STIKERS_PROP"]]["VALUE"];
+						$bShowSaleStickers = $arParams["SALE_STIKER"] && isset($arItem['DISPLAY_PROPERTIES'][$arParams["SALE_STIKER"]]) && $arItem['DISPLAY_PROPERTIES'][$arParams["SALE_STIKER"]]["VALUE"];
 						?>
-						<li class="catalog_item visible" id="<?=$arItem["strMainID"];?>">
+						<li class="catalog_item visible js-notice-block" id="<?=$arItem["strMainID"];?>">
 							<div class="inner_wrap">
-								<div class="image_wrapper_block">
-									<div class="stickers">
-										<?$prop = ($arParams["STIKERS_PROP"] ? $arParams["STIKERS_PROP"] : "HIT");?>
-										<?foreach(CNext::GetItemStickers($arItem["PROPERTIES"][$prop]) as $arSticker):?>
-											<div><div class="<?=$arSticker['CLASS']?>"><?=$arSticker['VALUE']?></div></div>
-										<?endforeach;?>
-										<?if($arParams["SALE_STIKER"] && $arItem["PROPERTIES"][$arParams["SALE_STIKER"]]["VALUE"]){?>
-											<div><div class="sticker_sale_text"><?=$arItem["PROPERTIES"][$arParams["SALE_STIKER"]]["VALUE"];?></div></div>
-										<?}?>
-									</div>
+								<div class="image_wrapper_block js-notice-block__image">
+									<? if ($bShowHitStickers || $bShowSaleStickers): ?>
+										<div class="stickers">
+											<? if($bShowHitStickers): ?>
+												<? foreach(CNext::GetItemStickers($arItem["DISPLAY_PROPERTIES"][$arParams["STIKERS_PROP"]]) as $arSticker): ?>
+													<div><div class="<?=$arSticker['CLASS']?>"><?=$arSticker['VALUE']?></div></div>
+												<? endforeach; ?>
+											<? endif; ?>
+											<? if($bShowSaleStickers): ?>
+												<div><div class="sticker_sale_text"><?= $arItem["DISPLAY_PROPERTIES"][$arParams["SALE_STIKER"]]["VALUE"]; ?></div></div>
+											<? endif; ?>
+										</div>
+									<? endif; ?>
 									<?if($arParams["DISPLAY_WISH_BUTTONS"] != "N" || $arParams["DISPLAY_COMPARE"] == "Y"):?>
 										<div class="like_icons">
 											<?if($arParams["DISPLAY_WISH_BUTTONS"] != "N"):?>
@@ -112,29 +120,42 @@
 										else
 											$fast_view_text = GetMessage('FAST_VIEW');?>
 									</a>
-									<div class="fast_view_block" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?=$arItem["IBLOCK_ID"];?>" data-param-id="<?=$arItem["ID"];?>" data-param-item_href="<?=urlencode($arItem["DETAIL_PAGE_URL"]);?>" data-name="fast_view"><?=$fast_view_text;?></div>
+									<div class="fast_view_block" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?=$arItem["IBLOCK_ID"];?>" data-param-id="<?=$arItem["ID"];?>" data-param-fid="<?=$arItemIDs["strMainID"];?>" data-param-item_href="<?=urlencode($arItem["DETAIL_PAGE_URL"]);?>" data-name="fast_view"><?=$fast_view_text;?></div>
 								</div>
 								<div class="item_info <?=$arParams["TYPE_SKU"]?>">
 									<div class="item-title">
-										<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark_link"><span><?=$elementName;?></span></a>
+										<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark_link js-notice-block__title"><span><?=$elementName;?></span></a>
 									</div>
 									<?if($arParams["SHOW_RATING"] == "Y"):?>
 										<div class="rating">
-											<?$APPLICATION->IncludeComponent(
-											   "bitrix:iblock.vote",
-											   "element_rating_front",
-											   Array(
-												  "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
-												  "IBLOCK_ID" => $arItem["IBLOCK_ID"],
-												  "ELEMENT_ID" =>$arItem["ID"],
-												  "MAX_VOTE" => 5,
-												  "VOTE_NAMES" => array(),
-												  "CACHE_TYPE" => $arParams["CACHE_TYPE"],
-												  "CACHE_TIME" => $arParams["CACHE_TIME"],
-												  "DISPLAY_AS_RATING" => 'vote_avg'
-											   ),
-											   $component, array("HIDE_ICONS" =>"Y")
-											);?>
+											<?//$frame = $this->createFrame('dv_'.$arItem["ID"])->begin('');?>
+											<?if ($arParams['REVIEWS_VIEW']):?>
+												<?\Aspro\Functions\CAsproNext::showBlockHtml([
+													'FILE' => 'catalog/detail_rating_extended.php',
+													'PARAMS' => [
+														'MESSAGE' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE'] ? GetMessage('VOTES_RESULT', array('#VALUE#' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'])) : GetMessage('VOTES_RESULT_NONE'),
+														'RATING_VALUE' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'] ?? 0,
+														'REVIEW_COUNT' => isset($arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE']) ? intval($arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE']) : 0,
+													]
+												]);?>
+											<?else:?>
+												<?$APPLICATION->IncludeComponent(
+												"bitrix:iblock.vote",
+												"element_rating_front",
+												Array(
+													"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
+													"IBLOCK_ID" => $arItem["IBLOCK_ID"],
+													"ELEMENT_ID" =>$arItem["ID"],
+													"MAX_VOTE" => 5,
+													"VOTE_NAMES" => array(),
+													"CACHE_TYPE" => $arParams["CACHE_TYPE"],
+													"CACHE_TIME" => $arParams["CACHE_TIME"],
+													"DISPLAY_AS_RATING" => 'vote_avg'
+												),
+												$component, array("HIDE_ICONS" =>"Y")
+												);?>
+											<?endif;?>
+											<?//$frame->end();?>
 										</div>
 									<?endif;?>
 									<div class="sa_block">
@@ -145,11 +166,11 @@
 											<?\Aspro\Functions\CAsproSku::showItemPrices($arParams, $arItem, $item_id, $min_price_id, $arItemIDs);?>
 										<?}elseif ( $arItem["PRICES"] ){?>
 											<?$item_id = $arItem["ID"];?>
-											<?foreach($arItem["PRICES"] as $priceCode => $arTmpPrice)
+											<?/*foreach($arItem["PRICES"] as $priceCode => $arTmpPrice)
 											{
 												$arItem["PRICES"][$priceCode]["DISCOUNT_VALUE"] = $arItem["PRICES"][$priceCode]["DISCOUNT_DIFF"];
 												$arItem["PRICES"][$priceCode]["PRINT_DISCOUNT_VALUE"] = $arItem["PRICES"][$priceCode]["PRINT_DISCOUNT_DIFF"];
-											}?>
+											}*/?>
 											<?\Aspro\Functions\CAsproItem::showItemPrices($arParams, $arItem["PRICES"], $strMeasure, $min_price_id);?>
 										<?}?>
 									</div>
@@ -247,7 +268,7 @@
 										<div class="counter_wrapp <?=($arItem["OFFERS"] && $arParams["TYPE_SKU"] == "TYPE_1" ? 'woffers' : '')?>">
 											<?if(($arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] && $arAddToBasketData["ACTION"] == "ADD") && $arAddToBasketData["CAN_BUY"]):?>
 												<div class="counter_block" data-offers="<?=($arItem["OFFERS"] ? "Y" : "N");?>" data-item="<?=$arItem["ID"];?>">
-													<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>">-</span>
+													<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>" <?=isset($arAddToBasketData["SET_MIN_QUANTITY_BUY"]) && $arAddToBasketData["SET_MIN_QUANTITY_BUY"] ? "data-min='".$arAddToBasketData["MIN_QUANTITY_BUY"]."'" : "";?>>-</span>
 													<input type="text" class="text" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY']; ?>" name="<? echo $arParams["PRODUCT_QUANTITY_VARIABLE"]; ?>" value="<?=$arAddToBasketData["MIN_QUANTITY_BUY"]?>" />
 													<span class="plus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_UP']; ?>" <?=($arAddToBasketData["MAX_QUANTITY_BUY"] ? "data-max='".$arAddToBasketData["MAX_QUANTITY_BUY"]."'" : "")?>>+</span>
 												</div>

@@ -1,9 +1,10 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <?
+$CScorp = new CScorp;
 $this->setFrameMode(true);
 if($arParams["DISPLAY_PICTURE"] != "N"){
 	$picture = ($arResult["FIELDS"]["DETAIL_PICTURE"] ? "DETAIL_PICTURE" : "PREVIEW_PICTURE");
-	CScorp::getFieldImageData($arResult, array($picture));
+	$CScorp->getFieldImageData($arResult, array($picture));
 	$arPhoto = $arResult[$picture];
 	if($arPhoto){
 		$arImgs[] = array(
@@ -13,7 +14,7 @@ if($arParams["DISPLAY_PICTURE"] != "N"){
 			'ALT' => (strlen($arPhoto['DESCRIPTION']) ? $arPhoto['DESCRIPTION'] : (strlen($arPhoto['ALT']) ? $arPhoto['ALT'] : $arResult['NAME'])),
 		);
 	}
-	/*if($arResult["PROPERTIES"]["GALLERY"]["VALUE"]){
+	/*if($arResult["PROPERTIES"]["GALLERY"]["VALUE"]){ 
 		foreach($arResult["PROPERTIES"]["GALLERY"]["VALUE"] as $arImg){
 			$arImgs[] = array(
 				'DETAIL' => ($arPhoto = CFile::GetFileArray($arImg)),
@@ -25,6 +26,7 @@ if($arParams["DISPLAY_PICTURE"] != "N"){
 	}*/
 }
 ?>
+
 <div class="detail <?=($templateName = $component->{"__parent"}->{"__template"}->{"__name"})?>">
 	<article>
 		<?// images?>
@@ -176,37 +178,64 @@ ob_end_clean();
 					</div>
 				<?endif;?>
 				
+				<?php // lightgallery
+				$prop_name = 'CERTIFICATS'; // ignore in -  display properties 
+				if(!empty($arResult['PROPERTIES']['CERTIFICATS']['VALUE'])){ ?>
+
+					<div id="lightgallery">
+						<?php
+						foreach($arResult['PROPERTIES'][$prop_name]['VALUE'] as $id){
+							$file = CFile::ResizeImageGet($id, ['width'=>300, 'height'=>200], BX_RESIZE_IMAGE_PROPORTIONAL );
+							$path = CFile::GetPath($id);
+							?>
+							<a class="fancybox elem" rel="cert_<?=$arResult["ID"]?>" href="<?=$path?>" data-src="<?=$path?>">
+								<img src="<?=$file["src"]?>" alt="Сертификат <?=$arResult["NAME"]?>" />
+							</a>
+						<?php } ?>
+					</div>
+
+				<?php } ?>
+			
 				<?// display properties?>
 				<?if($arResult["DISPLAY_PROPERTIES"]):?>
 					<div class="properties">
 						<?foreach($arResult["DISPLAY_PROPERTIES"] as $PCODE => $arProperty):?>
-							<div class="property">
-								<?if($arProperty["XML_ID"]):?>
-									<i class="fa <?=$arProperty["XML_ID"]?>"></i>&nbsp;
-								<?else:?>
-									<?=$arProperty["NAME"]?>:&nbsp;
-								<?endif;?>
-								<?if(is_array($arProperty["DISPLAY_VALUE"])):?>
-									<?$val = implode("&nbsp;/ ", $arProperty["DISPLAY_VALUE"]);?>
-								<?else:?>
-									<?$val = $arProperty["DISPLAY_VALUE"];?>
-								<?endif;?>
-								<?if($PCODE == "SITE"):?>
-									<!--noindex-->
-									<?=str_replace("href=", "rel='nofollow' target='_blank' href=", $val);?>
-									<!--/noindex-->
-								<?elseif($PCODE == "EMAIL"):?>
-									<a href="mailto:<?=$val?>"><?=$val?></a>
-								<?else:?>
-									<?=$val?>
-								<?endif;?>
-							</div>
+							<?php if($PCODE !== $prop_name): ?>
+								<div class="property">
+									<?if($arProperty["XML_ID"]):?>
+										<i class="fa <?=$arProperty["XML_ID"]?>"></i>&nbsp;
+									<?else:?>
+										<?=$arProperty["NAME"]?>:&nbsp;
+									<?endif;?>
+									<?if(is_array($arProperty["DISPLAY_VALUE"])):?>
+										<?$val = implode("&nbsp;/ ", $arProperty["DISPLAY_VALUE"]);?>
+									<?else:?>
+										<?$val = $arProperty["DISPLAY_VALUE"];?>
+									<?endif;?>
+									<?if($PCODE == "SITE"):?>
+										<!--noindex-->
+										<?=str_replace("href=", "rel='nofollow' target='_blank' href=", $val);?>
+										<!--/noindex-->
+									<?elseif($PCODE == "EMAIL"):?>
+										<a href="mailto:<?=$val?>"><?=$val?></a>
+									<?else:?>
+										<?=$val?>
+									<?endif;?>
+								</div>
+							<?endif;?>
 						<?endforeach;?>
 					</div>
 				<?endif;?>
 			</div>
 		</div>
+
+
+
+
 	</article>
+
+
+
 	<div class="order-block">
 		<div class="row">
 			<div class="col-md-6 col-sm-6 col-xs-12 valign">
@@ -227,6 +256,11 @@ ob_end_clean();
 			</div>
 		</div>
 	</div>
+
+
+
+
+
 </div>
 
 <div class="hidden-md hidden-sm hidden-lg">

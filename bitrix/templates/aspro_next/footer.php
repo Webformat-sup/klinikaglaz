@@ -68,6 +68,7 @@
 		</div>
 		<?CNext::ShowPageType('search_title_component');?>
 		<?CNext::setFooterTitle();
+		CNext::bottomActions();
 		CNext::showFooterBasket();?>
 	</body>
 </html>

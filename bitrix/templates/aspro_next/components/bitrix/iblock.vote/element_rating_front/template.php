@@ -1,15 +1,13 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<?$frame = $this->createFrame()->begin();?>
 <?
-if($arParams["DISPLAY_AS_RATING"] == "vote_avg")
-{
-	if($arResult["PROPERTIES"]["vote_count"]["VALUE"])
-		$DISPLAY_VALUE = round($arResult["PROPERTIES"]["vote_sum"]["VALUE"]/$arResult["PROPERTIES"]["vote_count"]["VALUE"], 2);
-	else
-		$DISPLAY_VALUE = 0;
+if($arParams["DISPLAY_AS_RATING"] == "vote_avg"){
+	$DISPLAY_VALUE = $arResult["PROPERTIES"]["vote_count"]["VALUE"] > 0 && $arResult["PROPERTIES"]["vote_sum"]["VALUE"] > 0
+		? round($arResult["PROPERTIES"]["vote_sum"]["VALUE"]/$arResult["PROPERTIES"]["vote_count"]["VALUE"], 2)
+		: 0;
 }
-else
+else {
 	$DISPLAY_VALUE = $arResult["PROPERTIES"]["rating"]["VALUE"];
+}
 ?>
 
 <??>

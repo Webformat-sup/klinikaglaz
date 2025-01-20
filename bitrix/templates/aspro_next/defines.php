@@ -1,7 +1,7 @@
 <?
 global $is404, $isIndex, $isForm, $isWidePage, $isBlog, $isHideLeftBlock, $isShowTopAdvBottomBanner, $isShowFloatBanner, $isShowTizers, $isShowSale,
 $isShowBottomBanner, $isShowCompany, $isShowBrands, $isShowCatalogSections, $isShowCatalogElements, $isShowIndexLeftBlock, $isShowMiddleAdvBottomBanner, $isShowBlog,
-$bInstagrammIndex;
+$bInstagrammIndex, $bVKIndex, $bShowHeaderSimple, $isShowReviews;
 $is404 = (defined("ERROR_404") && ERROR_404 === "Y");
 $isIndex = CNext::IsMainPage();
 $isForm = CNext::IsFormPage();
@@ -22,8 +22,13 @@ $isShowBrands = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["BRANDS"]["VAL
 $isShowCatalogSections = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["CATALOG_SECTIONS"]["VALUE"] != "N");
 $isShowCatalogElements = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["CATALOG_TAB"]["VALUE"] != "N");
 $isShowBlog = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["BLOG"]["VALUE"] != "N");
-$isShowBlog = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["BLOG"]["VALUE"] != "N");
+$isShowReviews = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["REVIEWS"]["VALUE"] != "N");
 $bInstagrammIndex = (isset($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["INSTAGRAMM"]["VALUE"]) ? $arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["INSTAGRAMM"]["VALUE"] != "N" : true);
+$bVKIndex = (isset($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["VK"]["VALUE"]) ? $arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["VK"]["VALUE"] !== "N" : true);
+$isShowMap = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["MAP"]["VALUE"] != "N");
+
+
+$bShowHeaderSimple = $bShowFooterSimple = ( CSite::InDir($arTheme['BASKET_PAGE_URL']['VALUE']) || CSite::InDir($arTheme['ORDER_PAGE_URL']['VALUE']) ) && $arTheme['SIMPLE_BASKET']['VALUE'] == 'Y';
 
 global $arRegion;
 if($isIndex)

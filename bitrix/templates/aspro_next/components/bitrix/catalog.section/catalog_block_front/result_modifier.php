@@ -13,6 +13,13 @@ $arDefaultParams = array(
 );
 $arParams = array_merge($arDefaultParams, $arParams);
 
+if(isset($arParams['STORES'])) {
+	foreach($arParams['STORES'] as $key => $store) {
+		if(!$store) {
+			unset($arParams['STORES'][$key]);
+		}
+	}
+}
 
 if ('TYPE_1' !== $arParams['TYPE_SKU'] )
 	$arParams['TYPE_SKU'] = 'N';
@@ -40,6 +47,13 @@ if (empty($arParams['OFFER_TREE_PROPS']) && isset($arParams['OFFERS_CART_PROPERT
 if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["DISPLAY_COMPARE"] = 'N';
 /**/
+
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
+/*stores product*/
+$arStores=CNextCache::CCatalogStore_GetList(array(), array("ACTIVE" => "Y"), false, false, array());
+$arResult["STORES_COUNT"] = (count($arStores) && (CNext::GetFrontParametrValue("USE_STORE_QUANTITY")== "Y"));
 
 if (!empty($arResult['ITEMS'])){
 	$arConvertParams = array();
@@ -140,8 +154,10 @@ if (!empty($arResult['ITEMS'])){
 					unset($arOffer);
 				}
 			}
-			CIBlockPriceTools::getTreePropertyValues($arSKUPropList, $arNeedValues);
-			$arSKUPropIDs = array_keys($arSKUPropList);
+			if(is_array($arNeedValues) && count($arNeedValues)>0){
+				CIBlockPriceTools::getTreePropertyValues($arSKUPropList, $arNeedValues);
+				$arSKUPropIDs = array_keys($arSKUPropList);
+			}
 
 			if (empty($arSKUPropIDs))
 				$arParams['TYPE_SKU'] = 'N';
@@ -151,6 +167,7 @@ if (!empty($arResult['ITEMS'])){
 	}
 
 	$arNewItemsList = array();
+	$firstSkuOption = \CNext::GetFrontParametrValue("SHOW_FIRST_SKU_PICTURE") == "Y";
 	foreach ($arResult['ITEMS'] as $key => $arItem)
 	{
 
@@ -178,6 +195,12 @@ if (!empty($arResult['ITEMS'])){
 		$arItem['CATALOG'] = false;
 		if (!isset($arItem['CATALOG_SUBSCRIPTION']) || 'Y' != $arItem['CATALOG_SUBSCRIPTION'])
 			$arItem['CATALOG_SUBSCRIPTION'] = 'N';
+
+		if(($arItem['DETAIL_PICTURE'] && $arItem['PREVIEW_PICTURE']) || (!$arItem['DETAIL_PICTURE'] && $arItem['PREVIEW_PICTURE']))
+			$arItem['DETAIL_PICTURE'] = $arItem['PREVIEW_PICTURE'];
+
+		$arItem['GALLERY'] = CNext::getSliderForItemExt($arItem, $arParams['ADD_PICT_PROP'], 'Y' == $arParams['ADD_DETAIL_TO_GALLERY_IN_LIST']);
+		array_splice($arItem['GALLERY'], $arParams['MAX_GALLERY_ITEMS']);
 
 		if ($arResult['MODULES']['catalog'])
 		{
@@ -217,6 +240,11 @@ if (!empty($arResult['ITEMS'])){
 				$arTmpProps["HIT"]=$arItem["PROPERTIES"]["HIT"];
 			if(isset($arItem["PROPERTIES"][$arParams["SALE_STIKER"]]))
 				$arTmpProps[$arParams["SALE_STIKER"]]=$arItem["PROPERTIES"][$arParams["SALE_STIKER"]];
+			if(isset($arItem["PROPERTIES"]["EXTENDED_REVIEWS_COUNT"]))
+				$arTmpProps["EXTENDED_REVIEWS_COUNT"]=$arItem["PROPERTIES"]["EXTENDED_REVIEWS_COUNT"];
+			if(isset($arItem["PROPERTIES"]["EXTENDED_REVIEWS_RAITING"]))
+				$arTmpProps["EXTENDED_REVIEWS_RAITING"]=$arItem["PROPERTIES"]["EXTENDED_REVIEWS_RAITING"];
+
 			unset($arItem["PROPERTIES"]);
 			$arItem["PROPERTIES"]=$arTmpProps;
 			unset($arTmpProps);
@@ -225,7 +253,6 @@ if (!empty($arResult['ITEMS'])){
 
 		if ($arItem['CATALOG'] && isset($arItem['OFFERS']) && !empty($arItem['OFFERS']))
 		{
-
 			$arMatrixFields = $arSKUPropKeys;
 			$arMatrix = array();
 
@@ -455,10 +482,19 @@ if (!empty($arResult['ITEMS'])){
 					{
 						if(function_exists('CatalogGetPriceTableEx') && (isset($arOffer['PRICE_MATRIX'])) && !$arOffer['PRICE_MATRIX'] && $arPriceTypeID)
 						{
-							$arOffer["PRICE_MATRIX"] = CatalogGetPriceTableEx($arOffer["ID"], 0, $arPriceTypeID, 'Y', $arConvertParams);
-							if(count($arOffer['PRICE_MATRIX']['ROWS']) <= 1)
-							{
-								$arOffer['PRICE_MATRIX'] = '';
+							if(
+								$intSelected == $keyOffer ||
+								(
+									$keyOffer == 0 &&
+									!$arItem['OFFERS_SELECTED']
+								)
+							) {
+
+								$arOffer["PRICE_MATRIX"] = CatalogGetPriceTableEx($arOffer["ID"], 0, $arPriceTypeID, 'Y', $arConvertParams);
+								if(count($arOffer['PRICE_MATRIX']['ROWS']) <= 1)
+								{
+									$arOffer['PRICE_MATRIX'] = '';
+								}
 							}
 						}
 						$arOffer = array_merge($arOffer, CNext::formatPriceMatrix($arOffer));
@@ -520,6 +556,21 @@ if (!empty($arResult['ITEMS'])){
 						$arOneRow["PRICE"]["DISCOUNT_DIFF_PERCENT_RAW"]="-".$percent."%";
 					}
 					$arMatrix[$keyOffer] = $arOneRow;
+
+					if(($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']))
+						$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
+
+					if ($arParams['GALLERY_ITEM_SHOW'] == 'Y') {
+						$arItem['OFFERS'][$keyOffer]['GALLERY'] = CNext::getSliderForItemExt($arOffer, $arParams['OFFER_ADD_PICT_PROP'], true);
+
+						if ($arItem['GALLERY']) {
+							$arItem['OFFERS'][$keyOffer]['GALLERY'] = array_merge($arItem['OFFERS'][$keyOffer]['GALLERY'], $arItem['GALLERY']);
+						}
+						if ($arItem['OFFERS'][$keyOffer]['GALLERY']) {
+							array_splice($arItem['OFFERS'][$keyOffer]['GALLERY'], $arParams['MAX_GALLERY_ITEMS']);
+							array_splice($arItem['GALLERY'], $arParams['MAX_GALLERY_ITEMS']);
+						}
+					}
 				}
 
 				if (-1 == $intSelected){
@@ -534,6 +585,22 @@ if (!empty($arResult['ITEMS'])){
 				$arItem['JS_OFFERS'] = $arMatrix;
 				$arItem['OFFERS_SELECTED'] = $intSelected;
 				$arItem['OFFERS_PROPS_DISPLAY'] = $boolSKUDisplayProperties;
+			}
+
+			$arFirstSkuPicture = array();
+			$bNeedFindPicture = (($arParams['GALLERY_ITEM_SHOW'] == 'Y') && empty($arItem['GALLERY']) && $firstSkuOption );
+			if( $bNeedFindPicture ){
+				foreach ($arItem['OFFERS'] as $keyOffer => $arOffer)
+				{
+					if(($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']))
+						$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
+
+					$arFirstSkuPicture = CNext::getSliderForItemExt($arOffer, '', true);
+					if(!empty( $arFirstSkuPicture )){
+						$arItem['GALLERY'] = $arFirstSkuPicture;
+						break;
+					}
+				}
 			}
 
 			// get MIN_PRICE

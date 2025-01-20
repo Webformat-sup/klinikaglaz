@@ -131,9 +131,12 @@
 	<div class="row chars">
 		<div class="col-md-12">
 			<div class="char-wrapp">
-				<table class="props_table">
+				<table class="props_table code">
 				<?foreach($arResult['DISPLAY_PROPERTIES']['PRICE']['VALUE'] as $arValue){?>
 					<tr class="char">
+						<td class="char_name char_code">
+							<span><?=$arResult['PRICES'][$arValue]['PROPERTY_SERVICE_CODE_VALUE']?></span>
+						</td>
 						<td class="char_name">
 							<span><?=$arResult['PRICES'][$arValue]['NAME']?>
 							<?if($arResult['PRICES'][$arValue]['PREVIEW_TEXT']){?>
@@ -145,8 +148,7 @@
 								<span>
 									<?=$arResult['PRICES'][$arValue]['PROPERTY_PRICE_VALUE']?><br />
 									(взрослые)
-								</span>
-								
+								</span>								
 							<?}?>	
 							<?if(!empty($arResult['PRICES'][$arValue]['PROPERTY_PRICE_KIDS_VALUE'])){?>
 								<span>
@@ -272,6 +274,109 @@
 	</div>
 <?endif;?>
 
+
+	<?
+	$bannersIds = CIBlockSection::GetList(
+		false,array('IBLOCK_ID'=>'13','ID'=>$arResult['IBLOCK_SECTION_ID']),false,array('ID','UF_BANNERS')
+	)->Fetch()['UF_BANNERS'];
+	if($bannersIds){
+		global $serviceBanners;
+		$serviceBanners = ['ID' => $bannersIds];
+		?>
+		<?$APPLICATION->IncludeComponent(
+				"bitrix:news.list", 
+				"section-banners", 
+				array(
+					// Основные параметры
+					"IBLOCK_TYPE" => "aspro_scorp_content",
+					"IBLOCK_ID" => "77",
+					"NEWS_COUNT" => "20",
+
+					// Источник данных
+					"SORT_BY1" => "SORT",
+					"SORT_ORDER1" => "ASC",
+					"SORT_BY2" => "ID",
+					"SORT_ORDER2" => "ASC",
+					"FILTER_NAME" => "serviceBanners",
+					"FIELD_CODE" => array( // Указываются поля, которые будут отображены на странице
+						0 => "NAME",
+						1 => "PREVIEW_TEXT",
+						2 => ""
+					),
+					"PROPERTY_CODE" => array(
+						0=>'LINK'
+					),
+					"CHECK_DATES" => "Y", // [Y|N] показ только активные на данный момент элементы.
+
+					// Шаблоны ссылок
+					"DETAIL_URL" => "",
+
+					// Управление режимом AJAX
+					"AJAX_MODE" => "N",
+					"AJAX_OPTION_JUMP" => "N", // [Y|N] по окончании загрузки произойдет прокрутка к началу компонента.
+					"AJAX_OPTION_STYLE" => "N", // [Y|N] при совершении AJAX-переходов, подгрузка и обработка стилей, вызванных компонентом.
+					"AJAX_OPTION_HISTORY" => "N",
+
+					// Настройки кеширования
+					"CACHE_TYPE" => "A", 
+					"CACHE_TIME" => "0", //"3600000",
+					"CACHE_FILTER" => "Y",
+					"CACHE_GROUPS" => "N",
+
+					// Дополнительные настройки
+					// При передаче символьного кода раздела (SECTION_CODE) выполняется дополнительная проверка на принадлежность раздела к инфоблоку, 
+					// указанному в параметре IBLOCK_ID и активность с учетом вышележащих разделов. 
+					// При передаче идентификатора раздела (SECTION_ID) такая проверка не производится.
+					"PARENT_SECTION" => "",
+					"PARENT_SECTION_CODE" => "",
+
+					"PREVIEW_TRUNCATE_LEN" => "",
+					"ACTIVE_DATE_FORMAT" => "j F Y",
+					"SET_TITLE" => "N",
+					"SET_BROWSER_TITLE" => "N",
+					"SET_META_KEYWORDS" => "N",
+					"SET_META_DESCRIPTION" => "N",
+					"SET_LAST_MODIFIED" => "N", // 	[Y|N] http-ответ сервера будет содержать время последнего изменения страницы
+					"SET_STATUS_404" => "N",
+					"INCLUDE_IBLOCK_INTO_CHAIN" => "N", // [Y|N] в цепочку навигации будет добавлено имя инфоблока
+					"ADD_SECTIONS_CHAIN" => "N", // [Y|N] при переходе по разделам ифоблока в цепочку навигации будут добавлены названия разделов
+					"HIDE_LINK_WHEN_NO_DETAIL" => "N", // [Y|N] ссылки будут скрыты, если нет детальной информации или прав 
+
+					"INCLUDE_SUBSECTIONS" => "N", // [Y|N] При отмеченной опции будут отображены элементы подразделов раздела.
+					"DISPLAY_DATE" => "N", // [Y|N] будут выведены даты элементов.
+					"DISPLAY_NAME" => "Y", // [Y|N] для каждого элемента будет выведено его название.
+					"DISPLAY_PICTURE" => "N", // [Y|N] выведены изображения для элемента, если они заданы.
+					"DISPLAY_PREVIEW_TEXT" => "Y", // [Y|N] выведен текст анонса для элементов, если он определен.
+
+					// Настройки постраничной навигации
+					"PAGER_TEMPLATE" => "ajax", // название шаблона постраничной навигации.
+					"DISPLAY_TOP_PAGER" => "N", // [Y|N] постраничная навигация будет выведена вверху страницы, над списком.
+					"DISPLAY_BOTTOM_PAGER" => "N", // [Y|N] постраничная навигация будет выведена внизу страницы, под списком.
+					"PAGER_TITLE" => "",
+					"PAGER_SHOW_ALWAYS" => "N",
+					"PAGER_DESC_NUMBERING" => "N",
+					"PAGER_DESC_NUMBERING_CACHE_TIME" => "3600000",
+					"PAGER_SHOW_ALL" => "N",
+					"PAGER_BASE_LINK_ENABLE" => "N",
+
+					// Настройки 404 ошибки
+					"SHOW_404" => "N", // [Y|N] показана специальная страница
+					"SET_STATUS_404" => "N", // [Y|N] Опция служит для включения обработки ошибки 404 в компоненте.
+					"MESSAGE_404" => "",
+					"STRICT_SECTION_CHECK" => "N", // [Y|N] Не выводить элементы если раздел не существует
+
+					"AJAX_OPTION_ADDITIONAL" => "",
+					"COMPONENT_TEMPLATE" => "section-banners",
+
+				),
+				$component,
+				array(
+					"HIDE_ICONS" => $isAjax
+				)
+		);?>
+	<?}?>
+
+
 <?// gallery?>
 <?if($arResult['GALLERY']):?>
 	<div class="wraps">
@@ -379,3 +484,21 @@ $frame->setAnimation(true);
 	</div>
 <?endif;?>
 <?$frame->end();?>
+
+<?php
+// $iblockId = $arResult['IBLOCK_ID'];
+// $elementId = $arResult['ID'];
+
+// if($iblockId && $elementId)
+// {
+// 		$ipropElementValues = new \Bitrix\Iblock\InheritedProperty\ElementValues($iblockId,$elementId);
+// 		$seoPropValue = $ipropElementValues->getValues();
+
+// 		$detailPathElement = $_SERVER['SERVER_NAME'] . $arResult['DETAIL_PAGE_URL'];
+// 		$nameElement = $arResult['NAME'];
+// 		$descElement = $seoPropValue['ELEMENT_META_DESCRIPTION'];
+
+// 		$mictoFormatJson = stringMicromarkingJson($detailPathElement, $descElement, $nameElement, 1);
+// 		$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+// }
+?>

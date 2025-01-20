@@ -20,7 +20,8 @@ $this->setFrameMode(true);
 						$catalogDir,
 						$arItem['PROPERTIES']['URL_CONDITION']['VALUE'],
 						$arItem['PROPERTIES']['REDIRECT_URL']['VALUE'],
-						$arItem['PROPERTIES']['QUERY']['VALUE']
+						$arItem['PROPERTIES']['QUERY']['VALUE'],
+						$arItem['ID']
 					);
 
 					++$i;

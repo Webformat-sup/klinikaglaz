@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("АБ");?><a href="http:///meditsinskiy-slovar/ab/gerpeticheskiy-keratit/">Герпетический кератит</a>
+$APPLICATION->SetTitle("АБ");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву Г");?><a href="http:///meditsinskiy-slovar/ab/gerpeticheskiy-keratit/">Герпетический кератит</a>
 <p>
  <a href="http:///meditsinskiy-slovar/ab/giperkorrektsiya/">Гиперкоррекция</a>
 </p>

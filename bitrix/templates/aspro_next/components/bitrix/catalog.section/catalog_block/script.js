@@ -50,22 +50,28 @@ $(document).ready(function(){
 			url: arNextOptions['SITE_DIR']+'ajax/js_item_detail.php'+add_url,
 			type: 'POST',
 			data: obParams,
-		}).success(function(html){
-			var ob = BX.processHTML(html);BX.ajax.processScripts(ob.SCRIPT);
+			success: function(html){
+				var ob = BX.processHTML(html);BX.ajax.processScripts(ob.SCRIPT);
+			},
 		})
 	}
 	$(document).on('click', '.bx_catalog_item_scu li.item', SelectOfferProp)
-})
+});
 
-sliceItemBlock = function(){
-	$('.catalog_block .catalog_item_wrapp .catalog_item .item-title').sliceHeight({mobile: true});
-	$('.catalog_block .catalog_item_wrapp .catalog_item .cost').sliceHeight({mobile: true});
-	$('.catalog_block .catalog_item_wrapp .item_info').sliceHeight({mobile: true});
-	if(isMobile)
-		$('.catalog_block .catalog_item_wrapp .footer_button .sku_props').sliceHeight({mobile: true});
-	$('.catalog_block .catalog_item_wrapp').sliceHeight({classNull: '.footer_button', mobile: true});
+if(!funcDefined("sliceItemBlock")){
+	sliceItemBlock = function(){	
+		/*
+		$('.catalog_block .catalog_item_wrapp .catalog_item .item-title').sliceHeight({mobile: true});
+		$('.catalog_block .catalog_item_wrapp .catalog_item .cost').sliceHeight({mobile: true});
+		$('.catalog_block .catalog_item_wrapp .item_info').sliceHeight({mobile: true});
+		if(isMobile)
+			$('.catalog_block .catalog_item_wrapp .footer_button .sku_props').sliceHeight({mobile: true});
+		$('.catalog_block .catalog_item_wrapp').sliceHeight({classNull: '.footer_button', mobile: true});
+		*/
+	}
 }
 
+/*
 BX.addCustomEvent(window, "onAjaxSuccess", function(eventdata){
 	if(typeof eventdata !== 'undefined' && typeof eventdata !== 'string'  && eventdata !== null)
 	{
@@ -79,7 +85,8 @@ BX.addCustomEvent(window, "onAjaxSuccess", function(eventdata){
 			}, 100);
 		}
 	}
-});
+}
+*/
 
 (function (window) {
 if (!window.JCCatalogSectionOnlyElement)
@@ -1524,6 +1531,7 @@ window.JCCatalogSection.prototype.setBuyBlock = function(th, obj)
 		$(this.obProduct).find('.item-title a').html(obj.NAME);
 	}
 
+	/*
 	if('init_type' in this && this.init_type == 'click')
 	{
 		$('.catalog_block .catalog_item_wrapp .catalog_item .item-title').sliceHeight({resize: false, mobile: true});
@@ -1531,6 +1539,7 @@ window.JCCatalogSection.prototype.setBuyBlock = function(th, obj)
 		$('.catalog_block .catalog_item_wrapp .item_info').sliceHeight({resize: false, mobile: true});
 		$('.catalog_block .catalog_item_wrapp').sliceHeight({classNull: '.footer_button', resize: false, mobile: true});
 	}
+	*/
 }
 
 /*get compare sku*/

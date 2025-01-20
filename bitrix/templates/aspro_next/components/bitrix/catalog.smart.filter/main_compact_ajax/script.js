@@ -79,6 +79,26 @@ $(document).ready(function(){
 		var bActive = tooltipWrapp.is('.active');
 		$('.bx_filter .hint.active').removeClass("active").find(".tooltip").slideUp(200);
 		if(!bActive){
+
+			/////
+			//need for resolve problem when hint goes off-screen
+			if($(this).parents("#mobilefilter").length){
+				var leftPosHint = tooltipWrapp[0].getBoundingClientRect().left,
+				mobFilterWidth = $('#mobilefilter').width(),
+				rightOfset = mobFilterWidth - leftPosHint;
+				
+				if(rightOfset < 200 ){
+					var tooltip = tooltipWrapp.find(".tooltip");
+					if(rightOfset > 100){
+						tooltip.css('left', -(200 - rightOfset) - 10);
+					} else {
+						tooltip.css('left', 'auto');
+						tooltip.css('right', -20);
+					}
+				}
+			}
+			/////
+			
 			tooltipWrapp.addClass("active").find(".tooltip").slideDown(200);
 			tooltipWrapp.find(".tooltip_close").click(function(e) { e.stopPropagation(); tooltipWrapp.removeClass("active").find(".tooltip").slideUp(200);});
 		}
@@ -333,7 +353,7 @@ JCSmartFilter.prototype.setUrlSortDisplay = function (url)
 	})
 }
 
-JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
+JCSmartFilter.prototype.filterCatalog = function (url, set_disabled, result)
 {
 	if(window.History.enabled || window.history.pushState != null){
 		window.History.pushState( null, document.title, decodeURIComponent(url) );
@@ -353,11 +373,13 @@ JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
 			$('.catalog_block').ready(function()
 			{
 				touchItemBlock('.catalog_item a');
+				/*
 				$('.catalog_block').equalize({children: '.catalog_item .cost', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item .item-title', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item .counter_block', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item .item_info', reset: true});
 				$('.catalog_block').equalize({children: '.catalog_item_wrapp', reset: true});
+				*/
 			});
 
 			if(window.matchMedia('(max-width: 992px)').matches)
@@ -373,7 +395,8 @@ JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
 
 
 			//setStatusButton();
-			BX.onCustomEvent('onAjaxSuccessFilter');
+			var eventdata = {action:'filterSuccess', result: result};
+			BX.onCustomEvent('onAjaxSuccessFilter', eventdata);
 
 			if(set_disabled=="Y"){
 				var set_filter = BX('set_filter'),
@@ -383,6 +406,7 @@ JCSmartFilter.prototype.filterCatalog = function (url, set_disabled)
 			}
 			// $('.countdown').countdown('destroy');
 			initCountdown();
+			showTotalSummItem();
 			//setStatusButton();
 		}
 	})
@@ -460,7 +484,7 @@ JCSmartFilter.prototype.postHandler = function (result, fromCache)
 				url = BX.util.htmlspecialcharsback(result.FILTER_AJAX_URL);
 				// BX.ajax.insertToNode(url+'?ajax_get=Y', "right_block_ajax");
 
-				this.filterCatalog(url, "N");
+				this.filterCatalog(url, "N", result);
 
 				/*ajax update filter catalog items end*/
 

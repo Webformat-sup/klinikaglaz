@@ -27,6 +27,7 @@
 			"PRICE_CODE" => ($arParams["USE_FILTER_PRICE"] == 'Y' ? $arParams["FILTER_PRICE_CODE"] : $arParams["PRICE_CODE"]),
 			"CACHE_TYPE" => $arParams["CACHE_TYPE"],
 			"CACHE_TIME" => $arParams["CACHE_TIME"],
+			"FILL_COMPACT_FILTER" => $arParams["FILL_COMPACT_FILTER"],
 			"CACHE_NOTES" => "",
 			"CACHE_GROUPS" => $arParams["CACHE_GROUPS"],
 			"SAVE_IN_SESSION" => "N",
@@ -45,6 +46,11 @@
 			"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 			"SORT_BUTTONS" => $arParams["SORT_BUTTONS"],
 			"SORT_PRICES" => $arParams["SORT_PRICES"],
+			"AVAILABLE_SORT" => $arAvailableSort,
+			"PROPS_NAME" => $propsInSortName,
+			"SORT" => $sort_raw,
+			"SORT_ORDER" => $sort_order,
+			"TOP_VERTICAL_FILTER_PANEL" => $arTheme["FILTER_VIEW"]['DEPENDENT_PARAMS']['TOP_VERTICAL_FILTER_PANEL']['VALUE'],
 		),
 		$component);
 	?>

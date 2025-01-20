@@ -1,26 +1,27 @@
 <?
 if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 $aMenuLinksExt = array();
-
-if($arMenuParametrs = CScorp::GetDirMenuParametrs(__DIR__)){
+$CScorp = new CScorp;
+$CCache = new CCache;
+if($arMenuParametrs = $CScorp->GetDirMenuParametrs(__DIR__)){
 	if($arMenuParametrs['MENU_SHOW_SECTIONS'] == 'Y'){
-		$arSections = CCache::CIBlockSection_GetList(array('SORT' => 'ASC', 'ID' => 'ASC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag(CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('IBLOCK_ID' => CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'));
-		$arSectionsByParentSectionID = CCache::GroupArrayBy($arSections, array('MULTI' => 'Y', 'GROUP' => array('IBLOCK_SECTION_ID')));
+		$arSections = $CCache->CIBlockSection_GetList(array('SORT' => 'ASC', 'ID' => 'ASC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('IBLOCK_ID' => $CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0], 'ACTIVE' => 'Y', 'GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y'));
+		$arSectionsByParentSectionID = $CCache->GroupArrayBy($arSections, array('MULTI' => 'Y', 'GROUP' => array('IBLOCK_SECTION_ID')));
 	}
 
 	if($arMenuParametrs['MENU_SHOW_ELEMENTS'] == 'Y'){
-		$arItems = CCache::CIBlockElement_GetList(array('SORT' => 'ASC', 'ID' => 'DESC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag(CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('IBLOCK_ID' => CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0], 'ACTIVE' => 'Y', 'SECTION_GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y', 'INCLUDE_SUBSECTIONS' => 'Y'));
+		$arItems = $CCache->CIBlockElement_GetList(array('SORT' => 'ASC', 'ID' => 'DESC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('IBLOCK_ID' => $CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0], 'ACTIVE' => 'Y', 'SECTION_GLOBAL_ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y', 'INCLUDE_SUBSECTIONS' => 'Y'));
 		if($arMenuParametrs['MENU_SHOW_SECTIONS'] == 'Y'){
-			$arItemsBySectionID = CCache::GroupArrayBy($arItems, array('MULTI' => 'Y', 'GROUP' => array('IBLOCK_SECTION_ID')));
+			$arItemsBySectionID = $CCache->GroupArrayBy($arItems, array('MULTI' => 'Y', 'GROUP' => array('IBLOCK_SECTION_ID')));
 		}
 		else{
-			$arItemsRoot = CCache::CIBlockElement_GetList(array('SORT' => 'ASC', 'ID' => 'DESC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag(CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('IBLOCK_ID' => CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0], 'ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y', 'SECTION_ID' => 0));
+			$arItemsRoot = $CCache->CIBlockElement_GetList(array('SORT' => 'ASC', 'ID' => 'DESC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0]), 'MULTI' => 'Y')), array('IBLOCK_ID' => $CCache::$arIBlocks[SITE_ID]['aspro_scorp_content']['aspro_scorp_projects'][0], 'ACTIVE' => 'Y', 'ACTIVE_DATE' => 'Y', 'SECTION_ID' => 0));
 			$arItems = array_merge((array)$arItems, (array)$arItemsRoot);
 		}
 	}
 
 	if($arSections){
-		CScorp::getSectionChilds(false, $arSections, $arSectionsByParentSectionID, $arItemsBySectionID, $aMenuLinksExt);
+		$CScorp->getSectionChilds(false, $arSections, $arSectionsByParentSectionID, $arItemsBySectionID, $aMenuLinksExt);
 	}
 
 	if($arItems && $arMenuParametrs['MENU_SHOW_SECTIONS'] != 'Y'){

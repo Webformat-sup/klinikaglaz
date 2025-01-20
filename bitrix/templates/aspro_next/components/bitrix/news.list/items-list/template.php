@@ -69,7 +69,7 @@
 									$imageSrc = ($bImage ? $arItem['PREVIEW_PICTURE']['SRC'] : SITE_TEMPLATE_PATH.'/images/noimage.png');
 									$imageDetailSrc = ($bImage ? $arItem['DETAIL_PICTURE']['SRC'] : false);
 									// show active date period
-									$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', $arParams['FIELD_CODE']));
+									$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', (array)$arParams['FIELD_CODE']));
 									?>
 
 									<?ob_start();?>
@@ -222,18 +222,18 @@
 									<?elseif($arParams['VIEW_TYPE'] == 'accordion'):?>
 										<div class="accordion-type-1">
 											<div class="item<?=($bImage ? '' : ' wti')?>" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
-												<div class="accordion-head accordion-close" data-toggle="collapse" data-parent="#accordion<?=$arSection['ID']?>" href="#accordion<?=$arItem['ID']?>_<?=$arSection['ID']?>">
+												<a class="accordion-head accordion-close" data-toggle="collapse" data-parent="#accordion<?=$arSection['ID']?>" href="#accordion<?=$arItem['ID']?>_<?=$arSection['ID']?>">
 													<span><?=$arItem['NAME']?><i class="fa fa-angle-down"></i></span>
-													<?if(in_array('PAY', $arParams['PROPERTY_CODE'])):?>
-														<div class="pay">
+													<?if(in_array('PAY', (array)$arParams['PROPERTY_CODE'])):?>
+														<span class="pay">
 															<?if($arItem['DISPLAY_PROPERTIES']['PAY']['VALUE']):?>
 																<?=GetMessage('PAY_ABOUT')?>&nbsp;<b><?=$arItem['DISPLAY_PROPERTIES']['PAY']['VALUE']?></b>
 															<?else:?>
 																<?=GetMessage('PAY_INTERVIEWS')?>
 															<?endif;?>
-														</div>
+														</span>
 													<?endif;?>
-												</div>
+												</a>
 												<div id="accordion<?=$arItem['ID']?>_<?=$arSection['ID']?>" class="panel-collapse collapse">
 													<div class="accordion-body">
 														<div class="row">

@@ -999,7 +999,8 @@
 
       // CAROUSEL:
       if (carousel) {
-        slider.itemT = slider.vars.itemWidth + slideMargin;
+        
+        slider.itemT = slider.vars.itemWidth + slideMargin; 
         slider.itemM = slideMargin;
         slider.minW = (minItems) ? minItems * slider.itemT : slider.w;
         slider.maxW = (maxItems) ? (maxItems * slider.itemT) - slideMargin : slider.w;
@@ -1007,8 +1008,9 @@
                        (slider.maxW < slider.w) ? (slider.w - (slideMargin * (maxItems - 1)))/maxItems :
                        (slider.vars.itemWidth > slider.w) ? slider.w : slider.vars.itemWidth;
 
-        //slider.visible = Math.floor(slider.w / slider.itemW); // -- removed by kach
-        slider.visible = Math.floor((slider.itemT > slider.itemW ? slider.w + slider.itemM : slider.w)/(slider.itemT > slider.itemW ? slider.itemT : slider.itemW)); // ++ added by kach
+        slider.visible = Math.floor(slider.w / slider.itemW); // -- removed by kach (added for vertical viewed items)
+        // slider.visible = Math.floor((slider.itemT > slider.itemW ? slider.w + slider.itemM : slider.w)/(slider.itemT > slider.itemW ? slider.itemT : slider.itemW)); // ++ added by kach
+
         slider.move = (slider.vars.move > 0 && slider.vars.move < slider.visible ) ? slider.vars.move : slider.visible;
         slider.pagingCount = Math.ceil(((slider.count - slider.visible)/slider.move) + 1);
         slider.last =  slider.pagingCount - 1;

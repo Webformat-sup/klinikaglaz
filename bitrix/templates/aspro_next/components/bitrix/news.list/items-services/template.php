@@ -1,6 +1,11 @@
-<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
-<?$this->setFrameMode(true);?>
-<?use \Bitrix\Main\Localization\Loc;?>
+<?
+if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$this->setFrameMode(true);
+use \Bitrix\Main\Localization\Loc;
+
+$cntInLine = intval($arParams['COUNT_IN_LINE']) > 0 ? intval($arParams['COUNT_IN_LINE']) : 2;
+$colMd = ($cntInLine >= 3 ? 4 : ($cntInLine >= 2 ? 6 : 12));
+?>
 <?if($arResult['ITEMS']):?>
 	<div class="wraps">
 		<hr>
@@ -22,7 +27,7 @@
 					$imageDetailSrc = ($bImage ? $arItem['DETAIL_PICTURE']['SRC'] : false);
 					?>
 
-					<div class="col-md-6 nopadding">
+					<div class="col-md-<?=$colMd?> col-sm-12 col-xs-12 nopadding">
 						<div class="item shadow <?=(isset($arParams['IMG_PADDING']) && $arParams['IMG_PADDING'] == 'Y' ? 'padding-img' : '');?> <?=($bImage ? '' : ' wti')?> clearfix" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
 							<?if($bImage):?>
 								<div class="image <?=(isset($arParams['IMG_PADDING']) && $arParams['IMG_PADDING'] == 'Y' ? 'padding' : '');?>">

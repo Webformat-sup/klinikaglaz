@@ -55,7 +55,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 				</div>
 				<div class="top-block-item pull-right show-fixed top-ctrl">
 					<div class="basket_wrap twosmallfont">
-						<?CNext::ShowBasketWithCompareLink('', '');?>
+						<?CNext::ShowBasketWithCompareLink('', '', '', 'wrapp_top_icon');?>
 					</div>
 				</div>
 				<div class="top-block-item pull-right show-fixed top-ctrl">

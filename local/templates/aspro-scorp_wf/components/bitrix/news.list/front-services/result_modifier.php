@@ -1,4 +1,6 @@
 <?
+$CScorp = new CScorp();
+$CCache = new CCache();
 if($arParams['SHOW_SECTIONS'] !== 'N'){
 	// get all subsections of PARENT_SECTION or root sections
 	$cntSections = (isset($arParams['SECTIONS_COUNT']) && strlen($arParams['SECTIONS_COUNT'])) ? intval($arParams['SECTIONS_COUNT']) : 999;
@@ -17,12 +19,12 @@ if($arParams['SHOW_SECTIONS'] !== 'N'){
 	else{
 		$arSectionsFilter['DEPTH_LEVEL'] = 1;
 	}
-	if($arResult['SECTIONS'] = CCache::CIBLockSection_GetList(
+	if($arResult['SECTIONS'] = $CCache->CIBLockSection_GetList(
 		array(
 			'SORT' => 'ASC',
 			'NAME' => 'ASC',
 			'CACHE' => array(
-				'TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']),
+				'TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']),
 				'GROUP' => array('ID'),
 				'MULTI' => 'N'
 			)
@@ -45,7 +47,7 @@ if($arParams['SHOW_SECTIONS'] !== 'N'){
 		foreach($arResult['SECTIONS'] as $key => $arSection){
 			$ipropValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($arSection['IBLOCK_ID'], $arSection['ID']);
 			$arResult['SECTIONS'][$key]['IPROPERTY_VALUES'] = $ipropValues->getValues();
-			CScorp::getFieldImageData($arResult['SECTIONS'][$key], array('PICTURE'), 'SECTION');
+			$CScorp->getFieldImageData($arResult['SECTIONS'][$key], array('PICTURE'), 'SECTION');
 		}
 	}
 }
@@ -54,7 +56,7 @@ if($arParams['SHOW_GOODS'] !== 'N'){
 	// get goods with property SHOW_ON_INDEX_PAGE == Y
 	if($arResult['ITEMS']){
 		foreach($arResult['ITEMS'] as $i => $arItem){
-			CScorp::getFieldImageData($arResult['ITEMS'][$i], array('PREVIEW_PICTURE'));
+			$CScorp->getFieldImageData($arResult['ITEMS'][$i], array('PREVIEW_PICTURE'));
 			if($arItem['PROPERTIES']['SHOW_ON_INDEX_PAGE']['VALUE_XML_ID'] !== 'YES'){
 				unset($arResult['ITEMS'][$i]);
 				unset($arResult['ELEMENTS'][$i]);
@@ -67,10 +69,10 @@ if($arParams['SHOW_GOODS'] !== 'N'){
 		// get good`s section name
 		if($arGoodsSectionsIDs){
 			$arGoodsSectionsIDs = array_unique($arGoodsSectionsIDs);
-			if($arGoodsSections = CCache::CIBLockSection_GetList(
+			if($arGoodsSections = $CCache->CIBLockSection_GetList(
 				array(
 					'CACHE' => array(
-						'TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']),
+						'TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']),
 						'GROUP' => array('ID'),
 						'MULTI' => 'N',
 						'RESULT' => array('NAME')

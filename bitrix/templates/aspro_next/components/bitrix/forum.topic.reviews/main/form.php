@@ -21,6 +21,9 @@ $iMessageCount = $arResult['NAV_RESULT']->NavRecordCount;
 		<div class="reviews-collapse reviews-minimized">
 			<span class="reviews-collapse-link btn btn-default" id="sw<?=$arParams["FORM_ID"]?>"><i></i><span><?=$arParams['MINIMIZED_EXPAND_TEXT']?></span></span>
 		</div>
+		<?$this->SetViewTarget('PRODUCT_REVIEWS_COUNT_INFO');?>
+            (<?=$iMessageCount?>)
+        <?$this->EndViewTarget();?>
 	<?endif;
 }
 ?>
@@ -39,6 +42,7 @@ endif;
 <div class="reviews-reply-form" <?=(($arParams['SHOW_MINIMIZED'] == "Y" && !$iMessageCount) ? 'style="display:none;"' : '' )?>>
 <form name="<?=$arParams["FORM_ID"] ?>" id="<?=$arParams["FORM_ID"]?>" action="<?=POST_FORM_ACTION_URI?>#postform"<?
 ?> method="POST" enctype="multipart/form-data" class="reviews-form">
+<?//print_r($arResult);?>
 <script type="text/javascript">
 	BX.ready(function(){
 		BX.Forum.Init({
@@ -49,7 +53,8 @@ endif;
 			pageCount : <?=intval($arResult['PAGE_COUNT']);?>,
 			bVarsFromForm : '<?=$arParams["bVarsFromForm"]?>',
 			ajaxPost : '<?=$arParams["AJAX_POST"]?>',
-			lheId : 'REVIEW_TEXT'
+			lheId : 'REVIEW_TEXT<?=implode("",array_keys($arResult["MESSAGES"]))?>'
+			// lheId : 'REVIEW_TEXT'
 		});
 		<? if ($arParams['SHOW_MINIMIZED'] == "Y")
 		{
@@ -82,8 +87,10 @@ endif;
 	<input type="hidden" name="AJAX_POST" value="<?=$arParams["AJAX_POST"]?>" />
 	<?=bitrix_sessid_post()?>
 	<?
+	/*
 	if ($arParams['AUTOSAVE'])
 		$arParams['AUTOSAVE']->Init();
+	*/
 	?>
 	<div style="position:relative; display: block; width:100%;">
 		<?
@@ -93,8 +100,8 @@ endif;
 			<div class="reviews-reply-fields">
 				<div class="reviews-reply-field-user">
 					<div class="reviews-reply-field reviews-reply-field-author"><label for="REVIEW_AUTHOR<?=$arParams["form_index"]?>"><?=GetMessage("OPINIONS_NAME")?><?
-							?><span class="reviews-required-field">*</span></label>
-						<span><input name="REVIEW_AUTHOR" id="REVIEW_AUTHOR<?=$arParams["form_index"]?>" size="30" type="text" value="<?=$arResult["REVIEW_AUTHOR"]?>" tabindex="<?=$tabIndex++;?>" /></span></div>
+							?><span class="reviews-required-field star">*</span></label>
+						<span><input name="REVIEW_AUTHOR" id="REVIEW_AUTHOR<?=$arParams["form_index"]?>" size="30" type="text" value="<?=$arResult["REVIEW_AUTHOR"]?>" required tabindex="<?=$tabIndex++;?>" /></span></div>
 					<?
 					if ($arResult["FORUM"]["ASK_GUEST_EMAIL"]=="Y"):
 						?>
@@ -110,8 +117,8 @@ endif;
 		<?
 		endif;
 		?>
-		<div class="reviews-reply-header"><span><?=$arParams["MESSAGE_TITLE"]?></span><span class="reviews-required-field">*</span></div>
 		<div class="reviews-reply-field reviews-reply-field-text">
+			<div class="reviews-reply-header"><span><?=$arParams["MESSAGE_TITLE"]?></span><span class="reviews-required-field star">*</span></div>
 			<?
 			$APPLICATION->IncludeComponent(
 				"bitrix:main.post.form",
@@ -122,7 +129,7 @@ endif;
 					"PARSER" => forumTextParser::GetEditorToolbar(array("forum" => $arResult["FORUM"])),
 
 					"LHE" => array(
-						'id' => 'REVIEW_TEXT',
+						'id' => 'REVIEW_TEXT'.implode("",array_keys($arResult["MESSAGES"])),
 						'bSetDefaultCodeView' => ($arParams['EDITOR_CODE_DEFAULT'] === "Y"),
 						'bResizable' => true,
 						'bAutoResize' => true,
@@ -256,9 +263,11 @@ endif;
 </form>
 </div>
 <?
+/*
 if ($arParams['AUTOSAVE'])
 	$arParams['AUTOSAVE']->LoadScript(array(
 		"formID" => CUtil::JSEscape($arParams["FORM_ID"]),
 		"controlID" => "REVIEW_TEXT"
 	));
+*/
 ?>

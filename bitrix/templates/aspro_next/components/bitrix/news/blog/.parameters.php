@@ -34,9 +34,16 @@ $arTemplateParameters = array_merge($arPageBlocksParams, array(
 		),
 		'DEFAULT' => 'left',
 	),
-	'ALSO_ITEMS_POSITION' => array(
+	'ALSO_ITEMS_SHOW' => array(
 		'PARENT' => 'DETAIL_SETTINGS',
 		'SORT' => 700,
+		'NAME' => GetMessage('T_ALSO_ITEMS_SHOW'),
+		'TYPE' => 'CHECKBOX',
+		'DEFAULT' => 'Y',
+	),
+	'ALSO_ITEMS_POSITION' => array(
+		'PARENT' => 'DETAIL_SETTINGS',
+		'SORT' => 701,
 		'NAME' => GetMessage('T_ALSO_ITEMS_POSITION'),
 		'TYPE' => 'LIST',
 		'VALUES' => array(
@@ -76,6 +83,12 @@ $arTemplateParameters = array_merge($arPageBlocksParams, array(
 	'T_ALSO_ITEMS' => array(
 		'SORT' => 707,
 		'NAME' => GetMessage('T_ALSO_ITEMS'),
+		'TYPE' => 'TEXT',
+		'DEFAULT' => '',
+	),
+	"T_GOODS" => array(
+		'SORT' => 707,
+		'NAME' => GetMessage('T_GOODS'),
 		'TYPE' => 'TEXT',
 		'DEFAULT' => '',
 	),

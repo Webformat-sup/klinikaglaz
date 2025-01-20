@@ -218,14 +218,13 @@ if(!$arParams['LANDING_POSITION'] || $arParams['LANDING_POSITION'] === 'BEFORE_P
 			"OFFER_ADD_PICT_PROP" => $arParams["OFFER_ADD_PICT_PROP"],
 			"PRODUCT_QUANTITY_VARIABLE" => $arParams["PRODUCT_QUANTITY_VARIABLE"],
 			"OFFER_SHOW_PREVIEW_PICTURE_PROPS" => $arParams["OFFER_SHOW_PREVIEW_PICTURE_PROPS"],
+			"MAIN_IBLOCK_ID" => $arParams["IBLOCK_ID"],
 			"IBINHERIT_TEMPLATES" => $arElement ? $arIBInheritTemplates : array(),
 		);?>
 
 		<?if($isAjax=="N"){?>
 			<div class="ajax_load <?=$display;?> js_wrapper_items" data-params='<?=str_replace('\'', '"', CUtil::PhpToJSObject($arTransferParams, false))?>'>
 		<?}?>
-		<?$GLOBALS[$arParams["FILTER_NAME"]]['SECTION_ID'] = $arElement['PROPERTY_SECTION_VALUE'];?>
-		<?$GLOBALS[$arParams["FILTER_NAME"]]['INCLUDE_SUBSECTIONS'] = 'Y';?>
 			<?$APPLICATION->IncludeComponent(
 				"bitrix:catalog.section",
 				$template,
@@ -340,6 +339,7 @@ if(!$arParams['LANDING_POSITION'] || $arParams['LANDING_POSITION'] === 'BEFORE_P
 					"SET_BROWSER_TITLE" => "N",
 					"SET_SKU_TITLE" => (($arTheme["TYPE_SKU"]["VALUE"] == "TYPE_1" && $arTheme["CHANGE_TITLE_ITEM"]["VALUE"] == "Y") ? "Y" : ""),
 					"IBINHERIT_TEMPLATES" => $arElement ? $arIBInheritTemplates : array(),
+					"COMPATIBLE_MODE" => "Y",
 				), $component, array("HIDE_ICONS" => $isAjax)
 			);?>
 		<?if($isAjax=="N"){?>

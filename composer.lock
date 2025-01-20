@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ef779ed9b6e497ed560508a567f1017c",
+    "packages": [
+        {
+            "name": "webformat/waf-ii",
+            "version": "1.2.2",
+            "dist": {
+                "type": "path",
+                "url": "/home/bitrix/shared/packages/webformat.waf-ii",
+                "reference": "ac8e3937e99d050401cf205f292580bea7becb2c"
+            },
+            "require": {
+                "php": ">=7.0 <8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Webformat\\Waf\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Gennady Gludin",
+                    "email": "ge@webformat.ru"
+                }
+            ],
+            "description": "Regular expression signature-based web application firewall",
+            "transport-options": {
+                "symlink": true,
+                "relative": false
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "webformat/waf-ii": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

@@ -1,4 +1,6 @@
 <?
+$bCompactViewMobile = $arParams['COMPACT_VIEW_MOBILE'] === 'Y';
+
 $arRootItems = $arChildItems = array();
 foreach($arResult['SECTIONS'] as $key => $arSection)
 {
@@ -18,11 +20,68 @@ if($arChildItems)
 	}
 }
 \Bitrix\Main\Type\Collection::sortByColumn($arRootItems, array('SORT' => array(SORT_NUMERIC, SORT_ASC), 'ID' => array(SORT_NUMERIC, SORT_ASC)));
-foreach($arRootItems as $key => $arSection)
-{
-	$arSections = CNextCache::CIBlockSection_GetList(array('SORT' => 'ASC', 'ID' => 'ASC', 'CACHE' => array('MULTI' =>'Y', 'TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']))), array('GLOBAL_ACTIVE' => 'Y', 'SECTION_ID' => $arSection['ID'], 'DEPTH_LEVEL' => 2, 'IBLOCK_ID' => $arParams['IBLOCK_ID']), $arParams['COUNT_ELEMENTS'], array('ID', 'NAME', 'SORT', 'SECTION_PAGE_URL'));
-	$arRootItems[$key]['ITEMS'] = $arSections;
+
+// count elements with region filter
+if($arRootItems){
+	if($arParams['COUNT_ELEMENTS']){
+		$elementFilter = array(
+			'IBLOCK_ID' => $arParams['IBLOCK_ID'],
+			'CHECK_PERMISSIONS' => 'Y',
+			'MIN_PERMISSION' => 'R',
+			'INCLUDE_SUBSECTIONS' => ($arParams['FILTER_NAME'] && isset($GLOBALS[$arParams['FILTER_NAME']]['ELEMENT_SUBSECTIONS']) && $GLOBALS[$arParams['FILTER_NAME']]['ELEMENT_SUBSECTIONS'] == 'N' ? 'N' : 'Y')
+		);
+
+		CNext::makeElementFilterInRegion(
+			$elementFilter,
+			$arParams['FILTER_NAME'] ? $GLOBALS[$arParams['FILTER_NAME']]['PROPERTY_LINK_REGION'] : false,
+			true
+		);
+
+		switch($arParams['COUNT_ELEMENTS_FILTER']){
+			case 'CNT_ALL':
+				break;
+			case 'CNT_ACTIVE':
+				$elementFilter['ACTIVE'] = 'Y';
+				$elementFilter['ACTIVE_DATE'] = 'Y';
+				break;
+			case 'CNT_AVAILABLE':
+				$elementFilter['ACTIVE'] = 'Y';
+				$elementFilter['ACTIVE_DATE'] = 'Y';
+				$elementFilter['AVAILABLE'] = 'Y';
+				break;
+		}
+	}
+
+	$sectionFilter = array(
+		'GLOBAL_ACTIVE' => 'Y',
+		'DEPTH_LEVEL' => 2,
+		'IBLOCK_ID' => $arParams['IBLOCK_ID']
+	);
+	CNext::makeSectionFilterInRegion(
+		$sectionFilter,
+		$arParams['FILTER_NAME'] ? $GLOBALS[$arParams['FILTER_NAME']]['PROPERTY_LINK_REGION'] : false
+	);
+
+	foreach($arRootItems as $key => $arSection)
+	{
+		$sectionFilter['SECTION_ID'] = $arSection['ID'];
+
+		$arSections = CNextCache::CIBlockSection_GetList(array('SORT' => 'ASC', 'ID' => 'ASC', 'CACHE' => array('MULTI' =>'Y', 'TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']))), $sectionFilter, false, array('ID', 'NAME', 'SORT', 'SECTION_PAGE_URL'));
+
+		if($arSections){
+			if($arParams['COUNT_ELEMENTS']){
+				foreach($arSections as &$arSection){
+					$elementFilter['SECTION_ID'] = $arSection["ID"];
+					$arSection['ELEMENT_CNT'] = CIBlockElement::GetList(array(), $elementFilter, array());
+				}
+				unset($arSection);
+			}
+		}
+
+		$arRootItems[$key]['ITEMS'] = $arSections;
+	}
 }
+
 global $arTheme;
 $iVisibleItemsMenu = ($arTheme['MAX_VISIBLE_ITEMS_MENU']['VALUE'] ? $arTheme['MAX_VISIBLE_ITEMS_MENU']['VALUE'] : 10);
 ?>
@@ -65,8 +124,8 @@ $iVisibleItemsMenu = ($arTheme['MAX_VISIBLE_ITEMS_MENU']['VALUE'] ? $arTheme['MA
 				</div>
 			</div>
 		<?endforeach;?>
-		<?if(isset($arParams["COMPACT_VIEW_MOBILE"]) && $arParams["COMPACT_VIEW_MOBILE"]=="Y" && ($arParams["TITLE_BLOCK"] || $arParams["TITLE_BLOCK_ALL"])):?>
-			<div class="visible-xs col-xs-<?=(isset($arParams["COMPACT_VIEW_MOBILE"]) && $arParams["COMPACT_VIEW_MOBILE"]=="Y") ? "12" : "6"?>">
+		<?if($bCompactViewMobile && ($arParams["TITLE_BLOCK"] || $arParams["TITLE_BLOCK_ALL"])):?>
+			<div class="visible-xs col-xs-<?=($bCompactViewMobile ? 12 : 6)?>">
 				<div class="item" id="<?=$this->GetEditAreaId($arSection['ID']);?>">
 					<div class="name no-img">
 						<a href="<?=SITE_DIR.$arParams["ALL_URL"];?>" class="dark_link"><?=$arParams["TITLE_BLOCK_ALL"] ;?></a>

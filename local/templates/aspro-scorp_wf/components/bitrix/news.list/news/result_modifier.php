@@ -1,5 +1,6 @@
 <?
-
+$CScorp = new CScorp;
+$CCache = new CCache;
 foreach($arResult['ITEMS'] as $arItem){
 	if($SID = ($arItem['IBLOCK_SECTION_ID'] ? $arItem['IBLOCK_SECTION_ID'] : 0)){
 		$arSectionsIDs[] = $SID;
@@ -7,13 +8,13 @@ foreach($arResult['ITEMS'] as $arItem){
 }
 
 if($arSectionsIDs){
-	$arResult['SECTIONS'] = CCache::CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs));
+	$arResult['SECTIONS'] = $CCache->CIBLockSection_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']), 'GROUP' => array('ID'), 'MULTI' => 'N')), array('ID' => $arSectionsIDs));
 }
 
 foreach($arResult['ITEMS'] as $key => $arItem){
 	$SID = ($arItem['IBLOCK_SECTION_ID'] ? $arItem['IBLOCK_SECTION_ID'] : 0);
 	$arResult['SECTIONS'][$SID]['ITEMS'][$arItem['ID']] = $arItem;
-	CScorp::getFieldImageData($arResult['ITEMS'][$key], array('PREVIEW_PICTURE'));
+	$CScorp->getFieldImageData($arResult['ITEMS'][$key], array('PREVIEW_PICTURE'));
 }
 
 if(is_array($arResult['SECTIONS'])){

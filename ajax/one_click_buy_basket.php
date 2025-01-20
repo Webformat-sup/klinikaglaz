@@ -1,3 +1,4 @@
+<?define("STATISTIC_SKIP_ACTIVITY_CHECK", "true");?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");?>
 <?if(\Bitrix\Main\Loader::includeModule('aspro.next')):?>
 	<?$APPLICATION->IncludeComponent("aspro:oneclickbuy.next", "shop", array(
@@ -6,6 +7,7 @@
 		"CACHE_TIME" => "3600000",
 		"CACHE_GROUPS" => "N",
 		"SHOW_LICENCE" => CNext::GetFrontParametrValue('SHOW_LICENCE'),
+		"SHOW_OFFER" => CNext::GetFrontParametrValue('SHOW_OFFER'),
 		"SHOW_DELIVERY_NOTE" => COption::GetOptionString('aspro.next', 'ONECLICKBUY_SHOW_DELIVERY_NOTE', 'N', SITE_ID),
 		"PROPERTIES" => (strlen($tmp = COption::GetOptionString('aspro.next', 'ONECLICKBUY_PROPERTIES', 'FIO,PHONE,EMAIL,COMMENT', SITE_ID)) ? explode(',', $tmp) : array()),
 		"REQUIRED" => (strlen($tmp = COption::GetOptionString('aspro.next', 'ONECLICKBUY_REQUIRED_PROPERTIES', 'FIO,PHONE', SITE_ID)) ? explode(',', $tmp) : array()),

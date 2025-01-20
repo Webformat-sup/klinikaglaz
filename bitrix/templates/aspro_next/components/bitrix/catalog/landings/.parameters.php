@@ -47,7 +47,7 @@
 	} else {$arPrice = $arProperty_N;}
 	$arPrice  = array_merge(array("MINIMUM_PRICE"=>GetMessage("SORT_PRICES_MINIMUM_PRICE"), "MAXIMUM_PRICE"=>GetMessage("SORT_PRICES_MAXIMUM_PRICE")), $arPrice);
 
-	$arProperty_S = $arProperty_XL = array();
+	$arProperty_S = $arProperty_XL = $arPropertySort = array();
 	if (0 < intval($arCurrentValues['IBLOCK_ID']))
 	{
 		$rsProp = CIBlockProperty::GetList(Array("sort"=>"asc", "name"=>"asc"), Array("IBLOCK_ID"=>$arCurrentValues["IBLOCK_ID"], "ACTIVE"=>"Y"));
@@ -57,6 +57,8 @@
 				$arProperty_S[$arr["CODE"]] = "[".$arr["CODE"]."] ".$arr["NAME"];
 			elseif($arr["MULTIPLE"] == "Y" && $arr["PROPERTY_TYPE"] == "L")
 				$arProperty_XL[$arr["CODE"]] = "[".$arr["CODE"]."] ".$arr["NAME"];
+
+			$arPropertySort[$arr['CODE']] = "[".$arr["CODE"]."] ".$arr['NAME'];
 		}
 	}
 
@@ -85,7 +87,7 @@
 			"SORT" => 100,
 			"NAME" => GetMessage("SORT_BUTTONS"),
 			"TYPE" => "LIST",
-			"VALUES" => array("POPULARITY"=>GetMessage("SORT_BUTTONS_POPULARITY"), "NAME"=>GetMessage("SORT_BUTTONS_NAME"), "PRICE"=>GetMessage("SORT_BUTTONS_PRICE"), "QUANTITY"=>GetMessage("SORT_BUTTONS_QUANTITY")),
+			"VALUES" => array("POPULARITY"=>GetMessage("SORT_BUTTONS_POPULARITY"), "NAME"=>GetMessage("SORT_BUTTONS_NAME"), "PRICE"=>GetMessage("SORT_BUTTONS_PRICE"), "QUANTITY"=>GetMessage("SORT_BUTTONS_QUANTITY")) + (array)$arPropertySort,
 			"DEFAULT" => array("POPULARITY", "NAME", "PRICE"),
 			"PARENT" => "LIST_SETTINGS",
 			"TYPE" => "LIST",

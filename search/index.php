@@ -1,6 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Поиск");
+$APPLICATION->SetPageProperty("description", "Поиск нужной информации по сайту");
 ?>
 <?$APPLICATION->IncludeComponent("bitrix:search.page", "search", array(
 	"RESTART" => "Y",

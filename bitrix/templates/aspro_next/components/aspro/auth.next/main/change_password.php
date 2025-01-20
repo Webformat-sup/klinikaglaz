@@ -12,14 +12,20 @@ $APPLICATION->SetPageProperty("TITLE_CLASS", "center");
 	.content-md{width:100%;}
 </style>
 <?if(!$USER->IsAuthorized()):?>
+	<?$arParams = array(
+		"AUTH_URL" => $arParams["SEF_FOLDER"],
+		"URL" => $arParams["SEF_FOLDER"].$arParams["SEF_URL_TEMPLATES"]["change"],
+		"~AUTH_RESULT" => $APPLICATION->arAuthResult,
+	);
+
+	if(isset($_SESSION['arAuthResult'])){
+		$arParams['AUTH_RESULT'] = $APPLICATION->arAuthResult = $_SESSION['arAuthResult'];
+		unset($_SESSION['arAuthResult']);
+	}?>
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:system.auth.changepasswd",
 		"main",
-		array(
-			"AUTH_URL" => $arParams["SEF_FOLDER"],
-			"URL" => $arParams["SEF_FOLDER"].$arParams["SEF_URL_TEMPLATES"]["change"],
-			"~AUTH_RESULT" => $APPLICATION->arAuthResult,
-		),
+		$arParams,
 		false
 	);?>
 <?else:?>

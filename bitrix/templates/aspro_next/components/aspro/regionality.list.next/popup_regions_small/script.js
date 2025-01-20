@@ -9,6 +9,14 @@ $(document).ready(function(){
 			location.href = _this.data('href');
 	});
 
+	$(document).on('click', '.confirm_region .close', function(){
+		var _this = $(this);
+		$.removeCookie('current_region');
+		$.cookie('current_region', _this.data('id'), {path: '/',domain: arNextOptions['SITE_ADDRESS']});
+		$('.confirm_region').remove();
+		$('.top_mobile_region .confirm_wrapper').remove();
+	});
+
 	$(document).on('click', '.js_city_change', function(){
 		var _this = $(this);
 		_this.closest('.region_wrapper').find('.js_city_chooser').trigger('click');

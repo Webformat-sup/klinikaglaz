@@ -43,11 +43,16 @@ if($arResult['SECTIONS'])
 			elseif( $arItem['DEPTH_LEVEL'] == $end_level )
 				$arSections[$arItem['IBLOCK_SECTION_ID']]['CHILD'][$arItem['ID']] = $arItem;
 		}
+		// add filter elements by region
+		$arItemsRegionFilter = array();
+			if($GLOBALS['arTheme']['USE_REGIONALITY']['VALUE'] === 'Y' && $GLOBALS['arRegion'] && $GLOBALS['arTheme']['USE_REGIONALITY']['DEPENDENT_PARAMS']['REGIONALITY_FILTER_ITEM']['VALUE'] === 'Y'){
+				$arItemsRegionFilter['PROPERTY_LINK_REGION'] = $GLOBALS['arRegion']['ID'];
+			}
 
 		// fill elements
 		foreach($arSections as $key => $arSection)
 		{
-			$arItems = CNextCache::CIBlockElement_GetList(array('SORT' => 'ASC', 'ID' => 'DESC', 'CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), "CACHE_GROUP" => array($arParams["CACHE_GROUPS"]==="N"? false: $USER->GetGroups()))), array_merge($arSectionsFilter, array('SECTION_ID' => $arSection['ID'])), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'DETAIL_PAGE_URL'));
+			$arItems = CNextCache::CIBlockElement_GetList(array('SORT' => 'ASC', 'ID' => 'DESC', 'CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), "CACHE_GROUP" => array($arParams["CACHE_GROUPS"]==="N"? false: $USER->GetGroups()))), array_merge($arSectionsFilter, array('SECTION_ID' => $arSection['ID']), $arItemsRegionFilter), false, false, array('ID', 'NAME', 'IBLOCK_ID', 'DETAIL_PAGE_URL'));
 			if($arItems)
 			{
 				if(!$arSections[$key]['CHILD'])

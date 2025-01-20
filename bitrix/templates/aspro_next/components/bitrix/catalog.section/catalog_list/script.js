@@ -58,12 +58,13 @@ $(document).ready(function(){
 
 		/* get sku */
 		$.ajax({
-			url: arNextOptions['SITE_DIR']+'ajax/js_item_detail.php'+add_url,
+			url: arNextOptions['SITE_DIR'] + 'ajax/js_item_detail.php' + add_url,
 			type: 'POST',
 			data: obParams,
-		}).success(function(html){
-			var ob = BX.processHTML(html);BX.ajax.processScripts(ob.SCRIPT);
-		})
+			success: function(html){
+				var ob = BX.processHTML(html);BX.ajax.processScripts(ob.SCRIPT);
+			},
+		});
 	}
 	$(document).on('click', '.bx_catalog_item_scu li.item', SelectOfferProp)
 	$(document).on('change', '.bx_catalog_item_scu select.list_values_wrapper', SelectOfferProp)

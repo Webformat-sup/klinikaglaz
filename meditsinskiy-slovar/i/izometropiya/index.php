@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Изометропия");?><h2>Изометропия</h2>
+$APPLICATION->SetTitle("Что такое Изометропия");
+$APPLICATION->SetPageProperty("description", "Изометропия - состояние, при котором рефракция в обоих глазах почти равна.");?><h2>Изометропия</h2>
 <p>
 	 состояние, при котором рефракция в обоих глазах почти равна.
 </p>

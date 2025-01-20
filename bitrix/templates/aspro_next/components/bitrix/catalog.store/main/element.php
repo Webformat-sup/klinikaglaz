@@ -24,6 +24,7 @@ if(\Bitrix\Main\Loader::includeModule('catalog'))
 		$component
 	);?>
 <?else:?>
+	<?$showFromIblock = true;?>
 	<?$APPLICATION->ShowViewContent('map_content');?>
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:news.detail",
@@ -92,9 +93,10 @@ if(\Bitrix\Main\Loader::includeModule('catalog'))
 	);?>	
 <?endif;?>
 <?
-if ($arParams['SET_TITLE'] == 'Y') {
+if ($arParams['SET_TITLE'] == 'Y' && !$showFromIblock) {
 	$APPLICATION->SetTitle($_SESSION['SHOP_TITLE']);
 	$APPLICATION->SetPageProperty("title", $_SESSION['SHOP_TITLE']);
 }
+
 $APPLICATION->AddChainItem($_SESSION['SHOP_TITLE'], "");
 ?>

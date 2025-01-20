@@ -1,0 +1,32 @@
+<div class="collapse-container snippets">
+	<div class="collapse-item" data-id="" data-status="close">
+		<div class="header">
+			<div class="header-title">Заголовок</div>
+			<div class="header-icon">
+			</div>
+		</div>
+		<div class="content">
+			<p>Контент</p>
+			<div class="info-container">
+				<div class="info-item">
+					<div class="info-title">Показания:</div>
+					<div class="info-content">
+						<div class="bl bl-1">Первая колонка</div>
+						<div class="bl bl-2">
+							Вторая колонка
+						</div>
+					</div>
+				</div>			
+				<div class="info-item">
+					<div class="info-title">Противопоказания:</div>
+					<div class="info-content">
+						<div class="bl bl-1">Первая колонка</div>
+						<div class="bl bl-2">
+							Вторая колонка
+						</div>
+					</div>
+				</div>			
+			</div>
+		</div>
+	</div>
+</div>

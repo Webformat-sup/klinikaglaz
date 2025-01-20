@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Субэпителиальная фиброплазия");?><h2>Субэпителиальная фиброплазия</h2>
+$APPLICATION->SetTitle("Что такое Субэпителиальная фиброплазия");
+$APPLICATION->SetPageProperty("description", "Субэпителиальная фиброплазия синоним субэпителиального флера, хейза");?><h2>Субэпителиальная фиброплазия</h2>
 <p>
 	 синоним&nbsp;<a href="/meditsinskiy-slovar/s/subepitelialnyy-fler-rogovitsy-kheyz/">субэпителиального флера, хейза</a>.
 </p>

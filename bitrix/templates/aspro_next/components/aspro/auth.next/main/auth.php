@@ -21,6 +21,7 @@ $bPopupAuth = (isset($_POST['POPUP_AUTH']) ? $_POST['POPUP_AUTH'] === 'Y' : fals
 			"AUTH_URL" => $arResult["SEF_FOLDER"].$arResult["URL_TEMPLATES"]["auth"],
 			"REGISTER_URL" => $arResult["SEF_FOLDER"].$arResult["URL_TEMPLATES"]["registration"],
 			"FORGOT_PASSWORD_URL" => $arResult["SEF_FOLDER"].$arResult["URL_TEMPLATES"]["forgot_password"],
+			"CHANGE_PASSWORD_URL" => $arResult["SEF_FOLDER"].$arResult["URL_TEMPLATES"]["change_password"],
 			"PROFILE_URL" => $arResult["SEF_FOLDER"],
 			"SHOW_ERRORS" => "Y",
 			"POPUP_AUTH" => $bPopupAuth ? 'Y' : 'N',

@@ -1,6 +1,7 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Авторизация");
+$APPLICATION->SetPageProperty("description", "Авторизаци на сайте");
 ?><?$APPLICATION->IncludeComponent(
 	"aspro:auth.next",
 	"",

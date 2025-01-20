@@ -4,7 +4,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 		<div class="pop-up-title"><?=GetMessage('FORM_HEADER_CAPTION')?></div>
 	</div>
 	<a class="jqmClose close"><i></i></a>
-	<div class="form-wr">
+	<div class="form form-wr scrollbar">
 		<div class="one_click_buy_result" id="one_click_buy_result">
 			<div class="one_click_buy_result_success"><?=GetMessage('ORDER_SUCCESS')?></div>
 			<div class="one_click_buy_result_fail"><?=GetMessage('ORDER_ERROR')?></div>
@@ -51,7 +51,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 					<label><span><?=GetMessage("CAPTCHA_LABEL");?><span class="star">*</span></span></label>
 					<div class="captcha_image">
 						<?$code = htmlspecialcharsbx($APPLICATION->CaptchaGetCode())?>
-						<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$code;?>" border="0">
+						<img src="/bitrix/tools/captcha.php?captcha_sid=<?=$code;?>" border="0" data-src="" />
 						<input type="hidden" name="captcha_sid" value="<?=$code;?>">
 						<div class="captcha_reload"></div>
 					</div>
@@ -61,7 +61,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 				</div>
 			<?endif;?>
 			<?if($arParams["SHOW_LICENCE"] == "Y"):?>
-				<div class="form">
+				<div class="form license_form">
 					<div class="licence_block filter label_block">
 						<input type="checkbox" id="licenses_popup_OCB" <?=(COption::GetOptionString("aspro.next", "LICENCE_CHECKED", "N") == "Y" ? "checked" : "");?> name="licenses_popup_OCB" required value="Y">
 						<label for="licenses_popup_OCB" class="license">
@@ -70,6 +70,19 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 					</div>
 				</div>
 			<?endif;?>
+			<?if($arParams["SHOW_OFFER"] == "Y"):?>
+				<div class="form offer_pub_form">
+					<div class="offer_block filter label_block">
+						<input type="checkbox" id="offer_popup_OCB" <?=(COption::GetOptionString("aspro.next", "OFFER_CHECKED", "N") == "Y" ? "checked" : "");?> name="offer_popup_OCB" required value="Y">
+						<label for="offer_popup_OCB" class="offer_pub">
+							<?$APPLICATION->IncludeFile(SITE_DIR."include/offer_text.php", Array(), Array("MODE" => "html", "NAME" => "OFFER")); ?>
+						</label>
+					</div>
+				</div>
+			<?endif;?>
+			<div class="form-control">
+				<?$APPLICATION->IncludeFile(SITE_DIR."include/required_message.php", Array(), Array("MODE" => "html"));?>
+			</div>
 			<div class="but-r clearfix">
 				<!--noindex-->
 					<?if($arParams['SHOW_DELIVERY_NOTE'] === 'Y'):?>
@@ -128,9 +141,10 @@ if(!funcDefined('showOneClickSmsCode')){
 		$('.one_click_buy_result').show();
 		$('#one_click_buy_form_button').removeClass('clicked');
 
-		var rand =  Math.round(1 - 0.5 + Math.random() * 99);
+		var rand =  Math.round(1 - 0.5 + Math.random() * 9999);
+		var bHideInput = data.ext.WAIT_BEFORE_RESEND > 0;
 
-		$form.append('<div class="sms_confirm"><div class="form-control bg"><label class="description"><?=GetMessage('ONE_CLICK_SMS_CODE_LABEL')?><span class="star">*</span></label><input type="text" name="ONE_CLICK_BUY[SMS_CODE]" value="" class="inputtext required" id="one_click_buy_id_SMS_CODE"><input type="hidden" name="ONE_CLICK_BUY[SIGNED_DATA]" value="' + data.ext.SIGNED_DATA + '"></div><div class="but-r clearfix"><button class="btn btn-default" type="submit" id="one_click_buy_form_button_send_sms_code" name="one_click_buy_form_button_send_sms_code" value="<?=GetMessage('ONE_CLICK_SMS_SEND')?>"><span><?=GetMessage('ONE_CLICK_SMS_SEND')?></span></button></div><div id="bx_one_click_register_error' + rand + '"><span class="errortext"></span></div><div id="bx_one_click_register_resend' + rand + '"></div></div>');
+		$form.append('<div class="sms_confirm"><div class="form-control bg"' + (bHideInput ? ' style="display:none;" ' : '') + '><label class="description"><?=GetMessage('ONE_CLICK_SMS_CODE_LABEL')?><span class="star">*</span></label><input type="text" name="ONE_CLICK_BUY[SMS_CODE]" value="" class="inputtext required" id="one_click_buy_id_SMS_CODE"><input type="hidden" name="ONE_CLICK_BUY[SIGNED_DATA]" value="' + data.ext.SIGNED_DATA + '"></div><div class="but-r clearfix"' + (bHideInput ? ' style="display:none;" ' : '') + '><button class="btn btn-default" type="submit" id="one_click_buy_form_button_send_sms_code" name="one_click_buy_form_button_send_sms_code" value="<?=GetMessage('ONE_CLICK_SMS_SEND')?>"><span><?=GetMessage('ONE_CLICK_SMS_SEND')?></span></button></div><div id="bx_one_click_register_error' + rand + '"><span class="errortext"></span></div><div id="bx_one_click_register_resend' + rand + '"></div></div>');
 
 		$form.addClass('sms_send');
 		showOneClickBack();
@@ -156,6 +170,14 @@ if(!funcDefined('showOneClickSmsCode')){
 					}
 				}
 		});
+
+		if(bHideInput){
+			setTimeout(function(){
+				$('#one_click_buy_form .sms_confirm .form-control.bg,#one_click_buy_form .sms_confirm .but-r').fadeIn();
+			}, data.ext.RESEND_INTERVAL * 1000);
+		}
+
+		$('#one_click_buy_id_SMS_CODE').focus()
 	}
 }
 
@@ -182,15 +204,15 @@ if(!funcDefined('oneClickSubmitHandler')){
 
 			var obUrl = parseUrlQuery();
 
-			if('path' in obUrl){
-				if($('#one_click_buy_form.sms_send').length || $('.one_click_buy_result_fail:visible').length){
-					$('<a href="'+decodeURIComponent(obUrl.path)+'" class="btn btn-link" style="margin-left:10px;"><?=GetMessage('ONE_CLICK_BACK')?></a>').insertAfter($('#one_click_buy_form [type=submit]').last());
-				}
-				else{
-					$('<a href="'+decodeURIComponent(obUrl.path)+'" class="btn btn-default"><?=GetMessage('ONE_CLICK_BACK')?></a>').insertAfter($('#one_click_buy_form'));
-					$('.one_click_buy_result').css('margin-bottom', '20px');
-				}
-			}
+			// if('path' in obUrl){
+			// 	if($('#one_click_buy_form.sms_send').length || $('.one_click_buy_result_fail:visible').length){
+			// 		$('<a href="'+decodeURIComponent(obUrl.path)+'" class="btn btn-link" style="margin-left:10px;"><?=GetMessage('ONE_CLICK_BACK')?></a>').insertAfter($('#one_click_buy_form [type=submit]').last());
+			// 	}
+			// 	else{
+			// 		$('<a href="'+decodeURIComponent(obUrl.path)+'" class="btn btn-default"><?=GetMessage('ONE_CLICK_BACK')?></a>').insertAfter($('#one_click_buy_form'));
+			// 		$('.one_click_buy_result').css('margin-bottom', '20px');
+			// 	}
+			// }
 
 			$('html,body').animate({'scrollTop':0},150);
 		}
@@ -328,6 +350,7 @@ if(!funcDefined('oneClickSubmitHandler')){
 				}
 
 				if(bSend){
+					$(form).closest('.form').addClass('sending');
 					$.ajax({
 						url: form_url,
 						data: $(form).serialize(),
@@ -338,6 +361,9 @@ if(!funcDefined('oneClickSubmitHandler')){
 						},
 						success: function(data) {
 							oneClickResultHandler(form_url, bPopup, type, data);
+						},
+						complete: function(){
+							$(form).closest('.form').removeClass('sending');
 						}
 					});
 				}
@@ -380,6 +406,9 @@ $('#one_click_buy_form').validate({
 	messages:{
       licenses_popup_OCB: {
         required : BX.message('JS_REQUIRED_LICENSES')
+	  },
+	  offer_popup_OCB: {
+        required : BX.message('JS_REQUIRED_OFFER')
       }
 	}
 });
@@ -461,7 +490,7 @@ $(document).ready(function(){
 	<?endif;?>
 });
 
-$('.jqmClose').on('click', function(e){
+$('.popup .jqmClose').on('click', function(e){
 	e.preventDefault();
 	$(this).closest('.popup').jqmHide();
 });

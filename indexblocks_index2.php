@@ -1,5 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<?global $isShowSale, $isShowCatalogSections, $isShowCatalogElements, $isShowMiddleAdvBottomBanner, $isShowBlog;?>
+<?global $isShowSale, $isShowCatalogSections, $isShowCatalogElements, $isShowMiddleAdvBottomBanner, $isShowBlog, $isShowReviews;?>
 <?$APPLICATION->IncludeComponent(
 	"aspro:com.banners.next", 
 	"top_one_banner", 
@@ -121,6 +121,22 @@
 	</div>
 <?endif;?>
 
+<?if($isShowReviews):?>
+	<div class="maxwidth-theme">
+		<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
+			array(
+				"COMPONENT_TEMPLATE" => ".default",
+				"PATH" => SITE_DIR."include/mainpage/comp_reviews.php",
+				"AREA_FILE_SHOW" => "file",
+				"AREA_FILE_SUFFIX" => "",
+				"AREA_FILE_RECURSIVE" => "Y",
+				"EDIT_TEMPLATE" => "standard.php"
+			),
+			false
+		);?>	
+	</div>
+<?endif;?>
+
 <?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
 	array(
 		"COMPONENT_TEMPLATE" => ".default",
@@ -143,7 +159,10 @@
 			</div>
 			<div class="col-md-9 col-sm-9 big">
 				<?if($arRegion):?>
-					<?=$arRegion['DETAIL_TEXT'];?>
+					<?$frame = new \Bitrix\Main\Page\FrameHelper('text-regionality-block');?>
+					<?$frame->begin();?>
+						<?=$arRegion['DETAIL_TEXT'];?>
+					<?$frame->end();?>
 				<?else:?>
 					<?$APPLICATION->IncludeComponent("bitrix:main.include", "front", Array("AREA_FILE_SHOW" => "file","PATH" => SITE_DIR."include/mainpage/company/front_info.php","EDIT_TEMPLATE" => ""));?>
 				<?endif;?>
@@ -164,3 +183,20 @@
 		false
 	);?>
 </div>
+
+<?global $isShowMap;?>
+<?if($isShowMap):?>
+	<div class="maxwidth-theme js-load-block front_map_wrapper" data-file="<?=SITE_DIR?>include/mainpage/comp_map.php">
+		<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
+			array(
+				"COMPONENT_TEMPLATE" => ".default",
+				"PATH" => SITE_DIR."include/mainpage/comp_map.php",
+				"AREA_FILE_SHOW" => "file",
+				"AREA_FILE_SUFFIX" => "",
+				"AREA_FILE_RECURSIVE" => "Y",
+				"EDIT_TEMPLATE" => "standard.php"
+			),
+			false
+		);?>	
+	</div>
+<?endif;?>

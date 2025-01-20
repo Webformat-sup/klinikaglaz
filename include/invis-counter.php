@@ -23,6 +23,7 @@ screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
 ";h"+escape(document.title.substring(0,80))+
 ";"+Math.random();//--></script><!--/LiveInternet-->
  
+ <??>
 <script type="text/javascript">    
 
 var _callibri = {     
@@ -46,6 +47,8 @@ var _callibri = {
 <script src="https://callibri.ru/api/module/js/v1/callibri.js" type="text/javascript">
 
 </script>
+<??>
+
 
 <!-- Rating Mail.ru counter -->
 <script type="text/javascript">

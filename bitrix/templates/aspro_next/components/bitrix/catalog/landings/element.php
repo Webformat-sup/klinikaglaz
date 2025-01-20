@@ -38,14 +38,6 @@ if($arElement){
 	);
 }
 
-if($arParams['STORES'])
-{
-	foreach($arParams['STORES'] as $key => $store)
-	{
-		if(!$store)
-			unset($arParams['STORES'][$key]);
-	}
-}
 if($arRegion)
 {
 	if($arRegion['LIST_PRICES'])
@@ -58,6 +50,78 @@ if($arRegion)
 		if(reset($arRegion['LIST_STORES']) != 'component')
 			$arParams['STORES'] = $arRegion['LIST_STORES'];
 	}
+}
+
+if($arParams['LIST_PRICES'])
+{
+	foreach($arParams['LIST_PRICES'] as $key => $price)
+	{
+		if(!$price)
+			unset($arParams['LIST_PRICES'][$key]);
+	}
+}
+
+if($arParams['STORES'])
+{
+	foreach($arParams['STORES'] as $key => $store)
+	{
+		if(!$store)
+			unset($arParams['STORES'][$key]);
+	}
+}
+
+if(!$arParams["FILTER_NAME"]){
+	$arParams["FILTER_NAME"] = 'arrProductsFilter';
+}
+
+$GLOBALS[$arParams["FILTER_NAME"]]['SECTION_ID'] = $arElement['PROPERTY_SECTION_VALUE'];
+$GLOBALS[$arParams["FILTER_NAME"]]['INCLUDE_SUBSECTIONS'] = 'Y';
+
+if($arRegion)
+{
+	if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
+	{
+		if(CNext::checkVersionModule('18.6.200', 'iblock')){
+			$arStoresFilter = array(
+				'STORE_NUMBER' => $arParams['STORES'],
+				'>STORE_AMOUNT' => 0,
+			);
+		}
+		else{
+			if(count($arParams['STORES']) > 1){
+				$arStoresFilter = array('LOGIC' => 'OR');
+				foreach($arParams['STORES'] as $storeID)
+				{
+					$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+				}
+			}
+			else{
+				foreach($arParams['STORES'] as $storeID)
+				{
+					$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+				}
+			}
+		}
+
+		$arTmpFilter = array('!TYPE' => array('2', '3'));
+		if($arStoresFilter){
+			if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
+				$arTmpFilter[] = $arStoresFilter;
+			}
+			else{
+				$arTmpFilter = array_merge($arTmpFilter, $arStoresFilter);
+			}
+
+			$GLOBALS[$arParams["FILTER_NAME"]][] = array(
+				'LOGIC' => 'OR',
+				array('TYPE' => array('2', '3')),
+				$arTmpFilter,
+			);
+		}
+	}
+	$arParams["USE_REGION"] = "Y";
+
+	CNext::makeElementFilterInRegion($GLOBALS[$arParams['FILTER_NAME']], false, true);
 }
 ?>
 <?if(!$arElement && $arParams['SET_STATUS_404'] !== 'Y'):?>
@@ -77,6 +141,9 @@ if($arRegion)
 	if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 		$arParams["USE_COMPARE"] = 'N';
 	/**/
+
+	if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+		$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
 	?>
 
 	<?if($arParams["USE_SHARE"] == "Y" && $arElement):?>

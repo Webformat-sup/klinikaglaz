@@ -1,7 +1,12 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+<?
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+
 /** @var array $templateData */
 /** @var @global CMain $APPLICATION */
 use Bitrix\Main\Loader;
+
+$arExtensions = ['grid_list'];
+\Aspro\Next\Functions\Extensions::init($arExtensions);
 
 if (isset($templateData['TEMPLATE_LIBRARY']) && !empty($templateData['TEMPLATE_LIBRARY'])){
 	$loadCurrency = false;

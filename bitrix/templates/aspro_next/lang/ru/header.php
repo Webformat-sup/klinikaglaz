@@ -25,6 +25,7 @@ $MESS["JS_FILE_DEFAULT"] = 'Файл не найден';
 $MESS["JS_DATE"] = 'Некорректная дата';
 $MESS['JS_DATETIME'] = 'Некорректная дата/время';
 $MESS["JS_REQUIRED_LICENSES"] = 'Согласитесь с условиями';
+$MESS["JS_REQUIRED_OFFER"] = 'Согласитесь с условиями';
 $MESS["LICENSE_PROP"] = 'Согласие на обработку персональных данных';
 $MESS["LOGIN_LEN"] = 'Введите минимум {0} символа';
 $MESS["FANCY_CLOSE"] = 'Закрыть';
@@ -84,8 +85,10 @@ $MESS["SHARE_BUTTON"] = "Поделиться";
 $MESS["BASKET_CHANGE_TITLE"] = "Ваш заказ";
 $MESS["BASKET_CHANGE_LINK"] = "Изменить";
 $MESS["MORE_INFO_SKU"] = "Подробнее";
+$MESS["MORE_BUY_SKU"] = "Купить";
 
 $MESS["FROM"] = "от";
+$MESS["BEFORE"] = "до";
 $MESS["TITLE_BLOCK_VIEWED_NAME"] = "Ранее вы смотрели";
 $MESS["T_BASKET"] = "Корзина";
 $MESS["FILTER_EXPAND_VALUES"] = "Показать все";
@@ -117,4 +120,7 @@ $MESS['POPUP_GIFT_TEXT'] = 'Нашли что-то особенное? Наме�
 $MESS['ORDER_FIO_LABEL'] = 'Ф.И.О.';
 $MESS['ORDER_PHONE_LABEL'] = 'Телефон';
 $MESS['ORDER_REGISTER_BUTTON'] = 'Регистрация';
+
+$MESS['FILTER_HELPER_VALUES'] = ' знач.';
+$MESS['FILTER_HELPER_TITLE'] = 'Фильтр:';
 ?>

@@ -28,7 +28,7 @@ if($dbFilterPath)
 	Array(
 		"IBLOCK_TYPE" => "aspro_next_catalog",
 		"IBLOCK_ID" => $arTheme["CATALOG_IBLOCK_ID"]["VALUE"],
-		"SECTION_ID" => '',
+		"SECTION_ID" => (isset($arElement['PROPERTY_SECTION_VALUE']) && is_string($arElement['PROPERTY_SECTION_VALUE']) ? $arElement['PROPERTY_SECTION_VALUE'] : ''),
 		"FILTER_NAME" => $arParams["FILTER_NAME"],
 		"PRICE_CODE" => $arParams["FILTER_PRICE_CODE"],
 		"CACHE_TYPE" => $arParams["CACHE_TYPE"],

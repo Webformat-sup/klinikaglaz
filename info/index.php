@@ -1,6 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Информация для пациентов клиники микрохирургии «Глаз» им. Святослава Федорова");
 $APPLICATION->SetTitle("Информация");
+$APPLICATION->SetPageProperty("description", "Справочная информация для пациентов клиники микрохирургии «Глаз» им. Святослава Федорова. Узнайте о преимуществам нашей офтальмологической клиники. Звоните: +7 (343) 253-05-37, +7(343)328-88-45");
 ?><div>
  <img width="600" height="400" title="DSC_8391.jpg" align="middle" class="img-responsive" alt="DSC_8391.jpg" src="/upload/medialibrary/811/811ee7422720355b34a29501fb528ea6.jpg">
 </div>

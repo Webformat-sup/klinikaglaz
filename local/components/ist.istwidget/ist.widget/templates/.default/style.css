@@ -1,0 +1,60 @@
+/*  кодировка cp-1251 */
+.form {padding:0; color:#000;}
+	.istform__title {font-family: TacticSansExd; font-size: 24px;line-height: 1;letter-spacing: .02em;text-transform: uppercase; margin-bottom:24px; text-align:center;}
+	.istform__text {margin-bottom:24px;}
+	.istform__body {text-align:center;}
+	input[type="text"], input[type="password"], input[type="tel"], select {height:50px;}
+	input[type="text"], input[type="password"], input[type="tel"], textarea, select {width:100%; color:#000; border:0; border:1px solid #000; background:transparent; outline:none; text-align:left; -webkit-transition:all 0.3s ease; -moz-transition:all 0.3s ease; -o-transition:all 0.3s ease; transition:all 0.3s ease; border-radius:0; padding:14px 16px;}
+	textarea {height:100px; display:block;}
+	input[type="text"]:focus, input[type="password"]:focus, input[type="tel"]:focus, textarea:focus {border-color:#000;}
+	input[type="text"].invalid, input[type="password"].invalid, input[type="tel"].invalid, textarea.invalid {border-color:red!important;}
+	*::-webkit-input-placeholder, *::-moz-placeholder, *:-moz-placeholder, *:-ms-input-placeholder {color:#000;}
+	.istform__row {position:relative; -webkit-justify-content:space-between; justify-content:space-between; -webkit-align-items:center; align-items:center; text-align:left;}
+	.istform__row > .row {--bs-gutter-y:20px;}
+	.istform__row + .istform__row {margin-top:20px;}
+	.istform__row.-submit {text-align:center;}
+	.istform__field + .istform__field {margin-top:20px;}
+	.istform__error {display:none; color:red; font-size:12px;}
+	.istform__label {-webkit-transition:all 0.3s ease; -moz-transition:all 0.3s ease; -o-transition:all 0.3s ease; transition:all 0.3s ease;}
+	.istform__val:focus+.istform__label {font-size:12px; top:-16px;}
+	.istform__policy+.istform__policy {margin-top:8px;}
+	.istform__checkbox {display:none;}
+	.-checkbox-label-row {display:flex; -webkit-flex-wrap:nowrap; flex-wrap:nowrap; cursor:pointer; align-items:flex-start; -webkit-justify-content:flex-start; justify-content:flex-start; font-size:14px;}
+		.-checkbox-label-row:before {content:""; display:block; width:18px; height:18px; margin-top:-1px; background:#fff; background-size:8px; border:1px solid #C4C4C4; border-radius:0; margin-right:10px; -webkit-flex-shrink:0; flex-shrink:0; background-position:50% 50%; -webkit-transition:all 0.3s ease; -moz-transition:all 0.3s ease; -o-transition:all 0.3s ease; transition:all 0.3s ease;}
+  .istform__checkbox:checked+label:before {background:#fff url('data:image/svg+xml,<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.9877 34.019C13.4852 34.019 12.9827 33.8267 12.5999 33.4439L0.575858 21.4195C-0.191953 20.6521 -0.191953 19.4112 0.575858 18.6438C1.34331 17.8763 2.58381 17.8763 3.35162 18.6438L13.9877 29.2799L36.6486 6.61941C37.416 5.85196 38.6565 5.85196 39.4244 6.61941C40.1918 7.38722 40.1918 8.62773 39.4244 9.39554L15.376 33.4439C14.9932 33.8267 14.4903 34.019 13.9877 34.019V34.019Z" fill="%23a6192e"/></svg>') no-repeat 50% 50%; background-size:8px; border-color:#a6192e;}
+	.istform__button {display:inline-block; padding:0 24px; height:50px; line-height:49px; border:2px solid #fff; color:#fff; text-align:center; min-width:200px; background:transparent; text-transform:uppercase; outline:none; margin:0;-webkit-transition:all 0.3s ease; -moz-transition:all 0.3s ease; -o-transition:all 0.3s ease; transition:all 0.3s ease;}
+	.istform__button:hover {background:#a6192e; border-color:#a6192e; color:#fff;}
+	.istform__result {display:none; text-align:center; font-size:20px;}
+.iquiz {padding:100px 20px; background:url(images/back.jpg) no-repeat 50% 50%; background-size:cover; background-attachment:fixed; color:#fff; position:relative; font-size:18px;}
+	.iquiz:before {content:""; display:block; width:100%; height:100%; background:#000; position:absolute; top:0; left:0; opacity:0.7;}
+	.iquiz__block {position:relative; z-index:2;}
+		.iquiz__header {color:#fff;}
+		.iquiz__steps {}
+			.iquiz__step {display:none;}
+				.iquiz__title {text-align:center; font-size:32px;}
+				.iquiz__text {text-align:center; margin-bottom:40px;}
+				.iquiz__title+.iquiz__text {margin-top:8px;}
+				.iquiz__variants {display:flex; flex-wrap:wrap; margin:-40px -20px 0; justify-content:center;}
+					.iquiz__variant {width:20%; padding:40px 20px 0;}
+						.iquiz__variant__content {border:2px solid #fff; text-align:center; padding:16px 24px; -webkit-transition:all 0.3s ease; -moz-transition:all 0.3s ease; -o-transition:all 0.3s ease; transition:all 0.3s ease; display:flex; justify-content:center; align-items:center; align-content:center; height:100%; cursor:pointer;}
+						.iquiz__variant__content:hover {background:#fff; color:#a6192e;}
+						.iquiz__step:first-child .iquiz__variant__content	{font-family: TacticSansExd,sans-serif; text-transform:uppercase;}
+				.iquiz__form {max-width:500px; margin:0 auto; color:#fff;}
+					.iquiz__form .form {color:#fff;}
+						.iquiz__form input[type="text"], .iquiz__form input[type="password"], .iquiz__form input[type="tel"], .iquiz__form textarea, .iquiz__form select {color:#fff; border-color:#fff;}
+						.iquiz__form *::-webkit-input-placeholder, .iquiz__form *::-moz-placeholder, .iquiz__form *:-moz-placeholder, .iquiz__form *:-ms-input-placeholder {color:#fff;}
+						.iquiz__form a {color:#fff;}
+						
+@media screen and (max-width: 1199px) {
+	.iquiz__variant {width:33.33%;}
+}
+@media screen and (max-width: 991px) {
+	.iquiz__variant {width:50%;}
+}
+@media screen and (max-width: 767px) {
+	.iquiz__variant {width:100%;}
+}
+
+@media screen and (max-width: 575px) {
+	
+}

@@ -1,10 +1,10 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Отзывы");
-$APPLICATION->SetPageProperty("title", "Отзывы");
+$APPLICATION->SetPageProperty("title", "Отзывы о врачах клиники Микрохирургии глаз им. Федорова в Екатеринбурге");
 $APPLICATION->SetPageProperty("keywords", "Отзывы");
-$APPLICATION->SetPageProperty("description", "Отзывы");
-$APPLICATION->SetTitle("Отзывы");
+$APPLICATION->SetPageProperty("description", "Отзывы о докторах частной офтальмологической клиники Микрохирургии глаз им. Федорова в Екатеринбурге");
+$APPLICATION->SetTitle("Отзывы пациентов");
 global $arrFilter;
 $arrFilter["!NAME"]='Сообщение формы%';
 ?><div class="reviewsbutton" data-event="jqm" data-param-id="7" data-name="reviews">

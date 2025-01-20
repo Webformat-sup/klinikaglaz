@@ -20,45 +20,16 @@ if($arResult["ITEMS"]){?>
 					//ASPRO_FILTER_SORT
 					foreach($arResult["ITEMS"] as $key => $arItem){
 					    if(isset($arItem["ASPRO_FILTER_SORT"]) && $arItem["VALUES"]){
-							$class="";
-							if($arItem["DISPLAY_EXPANDED"]=="Y"){
-								$class="active";
-							}
-							$isFilter=true;
+							$class = $arItem["DISPLAY_EXPANDED"] === "Y" ? "active" : '';
+							$style = $arItem["DISPLAY_EXPANDED"] !== "Y" ? "style='display:none;'" : '';
+							$isFilter = true;
+							$checkedItemExist = false;
 							?>
 							<div class="bx_filter_parameters_box bx_sort_filter <?=$class;?>" data-expanded="<?=($arItem["DISPLAY_EXPANDED"] ? $arItem["DISPLAY_EXPANDED"] : "N");?>" data-prop_code="<?=strtolower($arItem["CODE"]);?>" data-property_id="<?=$arItem["ID"]?>">
 								<span data-f="<?=Loc::getMessage('CT_BCSF_SET_FILTER')?>" data-fi="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TI')?>" data-fr="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TR')?>" data-frm="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TRM')?>" class="bx_filter_container_modef"></span>
-								<?if($arItem["CODE"]!="IN_STOCK"){?>
-									<div class="bx_filter_parameters_box_title icons_fa" >
-										<div>
-											<?=( $arItem["CODE"] == "MINIMUM_PRICE" ? Loc::getMessage("PRICE") : $arItem["NAME"] );?>
-											<div class="char_name">
-												<div class="props_list">
-													<?if($arParams["SHOW_HINTS"]){
-														if(!$arItem["FILTER_HINT"]){
-															$prop = CIBlockProperty::GetByID($arItem["ID"], $arParams["IBLOCK_ID"])->GetNext();
-															$arItem["FILTER_HINT"]=$prop["HINT"];
-														}?>
-														<?if( $arItem["FILTER_HINT"] && strpos( $arItem["FILTER_HINT"],'line')===false){?>
-															<div class="hint"><span class="icon"><i>?</i></span><div class="tooltip" style="display: none;"><?=$arItem["FILTER_HINT"]?></div></div>
-														<?}?>
-													<?}?>
-												</div>
-											</div>
-										</div>
-									</div>
-								<?}?>
-								<?$style="";
-								if($arItem["CODE"]=="IN_STOCK"){
-									$style="style='display:block;'";
-								}elseif($arItem["DISPLAY_EXPANDED"]!= "Y"){
-									$style="style='display:none;'";
-								}?>
+								<div class="bx_filter_parameters_box_title icons_fa" ><div><?=$arItem["NAME"]?></div></div>
 								<div class="bx_filter_block <?=($arItem["PROPERTY_TYPE"]!="N" && ($arItem["DISPLAY_TYPE"] != "P" && $arItem["DISPLAY_TYPE"] != "R") ? "limited_block" : "");?>" <?=$style;?>>
 									<div class="bx_filter_parameters_box_container <?=($arItem["DISPLAY_TYPE"]=="G" ? "pict_block" : "");?>">
-									<?
-									$arCur = current($arItem["VALUES"]);
-									$checkedItemExist = false;?>
 									<div class="bx_filter_select_container">
 										<div class="bx_filter_select_block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
 											<div class="bx_filter_select_text" data-role="currentOption">
@@ -76,13 +47,10 @@ if($arResult["ITEMS"]){?>
 											<div class="bx_filter_select_arrow"></div>
 											<div class="bx_filter_select_popup" data-role="dropdownContent" style="display: none;">
 												<ul>
-												<?
-												foreach ($arItem["VALUES"] as $val => $ar):?>
+												<?foreach($arItem["VALUES"] as $val => $ar):?>
 													<?$ar["CONTROL_ID"] .= $arParams['AJAX_FILTER_FLAG'];?>
-													<li>
-														<?=$ar["CONTROL_HTML"]?>
-													</li>
-												<?endforeach?>
+													<li><?=$ar["CONTROL_HTML"]?></li>
+												<?endforeach;?>
 												</ul>
 											</div>
 										</div>
@@ -106,7 +74,7 @@ if($arResult["ITEMS"]){?>
 							?>
 							<?$arItem["VALUES"]["MIN"]["CONTROL_ID"] .= $arParams['AJAX_FILTER_FLAG'];?>
 							<?$arItem["VALUES"]["MAX"]["CONTROL_ID"] .= $arParams['AJAX_FILTER_FLAG'];?>
-							<div class="bx_filter_parameters_box active">
+							<div class="bx_filter_parameters_box active" data-property_name="<?=$arItem["NAME"]?>">
 								<span data-f="<?=Loc::getMessage('CT_BCSF_SET_FILTER')?>" data-fi="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TI')?>" data-fr="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TR')?>" data-frm="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TRM')?>" class="bx_filter_container_modef"></span>
 								<div class="bx_filter_parameters_box_title icons_fa" ><?=(count($arParams['PRICE_CODE']) > 1 ? $arItem["NAME"] : Loc::getMessage("PRICE"));?></div>
 								<div class="bx_filter_block">
@@ -245,8 +213,20 @@ if($arResult["ITEMS"]){?>
 							$class="active";
 						}
 						$isFilter=true;
+
+						if ($arItem["FILTER_HINT"]) {
+							preg_match('/#.*?#/s', $arItem["FILTER_HINT"], $matches);
+
+							if (count($matches)) {
+								$arItem['DECIMALS'] = intval(str_replace('#', '', $matches[0])) ?: 0;
+								$arItem["FILTER_HINT"] = str_replace($matches[0], '', $arItem["FILTER_HINT"]);
+								if (!trim(strip_tags($arItem["FILTER_HINT"]))) {
+									$arItem["FILTER_HINT"] = '';
+								}
+							}
+						}
 						?>
-						<div class="bx_filter_parameters_box <?=$class;?>" data-expanded="<?=($arItem["DISPLAY_EXPANDED"] ? $arItem["DISPLAY_EXPANDED"] : "N");?>" data-prop_code=<?=strtolower($arItem["CODE"]);?> data-property_id="<?=$arItem["ID"]?>">
+						<div class="bx_filter_parameters_box <?=$class;?>" data-expanded="<?=($arItem["DISPLAY_EXPANDED"] ? $arItem["DISPLAY_EXPANDED"] : "N");?>" data-prop_code=<?=strtolower($arItem["CODE"]);?> data-property_id="<?=$arItem["ID"]?>" data-property_name="<?=$arItem["NAME"]?>">
 							<span data-f="<?=Loc::getMessage('CT_BCSF_SET_FILTER')?>" data-fi="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TI')?>" data-fr="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TR')?>" data-frm="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TRM')?>" class="bx_filter_container_modef"></span>
 							<?if($arItem["CODE"]!="IN_STOCK"){?>
 								<div class="bx_filter_parameters_box_title icons_fa" >
@@ -286,11 +266,11 @@ if($arResult["ITEMS"]){?>
 											if($arItem["CODE"] == "MINIMUM_PRICE" && $arParams["CONVERT_CURRENCY"]=="Y"){
 												$isConvert=true;
 											}
-											$value1 = $arItem["VALUES"]["MIN"]["VALUE"];
+											$value1 = floatval($arItem["VALUES"]["MIN"]["VALUE"]);
 											$value2 = $arItem["VALUES"]["MIN"]["VALUE"] + round(($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"])/4);
 											$value3 = $arItem["VALUES"]["MIN"]["VALUE"] + round(($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"])/2);
 											$value4 = $arItem["VALUES"]["MIN"]["VALUE"] + round((($arItem["VALUES"]["MAX"]["VALUE"] - $arItem["VALUES"]["MIN"]["VALUE"])*3)/4);
-											$value5 = $arItem["VALUES"]["MAX"]["VALUE"];
+											$value5 = floatval($arItem["VALUES"]["MAX"]["VALUE"]);
 											if($isConvert){
 												$value1 =SaleFormatCurrency($value1, $arParams["CURRENCY_ID"], true);
 												$value2 =SaleFormatCurrency($value2, $arParams["CURRENCY_ID"], true);
@@ -306,7 +286,7 @@ if($arResult["ITEMS"]){?>
 															type="text"
 															name="<?echo $arItem["VALUES"]["MIN"]["CONTROL_NAME"]?>"
 															id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
-															value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"]?>"
+															value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"] ? floatval($arItem["VALUES"]["MIN"]["HTML_VALUE"]) : $arItem["VALUES"]["MIN"]["HTML_VALUE"]; ?>"
 															size="5"
 															placeholder="<?echo $value1;?>"
 															onkeyup="smartFilter.keyup(this)"
@@ -320,7 +300,7 @@ if($arResult["ITEMS"]){?>
 															type="text"
 															name="<?echo $arItem["VALUES"]["MAX"]["CONTROL_NAME"]?>"
 															id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
-															value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"]?>"
+															value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"] ? floatval($arItem["VALUES"]["MAX"]["HTML_VALUE"]) : $arItem["VALUES"]["MAX"]["HTML_VALUE"]; ?>"
 															size="5"
 															placeholder="<?echo $value5;?>"
 															onkeyup="smartFilter.keyup(this)"
@@ -388,8 +368,8 @@ if($arResult["ITEMS"]){?>
 												type="text"
 												name="<?echo $arItem["VALUES"]["MIN"]["CONTROL_NAME"]?>"
 												id="<?echo $arItem["VALUES"]["MIN"]["CONTROL_ID"]?>"
-												value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"]?>"
-												placeholder="<?echo $arItem["VALUES"]["MIN"]["VALUE"];?>"
+												value="<?echo $arItem["VALUES"]["MIN"]["HTML_VALUE"] ? floatval($arItem["VALUES"]["MIN"]["HTML_VALUE"]) : $arItem["VALUES"]["MIN"]["HTML_VALUE"]; ?>"
+												placeholder="<?echo floatval($arItem["VALUES"]["MIN"]["VALUE"]);?>"
 												size="5"
 												onkeyup="smartFilter.keyup(this)"
 												/>
@@ -400,8 +380,8 @@ if($arResult["ITEMS"]){?>
 												type="text"
 												name="<?echo $arItem["VALUES"]["MAX"]["CONTROL_NAME"]?>"
 												id="<?echo $arItem["VALUES"]["MAX"]["CONTROL_ID"]?>"
-												value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"]?>"
-												placeholder="<?echo $arItem["VALUES"]["MAX"]["VALUE"];?>"
+												value="<?echo $arItem["VALUES"]["MAX"]["HTML_VALUE"] ? floatval($arItem["VALUES"]["MAX"]["HTML_VALUE"]) : $arItem["VALUES"]["MAX"]["HTML_VALUE"]; ?>"
+												placeholder="<?echo floatval($arItem["VALUES"]["MAX"]["VALUE"]);?>"
 												size="5"
 												onkeyup="smartFilter.keyup(this)"
 												/>
@@ -816,6 +796,13 @@ if($arResult["ITEMS"]){?>
 			<div style="clear: both;"></div>
 		</div>
 	</div>
+	<script>
+	<?if($arParams['TOP_VERTICAL_FILTER_PANEL'] == 'Y'){
+		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/asproFilterHelper.js');?>
+		window.FilterHelper = new asproFilterHelper();
+      	FilterHelper.show();
+	<?}?>
+	</script>
 	<script>
 		var smartFilter<?=$arParams['AJAX_FILTER_FLAG'];?> = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=$arParams["VIEW_MODE"];?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
 		<?if(!$isFilter){?>

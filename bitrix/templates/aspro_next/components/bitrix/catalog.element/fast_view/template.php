@@ -1,4 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
+<?use \Bitrix\Main\Web\Json;?>
 <div class="basket_props_block" id="bx_basket_div_<?=$arResult["ID"];?>" style="display: none;">
 	<?if (!empty($arResult['PRODUCT_PROPERTIES_FILL'])){
 		foreach ($arResult['PRODUCT_PROPERTIES_FILL'] as $propID => $propInfo){?>
@@ -62,7 +63,7 @@ $templateData = array(
 		"USE_ONLY_MAX_AMOUNT" => $arParams["USE_ONLY_MAX_AMOUNT"],
 		"USER_FIELDS" => $arParams['USER_FIELDS'],
 		"FIELDS" => $arParams['FIELDS'],
-		"STORES" => $arParams['STORES'] = array_diff($arParams['STORES'], array('')),
+		"STORES" => $arParams['STORES'] = array_diff((array)$arParams['STORES'], array('')),
 	)
 );
 unset($currencyList, $templateLibrary);
@@ -70,9 +71,11 @@ unset($currencyList, $templateLibrary);
 
 $arSkuTemplate = array();
 if (!empty($arResult['SKU_PROPS'])){
-	$arSkuTemplate=CNext::GetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"]);
+	$arSkuTemplate=CNext::GetSKUPropsArray($arResult['SKU_PROPS'], $arResult["SKU_IBLOCK_ID"], "list", $arParams["OFFER_HIDE_NAME_PROPS"], 'N', $arResult, $arParams['OFFER_SHOW_PREVIEW_PICTURE_PROPS']);
 }
 $strMainID = $this->GetEditAreaId($arResult['ID']);
+
+$item_id = $arResult["ID"];
 
 $strObName = 'ob'.preg_replace("/[^a-zA-Z0-9_]/", "x", $strMainID);
 
@@ -80,7 +83,8 @@ $arResult["strMainID"] = $this->GetEditAreaId($arResult['ID'])."f";
 $arItemIDs=CNext::GetItemsIDs($arResult, "Y");
 $totalCount = CNext::GetTotalCount($arResult, $arParams);
 
-$arQuantityData = CNext::GetQuantityArray($totalCount, $arItemIDs["ALL_ITEM_IDS"], "Y");
+//$arQuantityData = CNext::GetQuantityArray($totalCount, $arItemIDs["ALL_ITEM_IDS"], "Y");
+$arQuantityData = CNext::GetQuantityArray($totalCount, array('ID' => $item_id), "N", $arResult["PRODUCT"]["TYPE"], (($arResult["OFFERS"] || $arResult['CATALOG_TYPE'] == CCatalogProduct::TYPE_SET || !$arResult['STORES_COUNT']) ? false : true) );
 
 $arParams["BASKET_ITEMS"]=($arParams["BASKET_ITEMS"] ? $arParams["BASKET_ITEMS"] : array());
 $useStores = $arParams["USE_STORE"] == "Y" && $arResult["STORES_COUNT"] && $arQuantityData["RIGHTS"]["SHOW_QUANTITY"];
@@ -103,7 +107,7 @@ if($arResult["OFFERS"]){
 	}
 	$arAddToBasketData = CNext::GetAddToBasketArray($arResult, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], true, $arItemIDs["ALL_ITEM_IDS"], 'big_btn w_icons', $arParams);
 }
-$arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
+$arOfferProps = implode(';', (array)$arParams['OFFERS_CART_PROPERTIES']);
 
 // save item viewed
 $arFirstPhoto = reset($arResult['MORE_PHOTO']);
@@ -142,7 +146,7 @@ $elementName = ((isset($arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $
 setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, false)?>);
 </script>
 <div class="item_main_info <?=(!$showCustomOffer ? "noffer" : "");?> <?=($arParams["SHOW_UNABLE_SKU_PROPS"] != "N" ? "show_un_props" : "unshow_un_props");?>" id="<?=$arItemIDs["strMainID"];?>">
-	<div class="img_wrapper">
+	<div class="img_wrapper js-notice-block__image">
 		<div class="stickers">
 			<?$prop = ($arParams["STIKERS_PROP"] ? $arParams["STIKERS_PROP"] : "HIT");?>
 			<?foreach(CNext::GetItemStickers($arResult["PROPERTIES"][$prop]) as $arSticker):?>
@@ -248,7 +252,7 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 		</div>
 	</div>
 	<div class="prices_item_block scrollbar">
-		<div class="middle_info main_item_wrapper">
+		<div class="middle_info main_item_wrapper flexbox">
 			<?$frame = $this->createFrame()->begin();?>
 			<div class="prices_block">
 				<div class="cost prices clearfix">
@@ -286,7 +290,7 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 								$arCurPriceType = current($arResult['PRICE_MATRIX']['COLS']);
 								$min_price_id = $arCurPriceType['ID'];?>
 							<?}?>
-							<?if($arResult['ITEM_PRICE_MODE'] == 'Q' && count($arResult['PRICE_MATRIX']['ROWS']) > 1):?>
+							<?if($arResult['ITEM_PRICE_MODE'] == 'Q' && count((array)$arResult['PRICE_MATRIX']['ROWS']) > 1):?>
 								<?=CNext::showPriceRangeTop($arResult, $arParams, GetMessage("CATALOG_ECONOMY"));?>
 							<?endif;?>
 							<?=CNext::showPriceMatrix($arResult, $arParams, $strMeasure, $arAddToBasketData);?>
@@ -375,7 +379,7 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 					<div class="counter_wrapp">
 						<?if(($arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_DETAIL"] && $arAddToBasketData["ACTION"] == "ADD") && $arAddToBasketData["CAN_BUY"]):?>
 							<div class="counter_block" data-offers="<?=($arResult["OFFERS"] ? "Y" : "N");?>" data-item="<?=$arResult["ID"];?>" <?=(($arResult["OFFERS"] && $arParams["TYPE_SKU"]=="N") ? "style='display: none;'" : "");?>>
-								<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>">-</span>
+								<span class="minus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_DOWN']; ?>" <?=isset($arAddToBasketData["SET_MIN_QUANTITY_BUY"]) && $arAddToBasketData["SET_MIN_QUANTITY_BUY"] ? "data-min='".$arAddToBasketData["MIN_QUANTITY_BUY"]."'" : "";?>>-</span>
 								<input type="text" class="text" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY']; ?>" name="<? echo $arParams["PRODUCT_QUANTITY_VARIABLE"]; ?>" value="<?=$arAddToBasketData["MIN_QUANTITY_BUY"]?>" />
 								<span class="plus" id="<? echo $arItemIDs["ALL_ITEM_IDS"]['QUANTITY_UP']; ?>" <?=($arAddToBasketData["MAX_QUANTITY_BUY"] ? "data-max='".$arAddToBasketData["MAX_QUANTITY_BUY"]."'" : "")?>>+</span>
 							</div>
@@ -388,7 +392,7 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 					</div>
 					<?if(isset($arResult['PRICE_MATRIX']) && $arResult['PRICE_MATRIX']) // USE_PRICE_COUNT
 					{?>
-						<?if($arResult['ITEM_PRICE_MODE'] == 'Q' && count($arResult['PRICE_MATRIX']['ROWS']) > 1):?>
+						<?if($arResult['ITEM_PRICE_MODE'] == 'Q' && count((array)$arResult['PRICE_MATRIX']['ROWS']) > 1):?>
 							<?$arOnlyItemJSParams = array(
 								"ITEM_PRICES" => $arResult["ITEM_PRICES"],
 								"ITEM_PRICE_MODE" => $arResult["ITEM_PRICE_MODE"],
@@ -419,6 +423,22 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 					<span class="slide_offer btn btn-default type_block"><i></i><span><?=GetMessage("MORE_TEXT_BOTTOM");?></span></span>
 				<?endif;?>
 			</div>
+
+			<?//delivery calculate?>
+			<?if(
+				(
+					!$arResult["OFFERS"] &&
+					$arAddToBasketData["ACTION"] == "ADD" &&
+					$arAddToBasketData["CAN_BUY"]
+				) ||
+				(
+					$arResult["OFFERS"] &&
+					$arParams['TYPE_SKU'] === 'TYPE_1'
+				)
+			):?>
+				<?=\Aspro\Functions\CAsproNext::showCalculateDeliveryBlock($arResult['ID'], $arParams);?>
+			<?endif;?>
+
 			<?if($arParams["DISPLAY_WISH_BUTTONS"] != "N" || $arParams["DISPLAY_COMPARE"] == "Y"):?>
 				<div class="clearfix"></div>
 				<div class="description_wrapp">
@@ -452,36 +472,51 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 					</div>
 				</div>
 			<?endif;?>
+
+			<div class="detail-page-button">
+				<a href="<?= $arResult["DETAIL_PAGE_URL"]; ?>" class="btn btn-default white"><?= GetMessage('T_FAST_VIEW_DETAIL'); ?></a>
+			</div>
 			<?$frame->end();?>
 		</div>
 	</div>
 	<div class="right_info">
-		<div class="info_item scrollbar">
+		<div class="info_item scrollbar item_info">
 			<div class="title hidden"><a href="<?=$arResult["DETAIL_PAGE_URL"];?>" class="dark_link"><?=$elementName;?></a></div>
 			<div class="top_info">
 				<?if($arParams["SHOW_RATING"] == "Y"):?>
-					<?$frame = $this->createFrame('dv_'.$arResult["ID"])->begin('');?>
+					<?//$frame = $this->createFrame('dv_'.$arResult["ID"])->begin('');?>
 						<div class="rating">
-							<?$APPLICATION->IncludeComponent(
-							   "bitrix:iblock.vote",
-							   "element_rating",
-							   Array(
-								  "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
-								  "IBLOCK_ID" => $arResult["IBLOCK_ID"],
-								  "ELEMENT_ID" => $arResult["ID"],
-								  "MAX_VOTE" => 5,
-								  "VOTE_NAMES" => array(),
-								  "CACHE_TYPE" => $arParams["CACHE_TYPE"],
-								  "CACHE_TIME" => $arParams["CACHE_TIME"],
-								  "DISPLAY_AS_RATING" => 'vote_avg'
-							   ),
-							   $component, array("HIDE_ICONS" =>"Y")
-							);?>
+							<?if( $arParams['REVIEWS_VIEW'] == 'EXTENDED' ):?>
+								<?\Aspro\Functions\CAsproNext::showBlockHtml([
+									'FILE' => 'catalog/detail_rating_extended.php',
+									'PARAMS' => [
+										'MESSAGE' => $arResult['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE'] ? GetMessage('VOTES_RESULT', array('#VALUE#' => $arResult['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'])) : GetMessage('VOTES_RESULT_NONE'),
+										'RATING_VALUE' => $arResult['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'] ?? 0,
+										'REVIEW_COUNT' => isset($arResult['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE']) ? intval($arResult['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE']) : 0,
+									]
+								]);?>
+							<?else:?>
+								<?$APPLICATION->IncludeComponent(
+								"bitrix:iblock.vote",
+								"element_rating",
+								Array(
+									"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
+									"IBLOCK_ID" => $arResult["IBLOCK_ID"],
+									"ELEMENT_ID" =>$arResult["ID"],
+									"MAX_VOTE" => 5,
+									"VOTE_NAMES" => array(),
+									"CACHE_TYPE" => $arParams["CACHE_TYPE"],
+									"CACHE_TIME" => $arParams["CACHE_TIME"],
+									"DISPLAY_AS_RATING" => 'vote_avg'
+								),
+								$component, array("HIDE_ICONS" =>"Y")
+								);?>
+							<?endif;?>
 						</div>
-					<?$frame->end();?>
+					<?//$frame->end();?>
 				<?endif;?>
 				<div class="rows_block">
-					<div class="item_block">
+					<div class="item_block sa_block quantity_block_wrapper" data-stores='<?=Json::encode($arParams["STORES"])?>'>
 						<?=$arQuantityData["HTML"];?>
 					</div>
 					<?//if($arResult["ARTICLE"]):?>
@@ -573,7 +608,7 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 						<table class="props_list">
 							<?foreach($arResult["DISPLAY_PROPERTIES"] as $arProp):?>
 								<?if(!in_array($arProp["CODE"], array("SERVICES", "HIT", "RECOMMEND", "NEW", "STOCK", "VIDEO", "VIDEO_YOUTUBE", "POPUP_VIDEO", "CML2_ARTICLE"))):?>
-									<?if((!is_array($arProp["DISPLAY_VALUE"]) && strlen($arProp["DISPLAY_VALUE"])) || (is_array($arProp["DISPLAY_VALUE"]) && implode('', $arProp["DISPLAY_VALUE"]))):?>
+									<?if((!is_array($arProp["DISPLAY_VALUE"]) && strlen($arProp["DISPLAY_VALUE"])) || (is_array($arProp["DISPLAY_VALUE"]) && implode('', (array)$arProp["DISPLAY_VALUE"]))):?>
 										<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
 											<td class="char_name">
 												<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?>
@@ -583,8 +618,8 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 											</td>
 											<td class="char_value">
 												<span itemprop="value">
-													<?if(count($arProp["DISPLAY_VALUE"]) > 1):?>
-														<?=implode(', ', $arProp["DISPLAY_VALUE"]);?>
+													<?if(count((array)$arProp["DISPLAY_VALUE"]) > 1):?>
+														<?=implode(', ', (array)$arProp["DISPLAY_VALUE"]);?>
 													<?else:?>
 														<?=$arProp["DISPLAY_VALUE"];?>
 													<?endif;?>
@@ -751,4 +786,28 @@ setViewedProduct(<?=$arResult['ID']?>, <?=CUtil::PhpToJSObject($arViewedData, fa
 		ONE_CLICK_BUY: '<? echo GetMessage("ONE_CLICK_BUY"); ?>',
 		SITE_ID: '<? echo SITE_ID; ?>'
 	})
+	var navs = $('#popup_iframe_wrapper .navigation-wrapper-fast-view .fast-view-nav');
+        if(navs.length) {
+            var ajaxData = {
+                element: "<?=$arResult['ID']?>",
+                iblock: "<?=$arParams['IBLOCK_ID']?>",
+                section: "<?=$arResult['IBLOCK_SECTION_ID']?>",
+            };
+            if($('.smart-filter-filter').length && $('.smart-filter-filter').text().length) {
+                try {
+                    var text = $('.smart-filter-filter').text().replace('var filter = ', '');
+                    JSON.parse(text);
+                    ajaxData.filter = text;
+                } catch (e) {}
+            }
+
+            if($('.smart-filter-sort').length && $('.smart-filter-sort').text().length) {
+                try {
+                    var text = $('.smart-filter-sort').text().replace('var filter = ', '');
+                    JSON.parse(text);
+                    ajaxData.sort = text;
+                } catch (e) {}
+            }
+            navs.data('ajax', ajaxData);
+        }
 </script>

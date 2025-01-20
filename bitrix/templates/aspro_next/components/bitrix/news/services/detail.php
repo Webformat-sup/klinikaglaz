@@ -7,8 +7,16 @@ $arItemFilter = CNext::GetCurrentElementFilter($arResult['VARIABLES'], $arParams
 global $APPLICATION;
 $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH.'/css/animation/animate.min.css');
 
-$arElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'DETAIL_PAGE_URL', 'LIST_PAGE_URL', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_REVIEWS', 'PROPERTY_LINK_STAFF', 'PROPERTY_FORM_QUESTION', 'PROPERTY_LINK_SERVICES', 'PROPERTY_LINK_GOODS_FILTER'));
+$arElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'NAME', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'DETAIL_PAGE_URL', 'LIST_PAGE_URL', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_REVIEWS', 'PROPERTY_LINK_STAFF', 'PROPERTY_FORM_QUESTION', 'PROPERTY_LINK_SERVICES', 'PROPERTY_LINK_GOODS_FILTER'));
 
+$arSchema = array(
+	"@context" => "https://schema.org",
+	"@type" => "Service",
+	"name" => $arElement["NAME"],
+	"description" => $arElement["PREVIEW_TEXT"],
+);?>
+<script type="application/ld+json"><?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?></script>
+<?
 if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 {
 	$arSort=array($arParams["SORT_BY1"] => $arParams["SORT_ORDER1"], $arParams["SORT_BY2"] => $arParams["SORT_ORDER2"]);
@@ -52,7 +60,7 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 	<?CNext::AddMeta(
 		array(
 			'og:description' => $arElement['PREVIEW_TEXT'],
-			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
+			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['DETAIL_PICTURE'] ? $arElement['DETAIL_PICTURE'] : $arElement['PREVIEW_PICTURE'])) : false),
 		)
 	);?>
 	<?
@@ -60,6 +68,10 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 	if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 		$arParams["DISPLAY_COMPARE"] = 'N';
 	/**/
+
+	if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+		$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
 	?>
 	<div class="detail <?=($templateName = $component->{'__template'}->{'__name'})?>">
 		<?if($arParams["USE_SHARE"] == "Y" && $arElement):?>

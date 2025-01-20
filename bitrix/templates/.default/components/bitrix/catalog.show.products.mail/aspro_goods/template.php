@@ -22,7 +22,7 @@ $skuTemplate = array();
 						</div>
 					<?}?>
 					<?if($arItem["~PREVIEW_PICTURE"]){
-						$img = CFile::ResizeImageGet($arItem["~PREVIEW_PICTURE"], array("width" => 130, "height" => 130), BX_RESIZE_PROPORTIONAL_ALT);
+						$img = CFile::ResizeImageGet($arItem["~PREVIEW_PICTURE"], array("width" => 130, "height" => 130), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);
 						$src= str_replace(array("//", ":/"), array("/", "://"), $arParams["SITE_ADDRESS"].$img["src"]);?>
 						<a class="name" href="<?=$arItem["DETAIL_PAGE_URL"];?>">
 							<div class="img" style="overflow:hidden;height:130px;line-height:127px;text-align:center;margin: 0px 0px 10px 0px;white-space:normal;font-size: 12px;">
@@ -35,9 +35,10 @@ $skuTemplate = array();
 					</div>
 					<?if($arItem["MIN_PRICE"]["VALUE"]):?>
 						<div class="prices">
-							<div style="color:#1d2029;font-size:15px;font-weight:600;padding: 9px 0px 9px;"><?=$arItem["MIN_PRICE"]["PRINT_VALUE"];?></div>
-							<?if($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] && ($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] != $arItem["MIN_PRICE"]["VALUE"])):?>
-								<div style="font-size:13px;color:#555555;text-decoration:line-through;"><?=$arItem["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"];?></div>
+							<?$bDiscount = ($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] != $arItem["MIN_PRICE"]["VALUE"]);?>
+							<div style="color:#1d2029;font-size:15px;font-weight:600;padding: 9px 0px 9px;"><?=($bDiscount ? $arItem["MIN_PRICE"]["PRINT_DISCOUNT_VALUE"] : $arItem["MIN_PRICE"]["PRINT_VALUE"]);?></div>
+							<?if($arItem["MIN_PRICE"]["DISCOUNT_VALUE"] && $bDiscount):?>
+								<div style="font-size:13px;color:#555555;text-decoration:line-through;"><?=$arItem["MIN_PRICE"]["PRINT_VALUE"];?></div>
 							<?endif;?>
 						</div>
 					<?endif;?>

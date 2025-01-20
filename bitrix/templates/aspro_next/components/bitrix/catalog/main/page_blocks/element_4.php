@@ -13,6 +13,7 @@
 		"STORES_FILTER" => ($arParams["STORES_FILTER"] ? $arParams["STORES_FILTER"] : "TITLE"),
 		"STORES_FILTER_ORDER" => ($arParams["STORES_FILTER_ORDER"] ? $arParams["STORES_FILTER_ORDER"] : "SORT_ASC"),
 		"WIDE_BLOCK" => $isWideBlock,
+		"HIDE_LEFT_BLOCK" => $hide_left_block,
 		"BIGDATA_PATH_TEMPLATE" => $this->__folder.'/page_blocks/'.$sViewBigDataExtTemplate.'.php',
 		"BUNDLE_ITEMS_COUNT" => $arParams["BUNDLE_ITEMS_COUNT"],
 		"DETAIL_DOCS_PROP"=>$arParams["DETAIL_DOCS_PROP"],
@@ -27,6 +28,7 @@
 		"DISPLAY_COMPARE" => $arParams["USE_COMPARE"],
 		"BLOCK_LANDINGS_NAME" => (isset($arParams["BLOCK_LANDINGS_NAME"]) ? $arParams["BLOCK_LANDINGS_NAME"] : "N" ),
 		"DISPLAY_ELEMENT_SLIDER" => $arParams["DISPLAY_ELEMENT_SLIDER"],
+		"MESSAGES_PER_PAGE" => $arParams["MESSAGES_PER_PAGE"],
 		"TITLE_SLIDER" => $arParams["TITLE_SLIDER"],
 		"DETAIL_ASSOCIATED_TITLE" => $arParams["DETAIL_ASSOCIATED_TITLE"],
 		"DETAIL_EXPANDABLES_TITLE" => $arParams["DETAIL_EXPANDABLES_TITLE"],
@@ -74,6 +76,7 @@
 		"OFFERS_SORT_FIELD2" => $arParams["OFFERS_SORT_FIELD2"],
 		"OFFERS_SORT_ORDER2" => $arParams["OFFERS_SORT_ORDER2"],
 		"SKU_DISPLAY_LOCATION" => $arParams["SKU_DISPLAY_LOCATION"],
+		"SKU_DETAIL_ID" => $arParams["SKU_DETAIL_ID"],
 		"ELEMENT_ID" => $arResult["VARIABLES"]["ELEMENT_ID"],
 		"ELEMENT_CODE" => $arResult["VARIABLES"]["ELEMENT_CODE"],
 		"SECTION_ID" => $arResult["VARIABLES"]["SECTION_ID"],
@@ -106,6 +109,10 @@
 
 		"USE_RATING" => $arParams["USE_RATING"],
 		"USE_REVIEW" => $arParams["USE_REVIEW"],
+		"REVIEWS_VIEW" => $arTheme["REVIEWS_VIEW"]["VALUE"],
+		"REVIEW_COMMENT_REQUIRED" => $arParams["REVIEW_COMMENT_REQUIRED"],
+		"REVIEW_FILTER_BUTTONS" => $arParams["REVIEW_FILTER_BUTTONS"],
+		"REAL_CUSTOMER_TEXT" => $arParams["REAL_CUSTOMER_TEXT"],
 		"FORUM_ID" => $arParams["FORUM_ID"],
 		"MAX_AMOUNT" => $arParams["MAX_AMOUNT"],
 		"USE_ONLY_MAX_AMOUNT" => $arParams["USE_ONLY_MAX_AMOUNT"],
@@ -144,6 +151,8 @@
 		"SHOW_RATING" => $arParams["SHOW_RATING"],
 
 		"OFFERS_LIMIT" => $arParams["DETAIL_OFFERS_LIMIT"],
+		"DISPLAY_ELEMENT_SLIDER" => $arParams["DISPLAY_ELEMENT_SLIDER"],
+		"LIST_VIEW" => $arParams["LIST_VIEW"],
 
 		'SHOW_BASIS_PRICE' => (isset($arParams['DETAIL_SHOW_BASIS_PRICE']) ? $arParams['DETAIL_SHOW_BASIS_PRICE'] : 'Y'),
 		"DETAIL_PICTURE_MODE" => (isset($arTheme["DETAIL_PICTURE_MODE"]["VALUE"]) ? $arTheme["DETAIL_PICTURE_MODE"]["VALUE"] : 'POPUP'),
@@ -158,6 +167,8 @@
 		'USE_ENHANCED_ECOMMERCE' => (isset($arParams['USE_ENHANCED_ECOMMERCE']) ? $arParams['USE_ENHANCED_ECOMMERCE'] : ''),
 		'DATA_LAYER_NAME' => (isset($arParams['DATA_LAYER_NAME']) ? $arParams['DATA_LAYER_NAME'] : ''),
 
+		"CALCULATE_DELIVERY" => $arTheme["CALCULATE_DELIVERY"]["VALUE"],
+		"EXPRESSION_FOR_CALCULATE_DELIVERY" => $arTheme["EXPRESSION_FOR_CALCULATE_DELIVERY"]["VALUE"],
 
 		"USE_GIFTS_DETAIL" => $arParams['USE_GIFTS_DETAIL']?: 'Y',
 		"USE_GIFTS_MAIN_PR_SECTION_LIST" => $arParams['USE_GIFTS_MAIN_PR_SECTION_LIST']?: 'Y',
@@ -178,7 +189,7 @@
 		"TAB_DESCR_NAME" => $arParams["TAB_DESCR_NAME"],
 		"TAB_CHAR_NAME" => $arParams["TAB_CHAR_NAME"],
 		"TAB_VIDEO_NAME" => $arParams["TAB_VIDEO_NAME"],
-		"TAB_REVIEW_NAME" => $arParams["TAB_REVIEW_NAME"],
+		"TAB_REVIEW_NAME" => ($arParams["TAB_REVIEW_NAME"] ? $arParams["TAB_REVIEW_NAME"] : GetMessage("REVIEW_TAB")),
 		"TAB_FAQ_NAME" => $arParams["TAB_FAQ_NAME"],
 		"TAB_STOCK_NAME" => $arParams["TAB_STOCK_NAME"],
 		"TAB_DOPS_NAME" => $arParams["TAB_DOPS_NAME"],
@@ -203,6 +214,24 @@
 
 		"VISIBLE_PROP_COUNT" => ($arParams['VISIBLE_PROP_COUNT'] ? $arParams['VISIBLE_PROP_COUNT'] : 4),
 		"USE_BIG_DATA" => $arParams['USE_BIG_DATA'],
+		"USE_SHARE" => $arParams["USE_SHARE"],
+
+		"BLOG_URL" => $arParams["BLOG_URL"],
+		"DETAIL_BLOG_EMAIL_NOTIFY" => (isset($arParams['DETAIL_BLOG_EMAIL_NOTIFY']) ? $arParams['DETAIL_BLOG_EMAIL_NOTIFY'] : 'Y'),
+		"MAX_IMAGE_SIZE" => (isset($arParams['MAX_IMAGE_SIZE']) ? $arParams['MAX_IMAGE_SIZE'] : '0.5'),
+		"MAX_IMAGE_COUNT" => $arParams['MAX_IMAGE_COUNT'] ? $arParams['MAX_IMAGE_COUNT'] : '10',
+		
+		"DETAIL_BLOCKS_ORDER" => ($arParams["DETAIL_BLOCKS_ORDER"] ? $arParams["DETAIL_BLOCKS_ORDER"] : 'tizers,complect,nabor,tabs,stores,char,galery,exp_goods,services,gifts,goods,podborki,blog,recomend_goods,assoc_goods'),
+		"DETAIL_BLOCKS_TAB_ORDER" => ($arParams["DETAIL_BLOCKS_TAB_ORDER"] ? $arParams["DETAIL_BLOCKS_TAB_ORDER"] : 'offers,desc,char,buy,payment,delivery,video,reviews,ask,stores,custom_tab'),
+		"DETAIL_BLOCKS_ALL_ORDER" => ($arParams["DETAIL_BLOCKS_ALL_ORDER"] ? $arParams["DETAIL_BLOCKS_ALL_ORDER"] : 'tizers,complect,nabor,offers,desc,char,galery,video,reviews,gifts,ask,stores,services,docs,custom_tab,goods,recomend_goods,exp_goods,podborki,blog,assoc_goods,buy,payment,delivery'),
+		"TITLE_SLIDER" => $arParams["TITLE_SLIDER"],
+		"DETAIL_ASSOCIATED_TITLE" => $arParams["DETAIL_ASSOCIATED_TITLE"],
+		"DETAIL_EXPANDABLES_TITLE" => $arParams["DETAIL_EXPANDABLES_TITLE"],
+		"CACHE_FILTER" => $arParams["CACHE_FILTER"],
+		"VIEW_BLOCK_TYPE" => $arParams["VIEW_BLOCK_TYPE"],
+		"FILTER_NAME" => $arParams["FILTER_NAME"], // !need to filter similar goods
+		"BIG_DATA_SHOW_FROM_SECTION" => $arParams["BIG_DATA_SHOW_FROM_SECTION"],
+		"ADDITIONAL_VIDEO_PROPERTY_CODE" => $arParams["ADDITIONAL_VIDEO_PROPERTY_CODE"],
 	),
 	$component
 );?>

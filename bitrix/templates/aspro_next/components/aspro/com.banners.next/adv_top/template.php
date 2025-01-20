@@ -17,7 +17,7 @@
 									<?if($sUrl):?>
 										<a href="<?=$sUrl;?>">
 									<?endif;?>
-									<img src="<?=$arItem['PREVIEW_PICTURE']['SRC']?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT']?$arItem['PREVIEW_PICTURE']['ALT']:$arItem['NAME']);?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE']?$arItem['PREVIEW_PICTURE']['TITLE']:$arItem['NAME']);?>" />
+									<img class="img-responsive" src="<?=$arItem['PREVIEW_PICTURE']['SRC']?>" alt="<?=($arItem['PREVIEW_PICTURE']['ALT']?$arItem['PREVIEW_PICTURE']['ALT']:$arItem['NAME']);?>" title="<?=($arItem['PREVIEW_PICTURE']['TITLE']?$arItem['PREVIEW_PICTURE']['TITLE']:$arItem['NAME']);?>" />
 									<?if($sUrl):?>
 										</a>
 									<?endif;?>

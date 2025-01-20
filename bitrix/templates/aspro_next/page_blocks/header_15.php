@@ -1,12 +1,14 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <?
-global $arTheme, $arRegion;
+global $arTheme, $arRegion, $noMegaMenu;
 $arRegions = CNextRegionality::getRegions();
 if($arRegion)
 	$bPhone = ($arRegion['PHONES'] ? true : false);
 else
 	$bPhone = ((int)$arTheme['HEADER_PHONES'] ? true : false);
 $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
+
+$noMegaMenu = true;
 ?>
 
 <div class="header-v14 header-wrapper">

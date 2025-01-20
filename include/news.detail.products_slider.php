@@ -13,20 +13,23 @@ if($arRegion)
 	}
 }
 ?>
+<?$GLOBALS['arrProductsFilter']['INCLUDE_SUBSECTIONS'] = 'Y';?>
+<?$propertyCodeList = CNext::GetFrontParametrValue("CATALOG_LINKED_PROP", SITE_ID);?>
 <?$APPLICATION->IncludeComponent(
 	"bitrix:catalog.top", 
 	"products_slider", 
 	array(
+		"COMPATIBLE_MODE" => "Y",
 		"IBLOCK_TYPE" => "aspro_next_catalog",
 		"IBLOCK_ID" => "46",
 		"ELEMENT_SORT_FIELD" => "sort",
-		"ELEMENT_SORT_ORDER" => "asc",
+		"ELEMENT_SORT_FIELD" => ($arParams["LINKED_ELEMENT_TAB_SORT_FIELD"] ? $arParams["LINKED_ELEMENT_TAB_SORT_FIELD"] : "SORT"),
+		"ELEMENT_SORT_ORDER" => ($arParams["LINKED_ELEMENT_TAB_SORT_ORDER"] ? $arParams["LINKED_ELEMENT_TAB_SORT_ORDER"] : "ASC"),
+		"ELEMENT_SORT_FIELD2" => ($arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"] ? $arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"] : "ID"),
+		"ELEMENT_SORT_ORDER2" => ($arParams["LINKED_ELEMENT_TAB_SORT_ORDER2"] ? $arParams["LINKED_ELEMENT_TAB_SORT_ORDER2"] : "DESC"),
 		"ELEMENT_COUNT" => "20",
 		"LINE_ELEMENT_COUNT" => "",
-		"PROPERTY_CODE" => array(
-			0 => "",
-			1 => "",
-		),
+		"PROPERTY_CODE" => (strlen(trim($propertyCodeList)) ? explode(',', $propertyCodeList) : []),
 		"OFFERS_LIMIT" => "10",
 		"SECTION_URL" => "",
 		"DETAIL_URL" => "",
@@ -72,6 +75,12 @@ if($arRegion)
 		"OFFERS_SORT_FIELD2" => "id",
 		"OFFERS_SORT_ORDER2" => "desc",
 		"SEF_MODE" => "N",
+		"ADD_PICT_PROP" => ($arParams["ADD_PICT_PROP"] ? $arParams["ADD_PICT_PROP"] : 'MORE_PHOTO'),
+		"OFFER_ADD_PICT_PROP" => ($arParams["OFFER_ADD_PICT_PROP"] ? $arParams["OFFER_ADD_PICT_PROP"] : 'MORE_PHOTO'),
+		"GALLERY_ITEM_SHOW" => $GLOBALS["arTheme"]["GALLERY_ITEM_SHOW"]["VALUE"],
+		"MAX_GALLERY_ITEMS" => $GLOBALS["arTheme"]["GALLERY_ITEM_SHOW"]["DEPENDENT_PARAMS"]["MAX_GALLERY_ITEMS"]["VALUE"],
+		"ADD_DETAIL_TO_GALLERY_IN_LIST" => $GLOBALS["arTheme"]["GALLERY_ITEM_SHOW"]["DEPENDENT_PARAMS"]["ADD_DETAIL_TO_GALLERY_IN_LIST"]["VALUE"],
+		"REVIEWS_VIEW" => $GLOBALS["arTheme"]["REVIEWS_VIEW"]["VALUE"] == 'EXTENDED',
 		"CACHE_FILTER" => "Y",
 		"SHOW_MEASURE" => "Y",
 		"ADD_PROPERTIES_TO_BASKET" => "Y",
@@ -81,7 +90,7 @@ if($arRegion)
 		"COMPARE_PATH" => "",
 		"SHOW_DISCOUNT_PERCENT" => "Y",
 		"SHOW_OLD_PRICE" => "Y",
-		"SHOW_RATING" => "Y",
+		"SHOW_RATING" => $arParams["SHOW_RATING"],
 		"STIKERS_PROP" => $arParams["STIKERS_PROP"],
 		"SALE_STIKER" => $arParams["SALE_STIKER"],
 		"TITLE" => $arParams["TITLE"],

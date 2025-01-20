@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("А");?><p>
+$APPLICATION->SetTitle("А");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву А");?><p>
  <a href="/klinikaglaz.ru/aberratsia" style="text-decoration: underline;"></a>
 </p>
 <p>

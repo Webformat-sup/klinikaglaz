@@ -34,6 +34,9 @@ if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["DISPLAY_COMPARE"] = 'N';
 /**/
 
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
 if (!empty($arResult['ITEMS']))
 {
 	$arConvertParams = array();
@@ -171,6 +174,12 @@ if (!empty($arResult['ITEMS']))
 				break;
 		}
 
+		if(($arItem['DETAIL_PICTURE'] && $arItem['PREVIEW_PICTURE']) || (!$arItem['DETAIL_PICTURE'] && $arItem['PREVIEW_PICTURE']))
+			$arItem['DETAIL_PICTURE'] = $arItem['PREVIEW_PICTURE'];
+
+		$arItem['GALLERY'] = CNext::getSliderForItemExt($arItem, $arParams['ADD_PICT_PROP'], 'Y' == $arParams['ADD_DETAIL_TO_GALLERY_IN_LIST']);
+		array_splice($arItem['GALLERY'], $arParams['MAX_GALLERY_ITEMS']);
+
 		// Offers
 		if ($arItem['CATALOG'] && isset($arItem['OFFERS']) && !empty($arItem['OFFERS']))
 		{
@@ -208,6 +217,40 @@ if (!empty($arResult['ITEMS']))
 						$arOffer["PRICE_MATRIX"] = CatalogGetPriceTableEx($arOffer["ID"], 0, $arPriceTypeID, 'Y', $arConvertParams);
 					}
 					$arItem['OFFERS'][$keyOffer] = array_merge($arOffer, CNext::formatPriceMatrix($arOffer));
+				}
+			}
+
+			foreach ($arItem['OFFERS'] as $keyOffer => $arOffer)
+			{
+				if(($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']))
+					$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
+
+				if ($arParams['GALLERY_ITEM_SHOW'] == 'Y') {
+					$arItem['OFFERS'][$keyOffer]['GALLERY'] = CNext::getSliderForItemExt($arOffer, $arParams['OFFER_ADD_PICT_PROP'], true);
+
+					if ($arItem['GALLERY']) {
+						$arItem['OFFERS'][$keyOffer]['GALLERY'] = array_merge($arItem['OFFERS'][$keyOffer]['GALLERY'], $arItem['GALLERY']);
+					}
+					if ($arItem['OFFERS'][$keyOffer]['GALLERY']) {
+						array_splice($arItem['OFFERS'][$keyOffer]['GALLERY'], $arParams['MAX_GALLERY_ITEMS']);
+						array_splice($arItem['GALLERY'], $arParams['MAX_GALLERY_ITEMS']);
+					}
+				}
+			}
+
+			$arFirstSkuPicture = array();
+			$bNeedFindPicture = (($arParams['GALLERY_ITEM_SHOW'] == 'Y') && empty($arItem['GALLERY']) && (\CNext::GetFrontParametrValue("SHOW_FIRST_SKU_PICTURE") == "Y" ) );
+			if( $bNeedFindPicture ){
+				foreach ($arItem['OFFERS'] as $keyOffer => $arOffer)
+				{
+					if(($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']))
+						$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
+
+					$arFirstSkuPicture = CNext::getSliderForItemExt($arOffer, '', true);
+					if(!empty( $arFirstSkuPicture )){
+						$arItem['GALLERY'] = $arFirstSkuPicture;
+						break;
+					}
 				}
 			}
 

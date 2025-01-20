@@ -1,3 +1,4 @@
+<?define("STATISTIC_SKIP_ACTIVITY_CHECK", "true");?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
 if(!\Bitrix\Main\Loader::includeModule("sale") || !\Bitrix\Main\Loader::includeModule("catalog") || !\Bitrix\Main\Loader::includeModule("iblock") || !\Bitrix\Main\Loader::includeModule("aspro.next"))
@@ -14,7 +15,7 @@ if(!empty($_REQUEST["add_item"]))
 			$_REQUEST["quantity"] = floatval($_REQUEST["quantity"]);
 
 		$product_properties=$arSkuProp=array();
-		$successfulAdd = true;		
+		$successfulAdd = true;
 		$strErrorExt='';
 
 		$dbBasketItems = CSaleBasket::GetList(
@@ -33,7 +34,7 @@ if(!empty($_REQUEST["add_item"]))
 		{
 			$intProductIBlockID = (int)CIBlockElement::GetIBlockByID($_REQUEST["item"]);
 			if(0 < $intProductIBlockID)
-			{			
+			{
 				if($_REQUEST["add_props"]=="Y"){
 					$arSkuProp=json_decode($_REQUEST["props"]);
 					if ($intProductIBlockID == $_REQUEST["iblockID"])
@@ -70,7 +71,7 @@ if(!empty($_REQUEST["add_item"]))
 							);
 						}
 					}
-				}			
+				}
 			}else
 			{
 				$strError = 'CATALOG_ELEMENT_NOT_FOUND';
@@ -78,11 +79,13 @@ if(!empty($_REQUEST["add_item"]))
 			}
 			if($successfulAdd)
 			{
+				$arRewriteFields = array();
+
 				if(!Add2BasketByProductID($_REQUEST["item"], $_REQUEST["quantity"], $arRewriteFields, $product_properties))
 				{
 					if ($ex = $APPLICATION->GetException())
 						$strErrorExt = $ex->GetString();
-					
+
 					$strError = "ERROR_ADD2BASKET";
 					$successfulAdd = false;
 				}
@@ -183,31 +186,31 @@ elseif(!empty($_REQUEST["subscribe_item"]))
 				array("NAME" => "ASC", "ID" => "ASC"),
 				array("PRODUCT_ID" => $_REQUEST["item"], "FUSER_ID" => CSaleBasket::GetBasketUserID(), "LID" => SITE_ID, "ORDER_ID" => "NULL"),
 				false, false, array("ID", "PRODUCT_ID", "SUBSCRIBE", "CAN_BUY")
-			)->Fetch();		
+			)->Fetch();
 			if(!empty($dbBasketItems) && $dbBasketItems["SUBSCRIBE"] == "N")
 			{
-				$arFields = array("SUBSCRIBE" => "Y", "CAN_BUY" => "N", "DELAY" => "N"); 
-				CSaleBasket::Update($dbBasketItems["ID"], $arFields); 
+				$arFields = array("SUBSCRIBE" => "Y", "CAN_BUY" => "N", "DELAY" => "N");
+				CSaleBasket::Update($dbBasketItems["ID"], $arFields);
 			}
 			elseif(!empty($dbBasketItems) && $dbBasketItems["SUBSCRIBE"] == "Y")
-			{	
-				CSaleBasket::Delete($dbBasketItems["ID"]); 
+			{
+				CSaleBasket::Delete($dbBasketItems["ID"]);
 			}
 			else
 			{
-				$arRewriteFields = array("SUBSCRIBE" => "Y", "CAN_BUY" => "N", "DELAY" => "N");	
+				$arRewriteFields = array("SUBSCRIBE" => "Y", "CAN_BUY" => "N", "DELAY" => "N");
 				Add2BasketByProductID(intVal($_REQUEST["item"]), 1, $arRewriteFields, array());
 			}
 		}
 	}
 }
 elseif(!empty($_REQUEST["wish_item"]))
-{ 
+{
 	if($_REQUEST["wish_item"] == "Y")
 	{
 		if($_REQUEST["quantity"])
 			$_REQUEST["quantity"] = floatval($_REQUEST["quantity"]);
-		
+
 		$successfulAdd = true;
 		$strErrorExt = '';
 		$dbBasketItems = CSaleBasket::GetList(
@@ -225,7 +228,7 @@ elseif(!empty($_REQUEST["wish_item"]))
 		}
 		elseif(!empty($dbBasketItems) && $dbBasketItems["DELAY"] == "Y")
 		{
-			CSaleBasket::Delete($dbBasketItems["ID"]); 
+			CSaleBasket::Delete($dbBasketItems["ID"]);
 		}
 		else
 		{
@@ -249,8 +252,8 @@ elseif(!empty($_REQUEST["wish_item"]))
 				$successfulAdd=false;
 				$strError = "ERROR_ADD2BASKET";
 			}
-			
-			$arFields = array("DELAY" => "Y", "SUBSCRIBE" => "N");		
+
+			$arFields = array("DELAY" => "Y", "SUBSCRIBE" => "N");
 			CSaleBasket::Update($id, $arFields);
 		}
 		if($successfulAdd)
@@ -292,7 +295,7 @@ elseif(!empty($_REQUEST["delete_item"]))
 		false, false, array("ID", "DELAY")
 	)->Fetch();
 	if(!empty($dbBasketItems))
-		CSaleBasket::Delete($dbBasketItems["ID"]);	
+		CSaleBasket::Delete($dbBasketItems["ID"]);
 }
 
 if(\Bitrix\Main\Loader::includeModule('aspro.next'))

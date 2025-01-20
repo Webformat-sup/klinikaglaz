@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("М");?><p>
+$APPLICATION->SetTitle("М");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву М");?><p>
  <a href="/meditsinskiy-slovar/m/midriaz/">Мидриаз</a>
 </p>
 <p>

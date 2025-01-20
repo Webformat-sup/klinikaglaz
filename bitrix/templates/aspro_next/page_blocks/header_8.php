@@ -46,7 +46,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 						</div>
 					<?endif;?>
 					<div class="col-md-<?=($arRegions ? 3 : 4);?> search_wrap">
-						<div class="search-block inner-table-block">
+						<div class="search-block search-block--bound-header inner-table-block">
 							<?$APPLICATION->IncludeComponent(
 								"bitrix:main.include",
 								"",

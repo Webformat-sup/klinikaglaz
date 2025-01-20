@@ -1,12 +1,15 @@
 <?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
 <?$this->setFrameMode(true);?>
 <?
+$CScorp = new CScorp;
+$CCache = new CCache;
+
 $arFilter = array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ACTIVE" => "Y", "GLOBAL_ACTIVE" => "Y", "ACTIVE_DATE" => "Y", "DEPTH_LEVEL" => 1);
-$arSections = CCache::CIBLockSection_GetList(array("SORT" => "ASC", "NAME" => "ASC", "CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "GROUP" => array("ID"), "MULTI" => "N")), $arFilter, false, array("ID", "NAME", 'IBLOCK_ID'));
+$arSections = $CCache->CIBLockSection_GetList(array("SORT" => "ASC", "NAME" => "ASC", "CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "GROUP" => array("ID"), "MULTI" => "N")), $arFilter, false, array("ID", "NAME", 'IBLOCK_ID'));
 
 // rss
 if($arParams['USE_RSS'] !== 'N'){
-	CScorp::ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
+	$CScorp->ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 }
 ?>
 <?if(!$arSections):?>
@@ -95,3 +98,14 @@ if($arParams['USE_RSS'] !== 'N'){
 		<br />
 	<?endforeach;?>
 <?endif;?>
+
+<?
+$sectionUrl = $APPLICATION->GetCurDir();
+if($APPLICATION->GetCurDir() == '/projects/'){
+	$APPLICATION->SetTitle('Информационные статьи  | Клиника микрохирургии «Глаз» им. Святослава Федорова');
+	$APPLICATION->SetPageProperty("keywords_inner", "Полезно знать");
+	$APPLICATION->SetPageProperty("title", "Информационные статьи  | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+	$APPLICATION->SetPageProperty("description", "Актуальные темы в сфере офтальмологии от клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Полезная информация о здоровье глаз, болезнях глаз и их лечении, советы и рекомендации как заботиться о зрении");
+	$APPLICATION->SetTitle("Статьи клиники микрохирургии \"ГЛАЗ\" им. академика Святослава Федорова");
+}
+?>

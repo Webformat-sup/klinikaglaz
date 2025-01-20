@@ -1,12 +1,14 @@
 <?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
 <?$this->setFrameMode(true);?>
 <?
-$arItemFilter = CScorp::GetIBlockAllElementsFilter($arParams);
-$itemsCnt = CCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CCache::GetIBlockCacheTag($arParams['IBLOCK_ID']))), $arItemFilter, array());
+$CScorp = new CScorp;
+$CCache = new CCache;
+$arItemFilter = $CScorp->GetIBlockAllElementsFilter($arParams);
+$itemsCnt = $CCache->CIblockElement_GetList(array('CACHE' => array('TAG' => $CCache->GetIBlockCacheTag($arParams['IBLOCK_ID']))), $arItemFilter, array());
 
 // rss
 if($arParams['USE_RSS'] !== 'N'){
-	CScorp::ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
+	$CScorp->ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 }
 ?>
 <?if(!$itemsCnt):?>

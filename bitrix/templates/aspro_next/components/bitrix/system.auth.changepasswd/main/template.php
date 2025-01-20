@@ -1,5 +1,6 @@
 <?
 if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$this->setFrameMode(false);
 
 if($arResult['PHONE_REGISTRATION']){
 	CJSCore::Init('phone_auth');
@@ -13,6 +14,7 @@ if(isset($APPLICATION->arAuthResult)){
 	}
 }
 
+$lastLogin = (isset($_SESSION['lastLoginSave']) ? $_SESSION['lastLoginSave'] : ($arResult["LAST_LOGIN"]?:''));
 global $arTheme;
 ?>
 <div class="border_block">
@@ -61,7 +63,6 @@ global $arTheme;
 							<input type="text" name="USER_CHECKWORD" required maxlength="50" value="<?=$arResult["USER_CHECKWORD"]?>" class="bx-auth-input"  />
 						</div>
 					<?else:?>
-						<input type="hidden" name="USER_CHECKWORD" maxlength="50" value="<?=$arResult["USER_CHECKWORD"]?>" />
 			            <div class="form-control">
 			            	<?
 							$name = "AUTH_EMAIL";
@@ -70,9 +71,22 @@ global $arTheme;
 							}
 							?>
 			                <label><?=GetMessage($name)?> <span class="star">*</span></label>
-							<input type="text" maxlength="50" value="<?=$arResult["LAST_LOGIN"]?>" class="bx-auth-input <?=($_POST && empty($_POST["USER_LOGIN"]) ? "error": '')?>" disabled required />
-							<input type="hidden" name="USER_LOGIN" value="<?=$arResult["LAST_LOGIN"]?>" />
+							<input type="text" maxlength="50" value="<?=$lastLogin?>" class="bx-auth-input <?=($_POST && empty($_POST["USER_LOGIN"]) ? "error": '')?>" disabled required />
+							<input type="hidden" name="USER_LOGIN" value="<?=$lastLogin?>" />
 			            </div>
+						<?if($arResult["USE_PASSWORD"]):?>
+							<div class="form-control">
+								<div class="label_block">
+									<label for="USER_CURRENT_PASSWORD"><?=GetMessage("AUTH_CURRENT_PASSWORD")?> <span class="star">*</span></label>
+									<input type="password" name="USER_CURRENT_PASSWORD" id="USER_CURRENT_PASSWORD" maxlength="50" required value="<?=$arResult["USER_CURRENT_PASSWORD"]?>" class="form-control bg-color current_password <?=( isset($arResult["ERRORS"]) && array_key_exists( "USER_CURRENT_PASSWORD", $arResult["ERRORS"] ))? "error": ''?>" />
+								</div>
+								<div class="text_block">
+									<?=GetMessage("PASSWORD_MIN_LENGTH")?>
+								</div>
+							</div>
+						<?else:?>
+							<input type="hidden" name="USER_CHECKWORD" maxlength="50" value="<?=$arResult["USER_CHECKWORD"]?>" class="bx-auth-input"  />
+						<?endif;?>
 			        <?endif;?>
 		            <div class="form-control">
 						<div class="label_block">

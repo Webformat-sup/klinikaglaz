@@ -1,19 +1,21 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
 <?
+$CScorp = new CScorp;
+$CCache = new CCache;
 // get section items count and subsections
-$arItemFilter = CScorp::GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams);
-$arSectionFilter = CScorp::GetCurrentSectionFilter($arResult["VARIABLES"], $arParams);
-$itemsCnt = CCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
-$arSection = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE'), true);
-CScorp::AddMeta(
+$arItemFilter = $CScorp->GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams);
+$arSectionFilter = $CScorp->GetCurrentSectionFilter($arResult["VARIABLES"], $arParams);
+$itemsCnt = $CCache->CIblockElement_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
+$arSection = $CCache->CIblockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE' ,'DETAIL_TEXT', 'UF_DOCTORS','UF_SP_VIEW'), true);
+$CScorp->AddMeta(
 	array(
 		'og:description' => $arSection['DESCRIPTION'],
 		'og:image' => (($arSection['PICTURE'] || $arSection['DETAIL_PICTURE']) ? CFile::GetPath(($arSection['PICTURE'] ? $arSection['PICTURE'] : $arSection['DETAIL_PICTURE'])) : false),
 	)
 );
-$arSubSectionFilter = CScorp::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
-$arSubSections = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
+$arSubSectionFilter = $CScorp->GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
+$arSubSections = $CCache->CIblockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
 
 
 $this->SetViewTarget('under_sidebar_pay_btn');
@@ -32,15 +34,12 @@ $this->EndViewTarget();
 <?if(!$arSection && $arParams['SET_STATUS_404'] !== 'Y'):?>
 	<div class="alert alert-warning"><?=GetMessage("SECTION_NOTFOUND")?></div>
 <?elseif(!$arSection && $arParams['SET_STATUS_404'] === 'Y'):?>
-	<?CScorp::goto404Page();?>
+	<?$CScorp->goto404Page();?>
 <?else:?>
 	<?// rss
 	if($arParams['USE_RSS'] !== 'N'){
-		CScorp::ShowRSSIcon(CComponentEngine::makePathFromTemplate($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss_section'], array_map('urlencode', $arResult['VARIABLES'])));
+		$CScorp->ShowRSSIcon(CComponentEngine::makePathFromTemplate($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss_section'], array_map('urlencode', $arResult['VARIABLES'])));
 	}?>
-<?/*if(!$arSubSections && !$itemsCnt):?>
-		<div class="alert alert-warning"><?=GetMessage("SECTION_EMPTY")?></div>
-<?endif;*/?>
 	<?if($arSubSections):?>
 		<?// sections list?>
 		<?$APPLICATION->IncludeComponent(
@@ -164,12 +163,26 @@ $this->EndViewTarget();
 	);?>
 <?endif;?>
 <?// staff links?>
-<?//if(in_array('LINK_STAFF', $arParams['LIST_PROPERTY_CODE'])) {
-  $dbServicesGroupedBySpecialities = \CIblockElement::getList(['PROPERTY_LINK_STAFF_VALUE' => 'ASC'], ['SECTION_ID' => $arSection['ID'], 'INCLUDE_SUBSECTIONS' => true], ['PROPERTY_LINK_STAFF']);
-  $arSpecIds = [];
+
+
+
+
+<?
+$arSpecSecIds = is_array($arSection['UF_DOCTORS'])?$arSection['UF_DOCTORS']:array();
+$modeSpec = 'ADD';
+if($arSection && $arSection['UF_SP_VIEW']!= false)
+{
+	$modeSpec = 'CHANGE';
+}
+ $arSpecIds = [];
+if($modeSpec == 'ADD')
+{
+	$dbServicesGroupedBySpecialities = \CIblockElement::getList(['PROPERTY_LINK_STAFF_VALUE' => 'ASC'], ['SECTION_ID' => $arSection['ID'], 'INCLUDE_SUBSECTIONS' => true], ['PROPERTY_LINK_STAFF']);
   while($res = $dbServicesGroupedBySpecialities->Fetch()) {
     $arSpecIds[$res['PROPERTY_LINK_STAFF_VALUE']] = $res['PROPERTY_LINK_STAFF_VALUE'];
   }
+}
+$arSpecIds = array_unique(array_merge($arSpecSecIds, $arSpecIds));
   if(!empty($arSpecIds)) {
   ?><div class="wraps nomargin wf-specialists">
     <hr />
@@ -177,7 +190,7 @@ $this->EndViewTarget();
     <?global $arrrFilter; $arrrFilter = array('ID' => $arSpecIds);?>
     <?$APPLICATION->IncludeComponent("bitrix:news.list", "staff-linked", array(
       "IBLOCK_TYPE" => "aspro_scorp_content",
-      "IBLOCK_ID" => CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_staff"][0],
+      "IBLOCK_ID" => $CCache::$arIBlocks[SITE_ID]["aspro_scorp_content"]["aspro_scorp_staff"][0],
       "NEWS_COUNT" => "30",
       "SORT_BY1" => "SORT",
       "SORT_ORDER1" => "DESC",
@@ -235,5 +248,37 @@ $this->EndViewTarget();
     );?>
   </div><?
   }
-//}?>
+?>
+<?php // микроразметка Json LD
+$iblockId = $arParams['IBLOCK_ID'];
+if($arResult['VARIABLES']['SECTION_CODE']){
+		$iblockSectionId = CIBlockSection::GetList(
+			[], ['IBLOCK_ID' => $iblockId, 'CODE' => $arResult['VARIABLES']['SECTION_CODE']]
+		)->Fetch()['ID'];
+}
 
+$stringValue = '';
+if($iblockId && $iblockSectionId)
+{
+		$codeCustomProp = 'UF_MICRORAZMETKA';
+		$entity = \Bitrix\Iblock\Model\Section::compileEntityByIblock($iblockId);
+
+		$customPropValue = $entity::getList([
+			'select' => [$codeCustomProp], 
+			'filter' => ['ID' => $iblockSectionId], 
+			'cache' => ['ttl' => 36000],
+		])->fetch()[$codeCustomProp];
+
+		if($customPropValue && !empty($customPropValue)){
+			$stringValue = $customPropValue;
+		}else{
+			$ipropSectionValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($iblockId, $iblockSectionId);
+			$seoPropValue = $ipropSectionValues->getValues()['SECTION_META_DESCRIPTION'];
+			$stringValue = (!empty($seoPropValue)) ? $seoPropValue : '';
+		}
+}
+
+$url = $_SERVER['SERVER_NAME'] . $_SERVER['REDIRECT_URL'];
+$mictoFormatJson = stringMicromarkingJson($url, $stringValue);
+$APPLICATION->AddHeadString("<script type=\"application/ld+json\">" . $mictoFormatJson . "</script>");
+?>

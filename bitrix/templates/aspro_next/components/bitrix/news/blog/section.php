@@ -106,6 +106,53 @@ CNext::AddMeta(
 			$arSections[$key]['ELEMENT_COUNT'] = count($arElements);
 		}
 	}
+
+	global $NavNum; 
+	$context = \Bitrix\Main\Application::getInstance()->getContext();
+	if($NavNum){
+		$pagen = $NavNum;
+	}else{
+		$pagen = 2;
+	}
+	$numPage = $context->getRequest()->get("PAGEN_".$pagen) ?? 1;
+	$arGroup =  array("iNumPage" => $numPage, "nPageSize" => $arParams['NEWS_COUNT']);
+	$arSelect = array('ID', 'NAME','PREVIEW_TEXT', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'DATE_CREATE');
+	$arItemFilter = array('INCLUDE_SUBSECTIONS' => 'Y', 'SECTION_ID' => $arSection['ID']);
+
+	$arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y"), $arParams['SORT_BY1'] => $arParams['SORT_ORDER1'], $arParams['SORT_BY2'] => $arParams['SORT_ORDER2']), $arItemFilter, false, $arGroup, $arSelect);
+
+	if($pagen != $NavNum){
+		$NavNum = $pagen - 1;
+	}
+	$CURRENT_PAGE = (CMain::IsHTTPS()) ? "https://" : "http://";
+	$CURRENT_PAGE .= $_SERVER["HTTP_HOST"];
+	$SITE_DOMAIN = $CURRENT_PAGE;
+	$CURRENT_PAGE .= $APPLICATION->GetCurUri();
+	
+	$arSite = \CSite::GetByID(SITE_ID)->Fetch();
+	foreach($arElement as $key=>$element):
+		$arSchema[] = array(
+			"@context" => "https://schema.org",
+			"@type" => "NewsArticle",
+			"url" => $CURRENT_PAGE,
+			"publisher" => array(
+				"@type" => "Organization",
+      			"name" => $arSite['NAME']
+			),
+			"headline" => $element['NAME'],
+			"articleBody" => $element['PREVIEW_TEXT'],
+			"datePublished" => $element['DATE_CREATE']
+		);
+		if($element['PREVIEW_PICTURE']){
+			$arSchema[$key]['image'][] = $SITE_DOMAIN.CFile::GetPath($element['PREVIEW_PICTURE']);
+		}
+		if($element['DETAIL_PICTURE']){
+			$arSchema[$key]['image'][] = $SITE_DOMAIN.CFile::GetPath($element['DETAIL_PICTURE']);
+		}
+	endforeach;
+	?>
+	<script type="application/ld+json"><?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?></script>
+	<?
 	if(!$arSections[$arSection['ID']])
 	{
 		\Bitrix\Iblock\Component\Tools::process404(

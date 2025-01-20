@@ -12,7 +12,7 @@ if(!function_exists("showItems"))
 						<?if($name == "NAME"):?>
 							<?if($arItem["PREVIEW_PICTURE"])
 							{
-								$img = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], array("width" => 75, "height" => 75), BX_RESIZE_PROPORTIONAL_ALT);
+								$img = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], array("width" => 75, "height" => 75), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);
 								// $src= str_replace(array("//", ":/"), array("/", "://"), $arParams["SITE_ADDRESS"].$img["src"]);
 							}?>
 							<div class="item" <?=($arItem["PREVIEW_PICTURE"] ? 'style="position:relative; min-height:75px;font-size:0px;"' : '');?>>
@@ -40,9 +40,9 @@ if(!function_exists("showItems"))
 								<?endif;?>
 							</div>
 						<?elseif($name == "DISCOUNT"):?>
-							<?=CAllCurrencyLang::CurrencyFormat($arItem["PRICE"], $allCurrency);?>
+							<?=CCurrencyLang::CurrencyFormat($arItem["PRICE"], $allCurrency);?>
 						<?elseif($name == "SUMM"):?>
-							<div style="font-weight:600;font-size:14px;color:#333333;"><?=CAllCurrencyLang::CurrencyFormat($arItem["PRICE"]*$arItem["QUANTITY"], $allCurrency);?></div>
+							<div style="font-weight:600;font-size:14px;color:#333333;"><?=CCurrencyLang::CurrencyFormat($arItem["PRICE"]*$arItem["QUANTITY"], $allCurrency);?></div>
 						<?else:?>
 							<?=$arItem[$name];?>
 						<?endif;?>

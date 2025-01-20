@@ -1,5 +1,8 @@
-Options -Indexes 
+Options -Indexes
 ErrorDocument 404 /404.php
+# php_value auto_prepend_file "/home/bitrix/ext_www/klinikaglaz.ru/bitrix/modules/security/tools/start.php"
+php_value auto_prepend_file "autoprepend.php"
+
 
 <IfModule mod_rewrite.c>
 	RewriteCond %{HTTP:X-Forwarded-Proto} ^https$ [NC,OR]
@@ -15,6 +18,16 @@ ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
+
+	#Редирект на https
+	RewriteCond %{SERVER_PORT} !^443$
+	RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+	#Добавляем слэш в конце адреса
+	RewriteCond %{REQUEST_URI} ^(.*\/[^\/\.]+)($|\?)
+	RewriteCond %{REQUEST_URI} !^\/bitrix [NC]
+	RewriteCond %{REQUEST_METHOD} !POST [NC]
+	RewriteRule .* %{ENV:proto}://%{SERVER_NAME}%1/ [R=301,L]
 
 	#убираем "www" в начале URL
 	RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
@@ -39,8 +52,11 @@ ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
 	RewriteEngine On
-	
-	RewriteCond %{QUERY_STRING} ^$
+
+	RewriteCond %{THE_REQUEST} \s/+(.+?)\+\d{10}(/\s|\?) [NC]
+	RewriteCond %{REQUEST_URI} !^/bitrix
+	RewriteRule ^ /%1 [R=301,L]
+
 	RewriteRule ^zdorovyie-glaza-eto-privyichka/$ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/ [L,R=301]
 	RewriteCond %{QUERY_STRING} ^$
 	RewriteRule ^zabota-o-zrenii-rebenka-s-pervyih-dney-zhizni/$ /projects/design/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/ [L,R=301]
@@ -467,13 +483,98 @@ ErrorDocument 404 /404.php
 	RewriteRule ^services/priem-detskogo-oftalmologa/priem-detskogo-oftalmologa-po-vospalitelnym-zabolevaniyam/$ /services/konsultatsii-detskogo-oftalmologa/priem-detskogo-oftalmologa-po-vospalitelnym-zabolevaniyam/ [L,R=301]
 	RewriteCond %{QUERY_STRING} ^$
 	RewriteRule ^/services/priem-detskogo-oftalmologa/$ /services/konsultatsii-detskogo-oftalmologa/ [L,R=301]
-	
+
 	Redirect 301 /company/staff/nikiforova-anastasiya-andreevna/ /company/staff/
 	Redirect 301 /info/articles/upravlenie-proektami/ /info/articles/
 	Redirect 301 /meditsinskiy-slovar/s/http-klinikaglaz-ru-subepitelialniy-fler-rogovitsy/ /meditsinskiy-slovar/s/subepitelialnyy-fler-rogovitsy-kheyz/
 	Redirect 301 /projects/optika/ /projects/optika-v-klinike/
 	Redirect 301 /projects/optika/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/ /projects/optika-v-klinike/kak-vybrat-ochki-na-chto-stoit-obratit-vnimanie/
 
+	Redirect 301 /meditsinskiy-slovar/a/aaa/ /meditsinskiy-slovar/a/aberratsiya/
+	Redirect 301 /meditsinskiy-slovar/a/aba/ambliopiya/ /meditsinskiy-slovar/a/ambliopiya/
+
+	Redirect 301 /polnaya-diagnostika-detskogo-zreniya-so-skidkoj-vsego-1750-rublej/ /
+	Redirect 301 /bardina2a/ /
+	Redirect 301 /kontaktyi/services/khalyazion/lechenie-khalyaziona/ /services/khalyazion/
+	Redirect 301 /vospalitelnye-zabolevaniya-glaza/ /services/vospalitelnye-zabolevaniya-glaza/
+#	Redirect 301 /sale/diagnostika-detskogo-zreniya-za-2500-r-i-skidka-na-ochkovye-linzy-stellest/ /
+	Redirect 301 /sale/v_novyy_god_s_novymi_ochkami_skidka_20_23_43_na_opravu/ /
+	Redirect 301 /voprosy/hirurgicheskoe-lechenie-kataraktyi/ /info/articles/skazhite-pozhaluysta-vkhodit-li-v-stoimost-operatsii-po-zamene-khrustalika-stoimost-samogo-khrustali/
+	Redirect 301 /catalog/solntsezashchitnye_ochki/zolotoy/ /
+	Redirect 301 /kontaktyi/projects/zabota-o-zrenii/solntse-raduet-glaz-no-vredit-zreniyu/ /projects/zabota-o-zrenii/solntse-raduet-glaz-no-vredit-zreniyu/
+	Redirect 301 /sale/skidka-6000-rubley-na-lazernuyu-korrektsiyu-zreniya/lazernaya-korrektsiya-leyzik-s-femtoseknudnym-soprovozhdeniem-femtoleyzik/ /
+	Redirect 301 /catalog/ochki_gotovye_i_dr/metall-s-plastikom/ https://shop.klinikaglaz.ru/catalog/ochki_gotovye_i_dr/
+	Redirect 301 /services/diagnostika/mikrohirurgiya-glaza/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /catalog/aksessuary_dlya_kl/aksessuary_dlya_mkl/konteyner/43827/ https://shop.klinikaglaz.ru/catalog/aksessuary_dlya_kl/
+	Redirect 301 /tiffany/ https://shop.klinikaglaz.ru/catalog/meditsinskie_opravy/
+	Redirect 301 /kak-podgotovit-rebenka--k--oftalmologu/utm_source=yandex&utm_medium=cpc&utm_campaign=26364325&utm_content=3984204032&utm_term=podgotovkarebenka/ /services/diagnostika-detskogo-zreniya/kak-podgotovit-rebyenka-k-vizitu-k-oftalmologu/
+	Redirect 301 /services/bolezni-setchatki/selektivnaya-lazernaya-trabekuloplastika/ /services/glaukoma/selektivnaya-lazernaya-trabekuloplastika/
+	Redirect 301 /kontaktyi/info/oms/prikaz-minzdrava-sverdlovskoy-oblasti-ot-08-02-2013-n-116-p/ /info/oms/
+	Redirect 301 /sale/spetsialnye-tseny-na-na-uglublennuyu-diagnostiku-zreniya-ko-dnyu-rozhdeniya-kliniki/ /
+	Redirect 301 /sale/besplatnyy-osmotr-detskogo-okulista-v-optike/ /
+	Redirect 301 /kontaktyi/projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/ /projects/zabota-o-zrenii/zdorovye-glaza-eto-privychka/
+	Redirect 301 /kontaktyi/services/katarakta-i-glaukoma/ /services/katarakta-i-glaukoma/
+	Redirect 301 /sale/skidka_30_na_linzy_dlya_vozhdeniya_zeiss_drivesafe/ /
+	Redirect 301 /services/podbor-detskikh-ochkov-i-kontaktnykh-linz/proverka-zreniya-i-podbor-mkl-detyam/%20%20/ /services/podbor-detskikh-ochkov-i-kontaktnykh-linz/proverka-zreniya-i-podbor-mkl-detyam/
+	Redirect 301 /info/news/chistota-zalog-zdorovya/ /projects/zabota-o-zrenii/
+	Redirect 301 /sale/diagnostika-zreniya-so-skidkoy-bolee-50-tolko-do-kontsa-iyulya-2021g-/ /
+	Redirect 301 /kontaktyi/projects/lazernaya-korrektsiya-zreniya/ /projects/lazernaya-korrektsiya-zreniya/
+	Redirect 301 /glavvrach/ /company/staff/romanenko-boris-vitalevich/
+	Redirect 301 /info/news/rabota-kliniki-v-period-karantina-i-usilenie-mer-protivovirusnykh-mer-/ /info/news
+	Redirect 301 /services/detskie-zabolevaniya/miopiya-u-detey/services/podbor-detskikh-ochkov-i-kontaktnykh-linz/kogda-mozhno-detya-nosit-kontaktnye-linzy/ /services/detskie-zabolevaniya/miopiya-u-detey/
+	Redirect 301 /info/stock/antikrizisnaya-tsena-operatsiya-ot-30-500-rub-na-katarakty/ /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-200-rub-na-operatsiyu-po-katarakte/
+	Redirect 301 /giperplasia-epitelia/ /
+	Redirect 301 /services/engchild/ege/ /services/
+	Redirect 301 /sale/skidka_30_na_fotokhromnye_linzy_zeiss_s_premialnym_pokrytiem/ /
+	Redirect 301 /sale/50-na-lyubuyu-opravu-aktsiya-osen-20228785/ /
+	Redirect 301 /catalog/solntsezashchitnye_ochki/arizona/57758/ https://shop.klinikaglaz.ru/catalog/solntsezashchitnye_ochki/
+	Redirect 301 /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-500-rub-na-operatsiyu-po-katarakte/ /info/stock/antikrizisnaya-tsena-operatsiya-ot-32-200-rub-na-operatsiyu-po-katarakte/
+	Redirect 301 /sale/den-otkrytykh-dverey-dlya-detey/ /
+	Redirect 301 /catalog/ /
+	Redirect 301 /catalog/katarakta/ /
+	Redirect 301 /services/index_test.php  /services/
+	Redirect 301 /meditsinskiy-slovar/a/aberratsiya.php  /meditsinskiy-slovar/a/aberratsiya/
+	Redirect 301 /meditsinskiy-slovar/aberratsiya/  /meditsinskiy-slovar/a/aberratsiya/
+	Redirect 301 /services/_salon-optiki/kontaktnye-linzy.php  /services/salon-optiki/kontaktnye-linzy/
+	Redirect 301 /projects/design/vliyanie-kompyutera-i-televizora-na-zrenie-rebenka/  /detskoe-zrenie/vliyanie-kompyutera-i-televizora-na-zrenie-rebenka/
+	Redirect 301 /include/licenses_detail.php  /info/processing/
+	Redirect 301 /services/_salon-optiki/kak-podobrat-solntsezashchitnye-ochki.php   /services/salon-optiki/kak-podobrat-solntsezashchitnye-ochki/
+	Redirect 301 /projects/design/khitrosti-chteniya-kak-sokhranit-zdorovoe-zreniya/  /projects/detskoe-zrenie/khitrosti-chteniya-kak-sokhranit-zdorovoe-zreniya/
+	Redirect 301 /projects/zabota-o-zrenii/yachmen-na-glazu-lechenie-prichiny-i-simptomy/u/services/khalyazion/operativnoe-lechenie-khalyaziona/ /projects/zabota-o-zrenii/yachmen-na-glazu-lechenie-prichiny-i-simptomy/
+	Redirect 301 /services/_salon-optiki/  /services/salon-optiki/
+	Redirect 301 /company/litsenzii/litsenzii.php   /company/nashi-preimushchestva/litsenzii/
+	Redirect 301 /services/_lazernoe-lechenie/ /services/bolezni-setchatki/
+
+	Redirect 301 /services/_detskaya-oftalmologiya/ /services/konsultatsii-detskogo-oftalmologa/
+	Redirect 301 /services/_diagnostika/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /services/diagnostika-glaza-zreniya-sostoyaniya-zritelnoy-sistemy/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /services/oborudovanie-poslednego-pokoleniya/ /projects/oborudovanie-v-klinike/oborudovanie-poslednego-pokoleniya/
+    Redirect 301 /services/issledovaniya-i-diagnostika/pochemu-neobkhodimo-regulyarno-prokhodit-polnuyu-diagnostiku-zreniya/ /projects/zabota-o-zrenii/pochemu-neobkhodimo-regulyarno-prokhodit-polnuyu-diagnostiku-zreniya
+	Redirect 301 /services/_muzhskaya-kollektsiya-oprav-oakley/ /services/salon-optiki/
+        Redirect 301 /services/_mikrokhirurgiya-glaza/mikrokhirurgiya-glaza/ /
+	Redirect 301 /lechenie-patsientov-iz-drugikh-regionov/ /company/inogorodnim/
+	Redirect 301 /services/_mikrokhirurgiya-glaza/ /
+	Redirect 301 /services/bolezni-setchatki/lazernaya-distsiziya-vtorichnoy-katarakty.php /
+	Redirect 301 /services/bolezni-setchatki/lazernoe-lechenie-glaukomy.php /
+	Redirect 301 /services/bolezni-setchatki/lazernoe-udalenie-novoobrazovaniy-na-vekakh.php /
+	Redirect 301 /study/engchild/child-5-12/ /
+	Redirect 301 /study/eng/ /
+	Redirect 301 /study/eng/free/ /
+	Redirect 301 /free/ /
+	Redirect 301 /study/ /
+	Redirect 301 /study/derevo/ /
+	Redirect 301 /study/derevo/classic/ /
+	Redirect 301 /projects/design/razvivaem-zrenie-v-igrah/ /projects/detskoe-zrenie/razvivaem-zrenie-v-igrah/
+	Redirect 301 /projects/design/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/ /projects/detskoe-zrenie/zabota-o-zrenii-rebenka-s-pervykh-dney-zhizni/
+	Redirect 301 /projects/design/6-sovetov-detskogo-oftalmologa/ /projects/detskoe-zrenie/6-sovetov-detskogo-oftalmologa/
+	Redirect 301 /projects/design/mir-glazami-rebenka/ /projects/detskoe-zrenie/mir-glazami-rebenka/	
+	Redirect 301 /oftalmogipertenziya/ /meditsinskiy-slovar/oftalmogipertenziya/o/oftalmogipertenziya/
+	Redirect 301 /company/nashi-preimushchestva.php	/company/nashi-preimushchestva/
+	Redirect 301 /company/reviews/otzyv-yandyganovoy-diny-anatolevny/ /company/reviews/
+	Redirect 301 /services/diagnostika/opticheskaya-kogerentnaya-tomografiya-oct-glaza/ /services/issledovaniya-i-diagnostika/opticheskaya-kogerentnaya-tomografiya-okt-glaza/
+	Redirect 301 /services/diagnostika/ /services/issledovaniya-i-diagnostika/
+	Redirect 301 /company/news/detskie_opravy_fisher_price_po_spetsialnoy_tsene_ot_3_900_rubley/ /company/news/detskie_opravy_fisher_price_po_spetsialnoy_tsene_ot_4_900_rubley/
+	Redirect 301 /glaznye-zabolevaniya/diagnostika-katarakty.php /services/katarakta/
 </IfModule>
 
 

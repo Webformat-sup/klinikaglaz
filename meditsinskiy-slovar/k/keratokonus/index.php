@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Кератоконус");?><article>
+$APPLICATION->SetTitle("Что такое Кератоконус");
+$APPLICATION->SetPageProperty("description", "Кератоконус - это изменение формы роговицы, при котором она истончается и принимает коническую форму.");?><article>
 <h3> <b>&nbsp; </b><b>Кератоконус</b></h3>
 <p>
 	&nbsp;«kerato», означающее в переводе «роговица», и «konos» — «конус».

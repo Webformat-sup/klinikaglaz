@@ -3,107 +3,133 @@
 	<div class="bottom_wrapper">
 		<div class="wrapper_inner">
 			<div class="row bottom-middle">
-				<div class="col-md-3 col-sm-3 col-xs-12">
-							<div class="copy">
-								<?$APPLICATION->IncludeFile(SITE_DIR."include/copy.php", Array(), Array(
-										"MODE" => "php",
-										"NAME" => "Copyright",
-									)
-								);?>
-							</div>							
+				<div class="col-md-7">
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<?$APPLICATION->IncludeComponent("bitrix:menu", "bottom", array(
+								"ROOT_MENU_TYPE" => "bottom_company",
+								"MENU_CACHE_TYPE" => "A",
+								"MENU_CACHE_TIME" => "3600000",
+								"MENU_CACHE_USE_GROUPS" => "N",
+								"CACHE_SELECTED_ITEMS" => "N",
+								"MENU_CACHE_GET_VARS" => array(
+								),
+								"MAX_LEVEL" => "1",
+								"USE_EXT" => "N",
+								"DELAY" => "N",
+								"ALLOW_MULTI_SELECT" => "Y"
+								),
+								false
+							);?>
 						</div>
-						<div class="col-md-9 col-sm-9">
-							<div class="row">
-								<div class="col-md-8 col-sm-8">
-									<div class="col-md-7 col-sm-7">
-										<?$APPLICATION->IncludeComponent("bitrix:menu", "bottom", array(
-											"ROOT_MENU_TYPE" => "bottom_company",
-											"MENU_CACHE_TYPE" => "A",
-											"MENU_CACHE_TIME" => "3600000",
-											"MENU_CACHE_USE_GROUPS" => "N",
-											"MENU_CACHE_GET_VARS" => array(
-											),
-											"MAX_LEVEL" => "1",
-											"CHILD_MENU_TYPE" => "",
-											"USE_EXT" => "Y",
-											"DELAY" => "N",
-											"ALLOW_MULTI_SELECT" => "Y"
-											),
-											false
-										);?>
-									</div>
-									<div class="col-md-5 col-sm-5 bottomhelp">
-										<?$APPLICATION->IncludeComponent("bitrix:menu", "bottom", array(
-											"ROOT_MENU_TYPE" => "bottomhelp",
-											"MENU_CACHE_TYPE" => "A",
-											"MENU_CACHE_TIME" => "3600000",
-											"MENU_CACHE_USE_GROUPS" => "N",
-											"MENU_CACHE_GET_VARS" => array(
-											),
-											"MAX_LEVEL" => "1",
-											"CHILD_MENU_TYPE" => "",
-											"USE_EXT" => "Y",
-											"DELAY" => "N",
-											"ALLOW_MULTI_SELECT" => "Y"
-											),
-											false
-										);?>
-										<div class="pc"> 
-										<div class="payment">
-											<div class="title">
-												<?=GetMessage('PAYMENT');?>
-											</div>
-											<div class="img">
-												<img src="/bitrix/templates/aspro_next/images/visa.png" alt="visa">
-												<img src="/bitrix/templates/aspro_next/images/mastercard.png" alt="mastercard">
-											</div>
-											<div class="img">
-												<img src="/bitrix/templates/aspro_next/images/payonline.png" alt="payonline">
-												<img src="/bitrix/templates/aspro_next/images/mir.png" alt="mir">
-											</div>
-										</div></div>
-										<div class="mobi">
-										<div class="payment">
-											<div class="title">
-												<?=GetMessage('PAYMENT');?>
-											</div>
-											<div class="img">
-												<img src="/bitrix/templates/aspro_next/images/visa.png" alt="visa">
-												<img src="/bitrix/templates/aspro_next/images/payonline.png" alt="payonline">
-												
-											</div>
-											<div class="img">
-												<img src="/bitrix/templates/aspro_next/images/mastercard.png" alt="mastercard">
-												<img src="/bitrix/templates/aspro_next/images/mir.png" alt="mir">
-											</div>
-										</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-4">
-									<div class="social">
-										<div class="title"><?=GetMessage("SOCIAL")?></div>
-										<?$APPLICATION->IncludeComponent(
-											"aspro:social.info.next",
-											"custom",
-											array(
-												"CACHE_TYPE" => "A",
-												"CACHE_TIME" => "3600000",
-												"CACHE_GROUPS" => "N",
-												"COMPONENT_TEMPLATE" => ".default"
-											),
-											false
-										);?>
-									</div>
-									<div class="help">
-										<a href="http://klinikaglaz.wfdemo.ru/help/">
-											<img src="/bitrix/templates/aspro_next/images/help.png">
-											<span class="title"><?=GetMessage("HELP")?></span>
-										</a>
-									</div>									
-								</div>
+						<div class="col-md-4 col-sm-4">
+							<?$APPLICATION->IncludeComponent("bitrix:menu", "bottom", array(
+								"ROOT_MENU_TYPE" => "bottom_info",
+								"MENU_CACHE_TYPE" => "A",
+								"MENU_CACHE_TIME" => "3600000",
+								"MENU_CACHE_USE_GROUPS" => "N",
+								"CACHE_SELECTED_ITEMS" => "N",
+								"MENU_CACHE_GET_VARS" => array(
+								),
+								"MAX_LEVEL" => "1",
+								"CHILD_MENU_TYPE" => "left",
+								"USE_EXT" => "N",
+								"DELAY" => "N",
+								"ALLOW_MULTI_SELECT" => "Y"
+								),
+								false
+							);?>
+						</div>
+						<div class="col-md-4 col-sm-4">
+							<?$APPLICATION->IncludeComponent("bitrix:menu", "bottom", array(
+								"ROOT_MENU_TYPE" => "bottom_help",
+								"MENU_CACHE_TYPE" => "A",
+								"MENU_CACHE_TIME" => "3600000",
+								"MENU_CACHE_USE_GROUPS" => "N",
+								"CACHE_SELECTED_ITEMS" => "N",
+								"MENU_CACHE_GET_VARS" => array(
+								),
+								"MAX_LEVEL" => "1",
+								"CHILD_MENU_TYPE" => "left",
+								"USE_EXT" => "N",
+								"DELAY" => "N",
+								"ALLOW_MULTI_SELECT" => "Y"
+								),
+								false
+							);?>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-6">
+							<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
+								array(
+									"COMPONENT_TEMPLATE" => ".default",
+									"PATH" => SITE_DIR."include/left_block/comp_subscribe.php",
+									"AREA_FILE_SHOW" => "file",
+									"AREA_FILE_SUFFIX" => "",
+									"AREA_FILE_RECURSIVE" => "Y",
+									"EDIT_TEMPLATE" => "standard.php"
+								),
+								false
+							);?>
+							<div class="social-block rounded_block">
+								<?$APPLICATION->IncludeComponent(
+									"aspro:social.info.next",
+									".default",
+									array(
+										"CACHE_TYPE" => "A",
+										"CACHE_TIME" => "3600000",
+										"CACHE_GROUPS" => "N",
+										"COMPONENT_TEMPLATE" => ".default",
+										"SOCIAL_TITLE" => GetMessage("SOCIAL_TITLE")
+									),
+									false
+								);?>
 							</div>
 						</div>
+						<div class="col-lg-6 col-md-12 col-sm-4 col-sm-offset-2">
+							<div class="info contacts_block_footer">
+								<?$APPLICATION->IncludeFile(SITE_DIR."include/footer/contacts-title.php", array(), array(
+										"MODE" => "html",
+										"NAME" => "Title",
+										"TEMPLATE" => "include_area.php",
+									)
+								);?>
+								<?CNext::ShowHeaderPhones('', true);?>
+								<?CNext::showEmail('email blocks');?>
+								<?CNext::showAddress('address blocks');?>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bottom-under">
+				<div class="row">
+					<div class="col-md-12 outer-wrapper">
+						<div class="inner-wrapper row">
+							<div class="copy-block">
+								<div class="copy">
+									<?$APPLICATION->IncludeFile(SITE_DIR."include/footer/copy/copyright.php", Array(), Array(
+											"MODE" => "php",
+											"NAME" => "Copyright",
+											"TEMPLATE" => "include_area.php",
+										)
+									);?>
+								</div>
+								<div class="print-block"><?=CNext::ShowPrintLink();?></div>
+								<div id="bx-composite-banner"></div>
+							</div>
+							<div class="pull-right pay_system_icons">
+								<span class="">
+									<?$APPLICATION->IncludeFile(SITE_DIR."include/footer/copy/pay_system_icons.php", Array(), Array("MODE" => "html", "NAME" => GetMessage("PAY_SYSTEM"), "TEMPLATE" => "include_area.php",));?>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

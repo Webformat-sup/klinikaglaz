@@ -17,6 +17,12 @@ $arListView = array(
 );
 
 $arTemplateParameters = array_merge($arPageBlocksParams, array(
+	'SHOW_QUESTION_FORM' => array(
+		'PARENT' => 'LIST_SETTINGS',
+		'NAME' => GetMessage('T_SHOW_QUESTION_FORM'),
+		'TYPE' => 'CHECKBOX',
+		'DEFAULT' => 'Y',
+	),
 	'SHOW_DETAIL_LINK' => array(
 		'PARENT' => 'LIST_SETTINGS',
 		'NAME' => GetMessage('SHOW_DETAIL_LINK'),
@@ -28,6 +34,12 @@ $arTemplateParameters = array_merge($arPageBlocksParams, array(
 		'NAME' => GetMessage('SHOW_FILTER_DATE'),
 		'TYPE' => 'CHECKBOX',
 		'DEFAULT' => 'Y',
+	),
+	"SHOW_RATING" => Array(
+		'PARENT' => 'DETAIL_SETTINGS',
+		"NAME" => GetMessage("SHOW_RATING"),
+		"TYPE" => "CHECKBOX",
+		"DEFAULT" => "Y",
 	),
 	'IMAGE_POSITION' => array(
 		'PARENT' => 'LIST_SETTINGS',

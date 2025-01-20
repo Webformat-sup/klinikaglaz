@@ -21,7 +21,8 @@ if($_GET['special_version'] == 'N'){
 
 global $MIBOK_GLAZA_LANG;
 //$MIBOK_GLAZA_LANG->loadFile('lang_all');
-$MESS = array_merge($MESS, $MIBOK_GLAZA_LANG->arLang);
+//$MESS = array_merge($MESS, $MIBOK_GLAZA_LANG->arLang);
+$MESS = array_merge($MESS);
 
 ?>
 <!DOCTYPE html>

@@ -1,6 +1,7 @@
 <?
 	$MESS["COPY"] = "Копирайт";
-	$MESS["PAYMENT"] = "Системы оплаты:";
+	$MESS["PAYMENT"] = "Оплата";
+	$MESS["PAY_SYSTEM"] = "Платежные системы";
 	$MESS["PHONE"] = "Телефон";
 	$MESS["CREATE"] = "Создание сайтов";
 	$MESS["NAME"] = "Имя";
@@ -16,7 +17,4 @@
 	$MESS["ARBITRARY_2"] = "Произвольная область 2";
 	$MESS["ROUBLE"] = "руб.";
 	$MESS["CALLBACK"] = "Заказать звонок";
-	$MESS["HELP"] = "Нужна помощь?";
-	$MESS["SOCIAL"] = "Мы в соцсетях";
-
 ?>

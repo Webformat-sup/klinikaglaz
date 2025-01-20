@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Вопрос-ответ");
-$APPLICATION->SetPageProperty("keywords", "Вопрос-ответ");
-$APPLICATION->SetPageProperty("description", "Вопрос-ответ");
-$APPLICATION->SetPageProperty("title", "Вопрос-ответ");
+$APPLICATION->SetPageProperty("description", "Получите ответы от врачей-офтальмологов на часто задаваемые вопросы пациентов клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге.");
+$APPLICATION->SetPageProperty("title", "Часто задаваемые вопросы пациентов клиники микрохирургии «Глаз» им. Святослава Федорова");
 $APPLICATION->SetTitle("Вопрос-ответ");
 ?>
 <?$APPLICATION->IncludeComponent(
@@ -34,7 +33,7 @@ $APPLICATION->SetTitle("Вопрос-ответ");
 		"CACHE_FILTER" => "N",
 		"CACHE_GROUPS" => "N",
 		"SET_TITLE" => "Y",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "N",
 		"USE_PERMISSIONS" => "N",
@@ -97,6 +96,16 @@ $APPLICATION->SetTitle("Вопрос-ответ");
 		"T_GOODS" => "",
 		"T_SERVICES" => "",
 		"T_STUDY" => "",
+		"COMPONENT_TEMPLATE" => "news",
+		"SET_LAST_MODIFIED" => "N",
+		"STRICT_SECTION_CHECK" => "N",
+		"T_VIDEO" => "",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"DETAIL_SET_CANONICAL_URL" => "Y",
+		"PAGER_BASE_LINK_ENABLE" => "N",
+		"SHOW_404" => "N",
+		"MESSAGE_404" => "",
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "",
 			"section" => "",

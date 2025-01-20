@@ -5,6 +5,11 @@
 		<?foreach($arResult as $arItem):?>
 			<?if($arParams["MAX_LEVEL"] == 1 && $arItem["DEPTH_LEVEL"] > 1) continue;?>
 			<li class="<?if($arItem["SELECTED"]){?> current <?}?> <?=($arItem["CHILD"] ? "has-childs" :"");?> item <?=(strlen($arItem["PARAMS"]["class"]) ? $arItem["PARAMS"]["class"] : '')?>">
+				<?
+				if( strpos($arItem["LINK"] ,'?logout=yes') !== false ){
+					$arItem["LINK"].= '&'.bitrix_sessid_get();
+				}
+				?>
 				<a class="icons_fa" href="<?=$arItem["LINK"]?>">
 					<span><?=$arItem["TEXT"]?></span>
 				</a>

@@ -69,40 +69,74 @@
 <?$list_view = ($arParams['LIST_VIEW'] ? $arParams['LIST_VIEW'] : 'slider');?>
 <?// goods links?>
 <?if(in_array('LINK_GOODS', $arParams['DETAIL_PROPERTY_CODE'])):?>
-	<?$catalogID = \Bitrix\Main\Config\Option::get('aspro.next', 'CATALOG_IBLOCK_ID', CNextCache::$arIBlocks[SITE_ID]["aspro_next_catalog"]["aspro_next_catalog"][0]);?>
 	<?
-	$dbProperty = CIBlockProperty::GetList(array(), array("IBLOCK_ID" => $catalogID, "CODE" => "LINK_SALE"));
-	if($dbProperty->SelectedRowsCount() && $arElement['ID'])
-	{
-		$arTmpElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($catalogID), 'MULTI' => 'Y')), array('IBLOCK_ID' => $catalogID, 'PROPERTY_LINK_SALE' => $arElement['ID']), false, false, array('ID'));
-		if($arTmpElement)
-		{
-			foreach($arTmpElement as $key => $arItem)
-				$arFilterElements[] = $arItem['ID'];
+	$catalogID = \Bitrix\Main\Config\Option::get('aspro.next', 'CATALOG_IBLOCK_ID', CNextCache::$arIBlocks[SITE_ID]["aspro_next_catalog"]["aspro_next_catalog"][0]);
 
-			if($arElement['PROPERTY_LINK_GOODS_VALUE'])
-				$arElement['PROPERTY_LINK_GOODS_VALUE'] = array_merge((array)$arElement['PROPERTY_LINK_GOODS_VALUE'], $arFilterElements);
-			else
-				$arElement['PROPERTY_LINK_GOODS_VALUE'] = $arFilterElements;
+	if($arElement['PROPERTY_LINK_GOODS_FILTER_VALUE']){
+		$cond = new CNextCondition();
+		try{
+		    $arTmpGoods = \Bitrix\Main\Web\Json::decode($arElement['~PROPERTY_LINK_GOODS_FILTER_VALUE']);
+		    $arGoodsFilter = $cond->parseCondition($arTmpGoods, $arParams);
+		}
+		catch(\Exception $e){
+		    $arGoodsFilter = array();
+		}
+		unset($cond);
+	}
+
+    if(
+    	!$arElement['PROPERTY_LINK_GOODS_FILTER_VALUE'] ||
+    	!$arTmpGoods['CHILDREN']
+    ){
+
+		$dbProperty = CIBlockProperty::GetList(array(), array("IBLOCK_ID" => $catalogID, "CODE" => "LINK_SALE"));
+		if($dbProperty->SelectedRowsCount() && $arElement['ID'])
+		{
+			$arTmpElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($catalogID), 'MULTI' => 'Y')), array('IBLOCK_ID' => $catalogID, 'PROPERTY_LINK_SALE' => $arElement['ID']), false, false, array('ID'));
+			if($arTmpElement)
+			{
+				foreach($arTmpElement as $key => $arItem)
+					$arFilterElements[] = $arItem['ID'];
+
+				if($arElement['PROPERTY_LINK_GOODS_VALUE'])
+					$arElement['PROPERTY_LINK_GOODS_VALUE'] = array_merge((array)$arElement['PROPERTY_LINK_GOODS_VALUE'], $arFilterElements);
+				else
+					$arElement['PROPERTY_LINK_GOODS_VALUE'] = $arFilterElements;
+			}
 		}
 	}
-	$arTmpGoods = json_decode($arElement["~PROPERTY_LINK_GOODS_FILTER_VALUE"], true);
 	?>
-	<?if($arElement['PROPERTY_LINK_GOODS_VALUE'] || ($arElement['PROPERTY_LINK_GOODS_FILTER_VALUE'] && $arTmpGoods['CHILDREN'])):?>
+	<?if(
+		$arElement['PROPERTY_LINK_GOODS_VALUE'] ||
+		(
+			$arElement['PROPERTY_LINK_GOODS_FILTER_VALUE'] &&
+			$arTmpGoods['CHILDREN']
+		)
+	):?>
 		<div class="wraps goods-block with-padding block ajax_load catalog">
-			<?$bAjax = ((isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == "xmlhttprequest")  && (isset($_GET["ajax_get"]) && $_GET["ajax_get"] == "Y"));?>
-			<?if($bAjax):?>
-				<?$APPLICATION->RestartBuffer();?>
-			<?endif;?>
-			<?if(!isset($arParams["PRICE_CODE"]))
+			<?
+			$bAjax = ((isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == "xmlhttprequest")  && (isset($_GET["ajax_get"]) && $_GET["ajax_get"] == "Y"));
+
+			if($bAjax){
+				$APPLICATION->RestartBuffer();
+			}
+
+			if(!isset($arParams["PRICE_CODE"]))
 				$arParams["PRICE_CODE"] = array(0 => "BASE", 1 => "OPT");
+
 			if(!isset($arParams["STORES"]))
 				$arParams["STORES"] = array(0 => "1", 1 => "2");
-			?>
-			<?
-			if(!($arElement['PROPERTY_LINK_GOODS_FILTER_VALUE'] && $arTmpGoods['CHILDREN']))
-				$GLOBALS['arrProductsFilter'] = array('ID' => $arElement['PROPERTY_LINK_GOODS_VALUE']);?>
-			<?
+
+            if(
+            	$arElement['PROPERTY_LINK_GOODS_FILTER_VALUE'] &&
+            	$arTmpGoods['CHILDREN']
+            ){
+                $GLOBALS['arrProductsFilter'] = array($arGoodsFilter);
+            }
+            else{
+                $GLOBALS['arrProductsFilter'] = array('ID' => $arElement['PROPERTY_LINK_GOODS_VALUE']);
+            }
+
 			global $arRegion;
 			if($arRegion)
 			{
@@ -111,6 +145,7 @@
 					if(reset($arRegion['LIST_PRICES']) != 'component')
 						$arParams['PRICE_CODE'] = array_keys($arRegion['LIST_PRICES']);
 				}
+
 				if($arRegion['LIST_STORES'])
 				{
 					if(reset($arRegion['LIST_STORES']) != 'component')
@@ -141,23 +176,31 @@
 				if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
 				{
 					if($arParams['STORES']){
-						if(count($arParams['STORES']) > 1){
-							$arStoresFilter = array('LOGIC' => 'OR');
-							foreach($arParams['STORES'] as $storeID)
-							{
-								$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-							}
+						if(CNext::checkVersionModule('18.6.200', 'iblock')){
+							$arStoresFilter = array(
+								'STORE_NUMBER' => $arParams['STORES'],
+								'>STORE_AMOUNT' => 0,
+							);
 						}
 						else{
-							foreach($arParams['STORES'] as $storeID)
-							{
-								$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							if(count($arParams['STORES']) > 1){
+								$arStoresFilter = array('LOGIC' => 'OR');
+								foreach($arParams['STORES'] as $storeID)
+								{
+									$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+								}
+							}
+							else{
+								foreach($arParams['STORES'] as $storeID)
+								{
+									$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+								}
 							}
 						}
 
-						$arTmpFilter = array('!TYPE' => '2');
+						$arTmpFilter = array('!TYPE' => array('2', '3'));
 						if($arStoresFilter){
-							if(count($arStoresFilter) > 1){
+							if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
 								$arTmpFilter[] = $arStoresFilter;
 							}
 							else{
@@ -166,7 +209,7 @@
 
 							$GLOBALS['arrProductsFilter'][] = array(
 								'LOGIC' => 'OR',
-								array('TYPE' => '2'),
+								array('TYPE' => array('2', '3')),
 								$arTmpFilter,
 							);
 						}
@@ -185,17 +228,18 @@
 					"AREA_FILE_RECURSIVE" => "Y",
 					"EDIT_TEMPLATE" => "standard.php",
 					"PRICE_CODE" => $arParams["PRICE_CODE"],
-					"CUSTOM_FILTER" => $arElement['~PROPERTY_LINK_GOODS_FILTER_VALUE'],
+					"CUSTOM_FILTER" => "",
 					"STORES" => $arParams["STORES"],
 					"BIG_DATA_RCM_TYPE" => "bestsell",
 					"STIKERS_PROP" => "HIT",
 					"SALE_STIKER" => "SALE_TEXT",
+					"SHOW_RATING" => isset($arParams["SHOW_RATING"]) ? $arParams["SHOW_RATING"] : "Y",
 					"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 					"LINKED_ELEMENST_PAGE_COUNT" => $arParams["LINKED_ELEMENST_PAGE_COUNT"],
 					"LINKED_ELEMENST_PAGINATION" => $arParams["LINKED_ELEMENST_PAGINATION"],
 					"SHOW_DISCOUNT_PERCENT_NUMBER" => $arParams["SHOW_DISCOUNT_PERCENT_NUMBER"],
 					"FROM_AJAX" => ($bAjax?"Y":"N"),
-					"TITLE" => (strlen($arParams["T_GOODS"])?$arParams["T_GOODS"]:GetMessage("T_GOODS")),
+					"TITLE" => (strlen($arParams["T_GOODS"]) ? $arParams["T_GOODS"] : GetMessage("T_GOODS")),
 					"COMPOSITE_FRAME_MODE" => "A",
 					"COMPOSITE_FRAME_TYPE" => "AUTO"
 				),
@@ -266,7 +310,7 @@
 			"SHOW_NAME" => "Y",
 			"SHOW_DETAIL" => "Y",
 			"IMAGE_POSITION" => "top",
-			"COUNT_IN_LINE" => "3",
+			"COUNT_IN_LINE" => 1,
 			"GALLERY_TYPE" => $arParams["GALLERY_TYPE"],
 			"AJAX_OPTION_ADDITIONAL" => ""
 			),
@@ -276,5 +320,5 @@
 <?endif;?>
 
 <?if(in_array('FORM_QUESTION', $arParams['DETAIL_PROPERTY_CODE']) && $arElement['PROPERTY_FORM_QUESTION_VALUE'] && $isHideLeftBlock):?>
-	</div>
+	</div></div>
 <?endif;?>

@@ -1,9 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Акции");
-$APPLICATION->SetPageProperty("title", "Акции");
+$APPLICATION->SetPageProperty("title", "Акции, скидки и специальные предложения | Клиника микрохирургии \"Глаз\" им. С. Федорова");
 $APPLICATION->SetPageProperty("keywords", "Акции");
-$APPLICATION->SetPageProperty("description", "Акции");
+$APPLICATION->SetPageProperty("description", "Посмотрите действующие акции и специальные предложения офтальмологической клиники «Глаз» им С. Федорова в Екатеринбурге. Звоните по т. +7 (343) 270-00-30, +7(343)328-88-45");
 $APPLICATION->SetTitle("Акции");
 ?>
 <?$APPLICATION->IncludeComponent(
@@ -34,7 +34,7 @@ $APPLICATION->SetTitle("Акции");
 		"CACHE_FILTER" => "N",
 		"CACHE_GROUPS" => "Y",
 		"SET_TITLE" => "Y",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "N",
 		"USE_PERMISSIONS" => "N",
@@ -100,6 +100,16 @@ $APPLICATION->SetTitle("Акции");
 		"T_GOODS" => "Товары по акции",
 		"T_SERVICES" => "Услуги по акции",
 		"T_STUDY" => "Курсы по акции",
+		"COMPONENT_TEMPLATE" => "news",
+		"SET_LAST_MODIFIED" => "N",
+		"STRICT_SECTION_CHECK" => "N",
+		"T_VIDEO" => "",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"DETAIL_SET_CANONICAL_URL" => "Y",
+		"PAGER_BASE_LINK_ENABLE" => "N",
+		"SHOW_404" => "N",
+		"MESSAGE_404" => "",
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "",
 			"section" => "",

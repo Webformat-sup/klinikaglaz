@@ -1179,7 +1179,8 @@ window.JCCatalogSection.prototype.setLikeBlock = function(th, className, obj, ty
 /*set buy*/
 window.JCCatalogSection.prototype.setBuyBlock = function(th, obj)
 {
-	var buyBlock=th.find('.offer_buy_block');
+	var buyBlock=th.find('.offer_buy_block'),
+		input_value = 1;
 
 	if(buyBlock.find('.counter_wrapp .counter_block').length){
 		buyBlock.find('.counter_wrapp .counter_block').attr('data-item', obj.ID);
@@ -1459,9 +1460,13 @@ window.JCCatalogSection.prototype.setPrice = function(change, sku, obPrices, mea
 			}
 		}
 		*/
-
-		strPrice = '<span class="values_wrapper">'+getCurrentPrice(obPrice.VALUE, obPrice.CURRENCY, obPrice.PRINT_VALUE)+'</span>';
-		BX.adjust($(this.obPrice).closest('.cost').find('.price.discount')[0], {html: strPrice});
+		
+		if($(this.obPrice).closest('.cost').find('.price.discount').length)
+		{
+			strPrice = '<span class="values_wrapper">'+getCurrentPrice(obPrice.VALUE, obPrice.CURRENCY, obPrice.PRINT_VALUE)+'</span>';
+			BX.adjust($(this.obPrice).closest('.cost').find('.price.discount')[0], {html: strPrice});
+		}
+		
 		newPrice = '<span class="values_wrapper">'+getCurrentPrice(obPrice.DISCOUNT_VALUE, obPrice.CURRENCY, obPrice.PRINT_DISCOUNT_VALUE)+'</span>';
 		if(measure){
 			newPrice += '/'+measure;

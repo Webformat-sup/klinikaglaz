@@ -8,6 +8,7 @@ function checkNavColor(slider){
 	var eventdata = {slider: slider};
 	BX.onCustomEvent('onSlide', [eventdata]);
 }
+
 $(document).ready(function(){
 	if($('.top_slider_wrapp .flexslider').length){
 		var config = {"controlNav": true, "animationLoop": true, "pauseOnHover" : true};
@@ -27,7 +28,7 @@ $(document).ready(function(){
 			}
 			config.start = function(slider){
 				checkNavColor(slider);
-				
+
 				if(slider.count <= 1){
 					slider.find('.flex-direction-nav li').addClass('flex-disabled');
 				}
@@ -40,15 +41,4 @@ $(document).ready(function(){
 
 		$(".top_slider_wrapp .flexslider").flexslider(config);
 	}
-
-	BX.addCustomEvent('onWindowResize', function(eventdata){
-		try{
-			ignoreResize.push(true);
-			CoverPlayerHtml()
-		}
-		catch(e){}
-		finally{
-			ignoreResize.pop();
-		}
-	})
 });

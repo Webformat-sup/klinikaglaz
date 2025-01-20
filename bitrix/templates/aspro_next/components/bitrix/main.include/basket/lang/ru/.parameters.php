@@ -16,4 +16,6 @@ $MESS["CP_BC_TPL_RCM_RAND"] = "Любая рекомендация";
 $MESS["SALE_STIKER"] = "Свойство со стикером акций";
 $MESS["STIKERS_PROP_TITLE"] = "Свойство со стикерами";
 $MESS["SHOW_DISCOUNT_PERCENT_NUMBER_NAME"] = "Отображать процент экономии";
+
+$MESS["TP_BST_PRICE_VAT_INCLUDE"] = "Включать НДС в цену";
 ?>

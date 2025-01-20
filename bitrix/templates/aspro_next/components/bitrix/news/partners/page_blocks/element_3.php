@@ -60,7 +60,7 @@
 	$catalogIBlockID = ($arParams["IBLOCK_CATALOG_ID"] ? $arParams["IBLOCK_CATALOG_ID"] : $arTheme["CATALOG_IBLOCK_ID"]["VALUE"]);
 
 	$arItemsFilter = array("IBLOCK_ID" => $catalogIBlockID, "ACTIVE"=>"Y", "PROPERTY_".$arParams["LINKED_PRODUCTS_PROPERTY"] => $arElement["ID"], 'SECTION_GLOBAL_ACTIVE' => 'Y');
-	CNext::makeElementFilterInRegion($arItemsFilter);
+	CNext::makeElementFilterInRegion($arItemsFilter, false, true);
 	$arItems = CNextCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"Y", "TAG" => CNextCache::GetIBlockCacheTag($arTheme["CATALOG_IBLOCK_ID"]["VALUE"]))), $arItemsFilter, false, false, array("ID", "IBLOCK_ID", "IBLOCK_SECTION_ID"));
 
 	if($arItems)
@@ -105,7 +105,8 @@
 						"ADD_SECTIONS_CHAIN" => "N",
 						"USE_FILTER_SECTION" => "Y",
 						"BRAND_NAME" => $arElement["NAME"],
-						"BRAND_CODE" => $arElement["CODE"],
+						"BRAND_CODE" => strtolower($arElement["CODE"]),
+						"COMPACT_VIEW_MOBILE" => $arTheme["MOBILE_CATALOG_LIST_SECTIONS_COMPACT"]["VALUE"],
 						"SHOW_SECTIONS_LIST_PREVIEW" => "N",
 						"SECTIONS_LIST_PREVIEW_PROPERTY" => "N",
 						"SECTIONS_LIST_PREVIEW_DESCRIPTION" => "N",
@@ -175,23 +176,31 @@
 				if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
 				{
 					if($arParams['STORES']){
-						if(count($arParams['STORES']) > 1){
-							$arStoresFilter = array('LOGIC' => 'OR');
-							foreach($arParams['STORES'] as $storeID)
-							{
-								$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-							}
+						if(CNext::checkVersionModule('18.6.200', 'iblock')){
+							$arStoresFilter = array(
+								'STORE_NUMBER' => $arParams['STORES'],
+								'>STORE_AMOUNT' => 0,
+							);
 						}
 						else{
-							foreach($arParams['STORES'] as $storeID)
-							{
-								$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+							if(count($arParams['STORES']) > 1){
+								$arStoresFilter = array('LOGIC' => 'OR');
+								foreach($arParams['STORES'] as $storeID)
+								{
+									$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+								}
+							}
+							else{
+								foreach($arParams['STORES'] as $storeID)
+								{
+									$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+								}
 							}
 						}
 
-						$arTmpFilter = array('!TYPE' => '2');
+						$arTmpFilter = array('!TYPE' => array('2', '3'));
 						if($arStoresFilter){
-							if(count($arStoresFilter) > 1){
+							if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
 								$arTmpFilter[] = $arStoresFilter;
 							}
 							else{
@@ -200,7 +209,7 @@
 
 							$GLOBALS['arrProductsFilter'][] = array(
 								'LOGIC' => 'OR',
-								array('TYPE' => '2'),
+								array('TYPE' => array('2', '3')),
 								$arTmpFilter,
 							);
 						}
@@ -228,7 +237,11 @@
 					"LINKED_ELEMENST_PAGE_COUNT" => $arParams["LINKED_ELEMENST_PAGE_COUNT"],
 					"LINKED_ELEMENST_PAGINATION" => $arParams["LINKED_ELEMENST_PAGINATION"],
 					"SHOW_DISCOUNT_PERCENT_NUMBER" => $arParams["SHOW_DISCOUNT_PERCENT_NUMBER"],
-					"TITLE" => str_replace("#BRAND_NAME#", $arElement["NAME"], (strlen($arParams['T_GOODS']) ? $arParams['T_GOODS'] : GetMessage('T_GOODS')))
+					"TITLE" => str_replace("#BRAND_NAME#", $arElement["NAME"], (strlen($arParams['T_GOODS']) ? $arParams['T_GOODS'] : GetMessage('T_GOODS'))),
+					"LINKED_ELEMENT_TAB_SORT_FIELD" => $arParams["LINKED_ELEMENT_TAB_SORT_FIELD"],
+					"LINKED_ELEMENT_TAB_SORT_ORDER" => $arParams["LINKED_ELEMENT_TAB_SORT_ORDER"],
+					"LINKED_ELEMENT_TAB_SORT_FIELD2" => $arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"],
+					"LINKED_ELEMENT_TAB_SORT_ORDER2" => $arParams["LINKED_ELEMENT_TAB_SORT_ORDER2"],
 				),
 				false
 			);?>

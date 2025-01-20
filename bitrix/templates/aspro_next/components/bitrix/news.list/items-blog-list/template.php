@@ -15,17 +15,18 @@ $this->setFrameMode(true);?>
 					$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem['IBLOCK_ID'], 'ELEMENT_DELETE'), array('CONFIRM' => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 
 					$bImage = isset($arItem['FIELDS']['PREVIEW_PICTURE']) && strlen($arItem['PREVIEW_PICTURE']['SRC']);
-					$imageSrc = ($bImage ? $arItem['PREVIEW_PICTURE']['SRC'] : SITE_TEMPLATE_PATH.'/images/noimage_product.png');
 					// show active date period
-					$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', $arParams['FIELD_CODE']));
+					$bActiveDate = strlen($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE']) || ($arItem['DISPLAY_ACTIVE_FROM'] && in_array('DATE_ACTIVE_FROM', (array)$arParams['FIELD_CODE']));
 					?>
 					<li class="">
 						<div class="item" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
 							<a href="<?=$arItem['DETAIL_PAGE_URL']?>">
 								<?// preview picture?>
-								<div class="image shine <?=($bImage ? "w-picture" : "wo-picture");?>">
-									<img src="<?=$imageSrc?>" alt="<?=($bImage ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($bImage ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" class="img-responsive" />
-								</div>
+								<? if ($bImage): ?>
+									<div class="image shine <?=($bImage ? "w-picture" : "wo-picture");?>">
+										<img src="<?= $arItem['PREVIEW_PICTURE']['SRC']; ?>" alt="<?=($bImage ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($bImage ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" class="img-responsive" />
+									</div>
+								<? endif; ?>
 								<div class="info">
 									<?// element name?>
 									<div class="title dark-color">

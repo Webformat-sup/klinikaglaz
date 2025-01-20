@@ -32,7 +32,7 @@
 
 	/* Scroll to Top */
 	a.scroll-to-top {
-		display: none !important;
+		bottom: 75px !important;
 	}
 }
 

@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Вакансии");
-$APPLICATION->SetPageProperty("title", "Вакансии");
-$APPLICATION->SetPageProperty("keywords", "Вакансии");
-$APPLICATION->SetPageProperty("description", "Вакансии");
+$APPLICATION->SetPageProperty("title", "Вакансии | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Информация об открытых вакансиях клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Отправляйте свое резюме нам на почту и мы обязательно свяжемся с вами! Звоните : +7 (343) 270-00-30, +7(343) 328-88-45");
 $APPLICATION->SetTitle("Вакансии");
 ?>
 <?$APPLICATION->IncludeComponent(
@@ -34,7 +33,7 @@ $APPLICATION->SetTitle("Вакансии");
 		"CACHE_FILTER" => "N",
 		"CACHE_GROUPS" => "N",
 		"SET_TITLE" => "Y",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "N",
 		"USE_PERMISSIONS" => "N",
@@ -88,6 +87,15 @@ $APPLICATION->SetTitle("Вакансии");
 		"USE_REVIEW" => "N",
 		"ADD_ELEMENT_CHAIN" => "N",
 		"SHOW_DETAIL_LINK" => "Y",
+		"COMPONENT_TEMPLATE" => "vacancy",
+		"SET_LAST_MODIFIED" => "N",
+		"STRICT_SECTION_CHECK" => "N",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"DETAIL_SET_CANONICAL_URL" => "Y",
+		"PAGER_BASE_LINK_ENABLE" => "N",
+		"SHOW_404" => "N",
+		"MESSAGE_404" => "",
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "",
 			"section" => "",

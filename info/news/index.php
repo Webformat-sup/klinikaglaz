@@ -1,9 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "Новости");
-$APPLICATION->SetPageProperty("title", "Новости");
-$APPLICATION->SetPageProperty("keywords", "Новости");
-$APPLICATION->SetPageProperty("description", "Новости");
+$APPLICATION->SetPageProperty("title", "Новости | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Информация о свежих новостях и интересных событиях в клиники микрохирургии «Глаз» им. Святослава Федорова в Екатеринбурге. Актуальная информацию о мероприятиях, достижениях, специальных предложениях и последних технологиях в области офтальмологии. Звоните: +7 (343) 270-00-30, +7(343)328-88-45");
 $APPLICATION->SetTitle("Новости");
 ?>
 <?$APPLICATION->IncludeComponent(
@@ -34,7 +33,7 @@ $APPLICATION->SetTitle("Новости");
 		"CACHE_FILTER" => "N",
 		"CACHE_GROUPS" => "N",
 		"SET_TITLE" => "Y",
-		"SET_STATUS_404" => "N",
+		"SET_STATUS_404" => "Y",
 		"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
 		"ADD_SECTIONS_CHAIN" => "N",
 		"USE_PERMISSIONS" => "N",
@@ -100,6 +99,16 @@ $APPLICATION->SetTitle("Новости");
 		"T_GOODS" => "",
 		"T_SERVICES" => "",
 		"T_STUDY" => "",
+		"COMPONENT_TEMPLATE" => "news",
+		"SET_LAST_MODIFIED" => "N",
+		"STRICT_SECTION_CHECK" => "N",
+		"T_VIDEO" => "",
+		"COMPOSITE_FRAME_MODE" => "A",
+		"COMPOSITE_FRAME_TYPE" => "AUTO",
+		"DETAIL_SET_CANONICAL_URL" => "Y",
+		"PAGER_BASE_LINK_ENABLE" => "N",
+		"SHOW_404" => "N",
+		"MESSAGE_404" => "",
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "",
 			"section" => "",

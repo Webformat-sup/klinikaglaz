@@ -1,4 +1,5 @@
 /* 13px Ubuntu (Default) */
+html {font-size: 13px;}
 body, body .bx-soa-section-title{font: 13px/22px "Ubuntu", Arial, sans-serif;}
 #bx-soa-order .bx-sls .bx-ui-sls-fake, #bx-soa-order .bx-sls .bx-ui-sls-route{font-family: "Ubuntu", Arial, Helvetica, sans-serif;}
 .personal_wrapper .orders_wrapper .sale-order-list-button, .personal_wrapper .orders_wrapper .sale-order-detail-about-order-inner-container-repeat > a, .sale-order-detail-payment-options-methods-button-element, .sale-order-detail-payment-options-methods-button-element-new-window{font-family: "Ubuntu", Arial, Helvetica, sans-serif;}
@@ -16,7 +17,6 @@ h1,h2,h3,h4,h5,h6{font-family: "Ubuntu", Arial, sans-serif;}
 .dropdown-menu .more_items{font-size:13px;}
 
 .banners-small .item .image .type-block{font-size:12px;}
-.top-block-item .phone>a{font-size:14px;}
 .phone .more_phone{font-size:15px;}
 .subscribe-block-wrapper .text{font-size:15px;}
 
@@ -105,3 +105,4 @@ body .buy_block .counter input, body .footer-button .buy_block .counter input{he
 .personal_wrapper .orders_wrapper .sale-order-list-container .sale-order-list-accomplished-title, .personal_wrapper .orders_wrapper .sale-order-list-container .sale-order-list-title, .personal_wrapper .orders_wrapper .sale-order-detail-general-item,
 .personal_wrapper .orders_wrapper .sale-order-list-inner-row > div > a, .personal_wrapper .sale-personal-account-wallet-container .sale-personal-account-wallet-title,
 .btn.sale-account-pay-button, .bx-sls .bx-ui-sls-fake, .bx-sls .bx-ui-sls-route{font-family: "Ubuntu", Arial, Helvetica, sans-serif;}
+.gm-style, .gm-style-iw-d {font: 13px/22px "Ubuntu", Arial, sans-serif;}

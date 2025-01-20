@@ -7,10 +7,41 @@ $arItemFilter = CNext::GetCurrentElementFilter($arResult["VARIABLES"], $arParams
 $arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arItemFilter, false, false, array("ID", 'NAME', 'PREVIEW_TEXT', "IBLOCK_SECTION_ID", 'DETAIL_PICTURE', 'DETAIL_PAGE_URL', 'PROPERTY_LINK_PROJECTS', 'PROPERTY_LINK_REVIEWS', 'PROPERTY_DOCUMENTS'));
 ?>
 <?$bHideBackUrl = false;?>
+
+<?if(($arParams["LINKED_ELEMENT_TAB_SORT_FIELD"] == "REGION_PRICE" || $arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"] == "REGION_PRICE")
+	&& $arParams["SORT_REGION_PRICE"]) {
+	$arPriceSort = [];
+	global $arRegion;
+	if ($arRegion) {
+		if (!$arRegion["PROPERTY_SORT_REGION_PRICE_VALUE"] || $arRegion["PROPERTY_SORT_REGION_PRICE_VALUE"] == "component") {
+			$price = CCatalogGroup::GetList(array(), array("NAME" => $arParams["SORT_REGION_PRICE"]), false, false, array("ID", "NAME"))->GetNext();
+			$arPriceSort = array("CATALOG_PRICE_".$price["ID"]);
+		} else {
+			$arPriceSort = array("CATALOG_PRICE_".$arRegion["PROPERTY_SORT_REGION_PRICE_VALUE"]);
+		}
+	}
+	if ($arPriceSort) {
+		if ($arParams["LINKED_ELEMENT_TAB_SORT_FIELD"] == "REGION_PRICE") {
+			$arParams["LINKED_ELEMENT_TAB_SORT_FIELD"] = $arPriceSort[0];
+		}
+		if ($arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"] == "REGION_PRICE") {
+			$arParams["LINKED_ELEMENT_TAB_SORT_FIELD2"] = $arPriceSort[0];
+		}
+	}
+}?>
+
 <?if(!$arElement && $arParams['SET_STATUS_404'] !== 'Y'):?>
 	<div class="alert alert-warning"><?=GetMessage("ELEMENT_NOTFOUND")?></div>
 <?elseif(!$arElement && $arParams['SET_STATUS_404'] === 'Y'):?>
-	<?CNext::goto404Page();?>
+	<?//CNext::goto404Page(); *1.8.11
+	\Bitrix\Iblock\Component\Tools::process404(
+		""
+		,($arParams["SET_STATUS_404"] === "Y")
+		,($arParams["SET_STATUS_404"] === "Y")
+		,($arParams["SHOW_404"] === "Y")
+		,$arParams["FILE_404"]
+	);
+	?>
 <?else:?>
 	<?// rss
 	if($arParams['USE_RSS'] !== 'N'){
@@ -19,7 +50,7 @@ $arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => 
 	<?CNext::AddMeta(
 		array(
 			'og:description' => $arElement['PREVIEW_TEXT'],
-			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
+			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['DETAIL_PICTURE'] ? $arElement['DETAIL_PICTURE'] : $arElement['PREVIEW_PICTURE'])) : false),
 		)
 	);?>
 
@@ -28,6 +59,10 @@ $arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => 
 	if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 		$arParams["DISPLAY_COMPARE"] = 'N';
 	/**/
+
+	if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+		$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
 	?>
 
 	<?if($arParams["USE_SHARE"] == "Y" && $arElement):?>

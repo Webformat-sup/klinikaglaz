@@ -1,8 +1,9 @@
-<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
+<?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+$CScorp = new CScorp;?>
 <?$this->setFrameMode(true);?>
 <div class="item-views image_left reviews col-md-8">
 	<?if($arResult['SECTIONS']):?>
-		<h4>Отзывы</h3>
+		<h4>Отзывы</h4>
 
 			<?// group elements by sections?>
 			<?foreach($arResult['SECTIONS'] as $si => $arSection):?>
@@ -32,7 +33,7 @@
 						// post
 						$post = $arItem['DISPLAY_PROPERTIES']['POST']['VALUE'];
 						$doctor = $arItem['DISPLAY_PROPERTIES']['DOCTOR']['DISPLAY_VALUE'];
-                      
+
 						?>
 						<li class="item_review">
 						<div class="col-md-12">
@@ -43,13 +44,13 @@
 									<article>
 									<?=$arItem['PREVIEW_TEXT']?>
 									</article>
-									
+
 									</div>
 									<?// docs files?>
 									<?if($arItem['DISPLAY_PROPERTIES']['DOCUMENTS']['VALUE']):?>
 										<div class="row docs">
 											<?foreach((array)$arItem['DISPLAY_PROPERTIES']['DOCUMENTS']['VALUE'] as $docID):?>
-												<?$arFile = CScorp::get_file_info($docID);?>
+												<?$arFile = $CScorp->get_file_info($docID);?>
 												<div class="col-md-6 <?=$arFile['TYPE']?>">
 													<?
 													$fileName = substr($arFile['ORIGINAL_NAME'], 0, strrpos($arFile['ORIGINAL_NAME'], '.'));
@@ -57,7 +58,7 @@
 													?>
 													<a href="<?=$arFile['SRC']?>" target="_blank" title="<?=$fileTitle?>"><?=$fileTitle?></a>
 													<?=GetMessage('CT_NAME_SIZE')?>:
-													<?=CScorp::filesize_format($arFile['FILE_SIZE']);?>
+													<?=$CScorp->filesize_format($arFile['FILE_SIZE']);?>
 												</div>
 											<?endforeach;?>
 										</div>
@@ -69,7 +70,7 @@
 									<?//if(strlen($arItem['FIELDS']['NAME'])):?>
 									<div class="title"><?=$arItem['NAME']?> <span><?=$arItem['ACTIVE_FROM']?></span></div>
 									<?//endif;?>
-									
+
 									<div class="post"><?=$post?></div>
 									<div style="clear:both;"></div>
 									<?/*if($arItem['DETAIL_TEXT']){?>
@@ -86,6 +87,3 @@
 
 	<?endif;?>
 	</div>
-	
-
-

@@ -110,7 +110,7 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 						</div>
 					<?endif;?>
 					<div class="pull-right block-link">
-						<?=CNext::ShowBasketWithCompareLink('with_price', 'big', true, 'wrap_icon inner-table-block baskets big-padding');?>
+						<?=CNext::ShowBasketWithCompareLink('with_price', 'big', true, 'wrap_icon inner-table-block baskets big-padding basket_wrapper');?>
 					</div>
 				</div>
 			</div>

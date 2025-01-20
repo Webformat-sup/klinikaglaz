@@ -5,25 +5,21 @@
 /** @global CDatabase $DB */
 
 $this->setFrameMode(true);?>
-<?if(isset($_POST["AJAX_REQUEST_INSTAGRAM"]) && $_POST["AJAX_REQUEST_INSTAGRAM"] == "Y"):
-	$inst=new CInstargramNext($arParams["TOKEN"], \Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_ITEMS_COUNT", 8));
-	$arInstagramPosts=$inst->getInstagramPosts();
-	$arInstagramUser=$inst->getInstagramUser();
-	if($arInstagramPosts && !$arInstagramPosts["meta"]["error_message"]):?>
-		<?$obParser = new CTextParser;
-		$text_length = \Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_TEXT_LENGTH", 400);?>
+<?if($arResult['IS_AJAX'] === 'Y'):?>
+	<?if($arResult['ITEMS']):?>
+		<?$obParser = new CTextParser;?>
 		<div class="item-views front blocks">
 			<div class="top_block">
-				<h3 class="title_block"><?=($arParams["TITLE"] ? $arParams["TITLE"] : GetMessage("TITLE"));?></h3>
-				<a href="https://www.instagram.com/<?=$arInstagramUser['data']['username']?>/" target="_blank"><?=GetMessage('INSTAGRAM_ALL_ITEMS');?></a>
+				<h3 class="title_block"><?=$arResult['TITLE']?></h3>
+				<a href="https://www.instagram.com/<?=$arResult['USER']['username']?>/" target="_blank"><?=$arResult['ALL_TITLE']?></a>
 			</div>
 			<div class="instagram clearfix">
-				<?$iCountSlide = \Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_ITEMS_VISIBLE", 4);?>
-				<div class="items row1 flexbox1 flexslider" data-plugin-options='{"animation": "slide", "move": 0, "directionNav": true, "itemMargin":0, "controlNav" :false, "animationLoop": true, "slideshow": false, "slideshowSpeed": 5000, "animationSpeed": 900, "counts": [<?=$iCountSlide;?>,4,3,2,1]}'>
+				<div class="items row1 flexbox1 flexslider" data-plugin-options='{"animation": "slide", "move": 0, "directionNav": true, "itemMargin":0, "controlNav" :false, "animationLoop": true, "slideshow": false, "slideshowSpeed": 5000, "animationSpeed": 900, "counts": [<?=$arResult['ITEMS_VISIBLE']?>,4,3,2,1]}'>
 					<ul class="slides row flexbox">
-						<?foreach ($arInstagramPosts['data'] as $arItem):?>
-							<li class="item col-<?=$iCountSlide;?>">
-								<div class="image" style="background:url(<?=$arItem['images']['standard_resolution']['url'];?>) center center/cover no-repeat;"><a href="<?=$arItem['link']?>" target="_blank"><div class="title"><div><?=($obParser->html_cut($arItem['caption']['text'], $text_length));?></div></div></a></div>
+						<?foreach($arResult['ITEMS'] as $arItem):?>
+							<?$arItem['IMAGE'] = $arItem['thumbnail_url'] ? $arItem['thumbnail_url'] : $arItem['media_url'];?>
+							<li class="item col-<?=$arResult['ITEMS_VISIBLE']?>">
+								<div class="image" style="background:url(<?=$arItem['IMAGE'];?>) center center/cover no-repeat;"><a href="<?=$arItem['permalink']?>" target="_blank" class="scroll-title"><div class="title"><div class="date font_upper_md muted"><span><?=FormatDate('d F', strtotime($arItem['timestamp']), 'SHORT');?></div><div><?=($obParser->html_cut($arItem['caption'], $arResult['TEXT_LENGTH']))?></div></div></a></div>
 							</li>
 						<?endforeach;?>
 					</ul>
@@ -32,7 +28,7 @@ $this->setFrameMode(true);?>
 		</div>
 	<?endif;?>
 <?else:?>
-	<div class="instagram_wrapper wide_<?=\Bitrix\Main\Config\Option::get("aspro.next", "INSTAGRAMM_WIDE_BLOCK", "N");?>">
+	<div class="instagram_wrapper wide_<?=$arResult['WIDE_BLOCK']?>">
 		<div class="maxwidth-theme">
 			<div class="instagram_ajax loader_circle"></div>
 		</div>

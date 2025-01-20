@@ -1,0 +1,12 @@
+<div class="collapse-container snippets">
+	<div class="collapse-item" data-id="" data-status="close">
+		<div class="header">
+			<div class="header-title">Заголовок</div>
+			<div class="header-icon">
+			</div>
+		</div>
+		<div class="content">
+			<p>Контент</p>
+		</div>
+	</div>
+</div>

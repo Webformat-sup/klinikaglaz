@@ -58,6 +58,19 @@ if (empty($arParams['OFFER_TREE_PROPS']) && isset($arParams['OFFERS_CART_PROPERT
 			unset($arParams['OFFER_TREE_PROPS'][$key]);
 	}
 }
+
+if(isset($arParams['STORES'])) {
+	foreach($arParams['STORES'] as $key => $store) {
+		if(!$store) {
+			unset($arParams['STORES'][$key]);
+		}
+	}
+}
+
+/*stores product*/
+$arStores=CNextCache::CCatalogStore_GetList(array(), array("ACTIVE" => "Y"), false, false, array());
+$arResult["STORES_COUNT"] = count($arStores);
+
 if ('N' != $arParams['DISPLAY_NAME'])
 	$arParams['DISPLAY_NAME'] = 'Y';
 if (!isset($detailPictMode[$arParams['DETAIL_PICTURE_MODE']]))
@@ -364,6 +377,8 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 
 		CIBlockPriceTools::setRatioMinPrice($arOffer, false);
 
+		$arOffer['PREVIEW_PICTURE_FIELD'] = $arOffer['PREVIEW_PICTURE'];
+
 		$arOffer['MORE_PHOTO'] = array();
 		$arOffer['MORE_PHOTO_COUNT'] = 0;
 		$arOffer['ALT_TITLE_GET'] = $arParams['ALT_TITLE_GET'];
@@ -493,7 +508,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 	$arResult['MIN_PRICE'] = false;
 	$arResult['MIN_BASIS_PRICE'] = false;
 	$arPropsSKU=array();
-	$arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
+	$arOfferProps = implode(';', (array)$arParams['OFFERS_CART_PROPERTIES']);
 	if('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS'] ){
 		foreach ($arResult['OFFERS'] as $keyOffer => $arOffer)
 		{
@@ -607,6 +622,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				'URL' => $arOffer['DETAIL_PAGE_URL'],
 				'CONFIG' => $arAddToBasketData,
 				'HTML' => $arAddToBasketData["HTML"],
+				'ACTION' => $arAddToBasketData["ACTION"],
 				'PRODUCT_QUANTITY_VARIABLE' => $arParams["PRODUCT_QUANTITY_VARIABLE"],
 				'TYPE_SKU' => $arParams["TYPE_SKU"],
 				'SHOW_ONE_CLICK_BUY' => $arParams["SHOW_ONE_CLICK_BUY"],
@@ -692,7 +708,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 						continue;
 					}
 					if (is_array($arOffer["PROPERTIES"][$arProp["CODE"]]["VALUE"])){
-						$arResult['OFFERS'][$keyOffer][] = implode("/", $arOffer["PROPERTIES"][$arProp["CODE"]]["VALUE"]);
+						$arResult['OFFERS'][$keyOffer][] = implode("/", (array)$arOffer["PROPERTIES"][$arProp["CODE"]]["VALUE"]);
 					}
 					else{
 						$arResult['OFFERS'][$keyOffer][] = $arOffer["PROPERTIES"][$arProp["CODE"]]["VALUE"];

@@ -150,7 +150,7 @@
 <?endif;?>
 
 <?// show link sale?>
-<?$bShowSales =  (count($arResult['DISPLAY_PROPERTIES']['LINK_SALE']['VALUE'])>0);?>
+<?$bShowSales =  (count((array)$arResult['DISPLAY_PROPERTIES']['LINK_SALE']['VALUE'])>0);?>
 <?if($bShowSales):?>
 	<?$GLOBALS['arrSaleFilter'] = array('ID' => $arResult['DISPLAY_PROPERTIES']['LINK_SALE']['VALUE']); ?>
 	<div class="stockblock">
@@ -306,7 +306,7 @@
 			<div class="gallery-block">
 				<div class="gallery-wrapper">
 					<div class="inner">
-						<?if(count($arResult["GALLERY"]) > 1):?>
+						<?if(count((array)$arResult["GALLERY"]) > 1):?>
 							<div class="small-gallery-wrapper">
 								<div class="flexslider unstyled small-gallery center-nav" data-plugin-options='{"slideshow": false, "useCSS": true, "animation": "slide", "animationLoop": true, "itemWidth": 60, "itemMargin": 20, "minItems": 1, "maxItems": 9, "slide_counts": 1, "asNavFor": ".gallery-wrapper .bigs"}' id="carousel1">
 									<ul class="slides items">	

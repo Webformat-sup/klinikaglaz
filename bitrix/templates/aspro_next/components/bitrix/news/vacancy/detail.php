@@ -17,7 +17,7 @@ $arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => 
 	<?CNext::AddMeta(
 		array(
 			'og:description' => $arElement['PREVIEW_TEXT'],
-			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
+			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['DETAIL_PICTURE'] ? $arElement['DETAIL_PICTURE'] : $arElement['PREVIEW_PICTURE'])) : false),
 		)
 	);?>
 	<?//element?>

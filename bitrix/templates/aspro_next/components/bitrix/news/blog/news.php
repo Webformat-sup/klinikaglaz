@@ -80,6 +80,41 @@ $itemsCnt = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => C
 		}
 	}
 	?>
+	<?
+	global $NavNum; 
+	$context = \Bitrix\Main\Application::getInstance()->getContext();
+	if($NavNum){
+		$pagen = $NavNum;
+	}else{
+		$pagen = 2;
+	}
+	$numPage = $context->getRequest()->get("PAGEN_".$pagen) ?? 1;
+	$arGroup =  array("iNumPage" => $numPage, "nPageSize" => $arParams['NEWS_COUNT']);
+	$arSelect = array('ID', 'NAME','PREVIEW_TEXT', 'DETAIL_PAGE_URL', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'DATE_CREATE');
+	$arElement = CNextCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y"), $arParams['SORT_BY1'] => $arParams['SORT_ORDER1'], $arParams['SORT_BY2'] => $arParams['SORT_ORDER2']), $arItemFilter, false, $arGroup, $arSelect);
+	if($pagen != $NavNum){
+		$NavNum = $pagen - 1;
+	}
+	foreach($arElement as $element):
+		$arSchema[] = array(
+			"@context" => "https://schema.org",
+			"@type" => "NewsArticle",
+			"url" => $_SERVER['SERVER_NAME'].$element['DETAIL_PAGE_URL'],
+			"publisher" => array(
+				"@type" => "Organization",
+      			"name" => $arSite['NAME']
+			),
+			"headline" => $element['NAME'],
+			"articleBody" => $element['PREVIEW_TEXT'],
+			"image" => array($_SERVER['SERVER_NAME'].CFile::GetPath($element['PREVIEW_PICTURE']), $_SERVER['SERVER_NAME'].CFile::GetPath($element['DETAIL_PICTURE'])),
+			"datePublished" => $element['DATE_CREATE']
+		);
+	endforeach;
+	?>
+	<script type="application/ld+json">
+		<?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?>
+	</script>
+
 	<?$this->__component->__template->SetViewTarget('under_sidebar_content');?>
 		<?if($arSections):?>
 			<div class="fill-block container-block">

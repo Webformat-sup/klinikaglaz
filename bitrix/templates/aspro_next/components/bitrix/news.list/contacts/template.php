@@ -1,12 +1,17 @@
 <?if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();?>
 <?$this->setFrameMode(true);?>
+
 <div class="item-views-wrapper <?=$templateName;?>">
-	
 	<?if($arResult['SECTIONS']):?>
 		<div class="maxwidth-theme">
 			<div class="row">
 				<div class="col-md-12">
 					<table class="contacts-stores no-border shops list">
+						<?// top pagination?>
+						<?if($arParams['DISPLAY_TOP_PAGER']):?>
+							<?=$arResult['NAV_STRING']?>
+						<?endif;?>
+
 						<?foreach($arResult['SECTIONS'] as $si => $arSection):?>
 							<?$bHasSection = (isset($arSection['SECTION']) && $arSection['SECTION'])?>
 							<?if($bHasSection):?>
@@ -93,7 +98,7 @@
 									<?if($arItem['PROPERTIES']['PHONE']['VALUE'])
 									{
 										foreach($arItem['PROPERTIES']['PHONE']['VALUE'] as $phone):?>
-											<a href="tel:+<?=str_replace(array(' ', ',', '-', '(', ')'), '', $phone);?>" class="black"><?=$phone;?></a>
+											<a href="tel:<?=str_replace(array(' ', ',', '-', '(', ')'), '', $phone);?>" class="black"><?=$phone;?></a>
 										<?endforeach;
 									}?>
 									</td>
@@ -144,7 +149,7 @@
 															<?endif?>
 														<?endforeach;?>
 													<?endif;?>
-													
+
 												</div>
 											</div>
 											<div class="col-xs-4">
@@ -152,7 +157,7 @@
 													<?if($arItem['PROPERTIES']['PHONE']['VALUE'])
 													{
 														foreach($arItem['PROPERTIES']['PHONE']['VALUE'] as $phone):?>
-															<a href="tel:+<?=str_replace(array(' ', ',', '-', '(', ')'), '', $phone);?>" class="black"><?=$phone;?></a>
+															<a href="tel:<?=str_replace(array(' ', ',', '-', '(', ')'), '', $phone);?>" class="black"><?=$phone;?></a>
 														<?endforeach;
 													}?>
 												</div>
@@ -176,6 +181,10 @@
 							<?endforeach;?>
 						<?endforeach;?>
 					</table>
+					<?// bottom pagination?>
+					<?if($arParams['DISPLAY_BOTTOM_PAGER']):?>
+						<div class="bottom_nav contacts-stores-list" <?=($isAjax ? "style='display: none; '" : "");?>><?=$arResult['NAV_STRING']?></div>
+					<?endif;?>
 				</div>
 			</div>
 		</div>

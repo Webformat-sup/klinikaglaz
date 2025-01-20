@@ -17,21 +17,23 @@ var funcDefined = function(func){
 
 $(document).mouseleave(function(e){
 function getWindowClose(){
-	if (!$.cookie('smartCookies')) { 
-		 if (e.clientY < 10) {	
-			$('#dialog').jqm();	
+	if (!$.cookie('smartCookies')) {
+		 if (e.clientY < 10) {
+			$('#dialog').jqm();
 		    $('#dialog').jqmShow();
 		     $.cookie('smartCookies', true, {
-				        expires: 1, 
+				        expires: 1,
 				        path: '/'
 				      });
 		 }
 	}
 }
  setTimeout (getWindowClose, 1000);
-})	
+})
 $(document).ready(function() {
-
+	$('body').bind("contextmenu", function(e) {
+		e.preventDefault();
+	});
 	/*------открыть формы------*/
 	var hash = window.location.hash;
 	if(hash != ''){
@@ -47,16 +49,22 @@ $(document).ready(function() {
 				break;
 		}
 	}
+
+    $('a[href*="#appointment"]').on('click', function(){
+        console.log('appointment ref clicked');
+        $('div.questiondockTitle span').trigger('click')
+        return false;
+    });
 	/*------открыть формы------*/
 
 	/*------цели яндекс------*/
 	    //     “Задать вопрос” в шапке основного сайта
         $('header .questionTitle').on('click', function(){
-            
+
 			try {
 				ym(30339732, 'reachGoal', 'ask-question');
 			} catch(e) {
-				console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack); 
+				console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack);
 			}
         });
 
@@ -65,26 +73,26 @@ $(document).ready(function() {
 			try {
 				ym(30339732, 'reachGoal', 'request-call-back');
 			} catch(e) {
-				console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack); 
+				console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack);
 			}
         });
     /*------цели яндекс------*/
 
 	function getWindow(){
-		if (!$.cookie('smartCookies')) { 
-		$('#dialog').jqm();	
+		if (!$.cookie('smartCookies')) {
+		$('#dialog').jqm();
 		$('#dialog').jqmShow();
 
 	    $.cookie('smartCookies', true, {
-	        expires: 1, 
+	        expires: 1,
 	        path: '/'
 	      });
 		}
 	};
-	 
+
 	setTimeout (getWindow, 20000);
 	$('.imgchat').click(function(){
-		$('.b24-widget-button-openline_livechat span').trigger("click");	
+		$('.b24-widget-button-openline_livechat span').trigger("click");
 
 	})
 
@@ -105,28 +113,30 @@ $(document).ready(function() {
 		$('body').animate({
 		scrollTop: destination}, 200);
 	}
-	
-	
+
+
 	/*$(".item.review .text").each(function() {
 		  console.log($(this).height());
 		});*/
-	
+
 
 
 })
 
-$(window).load(function(){
+$(document).ready(function(){
+	setTimeout(function() {
+		$(".item.review .text").each(function(index, element) {
+	  	  $(element).readmore({
+	  			   collapsedHeight:207,
+	  			   heightMargin:18,
+	  			   moreLink: '<a href="#">Читать далее</a>', //ссылка "Читать далее", можно переименовать
+	  			   lessLink: '<a href="#">Скрыть</a>' //ссылка "Скрыть", можно переименовать
+	  	  })
+	    });
+	}, 500);
 
-	$(".item.review .text").each(function(index, element) {				
-		$(element).readmore({
-				 collapsedHeight:207,
-				 heightMargin:18,
-				 moreLink: '<a href="#">Читать далее</a>', //ссылка "Читать далее", можно переименовать
-				 lessLink: '<a href="#">Скрыть</a>' //ссылка "Скрыть", можно переименовать
-		})
-	});
 
-	/*$(".item.review .it .text").each(function(index, element) {				
+	/*$(".item.review .it .text").each(function(index, element) {
 		$(element).readmore({
 				 collapsedHeight:207,
 				 heightMargin:18,
@@ -134,8 +144,8 @@ $(window).load(function(){
 				 lessLink: '<a href="#">Скрыть</a>' //ссылка "Скрыть", можно переименовать
 		})
 	});	*/
-	
-	
+
+
 })
 
 

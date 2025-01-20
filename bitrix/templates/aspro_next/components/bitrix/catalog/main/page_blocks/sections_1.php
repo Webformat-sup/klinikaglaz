@@ -20,6 +20,7 @@
 		"SHOW_SECTION_LIST_PICTURES" => $arParams["SHOW_SECTION_LIST_PICTURES"],
 		"DISPLAY_PANEL" => $arParams["DISPLAY_PANEL"],
 		"FILTER_NAME" => "arSectionFilter",
+		"FILTER_NAME2" => $arParams['FILTER_NAME'],
 		"CACHE_FILTER" => "Y",
 	),
 	$component

@@ -1,5 +1,10 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
 <? global $arTheme, $APPLICATION;?>
+<?if ($GLOBALS['arRegionLink']) {
+	if (isset($GLOBALS['arRegionLink']['IBLOCK_ID'])) {
+		unset($GLOBALS['arRegionLink']['IBLOCK_ID']);
+	}
+}?>
 <?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
 	array(
 		"COMPONENT_TEMPLATE" => ".default",

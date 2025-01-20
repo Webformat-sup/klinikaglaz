@@ -13,27 +13,32 @@ if($arParams['CACHE_GROUPS'] == 'Y')
 	$arItemFilter['GROUPS'] = $GLOBALS["USER"]->GetGroups();
 }
 
-$arElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_REGION'));
+$arElement = CNextCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CNextCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'N')), $arItemFilter, false, false, array('ID', 'NAME', 'PREVIEW_TEXT', 'IBLOCK_SECTION_ID', 'PREVIEW_PICTURE', 'DETAIL_PICTURE', 'PROPERTY_LINK_GOODS', 'PROPERTY_LINK_REGION', 'DATE_CREATE'));
 
-/*if($arRegion)
-{
-	if($arElement['PROPERTY_LINK_REGION_VALUE'])
-	{
-		if(!is_array($arElement['PROPERTY_LINK_REGION_VALUE']))
-			$arElement['PROPERTY_LINK_REGION_VALUE'] = (array)$arElement['PROPERTY_LINK_REGION_VALUE'];
-		if(!in_array($arRegion['ID'], $arElement['PROPERTY_LINK_REGION_VALUE']))
-		{
-			\Bitrix\Iblock\Component\Tools::process404(
-				trim($arParams["MESSAGE_404"]) ?: GetMessage("ELEMENT_NOTFOUND")
-				,true
-				,true
-				,$arParams["SHOW_404"] === "Y"
-				,$arParams["FILE_404"]
-			);
-			return;
-		}
-	}
-}*/
+$arSite = \CSite::GetByID(SITE_ID)->Fetch();
+$arSchema = array(
+	"@context" => "https://schema.org",
+	"@type" => "NewsArticle",
+	"url" => $_SERVER['SERVER_NAME'].$arElement['DETAIL_PAGE_URL'],
+	"publisher" => array(
+		"@type" => "Organization",
+			"name" => $arSite['NAME']
+	),
+	"headline" => $arElement['NAME'],
+	"articleBody" => $arElement['PREVIEW_TEXT'],
+	"datePublished" => $arElement['DATE_CREATE']
+);
+if($arElement['PREVIEW_PICTURE']){
+	$arSchema['image'][] = $_SERVER['SERVER_NAME'].CFile::GetPath($arElement['PREVIEW_PICTURE']);
+}
+if($arElement['DETAIL_PICTURE']){
+	$arSchema['image'][] = $_SERVER['SERVER_NAME'].CFile::GetPath($arElement['DETAIL_PICTURE']);
+}
+?>
+<script type="application/ld+json">
+	<?=str_replace("'", "\"", CUtil::PhpToJSObject($arSchema, false, true));?>
+</script>
+<?
 
 if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 {
@@ -78,7 +83,7 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 	<?CNext::AddMeta(
 		array(
 			'og:description' => $arElement['PREVIEW_TEXT'],
-			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
+			'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['DETAIL_PICTURE'] ? $arElement['DETAIL_PICTURE'] : $arElement['PREVIEW_PICTURE'])) : false),
 		)
 	);?>
 
@@ -100,30 +105,30 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 	if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 		$arParams["DISPLAY_COMPARE"] = 'N';
 	/**/
+
+	if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+		$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
 	?>
-	
+
 	<div class="detail <?=($templateName = $component->{'__template'}->{'__name'})?>">
 		<?if($arParams["USE_SHARE"] == "Y" && $arElement):?>
 			<div class="line_block share top <?=($arParams['USE_RSS'] !== 'N' ? 'rss-block' : '');?>">
 				<?$APPLICATION->IncludeFile(SITE_DIR."include/share_buttons.php", Array(), Array("MODE" => "html", "NAME" => GetMessage('CT_BCE_CATALOG_SOC_BUTTON')));?>
 			</div>
-			<style type="text/css">h1{padding-right:300px;}</style>
+
 			<script type="text/javascript">
 				$('h1').addClass('shares_block');
 				$(document).ready(function(){
-
 					if($('a.rss').length)
 						$('a.rss').after($('.share.top'));
 					else
 						$('h1').before($('.share.top'));
 				})
 			</script>
-			<?if($arParams['USE_RSS'] !== 'N'):?>
-				<style type="text/css">body h1{padding-right:360px;}</style>
-			<?endif;?>
+
 		<?endif;?>
 		<?
-		if(isset($arItemFilter['CODE']))
+		if( isset($arItemFilter['CODE']) || isset($arItemFilter['SECTION_CODE']))
 		{
 			unset($arItemFilter['CODE']);
 			unset($arItemFilter['SECTION_CODE']);
@@ -188,65 +193,67 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 				</div>
 			<?endif;?>
 			<?if($arParams['ALSO_ITEMS_POSITION'] == 'side'):?>
-				<?$APPLICATION->IncludeComponent("bitrix:news.list", "items-blog-list", array(
-					"IBLOCK_TYPE" => "aspro_next_content",
-					"IBLOCK_ID" => CNextCache::$arIBlocks[SITE_ID]["aspro_next_content"]["aspro_next_articles"][0],
-					"NEWS_COUNT" => ($arParams["ALSO_ITEMS_COUNT"] ? $arParams["ALSO_ITEMS_COUNT"] : "5"),
-					"TITLE_BLOCK" => ($arParams["T_ALSO_ITEMS"] ? $arParams["T_ALSO_ITEMS"] : GetMessage('T_ALSO_ITEMS')),
-					"SORT_BY1" => "ACTIVE_FROM",
-					"SORT_ORDER1" => "DESC",
-					"SORT_BY2" => "SORT",
-					"SORT_ORDER2" => "ASC",
-					"FILTER_NAME" => "arAlsoFilter",
-					"FIELD_CODE" => array(
-						0 => "NAME",
-						1 => "PREVIEW_TEXT",
-						2 => "PREVIEW_PICTURE",
-						3 => "DATE_ACTIVE_FROM",
-					),
-					"PROPERTY_CODE" => array(
-						0 => "DOCUMENTS",
-						1 => "POST",
-					),
-					"CHECK_DATES" => "Y",
-					"DETAIL_URL" => "",
-					"AJAX_MODE" => "N",
-					"AJAX_OPTION_JUMP" => "N",
-					"AJAX_OPTION_STYLE" => "Y",
-					"AJAX_OPTION_HISTORY" => "N",
-					"CACHE_TYPE" => "A",
-					"CACHE_TIME" => "36000000",
-					"CACHE_FILTER" => "Y",
-					"CACHE_GROUPS" => "N",
-					"PREVIEW_TRUNCATE_LEN" => "",
-					"ACTIVE_DATE_FORMAT" => "j F Y",
-					"SET_TITLE" => "N",
-					"SET_STATUS_404" => "N",
-					"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
-					"ADD_SECTIONS_CHAIN" => "N",
-					"HIDE_LINK_WHEN_NO_DETAIL" => "N",
-					"PARENT_SECTION" => "",
-					"PARENT_SECTION_CODE" => "",
-					"INCLUDE_SUBSECTIONS" => "Y",
-					"PAGER_TEMPLATE" => ".default",
-					"DISPLAY_TOP_PAGER" => "N",
-					"DISPLAY_BOTTOM_PAGER" => "Y",
-					"PAGER_TITLE" => "Новости",
-					"PAGER_SHOW_ALWAYS" => "N",
-					"PAGER_DESC_NUMBERING" => "N",
-					"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-					"PAGER_SHOW_ALL" => "N",
-					"VIEW_TYPE" => "list",
-					"SHOW_TABS" => "N",
-					"SHOW_IMAGE" => "Y",
-					"SHOW_NAME" => "Y",
-					"SHOW_DETAIL" => "Y",
-					"IMAGE_POSITION" => "left",
-					"COUNT_IN_LINE" => "3",
-					"AJAX_OPTION_ADDITIONAL" => ""
-					),
-				false, array("HIDE_ICONS" => "Y")
-				);?>
+				<? if ($arParams['ALSO_ITEMS_SHOW'] != 'N'): ?>
+					<?$APPLICATION->IncludeComponent("bitrix:news.list", "items-blog-list", array(
+						"IBLOCK_TYPE" => "aspro_next_content",
+						"IBLOCK_ID" => CNextCache::$arIBlocks[SITE_ID]["aspro_next_content"]["aspro_next_articles"][0],
+						"NEWS_COUNT" => ($arParams["ALSO_ITEMS_COUNT"] ? $arParams["ALSO_ITEMS_COUNT"] : "5"),
+						"TITLE_BLOCK" => ($arParams["T_ALSO_ITEMS"] ? $arParams["T_ALSO_ITEMS"] : GetMessage('T_ALSO_ITEMS')),
+						"SORT_BY1" => "ACTIVE_FROM",
+						"SORT_ORDER1" => "DESC",
+						"SORT_BY2" => "SORT",
+						"SORT_ORDER2" => "ASC",
+						"FILTER_NAME" => "arAlsoFilter",
+						"FIELD_CODE" => array(
+							0 => "NAME",
+							1 => "PREVIEW_TEXT",
+							2 => "PREVIEW_PICTURE",
+							3 => "DATE_ACTIVE_FROM",
+						),
+						"PROPERTY_CODE" => array(
+							0 => "DOCUMENTS",
+							1 => "POST",
+						),
+						"CHECK_DATES" => "Y",
+						"DETAIL_URL" => "",
+						"AJAX_MODE" => "N",
+						"AJAX_OPTION_JUMP" => "N",
+						"AJAX_OPTION_STYLE" => "Y",
+						"AJAX_OPTION_HISTORY" => "N",
+						"CACHE_TYPE" => "A",
+						"CACHE_TIME" => "36000000",
+						"CACHE_FILTER" => "Y",
+						"CACHE_GROUPS" => "N",
+						"PREVIEW_TRUNCATE_LEN" => "",
+						"ACTIVE_DATE_FORMAT" => "j F Y",
+						"SET_TITLE" => "N",
+						"SET_STATUS_404" => "N",
+						"INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+						"ADD_SECTIONS_CHAIN" => "N",
+						"HIDE_LINK_WHEN_NO_DETAIL" => "N",
+						"PARENT_SECTION" => "",
+						"PARENT_SECTION_CODE" => "",
+						"INCLUDE_SUBSECTIONS" => "Y",
+						"PAGER_TEMPLATE" => ".default",
+						"DISPLAY_TOP_PAGER" => "N",
+						"DISPLAY_BOTTOM_PAGER" => "Y",
+						"PAGER_TITLE" => "",
+						"PAGER_SHOW_ALWAYS" => "N",
+						"PAGER_DESC_NUMBERING" => "N",
+						"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+						"PAGER_SHOW_ALL" => "N",
+						"VIEW_TYPE" => "list",
+						"SHOW_TABS" => "N",
+						"SHOW_IMAGE" => "Y",
+						"SHOW_NAME" => "Y",
+						"SHOW_DETAIL" => "Y",
+						"IMAGE_POSITION" => "left",
+						"COUNT_IN_LINE" => "3",
+						"AJAX_OPTION_ADDITIONAL" => ""
+						),
+					false, array("HIDE_ICONS" => "Y")
+					);?>
+				<? endif;  ?>
 				<?$APPLICATION->IncludeComponent(
 					"bitrix:search.tags.cloud",
 					"main",
@@ -312,7 +319,7 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 			</div>
 		</div>
 	<?endif;?>
-	<?if($arParams['ALSO_ITEMS_POSITION'] != 'side'):?>
+	<?if($arParams['ALSO_ITEMS_POSITION'] != 'side' && $arParams['ALSO_ITEMS_SHOW'] != 'N'):?>
 		<?$APPLICATION->IncludeComponent("bitrix:news.list", "items-blog-slider", array(
 			"IBLOCK_TYPE" => "aspro_next_content",
 			"IBLOCK_ID" => CNextCache::$arIBlocks[SITE_ID]["aspro_next_content"]["aspro_next_articles"][0],
@@ -356,7 +363,7 @@ if($arParams["SHOW_NEXT_ELEMENT"] == "Y")
 			"PAGER_TEMPLATE" => ".default",
 			"DISPLAY_TOP_PAGER" => "N",
 			"DISPLAY_BOTTOM_PAGER" => "Y",
-			"PAGER_TITLE" => "Новости",
+			"PAGER_TITLE" => "",
 			"PAGER_SHOW_ALWAYS" => "N",
 			"PAGER_DESC_NUMBERING" => "N",
 			"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",

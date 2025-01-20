@@ -52,7 +52,9 @@ $MESS["T_PREV_LINK"] = "Текст ссылки на список элемент
 $MESS["T_FORM_ID_ORDER_SERVISE"] = "ИД формы для заказа услуги";
 $MESS["T_IMAGE_WIDE"] = "Широкая анонсная картинка";
 $MESS["T_ALSO_ITEMS"] = "Заголовок блока \"Это интересно\"";
+$MESS["T_GOODS"] = "Заголовок блока \"Товары\"";
 
+$MESS["T_ALSO_ITEMS_SHOW"] = "Отображать блок \"Это интересно\"";
 $MESS["T_ALSO_ITEMS_POSITION"] = "Положение блока \"Это интересно\"";
 $MESS["ALSO_ITEMS_POSITION_BOTTOM"] = "под контетом";
 $MESS["ALSO_ITEMS_POSITION_SIDE"] = "сбоку";

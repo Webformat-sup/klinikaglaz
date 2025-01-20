@@ -44,6 +44,9 @@ if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["DISPLAY_COMPARE"] = 'N';
 /**/
 
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+
 if (!empty($arResult['ITEMS'])){
 	$arConvertParams = array();
 	if ('Y' == $arParams['CONVERT_CURRENCY'])
@@ -100,7 +103,7 @@ if (!empty($arResult['ITEMS'])){
 	$boolSKU = false;
 	$strBaseCurrency = '';
 	$boolConvert = isset($arResult['CONVERT_CURRENCY']['CURRENCY_ID']);
-	$arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
+	$arOfferProps = implode(';', (array)$arParams['OFFERS_CART_PROPERTIES']);
 
 	if ($arResult['MODULES']['catalog'])
 	{
@@ -143,8 +146,10 @@ if (!empty($arResult['ITEMS'])){
 					unset($arOffer);
 				}
 			}
-			CIBlockPriceTools::getTreePropertyValues($arSKUPropList, $arNeedValues);
-			$arSKUPropIDs = array_keys($arSKUPropList);
+			if(is_array($arNeedValues) && count($arNeedValues)>0){
+				CIBlockPriceTools::getTreePropertyValues($arSKUPropList, $arNeedValues);
+				$arSKUPropIDs = array_keys($arSKUPropList);
+			}
 
 			if (empty($arSKUPropIDs))
 				$arParams['TYPE_SKU'] = 'N';

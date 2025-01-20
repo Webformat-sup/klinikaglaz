@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("П");?><p>
+$APPLICATION->SetTitle("П");
+$APPLICATION->SetPageProperty("description", "Медицинский словарь, термины на букву П");?><p>
  <a href="http://klinikaglaz.ru/presbiopia"></a>
 </p>
 <p>

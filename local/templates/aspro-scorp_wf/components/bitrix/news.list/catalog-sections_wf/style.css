@@ -1,0 +1,7 @@
+.wrapp-th br {display: none;}
+.wrapp-th .width-control {width: 65%;}
+@media screen and (max-width: 768px) {
+	table.table > thead > tr > th {font-size: 10px!important;white-space: nowrap;}
+	.wrapp-th br {display: block;}
+	.wrapp-th .width-control {width: 45%;}
+}

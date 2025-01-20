@@ -55,11 +55,15 @@
 
 						<div class="shadow col-md-<?=floor(12 / $line_element_count)?> col-sm-<?=floor(12 / round($line_element_count / 2))?>">
 							<div class="item clearfix" id="<?=$this->GetEditAreaId($arItem['ID'])?>">
-								<div class="image">
+								<div class="image <?=(!$bImage ? 'wti' : '')?>">
 									<?if($bDetailLink):?>
 										<a href="<?=$arItem['DETAIL_PAGE_URL']?>">
 									<?endif;?>
-										<img src="<?=$imageSrc?>" alt="<?=($bImage ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($bImage ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" class="img-responsive" />
+										<?if($bImage):?>
+											<img src="<?=$imageSrc?>" alt="<?=($bImage ? $arItem['PREVIEW_PICTURE']['ALT'] : $arItem['NAME'])?>" title="<?=($bImage ? $arItem['PREVIEW_PICTURE']['TITLE'] : $arItem['NAME'])?>" class="img-responsive" />
+										<?else:?>
+											<span><?=$arItem["NAME"]?></span>
+										<?endif;?>
 									<?if($bDetailLink):?>
 										</a>
 									<?endif;?>

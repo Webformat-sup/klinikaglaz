@@ -1,9 +1,8 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("keywords_inner", "ОМС");
-$APPLICATION->SetPageProperty("title", "ОМС");
-$APPLICATION->SetPageProperty("keywords", "ОМС");
-$APPLICATION->SetPageProperty("description", "ОМС");
-$APPLICATION->SetTitle("ОМС");?><h1>Правовые документы для ОМС</h1>
+$APPLICATION->SetPageProperty("title", "Обязательное медицинское страхование (ОМС) в Екатеринбурге | Клиника микрохирургии «Глаз» им. Святослава Федорова");
+$APPLICATION->SetPageProperty("description", "Важная информация о том, как получить медицинскую помощь по обязательному медицинскому страхованию в России. Правовые документы для ОМС. Звоните: +7 (343) 253-05-37, +7(343)328-88-45");
+$APPLICATION->SetTitle("Обязательное медицинское страхование (ОМС)");?><h1>Правовые документы для ОМС</h1>
 <p>
  <br>
 </p>

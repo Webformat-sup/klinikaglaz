@@ -6,17 +6,24 @@
 	$group = 0;
 	$arItemsTmp = array();
 	$isWideBlock = false;
+
+	$counter = 0;
+
 	foreach($arResult['ITEMS'] as $key => $arItem) // slice array by 3 elements
 	{
 		$arItem['DETAIL_PAGE_URL'] = CNext::FormatNewsUrl($arItem);
 		if($arItem['PROPERTIES']['BIG_BLOCK']['VALUE'] == 'Y')
 			$isWideBlock = true;
 
-		if($key%3 == 0 && $key)
+		if($counter%3 == 0 && $counter)
 			++$group;
+
 		$arItemsTmp[$group]['BIG_BLOCK'] = 'N';
-		$arItemsTmp[$group]['ITEMS'][] = $arItem;		
+		$arItemsTmp[$group]['ITEMS'][] = $arItem;
+
+		$counter++;
 	}
+
 	
 	if(!$isWideBlock)
 	{

@@ -5,9 +5,16 @@
 	global $USER_FIELD_MANAGER;
 	use Bitrix\Main\Loader;
 	use Bitrix\Main\ModuleManager;
-	Loader::includeModule('iblock');
+	use Bitrix\Main\Web\Json;
+
+	if (!Loader::includeModule('iblock'))
+		return;
+
+
 	$arSKU = false;
 	$boolSKU = false;
+
+	CBitrixComponent::includeComponentClass('bitrix:catalog.section');
 
 
 	$arSort = CIBlockParameters::GetElementSortFields(
@@ -50,7 +57,7 @@
 	$arRegionPrice = $arPrice;
 	$arPrice  = array_merge(array("MINIMUM_PRICE"=>GetMessage("SORT_PRICES_MINIMUM_PRICE"), "MAXIMUM_PRICE"=>GetMessage("SORT_PRICES_MAXIMUM_PRICE"), "REGION_PRICE"=>GetMessage("SORT_PRICES_REGION_PRICE")), $arPrice);
 
-	$arProperty_S = $arProperty_XL = array();
+	$arProperty_S = $arProperty_XL = $arPropertySort = array();
 	if (0 < intval($arCurrentValues['IBLOCK_ID']))
 	{
 		$rsProp = CIBlockProperty::GetList(Array("sort"=>"asc", "name"=>"asc"), Array("IBLOCK_ID"=>$arCurrentValues["IBLOCK_ID"], "ACTIVE"=>"Y"));
@@ -60,6 +67,8 @@
 				$arProperty_S[$arr["CODE"]] = "[".$arr["CODE"]."] ".$arr["NAME"];
 			elseif($arr["MULTIPLE"] == "Y" && $arr["PROPERTY_TYPE"] == "L")
 				$arProperty_XL[$arr["CODE"]] = "[".$arr["CODE"]."] ".$arr["NAME"];
+			
+			$arPropertySort[$arr['CODE']] = "[".$arr["CODE"]."] ".$arr['NAME'];
 		}
 	}
 
@@ -177,7 +186,7 @@
 			"SORT" => 100,
 			"NAME" => GetMessage("SORT_BUTTONS"),
 			"TYPE" => "LIST",
-			"VALUES" => array("POPULARITY"=>GetMessage("SORT_BUTTONS_POPULARITY"), "NAME"=>GetMessage("SORT_BUTTONS_NAME"), "PRICE"=>GetMessage("SORT_BUTTONS_PRICE"), "QUANTITY"=>GetMessage("SORT_BUTTONS_QUANTITY")),
+			"VALUES" => array("POPULARITY"=>GetMessage("SORT_BUTTONS_POPULARITY"), "NAME"=>GetMessage("SORT_BUTTONS_NAME"), "PRICE"=>GetMessage("SORT_BUTTONS_PRICE"), "QUANTITY"=>GetMessage("SORT_BUTTONS_QUANTITY"), "CUSTOM"=>GetMessage("SORT_BUTTONS_CUSTOM")) + (array)$arPropertySort,
 			"DEFAULT" => array("POPULARITY", "NAME", "PRICE"),
 			"PARENT" => "LIST_SETTINGS",
 			"TYPE" => "LIST",
@@ -227,6 +236,9 @@
 	$arHighloadPropList = array(
 		'-' => GetMessage('CP_BC_TPL_PROP_EMPTY')
 	);
+	$arVideoPropList = array(
+		'-' => GetMessage('CP_BC_TPL_PROP_EMPTY')
+	);
 	$rsProps = CIBlockProperty::GetList(
 		array('SORT' => 'ASC', 'ID' => 'ASC'),
 		array('IBLOCK_ID' => $arCurrentValues['IBLOCK_ID'], 'ACTIVE' => 'Y')
@@ -243,6 +255,9 @@
 			$arListPropList[$arProp['CODE']] = $strPropName;
 		if ('S' == $arProp['PROPERTY_TYPE'] && 'directory' == $arProp['USER_TYPE'] && CIBlockPriceTools::checkPropDirectory($arProp))
 			$arHighloadPropList[$arProp['CODE']] = $strPropName;
+		if ('S' == $arProp['PROPERTY_TYPE'] && 'video' == $arProp['USER_TYPE'])
+			$arVideoPropList[$arProp['CODE']] = $strPropName;
+
 	}
 
 	// get offers iblock properties and group by types
@@ -353,10 +368,14 @@
 			"DEFAULT" => "10",
 			"PARENT" => "DETAIL_SETTINGS",
 		),
-		"DISPLAY_ELEMENT_SLIDER" => Array(
-			"NAME" => GetMessage("DISPLAY_ELEMENT_SLIDER"),
-			"TYPE" => "STRING",
-			"DEFAULT" => "10",
+		"LIST_VIEW" => Array(
+			"NAME" => GetMessage("T_LIST_VIEW"),
+			"TYPE" => "LIST",
+			"VALUES" => [
+				'slider' => GetMessage("T_LIST_VIEW_SLIDER"),
+				'block' => GetMessage("T_LIST_VIEW_BLOCK")
+			],
+			"DEFAULT" => "slider",
 			"PARENT" => "DETAIL_SETTINGS",
 		),
 		"TITLE_SLIDER" => Array(
@@ -555,6 +574,19 @@
 			'TYPE' => 'CHECKBOX',
 			'DEFAULT' => 'Y',
 		),
+		"SECTIONS_SEARCH_COUNT" => array(
+			'PARENT' => 'SEARCH_SETTINGS',
+			'NAME' => GetMessage('SECTIONS_SEARCH_COUNT_TITLE'),
+			'TYPE' => 'STRING',
+			'DEFAULT' => '10',
+		),
+		"SHOW_SORT_RANK_BUTTON" => array(
+			'PARENT' => 'SEARCH_SETTINGS',
+			'NAME' => GetMessage('SHOW_SORT_RANK_BUTTON_TITLE'),
+			'TYPE' => 'CHECKBOX',
+			'DEFAULT' => 'N',
+			'REFRESH' => 'Y',
+		),
 		"SHOW_LANDINGS_SEARCH" => array(
 			'PARENT' => 'SEARCH_SETTINGS',
 			'NAME' => GetMessage('SHOW_LANDINGS_SEARCH_TITLE'),
@@ -577,6 +609,76 @@
 				"TYPE" => "STRING",
 				"DEFAULT" => "7",
 				"PARENT" => "SEARCH_SETTINGS",
+			),
+		);
+	}
+
+	if(CNext::GetFrontParametrValue('REVIEWS_VIEW') == 'EXTENDED' && Loader::includeModule("blog")) {
+		$resBlogs = CBlog::GetList(
+			array("ID"=>"ASK"),
+			array('ACTIVE' => 'Y', 'GROUP_SITE_ID' => 's1'),
+			false,
+			false,
+			array('NAME', 'URL')
+	  	);
+		$arBlogs = array();
+		while($blog = $resBlogs->Fetch()) {
+			$arBlogs[ $blog['URL'] ] = $blog['NAME'].' ('.$blog['ID'].')';
+		}
+
+		$arTemplateParametersParts[] = array(
+			"BLOG_URL" => array(
+				"NAME" => GetMessage("BLOG_URL"),
+				"TYPE" => "LIST",
+				"MULTIPLE" => "N",
+				"ADDITIONAL_VALUES" => "N",
+				"DEFAULT" => "catalog_comments",
+				"PARENT" => "REVIEW_SETTINGS",
+				"VALUES" => $arBlogs,
+			),
+			"REVIEW_COMMENT_REQUIRED" => array(
+				"NAME" => GetMessage("T_REVIEW_COMMENT_REQUIRED"),
+				"PARENT" => "REVIEW_SETTINGS",
+				"TYPE" => "CHECKBOX",
+				"DEFAULT" => "Y",
+			),
+			"REVIEW_FILTER_BUTTONS" => array(
+				"NAME" => GetMessage("T_REVIEW_FILTER_BUTTONS"),
+				"TYPE" => "LIST",
+				"DEFAULT" => array(),
+				"PARENT" => "REVIEW_SETTINGS",
+				"TYPE" => "LIST",
+				"MULTIPLE" => "Y",
+				"SIZE" => 3,
+				"VALUES" => array(
+					"PHOTO" => GetMessage("FILTER_BUTTONS_PHOTO"), 
+					"RATING" => GetMessage("FILTER_BUTTONS_RATING"), 
+					"TEXT" => GetMessage("FILTER_BUTTONS_TEXT"), 
+				),
+			),
+			'REAL_CUSTOMER_TEXT' => array(
+				"PARENT" => "REVIEW_SETTINGS",
+				"DEFAULT" => "",
+				"NAME"=> GetMessage("T_REAL_CUSTOMER_TEXT"),
+				"TYPE" => "STRING",
+			),
+			'MAX_IMAGE_SIZE' => array(
+				'PARENT' => 'REVIEW_SETTINGS',
+				'NAME' => GetMessage('CP_BC_TPL_MAX_IMAGE_SIZE'),
+				'TYPE' => 'STRING',
+				'DEFAULT' => '0.5'
+			),
+			'MAX_IMAGE_COUNT' => array(
+				'PARENT' => 'REVIEW_SETTINGS',
+				'NAME' => GetMessage('CP_BC_TPL_MAX_IMAGE_COUNT'),
+				'TYPE' => 'STRING',
+				'DEFAULT' => '10'
+			),
+			'DETAIL_BLOG_EMAIL_NOTIFY' => array(
+				'PARENT' => 'REVIEW_SETTINGS',
+				'NAME' => GetMessage('CP_BC_TPL_DETAIL_BLOG_EMAIL_NOTIFY'),
+				'TYPE' => 'CHECKBOX',
+				'DEFAULT' => 'Y'
 			),
 		);
 	}
@@ -696,6 +798,21 @@
 				"TYPE" => "STRING",
 				"DEFAULT" => "7",
 				"PARENT" => "LIST_SETTINGS",
+			),
+			"USE_LANDINGS_GROUP" => array(
+				'PARENT' => 'LIST_SETTINGS',
+				'NAME' => GetMessage('USE_LANDINGS_GROUP_TITLE'),
+				'TYPE' => 'CHECKBOX',
+				'DEFAULT' => 'N',
+				'REFRESH' => 'Y',
+			),
+			"LANDINGS_GROUP_FROM_SEO" => array(
+				'PARENT' => 'LIST_SETTINGS',
+				'NAME' => GetMessage('LANDINGS_GROUP_FROM_SEO_TITLE'),
+				'TYPE' => 'CHECKBOX',
+				'DEFAULT' => 'N',
+				'REFRESH' => 'N',
+				"HIDDEN" => ($arCurrentValues["USE_LANDINGS_GROUP"] == "Y" ? "N" : "Y"),
 			),
 		);
 	}
@@ -845,6 +962,12 @@
 			"REFRESH" => "N",
 			"PARENT" => "FILTER_SETTINGS",
 		),
+		"FILL_COMPACT_FILTER" => Array(
+			"NAME" => GetMessage("FILL_COMPACT_FILTER_TITLE"),
+			"TYPE" => "CHECKBOX",
+			"DEFAULT" => "N",
+			"PARENT" => "FILTER_SETTINGS",
+		),
 		"USE_FILTER_PRICE" => Array(
 			"NAME" => GetMessage("USE_FILTER_PRICE_TITLE"),
 			"TYPE" => "CHECKBOX",
@@ -903,7 +1026,15 @@
 			'REFRESH' => 'N',
 			'DEFAULT' => '-',
 			'VALUES' => $arFilePropList
-		)
+		),
+		"ADDITIONAL_VIDEO_PROPERTY_CODE" => Array(
+			"NAME" => GetMessage("ADDITIONAL_VIDEO_PROPERTY_CODE"),
+			"TYPE" => "LIST",
+			"DEFAULT" => "-",
+			'MULTIPLE' => 'Y',
+			"VALUES" => $arVideoPropList,
+			"PARENT" => "DETAIL_SETTINGS",
+		),
 	);
 
 	if ($boolSKU)
@@ -984,10 +1115,116 @@
 					'VALUES' => $rcmTypeList
 				)
 			);
+			$arTemplateParametersParts[] = [
+				'BIG_DATA_SHOW_FROM_SECTION' => [
+					'PARENT' => 'BIG_DATA_SETTINGS',
+					'NAME' => GetMessage('CP_BC_TPL_BIG_DATA_SHOW_FROM_SECTION'),
+					'TYPE' => 'CHECKBOX',
+					'DEFAULT' => 'N',
+				]
+			];
 			unset($rcmTypeList);
 		}
 	}
 
+
+	$arTemplateParametersParts[] = array(
+		'DETAIL_BLOCKS_ORDER' => array(
+			'PARENT' => 'DETAIL_SETTINGS',
+			'NAME' => GetMessage('CP_BC_TPL_PRODUCT_BLOCKS_ORDER'),
+			'TYPE' => 'CUSTOM',
+			'JS_FILE' => \Bitrix\Main\Page\Asset::getInstance()->getFullAssetPath('/bitrix/js/aspro.next/settings/dragdrop_order/script.min.js'),
+			'JS_EVENT' => 'initDraggableOrderControl',
+			'JS_DATA' => Json::encode(array(
+				'complect' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_COMPLECT'),
+				'nabor' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_NABOR'),
+				'tabs' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_TABS'),
+				'services' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_SERVICES'),
+				'blog' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_BLOG'),
+				'goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_GOODS'),
+				'gifts' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_GIFTS'),
+				'tizers' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_TIZERS'),
+				'char' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CHAR'),
+				'podborki' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_PODBORKI'),
+				'galery' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_GALLERY'),
+				'exp_goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_EXP_GOODS'),
+				'assoc_goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_ASSOC_GOODS'),
+				'stores' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_STORES'),
+				'recomend_goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_RECOMEND_GOODS'),
+			)),
+			'DEFAULT' => 'tizers,complect,nabor,tabs,stores,char,galery,exp_goods,services,gifts,goods,podborki,blog,recomend_goods,assoc_goods'
+		)
+	);
+	$arTemplateParametersParts[] = array(
+		'DETAIL_BLOCKS_TAB_ORDER' => array(
+			'PARENT' => 'DETAIL_SETTINGS',
+			'NAME' => GetMessage('CP_BC_TPL_PRODUCT_BLOCKS_TAB_ORDER'),
+			'TYPE' => 'CUSTOM',
+			'JS_FILE' => \Bitrix\Main\Page\Asset::getInstance()->getFullAssetPath('/bitrix/js/aspro.next/settings/dragdrop_order/script.min.js'),
+			'JS_EVENT' => 'initDraggableOrderControl',
+			'JS_DATA' => Json::encode(array(
+				'offers' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_OFFERS'),
+				'desc' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DESC'),
+				'char' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CHAR'),
+				'buy' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_HOW_BUY'),
+				'ask' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_ASK'),
+				'payment' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_PAYMENT'),
+				'delivery' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DELIVERY'),
+				'video' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_VIDEO'),
+				'stores' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_STORES'),
+				'reviews' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_REVIEWS'),
+				'custom_tab' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CUSTOM_TABS'),
+			)),
+			'DEFAULT' => 'offers,desc,char,buy,payment,delivery,video,reviews,ask,stores,custom_tab'
+		)
+	);
+	$arTemplateParametersParts[] = array(
+		'DETAIL_BLOCKS_ALL_ORDER' => array(
+			'PARENT' => 'DETAIL_SETTINGS',
+			'NAME' => GetMessage('CP_BC_TPL_PRODUCT_BLOCKS_ALL_ORDER'),
+			'TYPE' => 'CUSTOM',
+			'JS_FILE' => \Bitrix\Main\Page\Asset::getInstance()->getFullAssetPath('/bitrix/js/aspro.next/settings/dragdrop_order/script.min.js'),
+			'JS_EVENT' => 'initDraggableOrderControl',
+			'JS_DATA' => Json::encode(array(
+				'complect' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_COMPLECT'),
+				'nabor' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_NABOR'),
+				'offers' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_OFFERS'),
+				'desc' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DESC'),
+				'char' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CHAR'),
+				'video' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_VIDEO'),
+				'stores' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_STORES'),
+				'custom_tab' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_CUSTOM_TABS'),
+				'buy' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_HOW_BUY'),
+				'payment' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_PAYMENT'),
+				'delivery' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DELIVERY'),
+				'services' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_SERVICES'),
+				'reviews' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_REVIEWS'),
+				'blog' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_BLOG'),
+				'goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_GOODS'),
+				'gifts' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_GIFTS'),
+				'ask' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_ASK'),
+				'tizers' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_TIZERS'),
+				'podborki' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_PODBORKI'),
+				'docs' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_DOCS'),
+				'galery' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_GALLERY'),
+				'exp_goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_EXP_GOODS'),
+				'assoc_goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_ASSOC_GOODS'),
+				'recomend_goods' => GetMessage('CP_BC_TPL_PRODUCT_BLOCK_RECOMEND_GOODS'),
+
+			)),
+			'DEFAULT' => 'tizers,complect,nabor,offers,desc,char,galery,video,reviews,gifts,ask,stores,services,docs,custom_tab,goods,recomend_goods,exp_goods,podborki,blog,assoc_goods'
+		)
+	);
+
+	// compare settings
+	$arTemplateParametersParts[] = array(
+		"USE_COMPARE_GROUP" => array(
+			"PARENT" => "COMPARE_SETTINGS",
+			"NAME" => GetMessage("T_USE_COMPARE_GROUP"),
+			"TYPE" => "CHECKBOX",
+			"DEFAULT" => "N",
+		)
+	);
 
 	//merge parameters to one array
 	$arTemplateParameters = array();

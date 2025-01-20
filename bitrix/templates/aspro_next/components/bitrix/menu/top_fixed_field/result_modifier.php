@@ -1,8 +1,19 @@
-<?$arResult = CNext::getChilds($arResult);
+<?
+$arResult = CNext::getChilds($arResult);
 global $arRegion, $arTheme;
+
 if($arResult){
+	if($bUseMegaMenu = $arTheme['USE_MEGA_MENU']['VALUE'] === 'Y'){
+		CNext::replaceMenuChilds($arResult, $arParams);
+	}
+
 	foreach($arResult as $key=>$arItem)
 	{
+		if(isset($arItem["PARAMS"]["ONLY_MOBILE"]) && $arItem["PARAMS"]["ONLY_MOBILE"]=="Y") {
+		    unset($arResult[$key]);
+		    continue;
+		}
+
 		if(isset($arItem['CHILD']))
 		{
 			foreach($arItem['CHILD'] as $key2=>$arItemChild)

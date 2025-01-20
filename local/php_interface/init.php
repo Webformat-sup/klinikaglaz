@@ -1,6 +1,9 @@
 <?php
 \Bitrix\Main\Loader::includeModule('webformat.utils');
 CModule::IncludeModule('webformat.debug1');
+\file_exists($incFile = $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php') && include($incFile);
+include_once 'webformat/stringHeadCanonical.php';
+include_once 'webformat/stringMicromarkingJson.php';
 
   //обработчик, который перезаписывает бренд при выгрузке из 1с
   AddEventHandler( "iblock", "OnAfterIBlockElementAdd", array( "aspro_import", "FillTheBrands" ) );
@@ -65,28 +68,48 @@ function newFileHandler($fileId){
 
 }
 
+AddEventHandler("main", "OnBeforeProlog", "registerJquery", 1);
+
+function registerJquery()
+{
+  //Hack: when init first extension - bitrix register standart extensions
+  $emptyHack = [
+	 'css' => "",
+	 'skip_core' => true,
+  ];
+  CJSCore::RegisterExt('emptyHack', $emptyHack);
+  CJSCore::Init('emptyHack');
+
+  $jquery = [
+	 'js' => "/bitrix/js/main/jquery/jquery-old.min.js",
+	 'skip_core' => true,
+  ];
+  CJSCore::RegisterExt('jquery', $jquery);
+}
+
+
 class aspro_import {
-    function FillTheBrands($arFields){
+    static function FillTheBrands($arFields){
         $arCatalogID=array(46);
         if( in_array($arFields['IBLOCK_ID'], $arCatalogID) ){
          // \Bitrix\Main\Loader::includeModule('catalog');
-            $arItem = CIBlockElement::GetList(false, array( 'IBLOCK_ID' => $arFields['IBLOCK_ID'], 'ID' => $arFields['ID']), false, false, array( 'ID', 'PROPERTY_CML2_MANUFACTURER') )->fetch();
+            $arItem = CIBlockElement::GetList(false, array( 'IBLOCK_ID' => $arFields['IBLOCK_ID'], 'ID' => $arFields['ID']), false, false, array( 'ID', 'PROPERTY_593') )->fetch();
             //проставлем нужный бренд из инфоблока бренда
-            if($arItem['PROPERTY_CML2_MANUFACTURER_VALUE']){
-                $arBrand = CIBlockElement::GetList( false, array( 'IBLOCK_ID' => 41, 'NAME' => $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'] ) )->fetch();
+            if($arItem['PROPERTY_593_VALUE']){
+                $arBrand = CIBlockElement::GetList( false, array( 'IBLOCK_ID' => 41, 'NAME' => $arItem['PROPERTY_593_VALUE'] ) )->fetch();
                 if( $arBrand ){
-                    CIBlockElement::SetPropertyValuesEx( $arFields['ID'], false, array('BRAND' => $arBrand['ID'] ) );
+                    CIBlockElement::SetPropertyValuesEx( $arFields['ID'], false, array('713' => $arBrand['ID'] ) );
                 }else{
                     $el = new CIBlockElement;
                     $arParams = array( "replace_space" => "-", "replace_other" => "-" );
                     $id = $el->Add( array(
                         'ACTIVE' => 'Y',
-                        'NAME' => $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'],
+                        'NAME' => $arItem['PROPERTY_593_VALUE'],
                         'IBLOCK_ID' => 41,
-                        'CODE' => Cutil::translit( $arItem['PROPERTY_CML2_MANUFACTURER_VALUE'], "ru", $arParams )
+                        'CODE' => Cutil::translit( $arItem['PROPERTY_593_VALUE'], "ru", $arParams )
                     ) ); 			    
                     if( $id ){
-                        CIBlockElement::SetPropertyValuesEx( $arFields['ID'], false, array( 'BRAND' => $id ) );
+                        CIBlockElement::SetPropertyValuesEx( $arFields['ID'], false, array( '713' => $id ) );
                     }else{
                         $error = $el->LAST_ERROR;
                     }
@@ -96,4 +119,13 @@ class aspro_import {
 
         }
     }
+}
+// WATERMARK ADVERTISING TOKEN
+if(!class_exists('WatermarkAdvertisingToken')){
+	include_once 'webformat/watermarkAdvertisingToken.php';
+}
+AddEventHandler('iblock', 'OnIBlockElementUpdate', 'watermarkAdvertisingToken');
+function watermarkAdvertisingToken($newFields, $ar_wf_element)
+{
+		$arFileTmp = WatermarkAdvertisingToken::start($newFields,$ar_wf_element);
 }

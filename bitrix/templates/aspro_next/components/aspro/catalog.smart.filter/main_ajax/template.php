@@ -20,45 +20,16 @@ if($arResult["ITEMS"]){?>
 					//ASPRO_FILTER_SORT
 					foreach($arResult["ITEMS"] as $key => $arItem){
 					    if(isset($arItem["ASPRO_FILTER_SORT"]) && $arItem["VALUES"]){
-							$class="";
-							if($arItem["DISPLAY_EXPANDED"]=="Y"){
-								$class="active";
-							}
-							$isFilter=true;
+							$class = $arItem["DISPLAY_EXPANDED"] === "Y" ? "active" : '';
+							$style = $arItem["DISPLAY_EXPANDED"] !== "Y" ? "style='display:none;'" : '';
+							$isFilter = true;
+							$checkedItemExist = false;
 							?>
 							<div class="bx_filter_parameters_box bx_sort_filter <?=$class;?>" data-expanded="<?=($arItem["DISPLAY_EXPANDED"] ? $arItem["DISPLAY_EXPANDED"] : "N");?>" data-prop_code="<?=strtolower($arItem["CODE"]);?>" data-property_id="<?=$arItem["ID"]?>">
 								<span data-f="<?=Loc::getMessage('CT_BCSF_SET_FILTER')?>" data-fi="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TI')?>" data-fr="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TR')?>" data-frm="<?=Loc::getMessage('CT_BCSF_SET_FILTER_TRM')?>" class="bx_filter_container_modef"></span>
-								<?if($arItem["CODE"]!="IN_STOCK"){?>
-									<div class="bx_filter_parameters_box_title icons_fa" >
-										<div>
-											<?=( $arItem["CODE"] == "MINIMUM_PRICE" ? Loc::getMessage("PRICE") : $arItem["NAME"] );?>
-											<div class="char_name">
-												<div class="props_list">
-													<?if($arParams["SHOW_HINTS"]){
-														if(!$arItem["FILTER_HINT"]){
-															$prop = CIBlockProperty::GetByID($arItem["ID"], $arParams["IBLOCK_ID"])->GetNext();
-															$arItem["FILTER_HINT"]=$prop["HINT"];
-														}?>
-														<?if( $arItem["FILTER_HINT"] && strpos( $arItem["FILTER_HINT"],'line')===false){?>
-															<div class="hint"><span class="icon"><i>?</i></span><div class="tooltip" style="display: none;"><?=$arItem["FILTER_HINT"]?></div></div>
-														<?}?>
-													<?}?>
-												</div>
-											</div>
-										</div>
-									</div>
-								<?}?>
-								<?$style="";
-								if($arItem["CODE"]=="IN_STOCK"){
-									$style="style='display:block;'";
-								}elseif($arItem["DISPLAY_EXPANDED"]!= "Y"){
-									$style="style='display:none;'";
-								}?>
+								<div class="bx_filter_parameters_box_title icons_fa" ><div><?=$arItem["NAME"]?></div></div>
 								<div class="bx_filter_block <?=($arItem["PROPERTY_TYPE"]!="N" && ($arItem["DISPLAY_TYPE"] != "P" && $arItem["DISPLAY_TYPE"] != "R") ? "limited_block" : "");?>" <?=$style;?>>
 									<div class="bx_filter_parameters_box_container <?=($arItem["DISPLAY_TYPE"]=="G" ? "pict_block" : "");?>">
-									<?
-									$arCur = current($arItem["VALUES"]);
-									$checkedItemExist = false;?>
 									<div class="bx_filter_select_container">
 										<div class="bx_filter_select_block" onclick="smartFilter.showDropDownPopup(this, '<?=CUtil::JSEscape($key)?>')">
 											<div class="bx_filter_select_text" data-role="currentOption">
@@ -76,13 +47,10 @@ if($arResult["ITEMS"]){?>
 											<div class="bx_filter_select_arrow"></div>
 											<div class="bx_filter_select_popup" data-role="dropdownContent" style="display: none;">
 												<ul>
-												<?
-												foreach ($arItem["VALUES"] as $val => $ar):?>
+												<?foreach($arItem["VALUES"] as $val => $ar):?>
 													<?$ar["CONTROL_ID"] .= $arParams['AJAX_FILTER_FLAG'];?>
-													<li>
-														<?=$ar["CONTROL_HTML"]?>
-													</li>
-												<?endforeach?>
+													<li><?=$ar["CONTROL_HTML"]?></li>
+												<?endforeach;?>
 												</ul>
 											</div>
 										</div>
@@ -815,6 +783,13 @@ if($arResult["ITEMS"]){?>
 			<div style="clear: both;"></div>
 		</div>
 	</div>
+	<script>
+	<?if($arParams['TOP_VERTICAL_FILTER_PANEL'] == 'Y'){
+		$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH.'/js/asproFilterHelper.js');?>
+		window.FilterHelper = new asproFilterHelper();
+      	FilterHelper.show();
+	<?}?>
+	</script>
 	<script>
 		var smartFilter = new JCSmartFilter('<?echo CUtil::JSEscape($arResult["FORM_ACTION"])?>', '<?=$arParams["VIEW_MODE"];?>', <?=CUtil::PhpToJSObject($arResult["JS_FILTER_PARAMS"])?>);
 		<?if(!$isFilter){?>

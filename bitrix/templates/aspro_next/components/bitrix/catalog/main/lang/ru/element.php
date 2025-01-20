@@ -1,13 +1,14 @@
 <?
-	$MESS["VIEWED_BEFORE"] = "Ранее вы смотрели";
-	$MESS["CATALOG_STOCK_TITLE"] = "Товар по акции";
-	$MESS["CATALOG_STOCK_VIEW"] = "Подробности";
-	$MESS["CATALOG_IN_CART"] = "В корзине";
-	$MESS["TITLE_QUANTITY"] = "шт.";
-	$MESS["UNTIL_AKC"] = "До конца акции";
-	$MESS["TITLE_QUANTITY_BLOCK"] = "Остаток";
-	$MESS["CATALOG_ECONOMY"] = "Экономия";
-	$MESS["ARTICLE"] = "Артикул:";
+$MESS["VIEWED_BEFORE"] = "Ранее вы смотрели";
+$MESS["CATALOG_STOCK_TITLE"] = "Товар по акции";
+$MESS["CATALOG_STOCK_VIEW"] = "Подробности";
+$MESS["CATALOG_IN_CART"] = "В корзине";
+$MESS["TITLE_QUANTITY"] = "шт.";
+$MESS["UNTIL_AKC"] = "До конца акции";
+$MESS["TITLE_QUANTITY_BLOCK"] = "Остаток";
+$MESS["CATALOG_ECONOMY"] = "Экономия";
+$MESS["ARTICLE"] = "Артикул:";
+$MESS["VOTES_RESULT_NONE"] = "Нет оценок";
 $MESS["CATALOG_NOT_AVAILABLE"] = "Нет в наличии";
 $MESS["CATALOG_ORDER_NAME"] = "Оповестить о наличии";
 $MESS["CATALOG_QUANTITY"] = "Количество";

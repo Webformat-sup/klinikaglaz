@@ -24,4 +24,8 @@ $MESS["FILTER_SECTON"] = "Разделы товаров";
 $MESS["FILTER_ALL_SECTON"] = "Все разделы";
 
 $MESS["RESET_FILTERS"] = "Сбросить все фильтры";
+$MESS["MORE_SECTIONS"] = "Ещё";
+$MESS["MORE_SECTIONS0"] = "раздел";
+$MESS["MORE_SECTIONS1"] = "раздела";
+$MESS["MORE_SECTIONS2"] = "разделов";
 ?>

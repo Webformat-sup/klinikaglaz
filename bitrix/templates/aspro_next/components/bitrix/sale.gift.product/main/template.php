@@ -55,7 +55,7 @@ if (isset($arResult['REQUEST_ITEMS']))
 			});
 		});
 	</script>
-
+	<?$frame->beginStub();?>
 	<?
 	$frame->end();
 	return;
@@ -100,7 +100,7 @@ if (!empty($arResult['ITEMS'])){
 			<?}?>
 			<ul class="viewed_navigation slider_navigation top_big custom_flex border"></ul>
 			<div class="all_wrapp">
-				<div class="content_inner tab flexslider loading_state shadow border custom_flex top_right" data-plugin-options='{"animation": "slide", "animationSpeed": 600, "directionNav": true, "controlNav" :false, "animationLoop": true, "slideshow": false, "controlsContainer": ".viewed_navigation", "counts": [4,3,3,2,1]}'>
+				<div class="content_inner tab flexslider loading_state shadow border custom_flex top_right" data-plugin-options='{"animation": "slide", "animationSpeed": 600, "directionNav": true, "controlNav" :false, "animationLoop": true, "slideshow": false, "controlsContainer": ".viewed_navigation", "counts": [4,3,2,1,1]}'>
 					<ul class="tabs_slider slides">
 						<?
 						$elementEdit = CIBlock::GetArrayByID($arParams['IBLOCK_ID'], 'ELEMENT_EDIT');
@@ -132,9 +132,9 @@ if (!empty($arResult['ITEMS'])){
 							}
 							$elementName = ((isset($arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) && $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']) ? $arItem['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'] : $arItem['NAME']);
 							?>
-							<li class="catalog_item visible main_item_wrapper" id="<?=$arItem["strMainID"];?>">
+							<li class="catalog_item visible main_item_wrapper js-notice-block" id="<?=$arItem["strMainID"];?>">
 								<div class="inner_wrap">
-									<div class="image_wrapper_block">
+									<div class="image_wrapper_block js-notice-block__image">
 										<div class="stickers">
 											<?$prop = ($arParams["STIKERS_PROP"] ? $arParams["STIKERS_PROP"] : "HIT");?>
 											<?foreach(CNext::GetItemStickers($arItem["PROPERTIES"][$prop]) as $arSticker):?>
@@ -192,29 +192,44 @@ if (!empty($arResult['ITEMS'])){
 											else
 												$fast_view_text = GetMessage('FAST_VIEW');?>
 										</a>
-										<div class="fast_view_block" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?=$arItem["IBLOCK_ID"];?>" data-param-id="<?=$arItem["ID"];?>" data-param-item_href="<?=urlencode($arItem["DETAIL_PAGE_URL"]);?>" data-name="fast_view"><?=$fast_view_text;?></div>
+										<div class="fast_view_block" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?=$arItem["IBLOCK_ID"];?>" data-param-fid="<?=$strMainID;?>" data-param-id="<?=$arItem["ID"];?>" data-param-item_href="<?=urlencode($arItem["DETAIL_PAGE_URL"]);?>" data-name="fast_view"><?=$fast_view_text;?></div>
 									</div>
 									<div class="item_info <?=$arParams["TYPE_SKU"]?>">
 										<div class="item-title">
-											<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark_link"><span><?=$elementName?></span></a>
+											<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="dark_link js-notice-block__title"><span><?=$elementName?></span></a>
 										</div>
 										<?if($arParams["SHOW_RATING"] == "Y"):?>
 											<div class="rating">
+											<?if( $arParams['REVIEWS_VIEW'] ):?>
+												<div class="blog-info__rating--top-info EXTENDED">
+													<div class="votes_block nstar with-text">
+														<div class="ratings">
+															<?$message = $arItem['PROPERTIES']['EXTENDED_REVIEWS_COUNT']['VALUE'] ? GetMessage('VOTES_RESULT', array('#VALUE#' => $arItem['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'])) : GetMessage('VOTES_RESULT_NONE')?>
+															<div class="inner_rating" title="<?=$message?>">
+																<?for($i=1;$i<=5;$i++):?>
+																	<div class="item-rating <?=$i<=$arItem['PROPERTIES']['EXTENDED_REVIEWS_RAITING']['VALUE'] ? 'filled' : ''?>"></div>
+																<?endfor;?>
+															</div>
+														</div>
+													</div>
+												</div>
+											<?else:?>
 												<?$APPLICATION->IncludeComponent(
-												   "bitrix:iblock.vote",
-												   "element_rating_front",
-												   Array(
-													  "IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
-													  "IBLOCK_ID" => $arItem["IBLOCK_ID"],
-													  "ELEMENT_ID" =>$arItem["ID"],
-													  "MAX_VOTE" => 5,
-													  "VOTE_NAMES" => array(),
-													  "CACHE_TYPE" => $arParams["CACHE_TYPE"],
-													  "CACHE_TIME" => $arParams["CACHE_TIME"],
-													  "DISPLAY_AS_RATING" => 'vote_avg'
-												   ),
-												   $component, array("HIDE_ICONS" =>"Y")
+												"bitrix:iblock.vote",
+												"element_rating_front",
+												Array(
+													"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
+													"IBLOCK_ID" => $arItem["IBLOCK_ID"],
+													"ELEMENT_ID" =>$arItem["ID"],
+													"MAX_VOTE" => 5,
+													"VOTE_NAMES" => array(),
+													"CACHE_TYPE" => $arParams["CACHE_TYPE"],
+													"CACHE_TIME" => $arParams["CACHE_TIME"],
+													"DISPLAY_AS_RATING" => 'vote_avg'
+												),
+												$component, array("HIDE_ICONS" =>"Y")
 												);?>
+											<?endif;?>
 											</div>
 										<?endif;?>
 										<div class="sa_block">

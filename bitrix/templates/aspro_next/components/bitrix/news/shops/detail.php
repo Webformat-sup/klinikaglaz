@@ -16,7 +16,7 @@ elseif(strlen(trim($arResult["VARIABLES"]["ELEMENT_CODE"])) > 0){
 <?CNext::AddMeta(
 	array(
 		'og:description' => $arElement['PREVIEW_TEXT'],
-		'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['PREVIEW_PICTURE'] ? $arElement['PREVIEW_PICTURE'] : $arElement['DETAIL_PICTURE'])) : false),
+		'og:image' => (($arElement['PREVIEW_PICTURE'] || $arElement['DETAIL_PICTURE']) ? CFile::GetPath(($arElement['DETAIL_PICTURE'] ? $arElement['DETAIL_PICTURE'] : $arElement['PREVIEW_PICTURE'])) : false),
 	)
 );?>
 
@@ -41,11 +41,11 @@ elseif(strlen(trim($arResult["VARIABLES"]["ELEMENT_CODE"])) > 0){
 		"META_DESCRIPTION" => $arParams["META_DESCRIPTION"],
 		"BROWSER_TITLE" => $arParams["BROWSER_TITLE"],
 		"DISPLAY_PANEL" => $arParams["DISPLAY_PANEL"],
-		"SET_TITLE" => 'N',
+		"SET_TITLE" => $arParams["SET_TITLE"],//'N',
 		"SET_STATUS_404" => $arParams["SET_STATUS_404"],
 		"INCLUDE_IBLOCK_INTO_CHAIN" => $arParams["INCLUDE_IBLOCK_INTO_CHAIN"],
 		"ADD_SECTIONS_CHAIN" => $arParams["ADD_SECTIONS_CHAIN"],
-		"ADD_ELEMENT_CHAIN" => 'N',
+		"ADD_ELEMENT_CHAIN" => $arParams['ADD_ELEMENT_CHAIN'],//'N',
 		"ACTIVE_DATE_FORMAT" => $arParams["DETAIL_ACTIVE_DATE_FORMAT"],
 		"CACHE_TYPE" => 'A', // for map!
 		"CACHE_TIME" => $arParams["CACHE_TIME"],
@@ -86,11 +86,11 @@ elseif(strlen(trim($arResult["VARIABLES"]["ELEMENT_CODE"])) > 0){
 );?>
 
 <?
-if ($arParams['SET_TITLE'] == 'Y') {
+/*if ($arParams['SET_TITLE'] == 'Y') {
 	$APPLICATION->SetTitle($_SESSION['SHOP_TITLE']);
 	$APPLICATION->SetPageProperty("title", $_SESSION['SHOP_TITLE']);
 }
 if ($arParams['ADD_ELEMENT_CHAIN'] == 'Y') {
 	$APPLICATION->AddChainItem($_SESSION['SHOP_TITLE'], "");
-}
+}*/
 ?>

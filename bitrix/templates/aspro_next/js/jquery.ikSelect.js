@@ -209,7 +209,8 @@
 			var $option = $(this.el.options[index]),
 				text='';
 			if($option.data('img_src')){
-				text+='<span class="icon_color" style="background: url('+$option.data('img_src')+')"></span>';
+				//aspro fix data-missing
+				text+='<span class="icon_color ' + ($option.data('missing') ? 'missing' : '') + '" style="background: url('+$option.data('img_src')+')"></span>';
 				this.$link.addClass('img');
 			}
 			if($option.attr('title')){
@@ -747,15 +748,22 @@
 
 		// generates option code for the fake dropdown
 		_renderListOption: function (option) {
-			var html;
+
+			var html
+			var imgClass = '';
 			var disabledClass = option.isDisabled ? ' ik_select_option_disabled' : '';
-			var imgClass = option.dataParam.img_src ? ' img' : '';
+
+			if(!$.isEmptyObject(option.dataParam)) {
+				imgClass = option.dataParam.img_src ? ' img' : '';
+			} 
 			var missingClass = option.className=='hidden' ? ' missing' : '';
 			var title = option.title;
 			html = '<li class="ik_select_option' + disabledClass + imgClass + missingClass + '" title="'+title+'" data-value="' + option.value + '">';
 			html += '<span class="ik_select_option_label" title="'+title+'">';
-			if(option.dataParam.img_src){
-				html += '<span class="icon_color" style="background: url('+option.dataParam.img_src+')"></span>';
+
+			if(imgClass){
+				//aspro fix data-missing
+				html += '<span class="icon_color ' + (option.dataParam.missing ? 'missing' : '') + '" style="background: url('+option.dataParam.img_src+')"></span>';
 			}
 			html += option.label;
 			html += '</span>';

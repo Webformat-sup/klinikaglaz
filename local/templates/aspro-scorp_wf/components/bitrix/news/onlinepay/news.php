@@ -1,17 +1,20 @@
-<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();?>
+<?if( !defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true ) die();
+$CScorp = new CScorp;
+$CCache = new CCache;
+?>
 <?$this->setFrameMode(true);?>
 <?
 $arFilter = array("IBLOCK_ID" => $arParams["IBLOCK_ID"], "ACTIVE" => "Y", "GLOBAL_ACTIVE" => "Y", "ACTIVE_DATE" => "Y", "DEPTH_LEVEL" => 1);
-$arSections = CCache::CIBLockSection_GetList(array("SORT" => "ASC", "NAME" => "ASC", "CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "GROUP" => array("ID"), "MULTI" => "N")), $arFilter, false, array("ID", "NAME", 'IBLOCK_ID'));
+$arSections = $CCache->CIBLockSection_GetList(array("SORT" => "ASC", "NAME" => "ASC", "CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "GROUP" => array("ID"), "MULTI" => "N")), $arFilter, false, array("ID", "NAME", 'IBLOCK_ID'));
 
 // rss
 if($arParams['USE_RSS'] !== 'N'){
-	CScorp::ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
+	$CScorp->ShowRSSIcon($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss']);
 }
 ?>
-<div class="row" style="margin-right: -22px">
+<div class="bbg row" style="margin-right: -22px">
 	<div class="col-md-12" style="padding-right: 0px;">
-		<div style="float:right; width: 240px;">
+		<div class="bbg-e" style="float:right; width: 240px;">
 			<a href="/paykeeper/"><img src="<?=SITE_TEMPLATE_PATH;?>/images/button_card_1.svg" /></a>
 		</div>
 		<?php $APPLICATION->IncludeComponent(

@@ -1,10 +1,37 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?
+// print_r($arResult["JSON"]);
 $catalogIblockID = \Bitrix\Main\Config\Option::get('aspro.next', 'CATALOG_IBLOCK_ID', CNextCache::$arIBlocks[SITE_ID]['aspro_next_catalog']['aspro_next_catalog'][0]);
-$normalCount = count($arResult["ITEMS"]["AnDelCanBuy"]);
-$delayCount = count($arResult["ITEMS"]["DelDelCanBuy"]);
-$subscribeCount = count($arResult["ITEMS"]["ProdSubscribe"]);
-$naCount = count($arResult["ITEMS"]["nAnCanBuy"]);
+
+$normalCount = $delayCount = $subscribeCount = $naCount = 0;
+
+if(
+	array_key_exists('AnDelCanBuy', $arResult['JSON']) &&
+	is_array($arResult['JSON']['AnDelCanBuy'])
+){
+	$normalCount = count($arResult['JSON']['AnDelCanBuy']);
+}
+
+if(
+	array_key_exists('DelDelCanBuy', $arResult['JSON']) &&
+	is_array($arResult['JSON']['DelDelCanBuy'])
+){
+	$delayCount = count($arResult['JSON']['DelDelCanBuy']);
+}
+
+if(
+	array_key_exists('ProdSubscribe', $arResult['JSON']) &&
+	is_array($arResult['JSON']['ProdSubscribe'])
+){
+	$subscribeCount = count($arResult['JSON']['ProdSubscribe']);
+}
+
+if(
+	array_key_exists('nAnCanBuy', $arResult['JSON']) &&
+	is_array($arResult['JSON']['nAnCanBuy'])
+){
+	$naCount = count($arResult['JSON']['nAnCanBuy']);
+}
 
 if(is_array($_SESSION["CATALOG_COMPARE_LIST"][$catalogIblockID]["ITEMS"]))
 	$compareCount = count($_SESSION["CATALOG_COMPARE_LIST"][$catalogIblockID]["ITEMS"]);
@@ -72,7 +99,7 @@ $arCounters = CNext::updateBasketCounters(array('READY' => array('COUNT' => $nor
 			</div>
 		<?endif;?>
 	</div>
-	<script src="<?=(((COption::GetOptionString('main', 'use_minified_assets', 'N', $siteID) === 'Y') && file_exists($_SERVER['DOCUMENT_ROOT'].$templateFolder.'/script.min.js')) ? $templateFolder.'/script.min.js' : $templateFolder.'/script.js')?>" type="text/javascript"></script>
+	<script src="<?=(((COption::GetOptionString('main', 'use_minified_assets', 'N', SITE_ID) === 'Y') && file_exists($_SERVER['DOCUMENT_ROOT'].$templateFolder.'/script.min.js')) ? $templateFolder.'/script.min.js' : $templateFolder.'/script.js')?>" type="text/javascript"></script>
 	<?
 		include($_SERVER["DOCUMENT_ROOT"].$templateFolder."/functions.php");
 		$arUrls = Array("delete" => SITE_DIR."ajax/show_basket_fly.php?action=delete&id=#ID#",

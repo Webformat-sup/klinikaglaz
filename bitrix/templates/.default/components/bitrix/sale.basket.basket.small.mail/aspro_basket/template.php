@@ -53,11 +53,11 @@ if ($arResult["ShowReady"]=="Y" || $arResult["ShowDelay"]=="Y" || $arResult["Sho
 				{
 					$arItem["PRICE"] = str_replace("-", "", $arItem["PRICE"]);
 					if($arItem["PRICE"])
-						$summ += $arItem["PRICE"];
+						$summ += $arItem["PRICE"] * $arItem["QUANTITY"];
 				}
 			}?>
 			<div style="text-align:center;">
-				<div style="font-weight:600;color:#333333;font-size:16px;padding: 27px 0px 17px;"><?= GetMessage("SALE_TOTAL") ?> <?=CAllCurrencyLang::CurrencyFormat($summ, $allCurrency);?></div>
+				<div style="font-weight:600;color:#333333;font-size:16px;padding: 27px 0px 17px;"><?= GetMessage("SALE_TOTAL") ?> <?=CCurrencyLang::CurrencyFormat($summ, $allCurrency);?></div>
 				<?if('' != $arParams["PATH_TO_BASKET"]):?>
 					<a href="<?=$arParams["PATH_TO_BASKET"]?>" style="color:#fff;background:<?=$arParams["THEME_COLOR"];?>;padding:11px 19px;border-radius:3px;display: inline-block;">
 						<?=($arParams["BASKET_PAGE"] ? $arParams["BASKET_PAGE"] : GetMessage("TSBS_2BASKET"));?>						

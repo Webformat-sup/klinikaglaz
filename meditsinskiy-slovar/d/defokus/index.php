@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Дефокус");?><h2>Дефокус</h2>
+$APPLICATION->SetTitle("Что такое Дефокус");
+$APPLICATION->SetPageProperty("description", "В литературе по оптике дефокусом называют аберрации низшего, второго порядка — близорукость, дальнозоркость.");?><h2>Дефокус</h2>
 <p>
 	 В литературе по оптике дефокусом называют&nbsp;<a href="/services/issledovaniya-i-diagnostika/analiz-volnovogo-fronta/">аберрации</a>&nbsp;низшего, второго порядка — близорукость, дальнозоркость.
 </p>

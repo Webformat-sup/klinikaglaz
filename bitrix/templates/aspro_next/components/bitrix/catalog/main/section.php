@@ -1,6 +1,6 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();?>
-<?$this->setFrameMode(true);?>
 <?
+if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
+$this->setFrameMode(true);
 
 use Bitrix\Main\Loader,
 	Bitrix\Main\ModuleManager;
@@ -8,7 +8,8 @@ use Bitrix\Main\Loader,
 Loader::includeModule("iblock");
 
 global $arTheme, $NextSectionID, $arRegion;
-$arPageParams = $arSection = $section = array();
+$arPageParams = $arSectionFilter = $arSection = $section = array();
+$_SESSION['SMART_FILTER_VAR'] = $arParams['FILTER_NAME'];
 
 // get current section ID
 if($arResult["VARIABLES"]["SECTION_ID"] > 0){
@@ -17,7 +18,14 @@ if($arResult["VARIABLES"]["SECTION_ID"] > 0){
 elseif(strlen(trim($arResult["VARIABLES"]["SECTION_CODE"])) > 0){
 	$arSectionFilter = array('GLOBAL_ACTIVE' => 'Y', "=CODE" => $arResult["VARIABLES"]["SECTION_CODE"], "IBLOCK_ID" => $arParams["IBLOCK_ID"]);
 }
-$section = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeSectionFilterInRegion($arSectionFilter), false, array("ID", "IBLOCK_ID", "NAME", "DESCRIPTION", "UF_SECTION_DESCR", "UF_OFFERS_TYPE", 'UF_FILTER_VIEW', $arParams["SECTION_DISPLAY_PROPERTY"], "IBLOCK_SECTION_ID", "DEPTH_LEVEL", "LEFT_MARGIN", "RIGHT_MARGIN"));
+if($arSectionFilter){
+	$section = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeSectionFilterInRegion($arSectionFilter), false, array("ID", "IBLOCK_ID", "NAME", "DESCRIPTION", "UF_SECTION_DESCR", "UF_OFFERS_TYPE", 'UF_FILTER_VIEW', 'UF_LINKED_BLOG', $arParams["SECTION_DISPLAY_PROPERTY"], "IBLOCK_SECTION_ID", "DEPTH_LEVEL", "LEFT_MARGIN", "RIGHT_MARGIN", "PICTURE", "DETAIL_PICTURE"));
+}
+
+$sectionPicturePatch = $section["PICTURE"] ? CFile::GetPath($section["PICTURE"]) : CFile::GetPath($section["DETAIL_PICTURE"]);
+if($sectionPicturePatch) {
+	CNext::AddMeta(array('og:image' => $sectionPicturePatch));
+}
 
 $typeSKU = '';
 
@@ -63,7 +71,7 @@ if($section){
 	if($arParams['HIDE_NOT_AVAILABLE'] == 'Y')
 		$arElementFilter["CATALOG_AVAILABLE"] = $catalog_available;
 
-	$itemsCnt = CNextCache::CIBlockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeElementFilterInRegion($arElementFilter), array());
+	$itemsCnt = CNextCache::CIBlockElement_GetList(array("CACHE" => array("TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CNext::makeElementFilterInRegion($arElementFilter, false, $bSetLinkRegionFilter = $arParams['FILTER_NAME'] === 'arRegionLink'), array());
 
 	// set offer type & smartfilter view
 	$typeTmpSKU = $viewTmpFilter = 0;
@@ -73,6 +81,9 @@ if($section){
 	if($section['UF_FILTER_VIEW']){
 		$viewTmpFilter = $section['UF_FILTER_VIEW'];
 	}
+	if ($section['UF_LINKED_BLOG']) {
+        $linkedArticles = $section['UF_LINKED_BLOG'];
+    }
 	if(!$typeTmpSKU || !$viewTmpFilter){
 		if($section['DEPTH_LEVEL'] > 1){
 			$sectionParent = CNextCache::CIBlockSection_GetList(array('CACHE' => array("MULTI" =>"N", "TAG" => CNextCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), array('GLOBAL_ACTIVE' => 'Y', "ID" => $section["IBLOCK_SECTION_ID"], "IBLOCK_ID" => $arParams["IBLOCK_ID"]), false, array("ID", "IBLOCK_ID", "NAME", "UF_OFFERS_TYPE", 'UF_FILTER_VIEW'));
@@ -159,13 +170,29 @@ $NextSectionID = $arSection["ID"];?>
 //seo
 $catalogInfoIblockId = CNextCache::$arIBlocks[SITE_ID]["aspro_next_catalog"]["aspro_next_catalog_info"][0];
 if($catalogInfoIblockId){
-	$arSeoItems = CNextCache::CIBLockElement_GetList(array('SORT' => 'ASC', 'CACHE' => array("MULTI" => "Y", "TAG" => CNextCache::GetIBlockCacheTag($catalogInfoIblockId))), array("IBLOCK_ID" => $catalogInfoIblockId, "ACTIVE" => "Y"), false, false, array("ID", "IBLOCK_ID", "PROPERTY_FILTER_URL", "PROPERTY_LINK_REGION"));
+
+	/*fix*/
+	$current_url =  $APPLICATION->GetCurDir();
+	$real_url = $current_url;
+	$current_url =  str_replace(array('%25', '&quot;', '&#039;'), array('%', '"', "'"), $current_url); // for utf-8 fix some problem
+	$encode_current_url = urlencode($current_url);
+	$gaps_encode_current_url = str_replace(' ', '%20', $current_url);
+	$encode_current_url_slash = str_replace(array('%2F', '+'), array('/', '%20'), $encode_current_url);
+	$urldecodedCP = iconv("windows-1251", "utf-8//IGNORE", $current_url);
+	$urldecodedCP_slash = str_replace(array('%2F'), array('/'), rawurlencode($urldecodedCP));
+	$replacements = array('"' ,'%27', '%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%3F', '%23', '%5B', '%5D');// for fix some problem  with spec chars in prop
+	$entities = array("&quot;", '&#039;', ' ', '!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "?", "#", "[", "]");
+	$replacedSpecChar = str_replace($entities, $replacements, $current_url);
+	/**/
+
+	$arSeoItems = CNextCache::CIBLockElement_GetList(array('SORT' => 'ASC', 'CACHE' => array("MULTI" => "Y", "TAG" => CNextCache::GetIBlockCacheTag($catalogInfoIblockId))), array("IBLOCK_ID" => $catalogInfoIblockId, "ACTIVE" => "Y", "PROPERTY_FILTER_URL" => array($real_url, $current_url, $gaps_encode_current_url, $urldecodedCP_slash, $encode_current_url_slash, $replacedSpecChar)), false, false, array("ID", "IBLOCK_ID", "PROPERTY_FILTER_URL", "PROPERTY_LINK_REGION"));
 	$arSeoItem = $arTmpRegionsLanding = array();
+	
 	if($arSeoItems)
 	{
 		$iLandingItemID = 0;
-		$current_url =  $APPLICATION->GetCurDir();
-		$url = urldecode(str_replace(' ', '+', $current_url));
+		//$current_url =  $APPLICATION->GetCurDir();
+		//$url = urldecode(str_replace(' ', '+', $current_url));
 		foreach($arSeoItems as $arItem)
 		{
 			if(!is_array($arItem['PROPERTY_LINK_REGION_VALUE']))
@@ -173,9 +200,9 @@ if($catalogInfoIblockId){
 
 			if(!$arSeoItem)
 			{
-				$urldecoded = urldecode($arItem["PROPERTY_FILTER_URL_VALUE"]);
-				if($urldecoded == $url || $urldecoded == $current_url)
-				{
+				//$urldecoded = urldecode($arItem["PROPERTY_FILTER_URL_VALUE"]);
+				//if($urldecoded == $url || $urldecoded == $current_url)
+				//{
 					if($arItem['PROPERTY_LINK_REGION_VALUE'])
 					{
 						if($arRegion && in_array($arRegion['ID'], $arItem['PROPERTY_LINK_REGION_VALUE']))
@@ -200,7 +227,7 @@ if($catalogInfoIblockId){
 							"SKU_PREVIEW_PICTURE_FILE_TITLE" => $arSeoItem["PROPERTY_I_SKU_PREVIEW_PICTURE_FILE_TITLE_VALUE"],
 						);
 					}
-				}
+				//}
 			}
 
 			if($arItem['PROPERTY_LINK_REGION_VALUE'])
@@ -212,28 +239,40 @@ if($catalogInfoIblockId){
 	}
 }
 
+if(!$arParams["FILTER_NAME"]){
+	$arParams["FILTER_NAME"] = 'arrProductsFilter';
+}
+
 if($arRegion)
 {
 	if($arRegion["LIST_STORES"] && $arParams["HIDE_NOT_AVAILABLE"] == "Y")
 	{
 		if($arParams['STORES']){
-			if(count($arParams['STORES']) > 1){
-				$arStoresFilter = array('LOGIC' => 'OR');
-				foreach($arParams['STORES'] as $storeID)
-				{
-					$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
-				}
+			if(CNext::checkVersionModule('18.6.200', 'iblock')){
+				$arStoresFilter = array(
+					'STORE_NUMBER' => $arParams['STORES'],
+					'>STORE_AMOUNT' => 0,
+				);
 			}
 			else{
-				foreach($arParams['STORES'] as $storeID)
-				{
-					$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+				if(count($arParams['STORES']) > 1){
+					$arStoresFilter = array('LOGIC' => 'OR');
+					foreach($arParams['STORES'] as $storeID)
+					{
+						$arStoresFilter[] = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+					}
+				}
+				else{
+					foreach($arParams['STORES'] as $storeID)
+					{
+						$arStoresFilter = array(">CATALOG_STORE_AMOUNT_".$storeID => 0);
+					}
 				}
 			}
 
-			$arTmpFilter = array('!TYPE' => '2');
+			$arTmpFilter = array('!TYPE' => array('2', '3'));
 			if($arStoresFilter){
-				if(count($arStoresFilter) > 1){
+				if(!CNext::checkVersionModule('18.6.200', 'iblock') && count($arStoresFilter) > 1){
 					$arTmpFilter[] = $arStoresFilter;
 				}
 				else{
@@ -242,7 +281,7 @@ if($arRegion)
 
 				$GLOBALS[$arParams["FILTER_NAME"]][] = array(
 					'LOGIC' => 'OR',
-					array('TYPE' => '2'),
+					array('TYPE' => array('2','3')),
 					$arTmpFilter,
 				);
 			}
@@ -258,6 +297,10 @@ if($arRegion)
 if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	$arParams["USE_COMPARE"] = 'N';
 /**/
+
+if(CNext::GetFrontParametrValue('SHOW_DELAY_BUTTON') == 'N')
+	$arParams["DISPLAY_WISH_BUTTONS"] = 'N';
+	
 ?>
 <?if(!in_array("DETAIL_PAGE_URL", (array)$arParams["LIST_OFFERS_FIELD_CODE"]))
 	$arParams["LIST_OFFERS_FIELD_CODE"][] = "DETAIL_PAGE_URL";?>
@@ -298,11 +341,17 @@ if(CNext::GetFrontParametrValue('CATALOG_COMPARE') == 'N')
 	"SHOW_ARTICLE_SKU" => $arParams["SHOW_ARTICLE_SKU"],
 	"OFFER_ADD_PICT_PROP" => $arParams["OFFER_ADD_PICT_PROP"],
 	"PRODUCT_QUANTITY_VARIABLE" => $arParams["PRODUCT_QUANTITY_VARIABLE"],
+	"MAIN_IBLOCK_ID" => $arParams["IBLOCK_ID"],
 	"IBINHERIT_TEMPLATES" => $arSeoItem ? $arIBInheritTemplates : array(),
+	"ADD_PICT_PROP" => $arParams["ADD_PICT_PROP"],
+	"OFFER_ADD_PICT_PROP" => $arParams["OFFER_ADD_PICT_PROP"],
+	"GALLERY_ITEM_SHOW" => $arTheme["GALLERY_ITEM_SHOW"]["VALUE"],
+	"MAX_GALLERY_ITEMS" => $arTheme["GALLERY_ITEM_SHOW"]["DEPENDENT_PARAMS"]["MAX_GALLERY_ITEMS"]["VALUE"],
+	"ADD_DETAIL_TO_GALLERY_IN_LIST" => $arTheme["GALLERY_ITEM_SHOW"]["DEPENDENT_PARAMS"]["ADD_DETAIL_TO_GALLERY_IN_LIST"]["VALUE"],
 );?>
 
 <?// section elements?>
-<div class="js_wrapper_items" data-params='<?=str_replace('\'', '"', CUtil::PhpToJSObject($arTransferParams, false))?>'>
+<div class="js_wrapper_items <?=($arTheme["LAZYLOAD_BLOCK_CATALOG"]["VALUE"] == "Y" ? ' with-load-block' : '')?> <?=($arParams["AJAX_MODE"] == "Y" ? ' ajax_mode_on' : '')?> <?=$arTheme['MOBILE_FILTER_COMPACT']['VALUE'] == 'Y' ? "has_mobile_filter_compact" : ""; ?>" data-params='<?=str_replace('\'', '"', CUtil::PhpToJSObject($arTransferParams, false))?>'>
 	<?@include_once('page_blocks/'.$arParams["SECTION_ELEMENTS_TYPE_VIEW"].'.php');?>
 </div>
 

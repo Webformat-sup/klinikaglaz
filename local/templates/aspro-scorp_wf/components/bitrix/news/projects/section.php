@@ -1,28 +1,30 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
 <?
+$CScorp = new CScorp;
+$CCache = new CCache;
 // get section items count and subsections
-$arItemFilter = CScorp::GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams);
-$arSectionFilter = CScorp::GetCurrentSectionFilter($arResult["VARIABLES"], $arParams);
-$itemsCnt = CCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
-$arSection = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE'), true);
-CScorp::AddMeta(
+$arItemFilter = $CScorp->GetCurrentSectionElementFilter($arResult["VARIABLES"], $arParams);
+$arSectionFilter = $CScorp->GetCurrentSectionFilter($arResult["VARIABLES"], $arParams);
+$itemsCnt = $CCache->CIblockElement_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]))), $arItemFilter, array());
+$arSection = $CCache->CIblockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "N")), $arSectionFilter, false, array('ID', 'DESCRIPTION', 'PICTURE', 'DETAIL_PICTURE'), true);
+$CScorp->AddMeta(
 	array(
 		'og:description' => $arSection['DESCRIPTION'],
 		'og:image' => (($arSection['PICTURE'] || $arSection['DETAIL_PICTURE']) ? CFile::GetPath(($arSection['PICTURE'] ? $arSection['PICTURE'] : $arSection['DETAIL_PICTURE'])) : false),
 	)
 );
-$arSubSectionFilter = CScorp::GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
-$arSubSections = CCache::CIblockSection_GetList(array("CACHE" => array("TAG" => CCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
+$arSubSectionFilter = $CScorp->GetCurrentSectionSubSectionFilter($arResult["VARIABLES"], $arParams, $arSection['ID']);
+$arSubSections = $CCache->CIblockSection_GetList(array("CACHE" => array("TAG" => $CCache->GetIBlockCacheTag($arParams["IBLOCK_ID"]), "MULTI" => "Y")), $arSubSectionFilter, false, array("ID"));
 ?>
 <?if(!$arSection && $arParams['SET_STATUS_404'] !== 'Y'):?>
 	<div class="alert alert-warning"><?=GetMessage("SECTION_NOTFOUND")?></div>
 <?elseif(!$arSection && $arParams['SET_STATUS_404'] === 'Y'):?>
-	<?CScorp::goto404Page();?>
+	<?$CScorp->goto404Page();?>
 <?else:?>
 	<?// rss
 	if($arParams['USE_RSS'] !== 'N'){
-		CScorp::ShowRSSIcon(CComponentEngine::makePathFromTemplate($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss_section'], array_map('urlencode', $arResult['VARIABLES'])));
+		$CScorp->ShowRSSIcon(CComponentEngine::makePathFromTemplate($arResult['FOLDER'].$arResult['URL_TEMPLATES']['rss_section'], array_map('urlencode', $arResult['VARIABLES'])));
 	}?>
 	<?if(!$arSubSections && !$itemsCnt):?>
 		<div class="alert alert-warning"><?=GetMessage("SECTION_EMPTY")?></div>

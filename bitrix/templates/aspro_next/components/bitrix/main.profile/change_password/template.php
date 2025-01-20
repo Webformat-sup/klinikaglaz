@@ -45,7 +45,9 @@
 					</div>
 				</div>
 			</div>
-			
+			<div class="form-control wrapper-required-text">
+				<?$APPLICATION->IncludeFile(SITE_DIR."include/required_message.php", Array(), Array("MODE" => "html"));?>
+			</div>
 			<div class="but-r">
 				<button class="btn btn-default" type="submit" name="save" value="<?=(($arResult["ID"]>0) ? GetMessage("SAVE") : GetMessage("ADD"))?>"><span><?=(($arResult["ID"]>0) ? GetMessage("SAVE") : GetMessage("ADD"))?></span></button>
 				<?/*<div class="prompt">

@@ -1,0 +1,213 @@
+.left-menu-md {
+	display: none!important;
+}
+.content-md {
+	width: 100%!important;
+}
+
+
+.first-block .title-wrapp h1 {
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 46px;
+	letter-spacing: 0em;
+	text-align: left;
+}
+
+
+.first-block .props-wrapp {
+
+}
+
+.first-block .props-wrapp .prop-wrapp {
+	display: flex;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 26px;
+	letter-spacing: 0em;
+	text-align: left;
+	white-space: nowrap
+}
+
+.first-block .props-wrapp .prop-wrapp .prop-name {
+	position: relative;
+	width: 100%;
+}
+
+.first-block .props-wrapp .prop-wrapp .prop-name span {
+  position: relative;
+	padding-right: 5px;
+	background-color: #fff;
+}
+
+.first-block .props-wrapp .prop-wrapp .prop-name::before {
+	content: "";
+  display: block;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: .2em;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.2);
+}
+
+.first-block .props-wrapp .prop-wrapp .prop-value {
+	padding-left: 5px;
+}
+
+.first-block .price-wrapp {
+	margin: 15px 0;
+}
+
+.first-block .price-wrapp .price {
+	margin-right: 15px;
+
+	font-size: 25px;
+	font-weight: 700;
+	line-height: 29px;
+	letter-spacing: 0em;
+	text-align: left;
+}
+
+.first-block .price-wrapp .price-info {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 29px;
+	color: #777777;
+}
+
+.first-block .buttom-wrapp .btn-custom-sign {
+	padding: 25px;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 23px;
+	letter-spacing: 0em;
+	text-align: center;	
+	background: rgba(175, 202, 11, 1);
+	color: #fff;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.first-block .buttom-wrapp .btn-custom-sign:hover {
+	background: rgba(175, 202, 11, .8);
+}
+
+
+
+
+
+.tab-block {
+	margin: 30px 0;
+}
+
+.tab-block .tabs-wrapp {
+  display: flex;
+	padding: 0 15px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.tab-block .tabs-wrapp .tab {
+	position: relative;
+	display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 0;
+	width: 100%;
+	border-bottom: 1px solid rgba(33, 33, 33, 0.2);
+	cursor: pointer;
+}
+
+.tab-block .tabs-wrapp .tab.disable {
+	opacity: .5;
+}
+
+.tab-block .tabs-wrapp .tab.active::before {
+	content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
+  height: 3px;
+  background: rgba(1, 105, 194, 1);
+  border-radius: 2px;
+}
+
+.tab-block .tabs-wrapp .tab:not(.disable):hover::before {
+	content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
+  height: 3px;
+  background: rgba(1, 105, 194, 1);
+  border-radius: 2px;
+}
+
+.tabs-container > div {
+	display: none;
+}
+.tabs-container > div[data-select="open"] {
+	display: block;
+}
+
+
+
+.reviews .items > div:not(:last-child) {
+	margin-bottom: 60px;
+}
+
+
+.item-views.staff .image img {
+	width: 100%;
+  height: 100%;
+  object-fit: cover;
+	border-radius: 2px;
+}
+
+
+.personal-recommendations {
+	margin-top: 30px;
+}
+.personal-recommendations h2 {
+	margin-bottom: 30px;
+}
+.personal-recommendations-wrapp {
+	padding: 0 15px;
+}
+.personal-recommendations-wrapp .item {
+	/* margin: 0 15px; */
+  padding: 15px;
+	width: 32%!important;
+	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+}
+
+.personal-recommendations-wrapp .item img.pic {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.personal-recommendations-wrapp .name {
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.personal-recommendations-wrapp .desc {
+	font-size: 16px;
+}
+
+
+.form-wrapp {
+	
+}
+
+.form-wrapp .title {
+	font-size: 36px;
+	font-weight: 700;
+	line-height: 52px;
+	text-align: center;
+	color: rgba(1, 105, 194, 1);
+}

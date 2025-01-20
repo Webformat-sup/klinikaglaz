@@ -13,15 +13,6 @@ function onLightEditorShow(content)
 
 function showComment(key, error, userName, userEmail, needData)
 {
-	<?
-	if($arResult["use_captcha"]===true)
-	{
-		?>
-		var im = BX('captcha');
-		BX('captcha_del').appendChild(im);
-		<?
-	}
-	?>
 	subject = '';
 	comment = '';
 
@@ -40,17 +31,6 @@ function showComment(key, error, userName, userEmail, needData)
 	document.form_comment.act.value = 'add';
 	document.form_comment.post.value = '<?=GetMessageJS("B_B_MS_SEND")?>';
 	document.form_comment.action = document.form_comment.action + "#" + key;
-
-	<?
-	if($arResult["use_captcha"]===true)
-	{
-		?>
-		var im = BX('captcha');
-		BX('div_captcha').appendChild(im);
-		im.style.display = "block";
-		<?
-	}
-	?>
 
 	if(error == "Y")
 	{
