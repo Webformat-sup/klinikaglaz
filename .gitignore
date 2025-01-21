@@ -14,6 +14,7 @@
 /*dump*.*
 /*test*
 /*log*.*
+/*.txt 
 /*.log
 /sitemap*
 /bitrix_server_test.php
